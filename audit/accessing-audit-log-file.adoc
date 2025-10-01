@@ -1,0 +1,39 @@
+---
+permalink: audit/accessing-audit-log-file.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, log, log file, access, accessing 
+summary: 審計共享包含活動的 audit.log 檔案和任何壓縮的審計日誌檔案。您可以直接從管理節點的命令列存取審計日誌檔案。 
+---
+= 訪問審計日誌文件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+審計份額包含活躍 `audit.log`文件和任何壓縮的審計日誌檔案。您可以直接從管理節點的命令列存取審計日誌檔案。
+
+.開始之前
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+* 你必須擁有 `Passwords.txt`文件。
+* 您必須知道管理節點的 IP 位址。
+
+
+.步驟
+. 登入管理節點：
++
+.. 輸入以下命令： `ssh admin@_primary_Admin_Node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+
+
+. 前往包含審計日誌檔案的目錄：
++
+`cd /var/local/log`
+
+. 根據需要查看目前或已儲存的稽核日誌檔案。
+

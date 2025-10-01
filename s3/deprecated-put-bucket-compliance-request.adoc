@@ -1,0 +1,111 @@
+---
+permalink: s3/deprecated-put-bucket-compliance-request.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, PUT deprecated compliance requests 
+summary: PUT Bucket 合規性請求已被棄用。但是，您可以繼續使用此請求來修改現有舊版合規儲存桶的合規性設定。 
+---
+= 已棄用：PUT Bucket 合規性請求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+PUT Bucket 合規性請求已被棄用。但是，您可以繼續使用此請求來修改現有舊版合規儲存桶的合規性設定。例如，您可以將現有儲存桶置於合法保留狀態或延長其保留期。
+
+[NOTE]
+====
+先前版本的StorageGRID中提供的StorageGRID合規功能已被棄用，並已被 S3 物件鎖定取代。請參閱以下內容以了解更多詳細資訊：
+
+* link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_manage_legacy_Compliant_buckets_in_StorageGRID_11.5["NetApp知識庫：如何在StorageGRID 11.5 中管理舊版相容儲存桶"^]
+
+
+====
+您必須擁有 s3:PutBucketCompliance 權限，或成為帳戶根，才能完成此操作。
+
+發出 PUT Bucket 合規性請求時，必須為合規性設定的每個欄位指定一個值。
+
+
+
+== 請求範例
+
+此範例請求修改名為 `mybucket`。在這個例子中，對象 `mybucket`從對象納入電網時起，將保留兩年（1,051,200 分鐘），而不是一年。此儲存桶不存在合法保留。每個物件將在兩年後自動刪除。
+
+[listing, subs="specialcharacters,quotes"]
+----
+PUT /mybucket/?x-ntap-sg-compliance HTTP/1.1
+Date: _date_
+Authorization: _authorization name_
+Host: _host_
+Content-Length: 152
+
+<SGCompliance>
+  <RetentionPeriodMinutes>1051200</RetentionPeriodMinutes>
+  <LegalHold>false</LegalHold>
+  <AutoDelete>true</AutoDelete>
+</SGCompliance>
+----
+[cols="1a,2a"]
+|===
+| Name | 描述 
+
+
+ a| 
+保留期分鐘
+ a| 
+新增至此儲存桶的物件的保留期限長度（以分鐘為單位）。保留期從物件納入電網時開始。
+
+*重要* 為 RetentionPeriodMinutes 指定新值時，必須指定等於或大於儲存桶目前保留期的值。設定儲存桶的保留期後，您無法減少該值；您只能增加它。
+
+
+
+ a| 
+法律保留
+ a| 
+* 真：此儲存桶目前處於合法保留狀態。在解除合法保留之前，此儲存桶中的物件無法被刪除，即使其保留期已過期。
+* 錯誤：此儲存桶目前未處於合法保留之下。當保留期到期時，可以刪除此儲存桶中的物件。
+
+
+
+
+ a| 
+自動刪除
+ a| 
+* True：除非儲存桶處於合法保留狀態，否則當保留期到期時，此儲存桶中的物件將自動刪除。
+* False：保留期到期後，此儲存桶中的物件不會自動刪除。如果需要刪除這些對象，則必須手動刪除它們。
+
+
+|===
+
+
+== 合規性設定的一致性
+
+當您使用 PUT Bucket 合規性要求更新 S3 儲存桶的合規性設定時， StorageGRID會嘗試在整個網格中更新儲存體桶的元資料。預設情況下， StorageGRID使用 *強全域* 一致性來確保所有資料中心站點和所有包含儲存桶元資料的儲存節點對於變更的合規性設定具有讀寫一致性。
+
+如果StorageGRID因資料中心網站或網站上的多個儲存節點不可用而無法實現 *強全域* 一致性，則回應的 HTTP 狀態碼為 `503 Service Unavailable.`
+
+如果收到此回复，則必須聯絡網格管理員，以確保盡快提供所需的儲存服務。如果網格管理員無法在每個站點提供足夠的儲存節點，技術支援可能會指導您透過強制*強站點*一致性來重試失敗的請求。
+
+
+CAUTION: 切勿強制使用 *Strong-site* 一致性來遵守 PUT bucket 規定，除非技術支援指示您這樣做，並且您了解使用此級別的潛在後果。
+
+當一致性降低到*強站點*時， StorageGRID保證更新後的合規性設定僅對站點內的用戶端請求具有讀寫一致性。這意味著StorageGRID系統可能會暫時對該儲存桶具有多個不一致的設置，直到所有站點和儲存節點都可用。不一致的設定可能會導致意外和不良的行為。例如，如果您將儲存桶置於合法保留之下並強制降低一致性，則儲存桶先前的合規性設定（即合法保留）可能會在某些資料中心網站繼續有效。因此，您認為處於合法保留狀態的物件可能會在保留期到期時被使用者或自動刪除功能（如果已啟用）刪除。
+
+若要強制使用 *Strong-site* 一致性，請重新發出 PUT Bucket 合規性要求，並包含 `Consistency-Control`HTTP請求頭，如下：
+
+[listing]
+----
+PUT /mybucket/?x-ntap-sg-compliance HTTP/1.1
+Consistency-Control: strong-site
+----
+
+
+== 錯誤回應
+
+* 如果儲存桶的建立不符合要求，則回應的 HTTP 狀態代碼為 `404 Not Found`。
+* 如果 `RetentionPeriodMinutes`如果請求小於儲存桶的目前保留期，則 HTTP 狀態碼為 `400 Bad Request`。
+
+
+.相關資訊
+link:deprecated-put-bucket-request-modifications-for-compliance.html["已棄用：PUT Bucket 請求修改以實現合規性"]

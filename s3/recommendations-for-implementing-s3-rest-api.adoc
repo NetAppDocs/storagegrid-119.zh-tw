@@ -1,0 +1,61 @@
+---
+permalink: s3/recommendations-for-implementing-s3-rest-api.html 
+sidebar: sidebar 
+keywords: implement s3 rest api 
+summary: 在實作用於StorageGRID 的S3 REST API 時，您應該遵循這些建議。 
+---
+= 實作 S3 REST API 的建議
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在實作用於StorageGRID 的S3 REST API 時，您應該遵循這些建議。
+
+
+
+== 對不存在對象的 HEAD 建議
+
+如果您的應用程式定期檢查某個物件是否存在於您認為該物件實際上不存在的路徑中，則應使用“可用”link:consistency-controls.html["一致性"] 。例如，如果您的應用程式在 PUT 之前 HEAD 某個位置，則您應該使用「可用」一致性。
+
+否則，如果 HEAD 操作未找到該對象，且同一站點上有兩個或多個儲存節點不可用或遠端站點無法訪問，您可能會收到大量 500 內部伺服器錯誤。
+
+您可以使用link:put-bucket-consistency-request.html["PUT桶一致性"]請求，或者您可以在單一 API 操作的請求標頭中指定一致性。
+
+
+
+== 對象鍵的建議
+
+根據儲存桶首次建立的時間，遵循以下物件鍵名稱建議。
+
+.在StorageGRID 11.4 或更早版本中建立的儲存桶
+* 不要使用隨機值作為物件鍵的前四個字元。這與 AWS 先前對鍵前綴的建議形成了對比。相反，使用非隨機、非唯一的前綴，例如 `image`。
+* 如果您確實遵循先前的 AWS 建議在鍵前綴中使用隨機和唯一字符，請在物件鍵前加上目錄名稱。也就是說，使用這種格式：
++
+`mybucket/mydir/f8e3-image3132.jpg`
+
++
+而不是這種格式：
+
++
+`mybucket/f8e3-image3132.jpg`
+
+
+
+.在StorageGRID 11.4 或更高版本中建立的儲存桶
+不需要限制物件鍵名稱以滿足效能最佳實務。大多數情況下，您可以對物件鍵名稱的前四個字元使用隨機值。
+
+
+TIP: 一個例外是 S3 工作負載，它會在短時間後連續刪除所有物件。為了盡量減少此用例對效能的影響，每隔幾千個物件就會用日期之類的內容改變鍵名的前導部分。例如，假設 S3 用戶端通常每秒寫入 2,000 個對象，而 ILM 或儲存桶生命週期策略會在三天後刪除所有物件。為了最大限度地減少對效能的影響，您可以使用以下模式命名鍵： `/mybucket/mydir/_yyyymmddhhmmss_-_random_UUID_.jpg`
+
+
+
+== “範圍讀取”的建議
+
+如果link:../admin/configuring-stored-object-compression.html["壓縮儲存物件的全域選項"]啟用後，S3 用戶端應用程式應避免執行指定傳回位元組範圍的 GetObject 操作。這些「範圍讀取」操作效率低下，因為StorageGRID必須有效地解壓縮物件才能存取請求的位元組。從非常大的物件中請求一小段位元組的 GetObject 操作效率特別低；例如，從 50 GB 的壓縮物件中讀取 10 MB 範圍的位元組效率很低。
+
+如果從壓縮物件讀取範圍，客戶端請求可能會逾時。
+
+
+NOTE: 如果您需要壓縮物件並且客戶端應用程式必須使用範圍讀取，請增加應用程式的讀取逾時。

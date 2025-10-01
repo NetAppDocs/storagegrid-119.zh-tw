@@ -1,0 +1,118 @@
+= 尋找儲存節點的主機名
+:allow-uri-read: 
+
+
+
+
+== 尋找儲存節點的主機名
+
+. 登入主管理節點：
++
+.. 輸入以下命令： `ssh admin@_primary_Admin_Node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+
+
+. 使用 `/etc/hosts`檔案來尋找已還原儲存磁碟區的儲存節點的主機名稱。若要查看網格中所有節點的列表，請輸入以下內容： `cat /etc/hosts` 。
+
+
+
+
+== 如果所有磁碟區都發生故障，請修復數據
+
+如果所有儲存磁碟區都發生故障，則修復整個節點。根據您使用的是複製資料、擦除編碼 (EC) 資料還是兩者，請按照*複製資料*、*擦除編碼 (EC) 資料*或兩者的說明進行操作。
+
+如果只有部分卷發生故障，請轉至<<如果只有部分磁碟區發生故障，請修復數據>>。
+
+
+NOTE: 你不能跑 `repair-data`同時對多個節點進行操作。若要恢復多個節點，請聯絡技術支援。
+
+[role="tabbed-block"]
+====
+.複製數據
+--
+如果您的網格包含複製數據，請使用 `repair-data start-replicated-node-repair`命令 `--nodes`選項，其中 `--nodes`是主機名稱（系統名稱），用於修復整個儲存節點。
+
+此命令修復名為 SG-DC-SN3 的儲存節點上的複製資料：
+
+`repair-data start-replicated-node-repair --nodes SG-DC-SN3`
+
+
+NOTE: 當物件資料恢復時，如果StorageGRID系統無法找到複製的物件數據，則會觸發「*物件遺失*」警報。整個系統的儲存節點可能會觸發警報。您應該確定損失的原因以及是否可以恢復。看link:../troubleshoot/investigating-lost-objects.html["調查遺失的物品"] 。
+
+--
+.清除編碼 (EC) 數據
+--
+如果您的網格包含擦除編碼數據，請使用 `repair-data start-ec-node-repair`命令 `--nodes`選項，其中 `--nodes`是主機名稱（系統名稱），用於修復整個儲存節點。
+
+此命令修復名為 SG-DC-SN3 的儲存節點上的擦除編碼資料：
+
+`repair-data start-ec-node-repair --nodes SG-DC-SN3`
+
+該操作傳回一個唯一的 `repair ID`識別這個 `repair_data`手術。使用這個 `repair ID`追蹤進展和結果 `repair_data`手術。恢復過程完成後不會回傳任何其他回饋。
+
+當某些儲存節點處於離線狀態時，可以開始修復擦除編碼資料。所有節點可用後修復將完成。
+
+--
+====
+
+
+== 如果只有部分磁碟區發生故障，請修復數據
+
+如果只有部分卷發生故障，請修復受影響的捲。根據您使用的是複製資料、擦除編碼 (EC) 資料還是兩者，請按照*複製資料*、*擦除編碼 (EC) 資料*或兩者的說明進行操作。
+
+如果所有磁碟區都失敗，請轉至<<如果所有磁碟區都發生故障，請修復數據>>。
+
+以十六進位輸入磁碟區 ID。例如， `0000`是第一卷， `000F`是第十六卷。您可以指定一個磁碟區、一系列磁碟區或不在一個序列中的多個磁碟區。
+
+所有磁碟區必須位於同一個儲存節點上。如果需要還原多個儲存節點的捲，請聯絡技術支援。
+
+[role="tabbed-block"]
+====
+.複製數據
+--
+如果您的網格包含複製數據，請使用 `start-replicated-volume-repair`命令 `--nodes`識別節點的選項（其中 `--nodes`是節點的主機名稱）。然後添加 `--volumes`或者 `--volume-range`選項，如以下範例所示。
+
+*單一卷*：此指令將複製的資料還原到卷 `0002`在名為 SG-DC-SN3 的儲存節點上：
+
+`repair-data start-replicated-volume-repair --nodes SG-DC-SN3 --volumes 0002`
+
+*卷範圍*：此指令將複製的資料還原為範圍內的所有捲 `0003`到 `0009`在名為 SG-DC-SN3 的儲存節點上：
+
+`repair-data start-replicated-volume-repair --nodes SG-DC-SN3 --volume-range 0003,0009`
+
+*多個磁碟區不在序列中*：此指令將複製的資料還原到卷 `0001`， `0005` ， 和 `0008`在名為 SG-DC-SN3 的儲存節點上：
+
+`repair-data start-replicated-volume-repair --nodes SG-DC-SN3 --volumes 0001,0005,0008`
+
+
+NOTE: 當物件資料恢復時，如果StorageGRID系統無法找到複製的物件數據，則會觸發「*物件遺失*」警報。整個系統的儲存節點可能會觸發警報。請注意警報描述和建議的操作，以確定遺失的原因以及是否可以恢復。
+
+--
+.清除編碼 (EC) 數據
+--
+如果您的網格包含擦除編碼數據，請使用 `start-ec-volume-repair`命令 `--nodes`識別節點的選項（其中 `--nodes`是節點的主機名稱）。然後添加 `--volumes`或者 `--volume-range`選項，如以下範例所示。
+
+*單一卷*：此命令將擦除編碼資料還原到卷 `0007`在名為 SG-DC-SN3 的儲存節點上：
+
+`repair-data start-ec-volume-repair --nodes SG-DC-SN3 --volumes 0007`
+
+*磁碟區範圍*：此指令將擦除編碼資料還原為範圍內的所有捲 `0004`到 `0006`在名為 SG-DC-SN3 的儲存節點上：
+
+`repair-data start-ec-volume-repair --nodes SG-DC-SN3 --volume-range 0004,0006`
+
+*多個磁碟區不在序列中*：此指令將擦除編碼資料還原為磁碟區 `000A`， `000C` ， 和 `000E`在名為 SG-DC-SN3 的儲存節點上：
+
+`repair-data start-ec-volume-repair --nodes SG-DC-SN3 --volumes 000A,000C,000E`
+
+這 `repair-data`操作返回唯一的 `repair ID`識別這個 `repair_data`手術。使用這個 `repair ID`追蹤進展和結果 `repair_data`手術。恢復過程完成後不會回傳任何其他回饋。
+
+
+NOTE: 當某些儲存節點處於離線狀態時，可以開始修復擦除編碼資料。所有節點可用後修復將完成。
+
+--
+====

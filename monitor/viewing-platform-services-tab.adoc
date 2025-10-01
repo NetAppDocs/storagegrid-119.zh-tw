@@ -1,0 +1,20 @@
+---
+permalink: monitor/viewing-platform-services-tab.html 
+sidebar: sidebar 
+keywords: platform services tab 
+summary: 平台服務標籤提供有關網站上任何 S3 平台服務操作的資訊。 
+---
+= 查看平台服務標籤
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+平台服務標籤提供有關網站上任何 S3 平台服務操作的資訊。
+
+每個站點均顯示平台服務標籤。此標籤提供有關 S3 平台服務的信息，例如 CloudMirror 複製和搜尋整合服務。此標籤上的圖表顯示待處理請求的數量、請求完成率和請求失敗率等指標。
+
+image::../media/nodes_page_site_level_platform_services.gif[節點頁面網站層級平台服務]
+
+有關 S3 平台服務的更多資訊（包括故障排除詳細資訊），請參閱link:../admin/index.html["StorageGRID管理說明"]。

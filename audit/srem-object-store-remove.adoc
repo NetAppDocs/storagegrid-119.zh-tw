@@ -1,0 +1,40 @@
+---
+permalink: audit/srem-object-store-remove.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SREM, Object Store Remove 
+summary: 當內容從持久性儲存中刪除並且無法再透過常規 API 存取時，會發出此訊息。 
+---
+= SREM：物件儲存刪除
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當內容從持久性儲存中刪除並且無法再透過常規 API 存取時，會發出此訊息。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+中央商務區
+ a| 
+內容區塊標識符
+ a| 
+從永久儲存中刪除的內容區塊的唯一識別碼。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果代碼
+ a| 
+表示內容刪除操作的結果。唯一定義的值是：
+
+SUCS：內容從持久性儲存中刪除
+
+|===
+此審計訊息意味著給定的內容區塊已從節點中刪除，並且不再能直接要求。此訊息可用於追蹤系統內已刪除內容的流動。

@@ -1,0 +1,69 @@
+---
+permalink: primer/index.html 
+sidebar: sidebar 
+keywords: grid primer, what is storagegrid, storagegrid basics 
+summary: NetApp StorageGRID是一款軟體定義的物件儲存套件，支援公有、私有和混合多雲環境中的廣泛用例。  StorageGRID為 Amazon S3 API 提供原生支持，並提供業界領先的創新，例如自動化生命週期管理，以便長期經濟高效地儲存、保護和保存非結構化資料。 
+---
+= 什麼是StorageGRID？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp® StorageGRID® 是一款軟體定義的物件儲存套件，支援公有、私有和混合多雲環境中的廣泛用例。  StorageGRID為 Amazon S3 API 提供原生支持，並提供業界領先的創新，例如自動化生命週期管理，以便長期經濟高效地儲存、保護和保存非結構化資料。
+
+StorageGRID為大規模非結構化資料提供安全、持久的儲存。整合的、元資料驅動的生命週期管理策略可最佳化資料在整個生命週期中的儲存位置。將內容放置在正確的位置、正確的時間以及正確的儲存層以降低成本。
+
+StorageGRID由地理分佈、冗餘、異質的節點組成，可與現有和下一代用戶端應用程式整合。
+
+image::../media/storagegrid_system_diagram.png[具有多個客戶端的圖像]
+
+
+NOTE: 對存檔節點的支援已被刪除。透過 S3 API 將物件從存檔節點移至外部存檔儲存系統已被替換為link:../ilm/what-cloud-storage-pool-is.html["ILM 雲端儲存池"]，提供更多功能。
+
+
+
+== StorageGRID優勢
+
+StorageGRID系統的優點包括：
+
+* 可大規模擴充且易於使用的地理分散式非結構化資料儲存庫。
+* 標準對象儲存協定：
++
+** 亞馬遜網路服務簡單儲存服務（S3）
+** OpenStack Swift
++
+
+NOTE: 對 Swift 用戶端應用程式的支援已被棄用，並將在未來的版本中刪除。
+
+
+
+* 已啟用混合雲。基於策略的資訊生命週期管理 (ILM) 將物件儲存到公有雲，包括 Amazon Web Services (AWS) 和 Microsoft Azure。  StorageGRID平台服務支援儲存到公有雲的物件的內容複製、事件通知和元資料搜尋。
+* 靈活的資料保護，確保持久性和可用性。可以使用複製和分層擦除編碼來保護資料。靜態和動態資料驗證可確保長期保留的完整性。
+* 動態資料生命週期管理有助於管理儲存成本。您可以建立 ILM 規則來管理物件層級的資料生命週期，自訂資料位置、持久性、效能、成本和保留時間。
+* 資料儲存和一些管理功能的高可用性，具有整合的負載平衡功能，可最佳化跨StorageGRID資源的資料負載。
+* 支援多個儲存租用戶帳戶，以便依不同實體隔離系統上儲存的物件。
+* 用於監控StorageGRID系統健康狀況的眾多工具，包括全面的警報系統、圖形儀表板以及所有節點和站點的詳細狀態。
+* 支援基於軟體或硬體的部署。您可以在以下任一項上部署StorageGRID ：
++
+** 在 VMware 中執行的虛擬機器。
+** Linux 主機上的容器引擎。
+** StorageGRID工程設備。
++
+*** 儲存設備提供物件儲存。
+*** 服務設備提供電網管理和負載平衡服務。
+
+
+
+
+* 符合本法規相關儲存要求：
++
+** 美國證券交易委員會 (SEC) 在 17 CFR § 240.17a-4(f) 中負責監管交易所會員、經紀人或交易商。
+** 金融業監理局 (FINRA) 規則 4511(c)，遵循 SEC 規則 17a-4(f) 的格式和媒體要求。
+** 商品期貨交易委員會 (CFTC) 法規 17 CFR § 1.31(c)-(d)，對商品期貨交易進行監管。
+
+
+* 無中斷升級和維護操作。在升級、擴展、退役和維護過程中保持對內容的存取。
+* 聯合身分管理。與 Active Directory、OpenLDAP 或 Oracle Directory Service 整合以進行使用者驗證。支援使用安全性斷言標記語言 2.0 (SAML 2.0) 標準的單一登入 (SSO) 在StorageGRID和 Active Directory 聯合身分驗證服務 (AD FS) 之間交換身分驗證和授權資料。
+

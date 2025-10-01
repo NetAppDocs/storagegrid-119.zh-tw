@@ -1,0 +1,51 @@
+---
+permalink: harden/hardening-guidelines-for-software-upgrades.html 
+sidebar: sidebar 
+keywords: Hardening guidelines, upgrades 
+summary: 您必須保持StorageGRID系統和相關服務為最新版本以防禦攻擊。 
+---
+= 軟體升級強化指南
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須保持StorageGRID系統和相關服務為最新版本以防禦攻擊。
+
+
+
+== StorageGRID軟體升級
+
+只要有可能，您就應該將StorageGRID軟體升級到最新的主要版本或之前的主要版本。保持StorageGRID為最新狀態有助於減少已知漏洞的活躍時間並減少整體攻擊面。此外， StorageGRID的最新版本通常包含早期版本中未包含的安全性增強功能。
+
+諮詢 https://imt.netapp.com/matrix/#welcome["NetApp互通性表工具"^]（IMT）來決定您應該使用哪個版本的StorageGRID軟體。當需要修補程式時， NetApp會優先為最新版本建立更新。某些補丁可能與早期版本不相容。
+
+* 要下載最新的StorageGRID版本和修補程序，請訪問 https://mysupport.netapp.com/site/products/all/details/storagegrid/downloads-tab["NetApp下載： StorageGRID"^]。
+* 若要升級StorageGRID軟體，請參閱link:../upgrade/performing-upgrade.html["升級說明"]。
+* 若要套用修補程序，請參閱link:../maintain/storagegrid-hotfix-procedure.html["StorageGRID修補程式程序"]。
+
+
+
+
+== 外部服務升級
+
+外部服務可能存在間接影響StorageGRID 的漏洞。您應該確保StorageGRID所依賴的服務保持最新。這些服務包括 LDAP、KMS（或 KMIP 伺服器）、DNS 和 NTP。
+
+有關受支援版本的列表，請參閱 https://imt.netapp.com/matrix/#welcome["NetApp互通性表工具"^]。
+
+
+
+== 升級虛擬機器管理程序
+
+如果您的StorageGRID節點在 VMware 或其他虛擬機器管理程式上執行，則必須確保虛擬機器管理程式軟體和韌體是最新的。
+
+有關受支援版本的列表，請參閱 https://imt.netapp.com/matrix/#welcome["NetApp互通性表工具"^]。
+
+
+
+== *升級到 Linux 節點*
+
+如果您的StorageGRID節點使用 Linux 主機平台，則必須確保安全性更新和核心更新已套用至主機作業系統。此外，當這些更新可用時，您必須將韌體更新套用至易受攻擊的硬體。
+
+有關受支援版本的列表，請參閱 https://imt.netapp.com/matrix/#welcome["NetApp互通性表工具"^]。

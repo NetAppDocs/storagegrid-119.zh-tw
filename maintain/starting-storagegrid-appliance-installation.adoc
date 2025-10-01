@@ -1,0 +1,95 @@
+---
+permalink: maintain/starting-storagegrid-appliance-installation.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, appliance, appliance install 
+summary: 若要在設備儲存節點上安裝StorageGRID ，請使用裝置上包含的StorageGRID設備安裝程式。 
+---
+= 開始StorageGRID設備安裝
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+若要在設備儲存節點上安裝StorageGRID ，請使用裝置上包含的StorageGRID設備安裝程式。
+
+.開始之前
+* 本設備已安裝在機架中、連接到您的網路並開啟電源。
+* 已使用StorageGRID設備安裝程式為設備設定網路連結和 IP 位址。
+* 您知道StorageGRID網格的主管理節點的 IP 位址。
+* StorageGRID設備安裝程式的 IP 設定頁面上所列的所有網格網路子網路均已在主管理節點上的網格網路子網路清單中定義。
+* 您已依照儲存裝置的安裝說明完成了這些先決條件任務。看 https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["硬體安裝快速啟動"^]。
+* 您正在使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 您知道指派給設備中計算控制器的其中一個 IP 位址。您可以使用管理網路（控制器上的管理連接埠 1）、網格網路或用戶端網路的 IP 位址。
+
+
+.關於此任務
+若要在設備儲存節點上安裝StorageGRID ：
+
+* 您指定或確認主管理節點的 IP 位址和節點的主機名稱（系統名稱）。
+* 您開始安裝並等待磁碟區配置和軟體安裝。
++
+
+NOTE: 恢復設備儲存節點時，使用與原始設備相同的儲存類型（組合、僅元資料或僅資料）重新安裝它。如果指定不同的儲存類型，復原將失敗，並且需要使用指定的正確儲存類型重新安裝裝置。
+
+* 安裝過程進行到一半時暫停。若要恢復安裝，您必須登入網格管理器並配置待處理的儲存節點作為故障節點的替代。
+* 配置節點後，設備安裝過程完成，且設備重新啟動。
+
+
+.步驟
+. 開啟瀏覽器並輸入裝置中計算控制器的其中一個 IP 位址。
++
+`https://_Controller_IP_:8443`
+
++
+出現StorageGRID Appliance Installer 首頁。
+
+. 在主管理節點連線部分，確定是否需要指定主管理節點的 IP 位址。
++
+假設主管理節點或至少一個配置了 ADMIN_IP 的其他網格節點位於同一子網路上， StorageGRID設備安裝程式可以自動發現此 IP 位址。
+
+. 如果未顯示此 IP 位址或您需要變更它，請指定位址：
++
+[cols="1a,2a"]
+|===
+| 選項 | 步驟 
+
+
+ a| 
+手動 IP 輸入
+ a| 
+.. 清除「啟用管理節點發現」複選框。
+.. 手動輸入 IP 位址。
+.. 點選“儲存”。
+.. 等待新 IP 位址的連線狀態變為「就緒」。
+
+
+
+
+ a| 
+自動發現所有已連線的主要管理節點
+ a| 
+.. 選取「啟用管理節點發現」複選框。
+.. 從發現的 IP 位址清單中，選擇將部署此設備儲存節點的網格的主管理節點。
+.. 點選“儲存”。
+.. 等待新 IP 位址的連線狀態變為「就緒」。
+
+
+|===
+. 在「*節點名稱*」欄位中，輸入與要復原的節點相同的主機名稱（系統名稱），然後按一下「*儲存*」。
+. 在安裝部分，確認目前狀態為「準備開始安裝 `_node name_`進入具有主管理節點“_admin_ip_”的網格”並且“*開始安裝*”按鈕已啟用。
++
+如果未啟用「*開始安裝*」按鈕，您可能需要變更網路設定或連接埠設定。有關說明，請參閱設備的維護說明。
+
+. 在StorageGRID Appliance Installer 主頁上，按一下 *開始安裝*。
++
+image::../media/appliance_installer_home_start_installation_enabled.gif[該圖由周圍的文字描述。]
+
++
+目前狀態變為“安裝正在進行中”，並顯示監控安裝頁面。
+
++
+
+NOTE: 如果需要手動存取「監視器安裝」頁面，請點選功能表列中的「*監視器安裝*」。看 https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/monitoring-appliance-installation.html["監控設備安裝"^]。
+
+

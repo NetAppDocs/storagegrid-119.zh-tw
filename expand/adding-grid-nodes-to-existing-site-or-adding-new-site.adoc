@@ -1,0 +1,30 @@
+---
+permalink: expand/adding-grid-nodes-to-existing-site-or-adding-new-site.html 
+sidebar: sidebar 
+keywords: grid node, add node, add site, expand, expansion 
+summary: 請按照此程序將網格節點新增至現有站點或新增站點。每次只能執行一種類型的擴充。 
+---
+= 將網格節點新增至現有站點或新增站點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+請按照此程序將網格節點新增至現有站點或新增站點。每次只能執行一種類型的擴充。
+
+.開始之前
+* 你有link:../admin/admin-group-permissions.html["Root 存取權限或維護權限"]。
+* 網格中的所有現有節點均已啟動並在所有站點上運行。
+* 任何先前的擴展、升級、退役或恢復程序均已完成。
++
+
+NOTE: 當另一個擴充、升級、復原或主動退役程式正在進行時，您將無法開始擴充。但是，如有必要，您可以暫停退役程序以開始擴展。
+
+
+
+.步驟
+. link:updating-subnets-for-grid-network.html["更新網格網路的子網"] 。
+. link:deploying-new-grid-nodes.html["部署新的網格節點"] 。
+. link:performing-expansion.html["執行擴充"] 。
+

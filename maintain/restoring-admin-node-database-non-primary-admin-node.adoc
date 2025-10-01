@@ -1,0 +1,72 @@
+---
+permalink: maintain/restoring-admin-node-database-non-primary-admin-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, restore admin node database, restore database, non-primary admin node 
+summary: 如果您想要保留有關發生故障的非主管理節點的屬性和警報的歷史信息，您可以從主管理節點還原管理節點資料庫。 
+---
+= 恢復非主管理節點時恢復管理節點資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您想要保留有關發生故障的非主管理節點的屬性和警報的歷史信息，您可以從主管理節點還原管理節點資料庫。
+
+.開始之前
+* 恢復的管理節點已安裝並正在運行。
+* StorageGRID系統至少包含兩個管理節點。
+* 你有 `Passwords.txt`文件。
+* 您有配置密碼。
+
+
+.關於此任務
+如果管理節點發生故障，則儲存在其管理節點資料庫中的歷史資訊將會遺失。該資料庫包含以下資訊：
+
+* 警報歷史記錄
+* 歷史屬性數據，用於節點頁面上的傳統圖表中
+
+
+當恢復管理節點時，軟體安裝過程會在復原的節點上建立一個空的管理節點資料庫。但是，新資料庫僅包含目前屬於系統一部分或後來新增的伺服器和服務的資訊。
+
+如果您還原了非主管理節點，則可以透過將管理節點資料庫從主管理節點（來源管理節點）複製到復原的節點來還原歷史資訊。
+
+
+NOTE: 複製管理節點資料庫可能需要幾個小時。當來源節點上的服務停止時，某些網格管理器功能將無法使用。
+
+.步驟
+. 登入來源管理節點：
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
+
+
+. 從來源管理節點執行以下命令。然後，如果出現提示，請輸入設定密碼。 `recover-access-points`
+. 從來源管理節點停止 MI 服務： `service mi stop`
+. 從來源管理節點停止管理應用程式介面 (mgmt-api) 服務： `service mgmt-api stop`
+. 在復原的管理節點上完成以下步驟：
++
+.. 登入恢復的管理節點：
++
+... 輸入以下命令： `ssh admin@_grid_node_IP_`
+... 輸入 `Passwords.txt`文件。
+... 輸入以下命令切換到root： `su -`
+... 輸入 `Passwords.txt`文件。
+
+
+.. 停止 MI 服務： `service mi stop`
+.. 停止 mgmt-api 服務： `service mgmt-api stop`
+.. 將 SSH 私鑰新增至 SSH 代理程式。進入：``ssh-add``
+.. 輸入 `Passwords.txt`文件。
+.. 將資料庫從來源管理節點複製到復原的管理節點： `/usr/local/mi/bin/mi-clone-db.sh Source_Admin_Node_IP`
+.. 出現提示時，確認您要覆寫已復原的管理節點上的 MI 資料庫。
++
+資料庫及其歷史資料被複製到恢復的管理節點。複製操作完成後，腳本將啟動復原的管理節點。
+
+.. 當您不再需要無密碼存取其他伺服器時，請從 SSH 代理程式中刪除私鑰。進入：``ssh-add -D``
+
+
+. 重新啟動來源管理節點上的服務： `service servermanager start`
+

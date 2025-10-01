@@ -1,0 +1,76 @@
+---
+permalink: audit/client-read-audit-messages.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, messages, client read, S3SL, SGET, SHEA, WGET, WHEA, S3, swift 
+summary: 當 S3 用戶端應用程式發出檢索物件的請求時，會記錄用戶端讀取稽核訊息。 
+---
+= 客戶端讀取審計訊息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當 S3 用戶端應用程式發出檢索物件的請求時，會記錄用戶端讀取稽核訊息。
+
+[cols="1a,3a,1a,1a"]
+|===
+| 程式碼 | 描述 | 使用者 | 看 
+
+
+ a| 
+S3SL
+ a| 
+S3 選擇請求：在 S3 選擇請求返回給客戶端後記錄完成。 S3SL 訊息可以包含錯誤訊息和錯誤代碼詳細資訊。請求可能未成功。
+ a| 
+S3 用戶端
+ a| 
+link:s3-select-request.html["S3SL：S3 選擇請求"]
+
+
+
+ a| 
+星載衛星
+ a| 
+S3 GET：記錄檢索物件或列出儲存桶中物件的成功交易。
+
+*注意：*如果事務操作的是子資源，審計訊息中會包含欄位S3SR。
+ a| 
+S3 用戶端
+ a| 
+link:sget-s3-get.html["SGET：S3 獲取"]
+
+
+
+ a| 
+乳木果
+ a| 
+S3 HEAD：記錄成功的事務以檢查物件或儲存桶是否存在。
+ a| 
+S3 用戶端
+ a| 
+link:shea-s3-head.html["乳木果：S3 頭"]
+
+
+
+ a| 
+無線獲取
+ a| 
+Swift GET：記錄成功的交易以擷取物件或列出容器中的物件。
+ a| 
+Swift 用戶端
+ a| 
+link:wget-swift-get.html["WGET：快速獲取"]
+
+
+
+ a| 
+小麥小麥胚芽萃取物
+ a| 
+Swift HEAD：記錄成功的事務以檢查物件或容器是否存在。
+ a| 
+Swift 用戶端
+ a| 
+link:whea-swift-head.html["WHEA：Swift HEAD"]
+
+|===

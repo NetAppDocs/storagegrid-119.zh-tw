@@ -1,0 +1,61 @@
+---
+permalink: admin/configuring-admin-proxy-settings.html 
+sidebar: sidebar 
+keywords: admin proxy, autosupport, non-transparent proxy 
+summary: 如果您使用 HTTP 或 HTTPS 傳送AutoSupport套件，則可以在管理節點和技術支援（AutoSupport）之間設定非透明代理伺服器。 
+---
+= 配置管理代理設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您使用 HTTP 或 HTTPS 傳送AutoSupport套件，則可以在管理節點和技術支援（AutoSupport）之間設定非透明代理伺服器。
+
+有關AutoSupport的更多信息，請參閱link:configure-autosupport-grid-manager.html["配置AutoSupport"]。
+
+.開始之前
+* 你有link:admin-group-permissions.html["特定存取權限"]。
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+
+
+.關於此任務
+您可以配置單一管理代理程式的設定。
+
+.步驟
+. 選擇*配置* > *安全* > *代理設定*。
++
+出現“代理設定”頁面。預設情況下，在選項卡選單中選擇“儲存”。
+
+. 選擇“*管理*”標籤。
+. 選取“啟用管理代理”複選框。
+. 輸入代理伺服器的主機名稱或 IP 位址。
+. 輸入用於連接代理伺服器的連接埠。
+. （可選）輸入代理伺服器的使用者名稱和密碼。
++
+如果您的代理伺服器不需要使用者名稱或密碼，請將這些欄位留空。
+
+. 選擇下列選項之一：
++
+** 如果您想確保與管理代理程式的連線安全，請選擇*驗證代理證書*。上傳 CA 套件以驗證管理代理伺服器提供的 SSL 憑證的真實性。
++
+
+CAUTION: 如果驗證了代理證書，則按需AutoSupport、透過StorageGRID 的E 系列AutoSupport以及StorageGRID升級頁面上的更新路徑確定將無法運作。
+
++
+上傳 CA 包後，其元資料就會出現。
+
+** 如果您不想在與管理代理伺服器通訊時驗證證書，請選擇*不驗證代理證書*。
+
+
+. 選擇*儲存*。
++
+儲存管理代理程式後，管理節點和技術支援之間的代理伺服器就配置好了。
+
++
+
+NOTE: 代理更改最多可能需要 10 分鐘才能生效。
+
+. 如果您需要停用管理代理，請清除*啟用管理代理*複選框，然後選擇*儲存*。
+

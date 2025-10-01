@@ -1,0 +1,127 @@
+---
+permalink: rhel/configuring-docker-storage-volume.html 
+sidebar: sidebar 
+keywords: how to configure container engine storage volume, Docker, Podman 
+summary: 在安裝容器引擎（Docker 或 Podman）之前，您可能需要格式化儲存磁碟區並掛載它。 
+---
+= 配置容器引擎儲存卷
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在安裝容器引擎（Docker 或 Podman）之前，您可能需要格式化儲存磁碟區並掛載它。
+
+
+NOTE: 不再支援將 Docker 作為純軟體部署的容器引擎。Docker 將在未來的版本中被另一個容器引擎取代。
+
+.關於此任務
+如果您打算使用本機儲存作為 Docker 或 Podman 儲存卷，並且包含以下內容的主機分割區上有足夠的可用空間，則可以跳過這些步驟 `/var/lib/docker`對於 Docker 和 `/var/lib/containers`對於 Podman。
+
+
+NOTE: Podman 僅支援 Red Hat Enterprise Linux (RHEL)。
+
+.步驟
+. 在容器引擎儲存磁碟區上建立檔案系統：
++
+[listing]
+----
+sudo mkfs.ext4 container-engine-storage-volume-device
+----
+. 掛載容器引擎儲存卷：
++
+** 對於 Docker：
++
+[listing]
+----
+sudo mkdir -p /var/lib/docker
+sudo mount container-storage-volume-device /var/lib/docker
+----
+** 對於 Podman：
++
+[listing]
+----
+sudo mkdir -p /var/lib/containers
+sudo mount container-storage-volume-device /var/lib/containers
+----
+
+
+. 將 container-storage-volume-device 的條目加入 /etc/fstab。
++
+此步驟可確保儲存磁碟區在主機重新啟動後自動重新掛載。
+
+
+
+
+
+== 安裝 Docker
+
+StorageGRID系統作為容器集合在 Red Hat Enterprise Linux 上運作。如果您選擇使用 Docker 容器引擎，請依照下列步驟安裝 Docker。否則，<<安裝 Podman,安裝 Podman>> 。
+
+.步驟
+. 依照 Linux 發行版的說明安裝 Docker。
++
+
+NOTE: 如果您的 Linux 發行版中不包含 Docker，您可以從 Docker 網站下載它。
+
+. 透過執行以下兩個命令確保 Docker 已啟用並啟動：
++
+[listing]
+----
+sudo systemctl enable docker
+----
++
+[listing]
+----
+sudo systemctl start docker
+----
+. 輸入以下內容，確認您已安裝預期版本的 Docker：
++
+[listing]
+----
+sudo docker version
+----
++
+客戶端和伺服器版本必須是 1.11.0 或更高版本。
+
+
+
+
+
+== 安裝 Podman
+
+StorageGRID系統作為容器集合在 Red Hat Enterprise Linux 上運作。如果您選擇使用 Podman 容器引擎，請依照以下步驟安裝 Podman。否則，<<安裝 Docker,安裝 Docker>> 。
+
+
+NOTE: Podman 僅支援 Red Hat Enterprise Linux (RHEL)。
+
+.步驟
+. 依照 Linux 發行版的說明安裝 Podman 和 Podman-Docker。
++
+
+NOTE: 安裝 Podman 時也必須安裝 Podman-Docker 套件。
+
+. 輸入以下內容確認您已安裝預期版本的 Podman 和 Podman-Docker：
++
+[listing]
+----
+sudo docker version
+----
++
+
+NOTE: Podman-Docker 套件可讓您使用 Docker 命令。
+
++
+客戶端和伺服器版本必須是 3.2.3 或更高版本。
+
++
+[listing]
+----
+Version: 3.2.3
+API Version: 3.2.3
+Go Version: go1.15.7
+Built: Tue Jul 27 03:29:39 2021
+OS/Arch: linux/amd64
+----
+

@@ -1,0 +1,76 @@
+---
+permalink: admin/manage-s3-select-for-tenant-accounts.html 
+sidebar: sidebar 
+keywords: s3 select, selectobjectcontent, best practices, object format, s3 select requirements 
+summary: 您可以允許某些 S3 租用戶使用 S3 Select 對單一物件發出 SelectObjectContent 請求。 
+---
+= 管理租用戶帳戶的 S3 Select
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以允許某些 S3 租用戶使用 S3 Select 對單一物件發出 SelectObjectContent 請求。
+
+S3 Select 提供了一種有效的方法來搜尋大量數據，而無需部署資料庫和相關資源來實現搜尋。它還降低了檢索資料的成本和延遲。
+
+
+
+== 什麼是 S3 Select？
+
+S3 Select 允許 S3 用戶端使用 SelectObjectContent 請求來過濾和檢索物件所需的資料。  S3 Select 的StorageGRID實作包括 S3 Select 指令和功能的子集。
+
+
+
+== 使用 S3 Select 的注意事項和要求
+
+
+
+=== 電網管理要求
+
+網格管理員必須授予租用戶 S3 Select 能力。當選擇“允許 S3 選擇”時link:creating-tenant-account.html["建立租戶"]或者link:editing-tenant-account.html["編輯租戶"]。
+
+
+
+=== 物件格式要求
+
+您要查詢的物件必須採用以下格式之一：
+
+* *CSV*。可原樣使用或壓縮為 GZIP 或 BZIP2 檔案。
+* *鑲木地板*。  Parquet 物件的附加要求：
++
+** S3 Select 僅支援使用 GZIP 或 Snappy 進行列壓縮。  S3 Select 不支援 Parquet 物件的整個物件壓縮。
+** S3 Select 不支援 Parquet 輸出。您必須將輸出格式指定為 CSV 或 JSON。
+** 未壓縮的行組最大大小為 512 MB。
+** 您必須使用物件模式中指定的資料類型。
+** 您不能使用 INTERVAL、JSON、LIST、TIME 或 UUID 邏輯類型。
+
+
+
+
+
+
+=== 端點要求
+
+SelectObjectContent 請求必須傳送到link:configuring-load-balancer-endpoints.html["StorageGRID負載平衡器端點"]。
+
+端點使用的管理節點和網關節點必須是以下之一：
+
+* 服務設備節點
+* 基於 VMware 的軟體節點
+* 運行啟用了 cgroup v2 的核心的裸機節點
+
+
+
+
+=== 一般考慮
+
+查詢不能直接傳送到儲存節點。
+
+
+CAUTION: SelectObjectContent 請求可能會降低所有 S3 用戶端和所有租用戶的負載平衡器效能。僅在需要時且僅對受信任的租戶啟用此功能。
+
+查看link:../s3/use-s3-select.html["S3 Select 使用說明"]。
+
+查看link:../monitor/reviewing-support-metrics.html["Grafana 圖表"]對於 S3 選擇隨時間推移的操作，在網格管理器中選擇 *SUPPORT* > *Tools* > *Metrics*。

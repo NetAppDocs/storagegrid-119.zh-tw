@@ -1,0 +1,41 @@
+---
+permalink: monitor/viewing-grid-topology-tree.html 
+sidebar: sidebar 
+keywords: how to view the Grid Topology tree 
+summary: 網格拓撲樹提供有關StorageGRID系統元素的詳細信息，包括站點、網格節點、服務和組件。大多數情況下，您只需在文件中指示或與技術支援合作時存取網格拓撲樹。 
+---
+= 查看網格拓撲樹
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+網格拓撲樹提供有關StorageGRID系統元素的詳細信息，包括站點、網格節點、服務和組件。大多數情況下，您只需在文件中指示或與技術支援合作時存取網格拓撲樹。
+
+若要存取網格拓撲樹，請選擇 *SUPPORT* > *Tools* > *Grid topology*。
+
+image::../media/grid_topology_tree.gif[網格拓撲樹的各部分]
+
+若要展開或折疊網格拓撲樹，請按一下image:../media/nms_tree_expand.gif["加號圖示"]或者image:../media/nms_tree_collapse.gif["減號圖標"]在站點、節點或服務層級。若要展開或折疊整個網站或每個節點中的所有項目，請按住 *<Ctrl>* 鍵並按一下。
+
+
+
+== StorageGRID屬性
+
+屬性會報告StorageGRID系統的許多功能的值和狀態。每個網格節點、每個站點以及整個網格都有屬性值。
+
+StorageGRID屬性在網格管理器中的幾個地方使用：
+
+* *節點頁面*：節點頁面上顯示的許多值都是StorageGRID屬性。  （Prometheus 指標也顯示在節點頁面上。）
+* *網格拓撲樹*：屬性值顯示在網格拓撲樹中（*支援* > *工具* > *網格拓撲*）。
+* *事件*：當某些屬性記錄節點的錯誤或故障狀況（包括網路錯誤等錯誤）時，就會發生系統事件。
+
+
+
+
+=== 屬性值
+
+屬性是盡力報告的，大致正確。在某些情況下，屬性更新可能會遺失，例如服務崩潰或網格節點故障和重建。
+
+此外，傳播延遲可能會減慢屬性的報告速度。大多數屬性的更新值會以固定的時間間隔傳送到StorageGRID系統。更新可能需要幾分鐘才能在系統中顯示出來，並且兩個幾乎同時變化的屬性可能會在稍微不同的時間被報告。

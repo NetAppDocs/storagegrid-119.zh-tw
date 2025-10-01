@@ -1,0 +1,73 @@
+---
+permalink: tenant/troubleshooting-platform-services-endpoint-errors.html 
+sidebar: sidebar 
+keywords: how to troubleshoot platform services endpoint 
+summary: 如果StorageGRID嘗試與平台服務端點通訊時發生錯誤，則儀表板上會顯示一則訊息。在平台服務端點頁面上，「上次錯誤」欄位指示錯誤發生的時間。如果與端點憑證相關的權限不正確，則不會顯示錯誤。 
+---
+= 排查平台服務端點錯誤
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果StorageGRID嘗試與平台服務端點通訊時發生錯誤，則儀表板上會顯示一則訊息。在平台服務端點頁面上，「上次錯誤」欄位指示錯誤發生的時間。如果與端點憑證相關的權限不正確，則不會顯示錯誤。
+
+
+
+== 確定是否發生錯誤
+
+如果過去 7 天內發生任何平台服務端點錯誤，租用戶管理器儀表板將顯示一則警報訊息。您可以前往平台服務端點頁面以查看有關該錯誤的更多詳細資訊。
+
+image::../media/tenant_dashboard_endpoint_error.png[儀表板上的端點錯誤訊息]
+
+儀表板上出現的相同錯誤也會出現在平台服務端點頁面的頂部。要查看更詳細的錯誤訊息：
+
+.步驟
+. 從端點清單中，選擇出現錯誤的端點。
+. 在端點詳細資料頁面上，選擇*連線*。此標籤僅顯示端點的最新錯誤並指示錯誤發生的時間。包含紅色 X 圖示的錯誤image:../media/icon_alert_red_critical.png["紅色X圖標"]發生在過去 7 天內。
+
+
+
+
+== 檢查錯誤是否仍然存在
+
+某些錯誤即使已解決，仍可能繼續顯示在「最後錯誤」欄位中。若要查看錯誤是否為目前錯誤或強制從表中刪除已解決的錯誤：
+
+.步驟
+. 選擇端點。
++
+出現端點詳細資料頁面。
+
+. 選擇*連線* > *測試連線*。
+
+
+選擇*測試連線*會導致StorageGRID驗證平台服務端點是否存在以及是否可以使用目前憑證存取它。每個站點的一個節點都會驗證與端點的連線。
+
+
+
+== 解決端點錯誤
+
+您可以使用端點詳細資料頁面上的「*最後錯誤*」訊息來協助確定導致錯誤的原因。某些錯誤可能需要您編輯端點來解決問題。例如，如果StorageGRID由於沒有正確的存取權限或存取金鑰已過期而無法存取目標 S3 儲存桶，則可能會發生 CloudMirroring 錯誤。訊息為“需要更新端點憑證或目標存取”，詳細資訊為“AccessDenied”或“InvalidAccessKeyId”。
+
+如果您需要編輯端點來解決錯誤，選擇*測試並儲存變更*將導致StorageGRID驗證更新後的端點並確認可以使用目前憑證存取它。每個站點的一個節點都會驗證與端點的連線。
+
+.步驟
+. 選擇端點。
+. 在端點詳細資料頁面上，選擇*配置*。
+. 根據需要編輯端點配置。
+. 選擇*連線* > *測試連線*。
+
+
+
+
+== 權限不足的端點憑證
+
+當StorageGRID驗證平台服務端點時，它會確認端點的憑證可用於聯絡目標資源，並進行基本權限檢查。但是， StorageGRID不會驗證某些平台服務操作所需的所有權限。因此，如果您在嘗試使用平台服務時收到錯誤（例如「403 禁止」），請檢查與端點憑證相關的權限。
+
+.相關資訊
+* link:../admin/troubleshooting-platform-services.html["管理StorageGRID > 排除平台服務故障"]
+* link:creating-platform-services-endpoint.html["創建平台服務端點"]
+* link:testing-connection-for-platform-services-endpoint.html["測試平台服務端點的連接"]
+* link:editing-platform-services-endpoint.html["編輯平台服務端點"]
+

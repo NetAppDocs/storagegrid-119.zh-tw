@@ -1,0 +1,47 @@
+---
+permalink: audit/audit-messages-and-object-lifecycle.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, log, object lifecycle, ingest, retrieve, delete, s3, timing, ILM, Information lifecycle management 
+summary: 每次提取、檢索或刪除物件時都會產生審計訊息。您可以透過尋找 S3 API 特定的稽核訊息來在稽核日誌中識別這些交易。 
+---
+= 審計訊息何時產生？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+每次提取、檢索或刪除物件時都會產生審計訊息。您可以透過尋找 S3 API 特定的稽核訊息來在稽核日誌中識別這些交易。
+
+審計訊息透過特定於每個協定的標識符進行連結。
+
+[cols="1a,1a"]
+|===
+| 協定 | 程式碼 
+
+
+ a| 
+連結 S3 操作
+ a| 
+S3BK（儲存桶）、S3KY（密鑰）或兩者
+
+
+
+ a| 
+連結 Swift 操作
+ a| 
+WCON（容器）、WOBJ（物件）或兩者
+
+
+
+ a| 
+連結內部經營
+ a| 
+CBID（物件的內部識別碼）
+
+|===
+
+
+== 審計訊息的時間
+
+由於網格節點之間的時間差異、物件大小和網路延遲等因素，不同服務產生的稽核訊息的順序可能與本節範例中顯示的順序不同。

@@ -1,0 +1,16 @@
+---
+permalink: primer/what-archive-node-is.html 
+sidebar: sidebar 
+keywords: archive node 
+summary: 對存檔節點的支援已被刪除。 
+---
+= 什麼是存檔節點？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+對存檔節點的支援已被刪除。
+
+有關存檔節點的信息，請參閱 https://docs.netapp.com/us-en/storagegrid-118/primer/what-archive-node-is.html["什麼是歸檔節點（StorageGRID 11.8 文件站點）"^]。

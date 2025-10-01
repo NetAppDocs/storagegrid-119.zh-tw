@@ -1,0 +1,33 @@
+---
+permalink: ubuntu/specifying-grid-network-subnets.html 
+sidebar: sidebar 
+keywords: how to specify Grid Network subnets 
+summary: 您必須指定網格網路中使用的子網路。 
+---
+= 指定網格網路子網
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須指定網格網路中使用的子網路。
+
+.關於此任務
+子網條目包括StorageGRID系統中每個站點的網格網路的子網，以及需要透過網格網路存取的任何子網路。
+
+如果您有多個網格子網，則需要網格網路網關。所有指定的網格子網路都必須可以透過此網關存取。
+
+.步驟
+. 在 *Subnet 1* 文字方塊中指定至少一個網格網路的 CIDR 網路位址。
+. 點擊最後一個條目旁邊的加號以新增其他網路條目。您必須指定網格網路中的所有站點的所有子網路。
++
+** 如果您已經部署了至少一個節點，請按一下「發現網格網路子網路」以使用已向網格管理員註冊的網格節點報告的子網路自動填入網格網路子網路清單。
+** 您必須手動新增透過網格網路閘道存取的 NTP、DNS、LDAP 或其他外部伺服器的任何子網路。
++
+image::../media/4_gmi_installer_grid_network_page.gif[指定子網]
+
+
+
+. 按一下“下一步”。
+

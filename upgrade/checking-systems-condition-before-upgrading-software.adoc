@@ -1,0 +1,60 @@
+---
+permalink: upgrade/checking-systems-condition-before-upgrading-software.html 
+sidebar: sidebar 
+keywords: upgrade, grid tasks, firewall, ports 
+summary: 在升級StorageGRID系統之前，請先確認系統是否已準備好進行升級。確保系統正常運行，所有網格節點均可操作。 
+---
+= 檢查系統狀況
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在升級StorageGRID系統之前，請先確認系統是否已準備好進行升級。確保系統正常運行，所有網格節點均可操作。
+
+.步驟
+. Sign inlink:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+. 檢查並解決任何活動警報。
+. 確認沒有衝突的網格任務處於活動狀態或待處理狀態。
++
+.. 選擇*支援* > *工具* > *網格拓撲*。
+.. 選擇 *_site_* > *_primary Admin Node_* > *CMN* > *Grid Tasks* > *Configuration*。
++
+資訊生命週期管理評估（ILME）任務是唯一可以與軟體升級同時執行的網格任務。
+
+.. 如果任何其他網格任務處於活動狀態或待處理狀態，請等待它們完成或釋放其鎖定。
++
+
+NOTE: 如果任務未完成或未釋放鎖定，請聯絡技術支援。
+
+
+
+. 參考link:../network/internal-grid-node-communications.html["內部網格節點通信"]和link:../network/external-communications.html["外部溝通"]確保在升級之前開啟StorageGRID 11.9 所需的所有連接埠。
++
+
+NOTE: 升級到StorageGRID 11.9 時不需要額外的連接埠。
+
++
+StorageGRID 11.7 中新增了以下所需連接埠。在升級到StorageGRID 11.9 之前，請確保它可用。
+
++
+[cols="1a,2a"]
+|===
+| 港口 | 描述 
+
+
+ a| 
+18086
+ a| 
+用於從StorageGRID負載平衡器到 LDR 和新 LDR 服務的 S3 請求的 TCP 連接埠。
+
+升級前，請確認此連接埠從所有網格節點到所有儲存節點均已開啟。
+
+升級到StorageGRID 11.9 後，阻止此連接埠將導致 S3 服務中斷。
+
+|===
+
+
+
+CAUTION: 如果您開啟了任何自訂防火牆端口，則會在升級預檢查期間收到通知。您必須在繼續升級之前聯絡技術支援。

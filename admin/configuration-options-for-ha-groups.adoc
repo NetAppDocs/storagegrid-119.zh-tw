@@ -1,0 +1,66 @@
+---
+permalink: admin/configuration-options-for-ha-groups.html 
+sidebar: sidebar 
+keywords: ha groups, best practices, high availability group options 
+summary: 下圖提供了配置 HA 組的不同方法的範例。每個選項都有優點和缺點。 
+---
+= HA 組的配置選項
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+下圖提供了配置 HA 組的不同方法的範例。每個選項都有優點和缺點。
+
+圖中藍色表示HA組的主接口，黃色表示HA組內的備援接口。
+
+image::../media/high_availability_examples.png[HA 範例]
+
+此表總結了圖中所示的每種 HA 配置的優點。
+
+[cols="1a,2a,2a"]
+|===
+| 配置 | 優勢 | 缺點 
+
+
+ a| 
+主動備份高可用性
+ a| 
+* 由StorageGRID管理，無需任何外部依賴。
+* 快速故障轉移。
+
+ a| 
+* HA 組中只有一個節點處於活動狀態。每個 HA 組至少有一個節點處於空閒狀態。
+
+
+
+
+ a| 
+DNS 循環
+ a| 
+* 增加總吞吐量。
+* 沒有閒置的主機。
+
+ a| 
+* 故障轉移緩慢，這可能取決於客戶端行為。
+* 需要在StorageGRID之外配置硬體。
+* 需要客戶實施的健康檢查。
+
+
+
+
+ a| 
+雙活高可用性
+ a| 
+* 流量分佈在多個 HA 組之間。
+* 高聚合吞吐量，可隨 HA 組的數量擴展。
+* 快速故障轉移。
+
+ a| 
+* 配置更複雜。
+* 需要在StorageGRID之外配置硬體。
+* 需要客戶實施的健康檢查。
+
+
+|===

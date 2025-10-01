@@ -1,0 +1,52 @@
+---
+permalink: rhel/cpu-and-ram-requirements.html 
+sidebar: sidebar 
+keywords: cpu, ram, cpu cores 
+summary: 在安裝StorageGRID軟體之前，請先驗證並配置硬件，以便它準備好支援StorageGRID系統。 
+---
+= CPU 和 RAM 需求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在安裝StorageGRID軟體之前，請先驗證並配置硬件，以便它準備好支援StorageGRID系統。
+
+每個StorageGRID節點需要以下最低資源：
+
+* CPU 核心：每個節點 8 個
+* RAM：取決於可用的 RAM 總量和系統上運行的非StorageGRID軟體的數量
++
+** 通常，每個節點至少 24 GB，比系統總 RAM 少 2 到 16 GB
+** 每個租戶至少有 64 GB，大約有 5,000 個儲存桶
+
+
+
+
+基於軟體的純元資料節點資源必須與現有的儲存節點資源相符。例如：
+
+* 如果現有StorageGRID站點使用 SG6000 或 SG6100 設備，則基於軟體的僅元資料節點必須符合以下最低要求：
++
+** 128 GB 內存
+** 8核心CPU
+** 8 TB SSD 或用於 Cassandra 資料庫的等效儲存空間（rangedb/0）
+
+
+* 如果現有的StorageGRID站點使用具有 24 GB RAM、8 核心 CPU 和 3 TB 或 4TB 元資料儲存的虛擬儲存節點，則基於軟體的僅元資料節點應使用類似的資源（24 GB RAM、8 核心 CPU 和 4TB 元資料儲存（rangedb/0）。
+
+
+新增新的StorageGRID站點時，新站點的總元資料容量應至少與現有StorageGRID站點相匹配，且新站點資源應與現有StorageGRID站點的儲存節點相符。
+
+確保您計劃在每個實體或虛擬主機上執行的StorageGRID節點數量不會超過可用的 CPU 核心數或實體 RAM 數。如果主機不是專用於執行StorageGRID （不建議），請務必考慮其他應用程式的資源需求。
+
+
+NOTE: 定期監控您的 CPU 和記憶體使用情況，以確保這些資源持續滿足您的工作負載。例如，將虛擬儲存節點的 RAM 和 CPU 分配增加一倍將提供與StorageGRID設備節點類似的資源。此外，如果每個節點的元資料量超過 500 GB，請考慮將每個節點的 RAM 增加到 48 GB 或更多。有關管理物件元資料儲存、增加元資料保留空間設定以及監控 CPU 和記憶體使用情況的信息，請參閱link:../admin/index.html["管理"]，link:../monitor/index.html["監控"] ， 和link:../upgrade/index.html["升級"]StorageGRID。
+
+如果底層實體主機上啟用了超線程，則可以為每個節點提供 8 個虛擬核心（4 個實體核心）。如果底層實體主機上未啟用超線程，則必須為每個節點提供 8 個實體核心。
+
+如果您使用虛擬機器作為主機並且可以控制虛擬機器的大小和數量，則應該為每個StorageGRID節點使用單一虛擬機器並相應地調整虛擬機器的大小。
+
+對於生產部署，您不應在相同實體儲存硬體或虛擬主機上執行多個儲存節點。單一StorageGRID部署中的每個儲存節點都應位於其自己的隔離故障域中。如果確保單一硬體故障僅影響單一儲存節點，則可以最大限度地提高物件資料的持久性和可用性。
+
+另請參閱link:storage-and-performance-requirements.html["儲存和效能要求"] 。

@@ -1,0 +1,189 @@
+---
+permalink: s3/head-object.html 
+sidebar: sidebar 
+keywords: HeadObject 
+summary: 您可以使用 S3 HeadObject 請求從物件中檢索元數據，而不回傳物件本身。 
+---
+= 頭部對象
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 S3 HeadObject 請求從物件中檢索元數據，而不回傳物件本身。如果物件儲存在雲端儲存池中，則可以使用 HeadObject 來確定物件的過渡狀態。
+
+
+
+== HeadObject 和多部分對象
+
+您可以使用 `partNumber`請求參數來檢索多部分或分段物件的特定部分的元資料。這 `x-amz-mp-parts-count`響應元素指示物件有多少個部分。
+
+您可以設定 `partNumber`對於分段/多部分對象和非分段/非多部分對象，皆為 1；但是， `x-amz-mp-parts-count`響應元素僅針對分段或多部分物件傳回。
+
+
+
+== 用戶元資料中的 UTF-8 字符
+
+StorageGRID不會解析或解釋使用者定義元資料中的轉義 UTF-8 字元。對使用者定義元資料中含有轉義 UTF-8 字元的物件進行 HEAD 請求不會傳回 `x-amz-missing-meta`如果鍵名或值包含不可列印的字符，則為標頭。
+
+
+
+== 支援的請求標頭
+
+支援以下請求標頭：
+
+* `x-amz-checksum-mode`
++
+這 `partNumber`參數和 `Range`標頭不支援 `x-amz-checksum-mode`對於 HeadObject。當您將它們包含在請求中時 `x-amz-checksum-mode`啟用後， StorageGRID不會在回應中傳回校驗和值。
+
+
+
+
+
+== 不支援的請求標頭
+
+以下請求標頭不受支援並返回 `XNotImplemented`：
+
+* `x-amz-website-redirect-location`
+
+
+
+
+== 版本控制
+
+如果 `versionId`如果未指定子資源，則操作將取得版本化儲存桶中物件的最新版本。如果物件的目前版本是刪除標記，則傳回「未找到」狀態，並 `x-amz-delete-marker`響應頭設定為 `true`。
+
+
+
+== 使用客戶提供的加密金鑰進行伺服器端加密的請求標頭（SSE-C）
+
+如果物件使用您提供的唯一密鑰加密，請使用所有這三個標頭。
+
+* `x-amz-server-side-encryption-customer-algorithm`： 指定 `AES256`。
+* `x-amz-server-side-encryption-customer-key`：指定物件的加密金鑰。
+* `x-amz-server-side-encryption-customer-key-MD5`：指定物件加密金鑰的 MD5 摘要。
+
+
+
+CAUTION: 您提供的加密金鑰永遠不會被儲存。如果遺失了加密金鑰，您就會遺失對應的物件。在使用客戶提供的金鑰保護物件資料之前，請先查看link:using-server-side-encryption.html["使用伺服器端加密"]。
+
+
+
+== Cloud Storage Pool 物件的 HeadObject 回應
+
+如果物件儲存在link:../ilm/what-cloud-storage-pool-is.html["雲端儲存池"]，將返回以下響應標頭：
+
+* `x-amz-storage-class: GLACIER`
+* `x-amz-restore`
+
+
+回應標頭提供有關物件狀態的信息，因為它被移動到雲端儲存池，可選地轉換為不可檢索狀態，並恢復。
+
+[cols="1a,1a"]
+|===
+| 物體狀態 | 對 HeadObject 的回應 
+
+
+ a| 
+物件已匯入StorageGRID但尚未經過 ILM 評估，或儲存在傳統儲存池中或使用擦除編碼的對象
+ a| 
+`200 OK`（沒有回傳特殊的回應頭。）
+
+
+
+ a| 
+物件位於雲端儲存池中，但尚未轉換為不可檢索狀態
+ a| 
+`200 OK`
+
+`x-amz-storage-class: GLACIER`
+
+`x-amz-restore: ongoing-request="false", expiry-date="Sat, 23 July 20 2030 00:00:00 GMT"`
+
+在物件轉換為不可檢索狀態之前， `expiry-date`設定為未來某個遙遠的時間。轉換的確切時間不受StorageGRID系統控制。
+
+
+
+ a| 
+物件已轉換為不可檢索狀態，但網格上還存在至少一個副本
+ a| 
+`200 OK`
+
+`x-amz-storage-class: GLACIER`
+
+`x-amz-restore: ongoing-request="false", expiry-date="Sat, 23 July 20 2030 00:00:00 GMT"`
+
+價值 `expiry-date`設定為未來某個遙遠的時間。
+
+*注意*：如果網格上的副本不可用（例如，儲存節點關閉），則必須發出link:post-object-restore.html["復原對象"]請求從雲端儲存池恢復副本，然後才能成功檢索物件。
+
+
+
+ a| 
+物件已轉換為不可檢索狀態，且網格上不存在副本
+ a| 
+`200 OK`
+
+`x-amz-storage-class: GLACIER`
+
+
+
+ a| 
+物件正在從不可恢復狀態恢復
+ a| 
+`200 OK`
+
+`x-amz-storage-class: GLACIER`
+
+`x-amz-restore: ongoing-request="true"`
+
+
+
+ a| 
+物件已完全恢復到雲端儲存池
+ a| 
+`200 OK`
+
+`x-amz-storage-class: GLACIER`
+
+`x-amz-restore: ongoing-request="false", expiry-date="Sat, 23 July 20 2018 00:00:00 GMT"`
+
+這 `expiry-date`指示雲端儲存池中的物件何時將返回不可檢索狀態。
+
+|===
+
+
+=== 雲端儲存池中的多部分或分段對象
+
+如果您上傳了多部分對象，或者StorageGRID將大型對象拆分為多個段， StorageGRID會透過對該對象的部分或段的子集進行採樣來確定該對像是否在雲端儲存池中可用。在某些情況下，HeadObject 請求可能會錯誤地傳回 `x-amz-restore: ongoing-request="false"`當物件的某些部分已轉換為不可檢索狀態或物件的某些部分尚未復原時。
+
+
+
+== HeadObject 和跨網格複製
+
+如果您正在使用link:../admin/grid-federation-overview.html["網格聯盟"]和link:../tenant/grid-federation-manage-cross-grid-replication.html["跨網格複製"]為儲存桶啟用後，S3 用戶端可以透過發出 HeadObject 請求來驗證物件的複製狀態。響應包括StorageGRID特定的 `x-ntap-sg-cgr-replication-status`響應標頭，它將具有以下值之一：
+
+[cols="1a,2a"]
+|===
+| 網格 | 複製狀態 
+
+
+ a| 
+來源
+ a| 
+* *已完成*：複製成功。
+* *待定*：物件尚未被複製。
+* *失敗*：複製失敗，並發生永久性故障。使用者必須解決該錯誤。
+
+
+
+
+ a| 
+目的地
+ a| 
+*REPLICA*：物件已從來源網格複製。
+
+|===
+
+NOTE: StorageGRID不支援 `x-amz-replication-status`標頭。

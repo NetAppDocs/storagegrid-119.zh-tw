@@ -1,0 +1,36 @@
+---
+permalink: fabricpool/best-practices-for-high-availability-groups.html 
+sidebar: sidebar 
+keywords: fabricPool, high availability group, HA group, active-active, active-backup, cloud tier, best practices 
+summary: '在將StorageGRID附加為FabricPool雲層之前，請先了解StorageGRID高可用性 (HA) 群組並查看將 HA 群組與FabricPool結合使用的最佳實務。' 
+---
+= 高可用性 (HA) 組的最佳實踐
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在將StorageGRID附加為FabricPool雲層之前，請先了解StorageGRID高可用性 (HA) 群組並查看將 HA 群組與FabricPool結合使用的最佳實務。
+
+
+
+== 什麼是 HA 組？
+
+高可用性 (HA) 群組是來自多個StorageGRID網關節點、管理節點或兩者的介面的集合。 HA 組有助於保持客戶端資料連線可用。如果 HA 群組中的活動介面發生故障，則備用介面可以管理工作負載，而對FabricPool操作的影響很小。
+
+每個 HA 群組都提供對關聯節點上的共享服務的高度可用存取。例如，僅由網關節點或管理節點和閘道上的介面組成的 HA 群組可為共用負載平衡器服務提供高可用性存取。
+
+要了解有關高可用性組的更多信息，請參閱link:../admin/managing-high-availability-groups.html["管理高可用性 (HA) 組"]。
+
+
+
+== 使用 HA 組
+
+為FabricPool建立StorageGRID HA 群組的最佳實務取決於工作負載。
+
+* 如果您打算將FabricPool與主工作負載資料一起使用，則必須建立一個包含至少兩個負載平衡節點的 HA 群組，以防止資料檢索中斷。
+* 如果您打算使用FabricPool僅快照磁碟區分層原則或非主要本機效能層（例如，災難復原位置或NetApp SnapMirror® 目標），則可以設定僅具有一個節點的 HA 群組。
+
+
+這些說明描述如何為 Active-Backup HA 設定 HA 群組（一個節點是活動的，一個節點是備份的）。但是，您可能會喜歡使用 DNS Round Robin 或 Active-Active HA。若要了解這些其他 HA 配置的優勢，請參閱link:../admin/configuration-options-for-ha-groups.html["HA 組的配置選項"]。

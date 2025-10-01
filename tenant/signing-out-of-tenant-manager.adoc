@@ -1,0 +1,41 @@
+---
+permalink: tenant/signing-out-of-tenant-manager.html 
+sidebar: sidebar 
+keywords: how to sign out of tenant manager 
+summary: 當您完成租用戶管理器的工作後，您必須登出以確保未經授權的使用者無法存取StorageGRID系統。根據瀏覽器 cookie 設定，關閉瀏覽器可能不會使您退出系統。 
+---
+= 退出租戶管理器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您完成租用戶管理器的工作後，您必須登出以確保未經授權的使用者無法存取StorageGRID系統。根據瀏覽器 cookie 設定，關閉瀏覽器可能不會使您退出系統。
+
+.步驟
+. 找到使用者介面右上角的使用者名稱下拉式選單。
++
+image::../media/tenant_user_sign_out.png[退出連結]
+
+. 選擇使用者名，然後選擇*退出*。
++
+** 如果未使用 SSO：
++
+您已退出管理節點。顯示租用戶管理員登入頁面。
+
++
+
+NOTE: 如果您登入了多個管理節點，則必須從每個節點登出。
+
+** 如果啟用了 SSO：
++
+您已退出正在存取的所有管理節點。顯示StorageGRIDSign in頁面。您剛剛造訪的租用戶帳戶的名稱在「最近的帳戶」下拉式功能表中列為預設名稱，並顯示租用戶的「帳戶 ID」。
+
++
+
+NOTE: 如果啟用了 SSO 並且您也登入了網格管理器，則您也必須登出網格管理器才能登出 SSO。
+
+
+
+

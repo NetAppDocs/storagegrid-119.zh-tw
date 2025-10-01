@@ -1,0 +1,71 @@
+---
+permalink: admin/manage-platform-services-for-tenants.html 
+sidebar: sidebar 
+keywords: platform service, cloudmirror replication, event notification, search integration service 
+summary: 平台服務包括CloudMirror複製、事件通知和搜尋整合服務。 
+---
+= 什麼是平台服務？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+平台服務包括CloudMirror複製、事件通知和搜尋整合服務。
+
+如果您為 S3 租用戶帳戶啟用平台服務，則必須設定網格，以便租用戶可以存取使用這些服務所需的外部資源。
+
+
+
+== CloudMirror 複製
+
+StorageGRID CloudMirror 複製服務用於將特定物件從StorageGRID桶鏡像到指定的外部目標。
+
+例如，您可以使用 CloudMirror 複製將特定客戶記錄鏡像到 Amazon S3，然後利用 AWS 服務對您的資料執行分析。
+
+
+NOTE: CloudMirror 複製與跨網格複製功能有一些重要的相似之處和差異。要了解更多信息，請參閱link:../admin/grid-federation-compare-cgr-to-cloudmirror.html["比較跨網格複製和 CloudMirror 複製"]。
+
+
+NOTE: 如果來源儲存桶啟用了 S3 物件鎖，則不支援 CloudMirror 複製。
+
+
+
+== 通知
+
+每個儲存桶事件通知用於將有關對物件執行的特定操作的通知傳送到指定的外部 Kafka 叢集或 Amazon Simple Notification Service。
+
+例如，您可以設定警報，以便向管理員發送有關新增至儲存桶的每個物件的警報，其中物件代表與關鍵系統事件相關的日誌檔案。
+
+
+NOTE: 雖然可以在啟用了 S3 物件鎖定的儲存桶上配置事件通知，但物件的 S3 物件鎖定元資料（包括保留截止日期和合法保留狀態）將不會包含在通知訊息中。
+
+
+
+== 搜尋整合服務
+
+搜尋整合服務用於將 S3 物件元資料傳送到指定的 Elasticsearch 索引，在那裡可以使用外部服務搜尋或分析元資料。
+
+例如，您可以設定儲存桶以將 S3 物件元資料傳送到遠端 Elasticsearch 服務。然後，您可以使用 Elasticsearch 跨儲存桶執行搜索，並對物件元資料中存在的模式執行複雜的分析。
+
+
+NOTE: 儘管可以在啟用了 S3 物件鎖定的儲存桶上配置 Elasticsearch 集成，但物件的 S3 物件鎖定元資料（包括保留截止日期和合法保留狀態）將不會包含在通知訊息中。
+
+平台服務使租戶能夠使用外部儲存資源、通知服務以及對其資料的搜尋或分析服務。由於平台服務的目標位置通常位於StorageGRID部署的外部，因此您必須決定是否允許租用戶使用這些服務。如果您這樣做，則必須在建立或編輯租用戶帳戶時啟用平台服務的使用。您還必須配置您的網絡，以便租戶產生的平台服務訊息能夠到達目的地。
+
+
+
+== 使用平台服務的建議
+
+在使用平台服務之前，請注意以下建議：
+
+* 如果StorageGRID系統中的 S3 儲存桶同時啟用了版本控制和 CloudMirror 複製，則也應該為目標端點啟用 S3 儲存桶版本控制。這允許 CloudMirror 複製在端點上產生類似的物件版本。
+* 您不應使用超過 100 個需要 CloudMirror 複製、通知和搜尋整合的 S3 請求的活動租戶。擁有超過 100 個活躍租戶可能會導致 S3 用戶端效能下降。
+* 對無法完成的端點的請求將排隊，最多 500,000 個請求。此限制由活躍租戶平均分擔。允許新租戶暫時超過這個 500,000 的限制，以便新創建的租戶不會受到不公平的懲罰。
+
+
+.相關資訊
+* link:../tenant/what-platform-services-are.html["管理平台服務"]
+* link:configuring-storage-proxy-settings.html["配置儲存代理設定"]
+* link:../monitor/index.html["監控StorageGRID"]
+

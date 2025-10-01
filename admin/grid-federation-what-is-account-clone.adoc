@@ -1,0 +1,116 @@
+---
+permalink: admin/grid-federation-what-is-account-clone.html 
+sidebar: sidebar 
+keywords: account clone, tenant replication, disaster recovery, grid federation 
+summary: 帳戶複製是網格聯合連線中StorageGRID系統之間的租用戶帳戶、租用戶群組、租用戶用戶以及可選的 S3 存取金鑰的自動複製。 
+---
+= 什麼是帳戶克隆？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+帳戶複製是租用戶帳戶、租用戶群組、租用戶用戶以及可選的 S3 存取金鑰在StorageGRID系統之間的自動複製。link:grid-federation-overview.html["電網聯合連接"] 。
+
+需要克隆帳戶link:grid-federation-what-is-cross-grid-replication.html["跨網格複製"]。將帳戶資訊從來源StorageGRID系統複製到目標StorageGRID系統可確保租用戶使用者和群組可以存取任一網格上的對應儲存桶和物件。
+
+
+
+== 帳戶克隆工作流程
+
+工作流程圖顯示了網格管理員和允許的租戶將執行的設定帳戶複製的步驟。這些步驟在link:grid-federation-create-connection.html["電網聯合連接已配置"]。
+
+image::../media/grid-federation-account-clone-workflow.png[帳戶克隆的工作流程]
+
+
+
+== 網格管理工作流程
+
+網格管理員執行的步驟取決於StorageGRID系統是否link:grid-federation-overview.html["電網聯合連接"]使用單一登入（SSO）或身分聯合。
+
+
+
+=== [[account-clone-sso]]配置帳戶克隆的 SSO（可選）
+
+如果網格聯合連接中的任一StorageGRID系統使用 SSO，則兩個網格都必須使用 SSO。在建立網格聯合的租用戶帳戶之前，租用戶的來源網格和目標網格的網格管理員必須執行下列步驟。
+
+.步驟
+. 為兩個網格配置相同的身份來源。看link:using-identity-federation.html["使用身分聯合"] 。
+. 為兩個網格配置相同的 SSO 身分提供者 (IdP)。看link:configuring-sso.html["配置單一登入"] 。
+. link:managing-admin-groups.html["建立相同的管理員群組"]透過匯入相同的聯合群組在兩個網格上。
++
+當您建立租用戶時，您將選擇此群組以擁有來源和目標租用戶帳戶的初始 Root 存取權。
+
++
+
+NOTE: 如果在建立租用戶之前兩個網格上都不存在此管理群組，則該租用戶不會被複製到目標。
+
+
+
+
+
+=== [[account-clone-identity-federation]]為帳戶複製配置網格層級身分聯合（可選）
+
+若任一StorageGRID系統使用不含 SSO 的身份聯合，則兩個網格都必須使用身分聯合。在建立網格聯合的租用戶帳戶之前，租用戶的來源網格和目標網格的網格管理員必須執行下列步驟。
+
+.步驟
+. 為兩個網格配置相同的身份來源。看link:using-identity-federation.html["使用身分聯合"] 。
+. 或者，如果聯合群組對來源租用戶帳戶和目標租用戶帳戶都具有初始 Root 存取權限，link:managing-admin-groups.html["建立相同的管理群組"]透過匯入相同的聯合群組在兩個網格上。
++
+
+NOTE: 如果您將 Root 存取權限指派給兩個網格上均不存在的聯合群組，則租用戶不會被複製到目標網格。
+
+. 如果您不希望聯合群組對兩個帳戶都具有初始 Root 存取權限，請為本機 root 使用者指定密碼。
+
+
+
+
+=== 建立允許的 S3 租用戶帳戶
+
+在選擇性地設定 SSO 或身分聯合後，網格管理員執行下列步驟來確定哪些租用戶可以將儲存桶物件複製到其他StorageGRID系統。
+
+.步驟
+. 確定您希望哪個網格作為租用戶帳戶複製操作的來源網格。
++
+最初建立租戶的網格稱為租戶的_來源網格_。複製租戶的網格稱為租戶的_目標網格_。
+
+. 在該網格上，建立一個新的 S3 租用戶帳戶或編輯現有帳戶。
+. 分配*使用電網聯合連線*權限。
+. 如果租用戶帳戶將管理其自己的聯合用戶，請指派*使用自己的身分來源*權限。
++
+如果指派了此權限，則在建立聯合群組之前，來源租用戶帳戶和目標租用戶帳戶都必須配置相同的身分來源。除非兩個網格使用相同的身分來源，否則新增至來源租用戶的聯合群組無法複製到目標租用戶。
+
+. 選擇特定的電網聯合連接。
+. 保存新的或修改後的租戶。
++
+當儲存具有「使用網格聯合連線」權限的新租用戶時， StorageGRID會自動在另一個網格上建立該租用戶的副本，如下所示：
+
++
+** 兩個租用戶帳戶具有相同的帳戶 ID、名稱、儲存配額和分配的權限。
+** 如果您選擇聯合群組來為租用戶提供 Root 存取權限，則該群組將被複製到目標租用戶。
+** 如果您選擇本機使用者擁有租用戶的 Root 存取權限，則該使用者將被複製到目標租用戶。但是，該用戶的密碼未被複製。
+
+
+
+
+有關詳細信息，請參閱link:grid-federation-manage-tenants.html["管理電網聯合的允許租戶"] 。
+
+
+
+== 允許的租用戶帳戶工作流程
+
+將具有 *使用網格聯合連線* 權限的租用戶複製到目標網格後，允許的租用戶帳戶可以執行下列步驟來複製租用戶群組、使用者和 S3 存取金鑰。
+
+.步驟
+. Sign in租戶來源網格上的租戶帳戶。
+. 如果允許，請在來源租用戶帳戶和目標租用戶帳戶上配置身分聯合。
+. 在來源租用戶上建立群組和使用者。
++
+當在來源租用戶上建立新的群組或使用者時， StorageGRID會自動將其複製到目標租用戶，但不會從目標複製回來源。
+
+. 建立 S3 存取密鑰。
+. 或者，將 S3 存取金鑰從來源租用戶複製到目標租用戶。
+
+
+有關允許租用戶帳戶工作流程的詳細資訊以及如何複製群組、使用者和 S3 存取金鑰，請參閱link:../tenant/grid-federation-account-clone.html["克隆租戶群組和用戶"]和link:../tenant/grid-federation-clone-keys-with-api.html["使用 API 克隆 S3 存取金鑰"]。

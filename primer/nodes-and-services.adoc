@@ -1,0 +1,302 @@
+---
+permalink: primer/nodes-and-services.html 
+sidebar: sidebar 
+keywords: services, grid nodes, primary admin, storage, gateway 
+summary: StorageGRID系統的基本建構塊是網格節點。節點包含服務，服務是向網格節點提供一組功能的軟體模組。 
+---
+= 網格節點和服務
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID系統的基本建構塊是網格節點。節點包含服務，服務是向網格節點提供一組功能的軟體模組。
+
+
+
+== 網格節點的類型
+
+StorageGRID系統使用四種類型的網格節點：
+
+管理節點:: 提供系統配置、監控、日誌等管理服務。當您登入網格管理器時，您正在連線到管理節點。每個網格必須有一個主管理節點，並且可能還有其他非主管理節點以實現冗餘。您可以連接到任何管理節點，每個管理節點都會顯示StorageGRID系統的類似視圖。但是，必須使用主管理節點執行維護程序。
++
+--
+管理節點也可用於平衡 S3 用戶端流量的負載。
+
+看link:what-admin-node-is.html["什麼是管理節點？"]
+
+--
+儲存節點:: 管理和儲存物件資料和元資料。  StorageGRID系統中的每個站點必須至少有三個儲存節點。
++
+--
+看link:what-storage-node-is.html["什麼是儲存節點？"]
+
+--
+網關節點（可選）:: 提供用戶端應用程式可用於連接到StorageGRID 的負載平衡介面。負載平衡器無縫地將客戶端引導至最佳儲存節點，以便節點甚至整個網站的故障都是透明的。
++
+--
+看link:what-gateway-node-is.html["什麼是網關節點？"]
+
+--
+
+
+
+
+== 硬體和軟體節點
+
+StorageGRID節點可以部署為StorageGRID設備節點或基於軟體的節點。
+
+
+
+=== StorageGRID設備節點
+
+StorageGRID硬體設備專為在StorageGRID系統中使用而設計。一些設備可以用作儲存節點。其他設備可用作管理節點或網關節點。您可以將設備節點與基於軟體的節點結合起來，或部署完全工程化的全設備網格，這些網格不依賴外部虛擬機器管理程式、儲存或運算硬體。
+
+請參閱以下內容以了解可用的設備：
+
+* https://docs.netapp.com/us-en/storagegrid-appliances/["StorageGRID設備文檔"^]
+* https://hwu.netapp.com["NetAppHardware Universe"^]
+
+
+
+
+=== 基於軟體的節點
+
+基於軟體的網格節點可以部署為 VMware 虛擬機器或 Linux 主機上的容器引擎內。
+
+* VMware vSphere 中的虛擬機器 (VM)：請參閱link:../vmware/index.html["在 VMware 上安裝StorageGRID"]。
+* 在 Red Hat Enterprise Linux 上的容器引擎中：請參閱link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]。
+* 在 Ubuntu 或 Debian 上的容器引擎中：請參閱link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]。
+
+
+使用 https://imt.netapp.com/matrix/#welcome["NetApp互通性矩陣工具 (IMT)"^]確定支援的版本。
+
+在初始安裝新的基於軟體的儲存節點時，您可以指定它僅用於link:../primer/what-storage-node-is.html#types-of-storage-nodes["儲存元數據"]。
+
+
+
+== StorageGRID服務
+
+以下是StorageGRID服務的完整清單。
+
+[cols="2a,3a,2a"]
+|===
+| 服務 | 描述 | 地點 
+
+
+ a| 
+帳戶服務轉發
+ a| 
+為負載平衡器服務提供一個介面來查詢遠端主機上的帳戶服務，並向負載平衡器服務提供負載平衡器端點配置變更的通知。
+ a| 
+管理節點和網關節點上的負載平衡器服務
+
+
+
+ a| 
+ADC（管理網域控制站）
+ a| 
+維護拓撲訊息，提供身份驗證服務，並回應來自 LDR 和 CMN 服務的查詢。
+ a| 
+每個站點至少有三個包含 ADC 服務的儲存節點
+
+
+
+ a| 
+AMS（審計管理系統）
+ a| 
+監控所有審計的系統事件和事務並將其記錄到文字日誌檔案中。
+ a| 
+管理節點
+
+
+
+ a| 
+卡桑德拉·雷珀
+ a| 
+執行物件元資料的自動修復。
+ a| 
+儲存節點
+
+
+
+ a| 
+區塊服務
+ a| 
+管理擦除編碼資料和奇偶校驗片段。
+ a| 
+儲存節點
+
+
+
+ a| 
+CMN（組態管理節點）
+ a| 
+管理系統範圍的配置和網格任務。每個網格都有一個 CMN 服務。
+ a| 
+主管理節點
+
+
+
+ a| 
+DDS（分散式資料儲存）
+ a| 
+與 Cassandra 資料庫介面來管理物件元資料。
+ a| 
+儲存節點
+
+
+
+ a| 
+DMV（資料移動器）
+ a| 
+將資料移動到雲端點。
+ a| 
+儲存節點
+
+
+
+ a| 
+動態 IP（dynip）
+ a| 
+監控電網的動態 IP 變化並更新本機設定。
+ a| 
+所有節點
+
+
+
+ a| 
+格拉法納
+ a| 
+用於網格管理器中的指標視覺化。
+ a| 
+管理節點
+
+
+
+ a| 
+高可用性
+ a| 
+管理在「高可用性群組」頁面上配置的節點上的高可用性虛擬 IP。這項服務也稱為 keepalived 服務。
+ a| 
+管理和網關節點
+
+
+
+ a| 
+身份（idnt）
+ a| 
+聯合 LDAP 和 Active Directory 的使用者身分。
+ a| 
+使用 ADC 服務的儲存節點
+
+
+
+ a| 
+Lambda仲裁器
+ a| 
+管理 S3 Select SelectObjectContent 請求。
+ a| 
+所有節點
+
+
+
+ a| 
+負載平衡器（nginx-gw）
+ a| 
+提供從客戶端到儲存節點的 S3 流量負載平衡。可透過負載平衡器端點配置頁面配置負載平衡器服務。該服務也稱為 nginx-gw 服務。
+ a| 
+管理和網關節點
+
+
+
+ a| 
+LDR（本地分送路由器）
+ a| 
+管理網格內內容的儲存和傳輸。
+ a| 
+儲存節點
+
+
+
+ a| 
+MISCd 資訊服務控制守護程式
+ a| 
+提供查詢和管理其他節點上的服務以及管理節點上的環境配置（例如查詢其他節點上執行的服務的狀態）的介面。
+ a| 
+所有節點
+
+
+
+ a| 
+nginx
+ a| 
+充當各種網格服務（例如 Prometheus 和動態 IP）的身份驗證和安全通訊機制，以便能夠透過 HTTPS API 與其他節點上的服務通訊。
+ a| 
+所有節點
+
+
+
+ a| 
+nginx網關
+ a| 
+為負載平衡器服務提供支援。
+ a| 
+管理和網關節點
+
+
+
+ a| 
+NMS（網路管理系統）
+ a| 
+為透過網格管理器顯示的監控、報告和配置選項提供支援。
+ a| 
+管理節點
+
+
+
+ a| 
+持久性
+ a| 
+管理根磁碟上需要在重新啟動後保留的檔案。
+ a| 
+所有節點
+
+
+
+ a| 
+普羅米修斯
+ a| 
+從所有節點上的服務收集時間序列指標。
+ a| 
+管理節點
+
+
+
+ a| 
+RSM（複製狀態機）
+ a| 
+確保平台服務請求發送到各自的端​​點。
+ a| 
+使用 ADC 服務的儲存節點
+
+
+
+ a| 
+SSM（伺服器狀態監視器）
+ a| 
+監控硬體狀況並向 NMS 服務報告。
+ a| 
+每個網格節點上都有一個實例
+
+
+
+ a| 
+痕跡收集器
+ a| 
+執行追蹤收集以收集資訊供技術支援使用。追蹤收集服務使用開源 Jaeger 軟體。
+ a| 
+管理節點
+
+|===

@@ -1,0 +1,67 @@
+---
+permalink: fabricpool/creating-traffic-classification-policy-for-fabricpool.html 
+sidebar: sidebar 
+keywords: fabricPool, traffic classification, traffic policy, QoS, quality of service 
+summary: 您可以選擇設計StorageGRID流量分類策略來最佳化FabricPool工作負載的服務品質。 
+---
+= 為FabricPool建立流量分類策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以選擇設計StorageGRID流量分類策略來最佳化FabricPool工作負載的服務品質。
+
+有關此任務的詳細信息，請參閱link:../admin/managing-traffic-classification-policies.html["管理流量分類策略"]。若要使用FabricPool設定精靈完成此任務，請前往link:use-fabricpool-setup-wizard-steps.html["存取並完成FabricPool設定精靈"]。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["Root存取權限"]。
+
+
+.關於此任務
+為FabricPool建立流量分類策略的最佳實務取決於工作負載，如下所示：
+
+* 如果您打算將FabricPool主工作負載資料分層到StorageGRID，則應確保FabricPool工作負載擁有大部分頻寬。您可以建立流量分類策略來限制所有其他工作負載。
++
+
+NOTE: 一般來說， FabricPool讀取操作的優先權比寫入操作更重要。
+
++
+例如，如果其他 S3 用戶端使用此StorageGRID系統，則您應該建立流量分類策略。您可以限制其他儲存桶、租用戶、IP 子網路或負載平衡器端點的網路流量。
+
+* 一般來說，您不應對任何FabricPool工作負載施加服務品質限制；您只應限制其他工作負載。
+* 對其他工作負載的限制應該考慮這些工作負載的行為。施加的限制也將根據電網的大小和能力以及預期的利用量而有所不同。
+
+
+.步驟
+. 選擇*配置* > *網路* > *流量分類*。
+. 選擇“*創建*”。
+. 輸入策略的名稱和描述（可選），然後選擇*繼續*。
+. 對於新增匹配規則步驟，新增至少一條規則。
++
+.. 選擇*新增規則*
+.. 對於類型，選擇 *負載平衡器端點*，然後選擇為FabricPool建立的負載平衡器端點。
++
+您也可以選擇FabricPool租用戶帳戶或儲存桶。
+
+.. 如果您希望此流量策略限制其他端點的流量，請選擇*反向符合*。
+
+
+. （可選）新增一個或多個限制來控制規則匹配的網路流量。
++
+
+NOTE: 即使您不新增任何限制， StorageGRID也會收集指標，因此您可以了解流量趨勢。
+
++
+.. 選擇*新增限制*。
+.. 選擇您想要限制的流量類型以及要套用的限制。
+
+
+. 選擇*繼續*。
+. 閱讀並檢討流量分類政策。使用“*上一步*”按鈕返回並根據需要進行更改。當您對政策滿意時，選擇*保存並繼續*。
+
+
+.完成後
+link:../admin/viewing-network-traffic-metrics.html["查看網路流量指標"]驗證政策是否正在執行您期望的流量限制。

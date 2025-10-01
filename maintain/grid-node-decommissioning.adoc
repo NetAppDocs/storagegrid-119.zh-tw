@@ -1,0 +1,62 @@
+---
+permalink: maintain/grid-node-decommissioning.html 
+sidebar: sidebar 
+keywords: storagegrid, decommission, remove grid node 
+summary: 您可以使用節點退役程式來刪除一個或多個網站上的一個或多個網格節點。您不能停用主管理節點。 
+---
+= 電網節點退役
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用節點退役程式來刪除一個或多個網站上的一個或多個網格節點。您不能停用主管理節點。
+
+
+
+== 何時停用節點
+
+當下列任一情況成立時，請使用節點退役程序：
+
+* 您在擴充功能中新增了一個更大的儲存節點，並且想要刪除一個或多個較小的儲存節點，同時保留物件。
++
+
+TIP: 如果您想用較新的電器替換舊電器，請考慮 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/how-appliance-node-cloning-works.html["克隆設備節點"^]而不是在擴充功能中新增設備，然後停用舊設備。
+
+* 您需要的總儲存空間較少。
+* 您不再需要網關節點。
+* 您不再需要非主要管理節點。
+* 您的電網包含一個斷開連接的節點，您無法恢復或重新上線。
+* 您的網格包含一個存檔節點。
+
+
+
+
+== 如何停用節點
+
+您可以停用已連線的網格節點或已斷線的網格節點。
+
+停用已連接節點:: 一般來說，只有當網格節點連接到StorageGRID系統並且所有節點都處於正常健康狀態時（在 *NODES* 頁面和 *Decommission Nodes* 頁面上有綠色圖示），才應該退役網格節點。
++
+--
+有關說明，請參閱link:decommissioning-connected-grid-nodes.html["退役已連接的電網節點"]。
+
+--
+停用已斷開連線的節點:: 在某些情況下，您可能需要停用目前未連接到電網的電網節點（健康狀況未知或管理關閉的電網節點）。
++
+--
+有關說明，請參閱link:decommissioning-disconnected-grid-nodes.html["退役斷開連接的電網節點"]。
+
+--
+
+
+
+
+== 停用節點之前需要考慮的事項
+
+在執行任一程序之前，請先查看每種節點類型的注意事項：
+
+* link:considerations-for-decommissioning-admin-or-gateway-nodes.html["管理員節點或網關節點停用的注意事項"]
+* link:considerations-for-decommissioning-storage-nodes.html["儲存節點退役的注意事項"]
+

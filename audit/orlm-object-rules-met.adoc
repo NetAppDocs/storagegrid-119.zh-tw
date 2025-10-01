@@ -1,0 +1,158 @@
+---
+permalink: audit/orlm-object-rules-met.html 
+sidebar: sidebar 
+keywords: audit message, ORLM, Object Rules Met, ilm rule 
+summary: 當物件按照 ILM 規則成功儲存和複製時，會產生此訊息。 
+---
+= ORLM：滿足物件規則
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當物件按照 ILM 規則成功儲存和複製時，會產生此訊息。
+
+
+NOTE: 如果策略中的另一個規則使用物件大小進階篩選器，則當預設的 Make 2 Copies 規則成功儲存物件時，不會產生 ORLM 訊息。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+建造
+ a| 
+桶頭
+ a| 
+儲存桶 ID 欄位。用於內部操作。僅當 STAT 為 PRGD 時才出現。
+
+
+
+ a| 
+中央商務區
+ a| 
+內容區塊標識符
+ a| 
+物件的 CBID。
+
+
+
+ a| 
+CSIZ
+ a| 
+內容大小
+ a| 
+物件的大小（以位元組為單位）。
+
+
+
+ a| 
+本地管制
+ a| 
+位置
+ a| 
+StorageGRID系統內物件資料的儲存位置。如果物件沒有位置（例如，已刪除），則 LOCS 的值為「」。
+
+CLEC：對於擦除編碼對象，套用於對象資料的擦除編碼設定檔 ID 和擦除編碼組 ID。
+
+CLDI：對於複製的對象，LDR 節點 ID 和對象位置的磁碟區 ID。
+
+CLNL：如果物件資料已存檔，則為物件位置的 ARC 節點 ID。
+
+
+
+ a| 
+小路
+ a| 
+S3 儲存桶/金鑰
+ a| 
+S3 儲存桶名稱和 S3 金鑰名稱。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果
+ a| 
+ILM 操作的結果。
+
+SUCS：ILM 操作成功。
+
+
+
+ a| 
+規則
+ a| 
+規則標籤
+ a| 
+賦予應用於此物件的 ILM 規則的人類可讀標籤。
+
+
+
+ a| 
+新加坡電氣公司
+ a| 
+容器 UUID
+ a| 
+分段物件的容器的 UUID。僅當物件被分割時，此值才可用。
+
+
+
+ a| 
+SGCB
+ a| 
+貨櫃CBID
+ a| 
+分割物件的容器的 CBID。此值僅適用於分段物件和多部分物件。
+
+
+
+ a| 
+統計
+ a| 
+地位
+ a| 
+ILM 操作的狀態。
+
+完成：針對物件的 ILM 操作已完成。
+
+DFER：該物件已被標記為未來 ILM 重新評估。
+
+PRGD：該物件已從StorageGRID系統中移除。
+
+NLOC：在StorageGRID系統中無​​法再找到物件資料。此狀態可能表示物件資料的所有副本均已遺失或損壞。
+
+
+
+ a| 
+唯一識別符
+ a| 
+通用唯一識別符
+ a| 
+StorageGRID系統內物件的識別碼。
+
+
+
+ a| 
+垂直整合式
+ a| 
+版本 ID
+ a| 
+在版本控制儲存桶中建立的新物件的版本 ID。對儲存桶和未版本控制的儲存桶中的物件的操作不包含此欄位。
+
+|===
+對於單一對象，可以多次發出 ORLM 稽核訊息。例如，只要發生以下事件之一，就會發出該警報：
+
+* 物件的 ILM 規則永遠被滿足。
+* 對象的 ILM 規則在此時期得到滿足。
+* ILM 規則已刪除該物件。
+* 後台驗證程序偵測到複製物件資料的副本已損壞。  StorageGRID系統執行 ILM 評估以取代損壞的物件。
+
+
+.相關資訊
+* link:object-ingest-transactions.html["物件攝取交易"]
+* link:object-delete-transactions.html["物件刪除事務"]
+

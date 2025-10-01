@@ -1,0 +1,20 @@
+= 
+:allow-uri-read: 
+
+
+.開始之前
+* 您必須使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 您必須具有 Root 存取權限或其他網格配置權限。
+
+
+.步驟
+. 選擇 *SUPPORT* > *Tools* > * AutoSupport*。
+. 在「*操作*」標籤上，選擇「傳送使用者觸發的AutoSupport*」。
++
+StorageGRID嘗試將AutoSupport套件傳送到NetApp支援站點。如果嘗試成功，則*結果*標籤上的*最近結果*和*上次成功時間*值將會更新。如果出現問題，*最新結果*值將更新為“失敗”，且StorageGRID不會再次嘗試傳送AutoSupport套件。
+
++
+
+TIP: 發送使用者觸發的AutoSupport套件後，請在 1 分鐘後刷新瀏覽器中的AutoSupport頁面以存取最新結果。
+
+

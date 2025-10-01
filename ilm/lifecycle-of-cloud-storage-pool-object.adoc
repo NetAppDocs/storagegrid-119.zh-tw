@@ -1,0 +1,98 @@
+---
+permalink: ilm/lifecycle-of-cloud-storage-pool-object.html 
+sidebar: sidebar 
+keywords: lifecycle of cloud storage pool object 
+summary: 在實施雲端儲存池之前，請檢查儲存在每種類型的雲端儲存池中的物件的生命週期。 
+---
+= 雲端儲存池物件的生命週期
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在實施雲端儲存池之前，請檢查儲存在每種類型的雲端儲存池中的物件的生命週期。
+
+
+
+== S3：雲端儲存池物件的生命週期
+
+這些步驟描述了儲存在 S3 雲端儲存池中的物件的生命週期階段。
+
+
+NOTE: 「Glacier」指 Glacier 儲存類別和 Glacier Deep Archive 儲存類別，但有一個例外：Glacier Deep Archive 儲存類別不支援快速恢復層。僅支援批次或標準檢索。
+
+
+NOTE: Google Cloud Platform (GCP) 支援從長期儲存中檢索對象，而無需 POST 復原作業。
+
+. *儲存在StorageGRID中的物件*
++
+為了啟動生命週期，客戶端應用程式將物件儲存在StorageGRID中。
+
+. *物件已移至 S3 雲端儲存池*
++
+** 當物件與使用 S3 雲端儲存池作為其放置位置的 ILM 規則相符時， StorageGRID會將物件移至雲端儲存池指定的外部 S3 儲存桶。
+** 當物件被移至 S3 雲端儲存池時，用戶端應用程式可以使用來自StorageGRID的 S3 GetObject 請求來檢索它，除非該物件已轉換到 Glacier 儲存。
+
+
+. *物件已轉換為 Glacier（不可檢索狀態）*
++
+** 或者，可以將物件轉換到 Glacier 儲存。例如，外部 S3 儲存桶可能會使用生命週期配置立即或在幾天後將物件轉換到 Glacier 儲存。
++
+
+NOTE: 如果您想要轉換對象，則必須為外部 S3 儲存桶建立生命週期配置，並且必須使用實作 Glacier 儲存類別並支援 S3 RestoreObject API 的儲存解決方案。
+
+** 在轉換期間，客戶端應用程式可以使用 S3 HeadObject 請求來監控物件的狀態。
+
+
+. *從 Glacier 儲存中恢復的物件*
++
+如果物件已轉換到 Glacier 存儲，客戶端應用程式可以發出 S3 RestoreObject 請求，將可檢索的副本還原到 S3 雲端儲存池。此請求指定副本在雲端儲存池中可用多少天以及用於復原作業的資料存取層（加急、標準或批次）。當可檢索副本的有效期限到達時，副本將自動恢復為不可檢索狀態。
+
++
+
+NOTE: 如果StorageGRID內的儲存節點上也存在該物件的一個或多個副本，則無需透過發出 RestoreObject 請求從 Glacier 還原該物件。相反，可以使用 GetObject 請求直接檢索本機副本。
+
+. *已檢索物件*
++
+一旦物件被恢復，客戶端應用程式就可以發出 GetObject 請求來檢索恢復的物件。
+
+
+
+
+
+== Azure：雲端儲存池物件的生命週期
+
+這些步驟描述了儲存在 Azure 雲端儲存池中的物件的生命週期階段。
+
+. *儲存在StorageGRID中的物件*
++
+為了啟動生命週期，客戶端應用程式將物件儲存在StorageGRID中。
+
+. *物件已移至 Azure 雲端儲存池*
++
+當物件與使用 Azure 雲端儲存池作為其放置位置的 ILM 規則相符時， StorageGRID會將物件移至雲端儲存池指定的外部 Azure Blob 儲存容器。
+
+. *物件已轉換至存檔層（不可檢索狀態）*
++
+將物件移到 Azure 雲端儲存空間後， StorageGRID會立即自動將該物件轉換到 Azure Blob 儲存體存檔層。
+
+. *從存檔層恢復的物件*
++
+如果物件已轉換至存檔層，則用戶端應用程式可以發出 S3 RestoreObject 要求，將可擷取的副本還原到 Azure 雲端儲存池。
+
++
+當StorageGRID收到 RestoreObject 時，它會將物件暫時轉換到 Azure Blob 儲存體 Cool 層。一旦達到 RestoreObject 請求中的到期日， StorageGRID就會將物件轉換回存檔層。
+
++
+
+NOTE: 如果StorageGRID內的儲存節點上也存在該物件的一個或多個副本，則無需透過發出 RestoreObject 請求從存檔存取層還原該物件。相反，可以使用 GetObject 請求直接檢索本機副本。
+
+. *已檢索物件*
++
+一旦物件被還原到 Azure 雲端儲存池，客戶端應用程式就可以發出 GetObject 請求來檢索復原的物件。
+
+
+
+.相關資訊
+link:../s3/index.html["使用 S3 REST API"]

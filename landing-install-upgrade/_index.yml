@@ -1,0 +1,61 @@
+---
+indexpage:
+  title: 安裝、升級和修補StorageGRID
+  summary: StorageGRID系統由單獨的基於硬體和基於軟體的節點組成。首先安裝每個設備節點的硬體並配置每個 Linux 或 VMware 主機。然後，在每個裝置或軟體主機上安裝StorageGRID軟體並將節點連接到網格中。
+  keywords: install, upgrade, hotfix
+  lead: StorageGRID系統由單獨的基於硬體和基於軟體的節點組成。首先安裝每個設備節點的硬體並配置每個 Linux 或 VMware 主機。然後，在每個裝置或軟體主機上安裝StorageGRID軟體並將節點連接到網格中。
+  tiles:
+  - title: 快速啟動
+    links:
+    - title: 家電硬體
+      url: https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html
+    - title: 紅帽企業 Linux
+      url: "../rhel/index.html"
+    - title: Ubuntu 或 Debian
+      url: "../ubuntu/index.html"
+    - title: VMware
+      url: "../vmware/index.html"
+  - title: 準備材料
+    links:
+    - title: 紅帽企業 Linux
+      url: "../rhel/required-materials.html"
+    - title: Ubuntu 或 Debian
+      url: "../ubuntu/required-materials.html"
+    - title: VMware
+      url: "../vmware/required-materials.html"
+  - title: 自動安裝
+    links:
+    - title: 紅帽企業 Linux
+      url: "../rhel/automating-installation.html"
+    - title: Ubuntu 或 Debian
+      url: "../ubuntu/automating-installation.html"
+    - title: VMware
+      url: "../vmware/automating-grid-node-deployment-in-vmware-vsphere.html"
+  - title: 部署節點
+    links:
+    - title: 紅帽企業 Linux
+      url: "../rhel/creating-node-configuration-files.html"
+    - title: Ubuntu 或 Debian
+      url: "../ubuntu/creating-node-configuration-files.html"
+    - title: VMware
+      url: "../vmware/collecting-information-about-your-deployment-environment.html"
+  - title: 完成節點安裝
+    links:
+    - title: 紅帽企業 Linux
+      url: "../rhel/navigating-to-grid-manager.html"
+    - title: Ubuntu 或 Debian
+      url: "../ubuntu/navigating-to-grid-manager.html"
+    - title: VMware
+      url: "../vmware/navigating-to-grid-manager.html"
+  - title: 升級或修補程序
+    links:
+    - title: 什麼是新的
+      url: "../upgrade/whats-new.html"
+    - title: 估計完成時間
+      url: "../upgrade/estimating-time-to-complete-upgrade.html"
+    - title: 升級期間您的系統會受到什麼影響
+      url: "../upgrade/how-your-system-is-affected-during-upgrade.html"
+    - title: 升級快速入門
+      url: "../upgrade/upgrade-workflow.html"
+    - title: 應用修補程式
+      url: "../maintain/storagegrid-hotfix-procedure.html"

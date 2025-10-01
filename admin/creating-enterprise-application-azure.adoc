@@ -1,0 +1,102 @@
+---
+permalink: admin/creating-enterprise-application-azure.html 
+sidebar: sidebar 
+keywords: enterprise application, azure ad, single sign on, sso 
+summary: 您使用 Azure AD 為系統中的每個管理節點建立一個企業應用程式。 
+---
+= 在 Azure AD 中建立企業應用程式
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您使用 Azure AD 為系統中的每個管理節點建立一個企業應用程式。
+
+.開始之前
+* 您已開始為StorageGRID設定單一登錄，並選擇 *Azure* 作為 SSO 類型。
+* 在網格管理員的單一登入頁面上選擇了*沙盒模式*。看link:../admin/using-sandbox-mode.html["使用沙盒模式"] 。
+* 您的系統中的每個管理節點都有*企業應用程式名稱*。您可以從StorageGRID單一登入頁面上的管理節點詳細資料表中複製這些值。
++
+
+NOTE: 您必須為StorageGRID系統中的每個管理節點建立一個企業應用程式。每個管理節點都有一個企業應用程序，可確保使用者可以安全地登入和登出任何管理節點。
+
+* 您有在 Azure Active Directory 中建立企業應用程式的經驗。
+* 您有一個具有有效訂閱的 Azure 帳戶。
+* 您在 Azure 帳戶中擁有下列角色之一：全域管理員、雲端應用程式管理員、應用程式管理員或服務主體的擁有者。
+
+
+
+
+== 存取 Azure AD
+
+.步驟
+. 登入 https://portal.azure.com["Azure 入口網站"^]。
+. 導航至 https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade["Azure Active Directory"^]。
+. 選擇 https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/Overview/menuId/["企業應用程式"^]。
+
+
+
+
+== 建立企業應用程式並儲存StorageGRID SSO 配置
+
+若要在StorageGRID中儲存 Azure 的 SSO 配置，您必須使用 Azure 為每個管理節點建立一個企業應用程式。您將從 Azure 複製聯合元資料 URL，並將其貼上到StorageGRID單一登入頁面上對應的 *聯合元資料 URL* 欄位中。
+
+.步驟
+. 對每個管理節點重複以下步驟。
++
+.. 在 Azure Enterprise 應用程式窗格中，選擇「新應用程式」。
+.. 選擇*創建您自己的應用程式*。
+.. 對於名稱，請輸入從StorageGRID單一登入頁面上的管理節點詳細資料表複製的 *企業應用程式名稱*。
+.. 保持選取*整合您在圖庫中找不到的任何其他應用程式（非圖庫）*單選按鈕。
+.. 選擇“*創建*”。
+.. 選擇*2 中的*開始*連結。設定單一登入*框，或選擇左邊距中的*單一登入*連結。
+.. 選擇 *SAML* 框。
+.. 複製 *App Federation Metadata Url*，您可以在 *Step 3 SAML Signing Certificate* 下找到它。
+.. 前往StorageGRID單一登入頁面，並將 URL 貼到與您使用的 *企業應用程式名稱* 相對應的 *聯合元資料 URL* 欄位中。
+
+
+. 為每個管理節點貼上聯合元資料 URL 並對 SSO 配置進行所有其他必要的變更後，在StorageGRID單一登入頁面上選擇 *儲存*。
+
+
+
+
+== 下載每個管理節點的 SAML 元數據
+
+儲存 SSO 設定後，您可以為StorageGRID系統中的每個管理節點下載一個 SAML 元資料檔。
+
+.步驟
+. 對每個管理節點重複這些步驟。
++
+.. 從管理節點Sign inStorageGRID 。
+.. 選擇*設定* > *存取控制* > *單一登入*。
+.. 選擇按鈕下載該管理節點的 SAML 元資料。
+.. 儲存文件，然後將其上傳到 Azure AD。
+
+
+
+
+
+
+== 將 SAML 元資料上傳到每個企業應用程式
+
+為每個StorageGRID管理節點下載 SAML 元資料檔案後，在 Azure AD 中執行下列步驟：
+
+.步驟
+. 返回 Azure 入口網站。
+. 對每個企業應用程式重複以下步驟：
++
+
+NOTE: 您可能需要刷新企業應用程式頁面才能看到先前在清單中新增的應用程式。
+
++
+.. 轉到企業應用程式的屬性頁面。
+.. 將 *需要分配* 設定為 *否*（除非您想單獨配置分配）。
+.. 前往單一登入頁面。
+.. 完成 SAML 設定。
+.. 選擇*上傳元資料檔案*按鈕，然後選擇您為對應管理節點下載的 SAML 元資料檔案。
+.. 檔案載入後，選擇*儲存*，然後選擇*X*關閉窗格。您將返回使用 SAML 設定單一登入頁面。
+
+
+. 請依照以下步驟操作link:../admin/using-sandbox-mode.html["使用沙盒模式"]測試每個應用程式。
+

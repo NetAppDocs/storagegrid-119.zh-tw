@@ -1,0 +1,31 @@
+---
+permalink: expand/adding-grid-nodes-to-add-capabilities.html 
+sidebar: sidebar 
+keywords: grid nodes, expand, expansion, site, add 
+summary: 您可以透過為現有網站新增新的網格節點來為StorageGRID系統新增冗餘或附加功能。 
+---
+= 新增網格節點以增加系統功能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以透過為現有網站新增新的網格節點來為StorageGRID系統新增冗餘或附加功能。
+
+例如，您可以選擇新增網關節點以在高可用性 (HA) 群組中使用，或者您可能在遠端網站新增管理節點以允許使用本機節點進行監控。
+
+您可以在一次擴充作業中將下列一種或多種類型的節點新增至一個或多個現有網站：
+
+* 非主管理節點
+* 儲存節點
+* 閘道
+
+
+準備新增網格節點時，請注意以下限制：
+
+* 主管理節點在初始安裝期間部署。您無法在擴充期間新增主管理節點。
+* 您可以在相同擴充功能中新增儲存節點和其他類型的節點。
+* 新增儲存節點時，必須仔細規劃新節點的數量和位置。看link:../expand/guidelines-for-adding-object-capacity.html["新增對象容量的指南"] 。
+* 如果防火牆控制頁面上不受信任的用戶端網路標籤上的 *設定新節點預設值* 選項為 *不受信任*，則使用用戶端網路連線至擴充節點的用戶端應用程式必須使用負載平衡器端點連接埠進行連線（*設定* > *安全* > *防火牆控制*）。請參閱說明link:../admin/configure-firewall-controls.html["更改新節點的安全設定"]以及link:../admin/configuring-load-balancer-endpoints.html["配置負載平衡器端點"]。
+

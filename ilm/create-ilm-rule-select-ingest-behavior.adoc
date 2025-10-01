@@ -1,0 +1,43 @@
+---
+permalink: ilm/create-ilm-rule-select-ingest-behavior.html 
+sidebar: sidebar 
+keywords: ilm rule step 3, define ingest behavior 
+summary: 建立 ILM 規則精靈的第 3 步驟（選擇攝取行為）可讓您選擇在攝取過程中如何保護由此規則過濾的物件。 
+---
+= 步驟 3（共 3 步）：選擇攝取行為
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+建立 ILM 規則精靈的 *選擇攝取行為* 步驟可讓您選擇在攝取時如何保護由此規則過濾的物件。
+
+.關於此任務
+StorageGRID可以製作臨時副本並將物件排隊以供稍後進行 ILM 評估，或者可以立即製作副本以滿足規則的放置說明。
+
+.步驟
+. 選擇link:data-protection-options-for-ingest.html["攝取行為"]使用。
++
+有關更多信息，請參閱link:advantages-disadvantages-of-ingest-options.html["攝取選項的優點、缺點和局限性"] 。
+
++
+[NOTE]
+====
+如果規則使用下列展示位置之一，則您不能使用「平衡」或「嚴格」選項：
+
+** 第 0 天的雲端儲存池
+** 當規則使用使用者定義的建立時間作為參考時間時，雲端儲存池
+
+
+看link:example-5-ilm-rules-and-policy-for-strict-ingest-behavior.html["範例 5：針對嚴格攝取行為的 ILM 規則和策略"] 。
+
+====
+. 選擇“*創建*”。
++
+ILM 規則已建立。規則只有在加到link:creating-ilm-policy.html["ILM 策略"]且該政策已生效。
+
++
+要查看規則的詳細信息，請在 ILM 規則頁面上選擇規則的名稱。
+
+

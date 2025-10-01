@@ -1,0 +1,56 @@
+---
+permalink: admin/copying-storagegrid-system-ca-certificate.html 
+sidebar: sidebar 
+keywords: grid ca certificate, copy certificate 
+summary: 'StorageGRID使用內部憑證授權單位 (CA) 來保護內部流量。如果您上傳自己的證書，此證書不會改變。' 
+---
+= 複製網格 CA 證書
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID使用內部憑證授權單位 (CA) 來保護內部流量。如果您上傳自己的證書，此證書不會改變。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:admin-group-permissions.html["特定存取權限"]。
+
+
+.關於此任務
+如果已配置自訂伺服器證書，則用戶端應用程式應使用自訂伺服器證書來驗證伺服器。他們不應該從StorageGRID系統複製 CA 憑證。
+
+.步驟
+. 選擇 *CONFIGURATION* > *Security* > *Certificates*，然後選擇 *Grid CA* 選項卡。
+. 在 *證書 PEM* 部分，下載或複製證書。
++
+[role="tabbed-block"]
+====
+.下載證書文件
+--
+下載證書 `.pem`文件。
+
+.. 選擇*下載證書*。
+.. 指定證書檔案名稱和下載位置。使用副檔名儲存檔案 `.pem`。
++
+例如：  `storagegrid_certificate.pem`
+
+
+
+--
+.複製證書 PEM
+--
+複製證書文字並貼上到其他地方。
+
+.. 選擇*複製憑證 PEM*。
+.. 將複製的憑證貼到文字編輯器中。
+.. 儲存帶有擴展名的文字文件 `.pem`。
++
+例如：  `storagegrid_certificate.pem`
+
+
+
+--
+====
+

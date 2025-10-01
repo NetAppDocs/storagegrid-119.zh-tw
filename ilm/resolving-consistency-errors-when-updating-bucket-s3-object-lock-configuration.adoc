@@ -1,0 +1,36 @@
+---
+permalink: ilm/resolving-consistency-errors-when-updating-bucket-s3-object-lock-configuration.html 
+sidebar: sidebar 
+keywords: consistency error, s3 object lock and consistency 
+summary: 如果資料中心網站或網站上的多個儲存節點無法使用，您可能需要協助 S3 租用戶使用者將變更套用至 S3 物件鎖定或舊版合規性設定。 
+---
+= 解決更新 S3 物件鎖定或舊版合規性配置時出現的一致性錯誤
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果資料中心網站或網站上的多個儲存節點無法使用，您可能需要協助 S3 租用戶使用者將變更套用至 S3 物件鎖定或舊版合規性設定。
+
+擁有啟用了 S3 物件鎖定（或舊版合規性）的儲存桶的租用戶用戶可以變更某些設定。例如，使用 S3 物件鎖的租用戶使用者可能需要將物件版本置於合法保留之下。
+
+當租用戶使用者更新 S3 儲存桶或物件版本的設定時， StorageGRID會嘗試立即更新整個網格中的儲存桶或物件元資料。如果系統因資料中心站點或多個儲存節點無法使用而無法更新元數據，則會傳回錯誤：
+
+[listing]
+----
+503: Service Unavailable
+Unable to update compliance settings because the settings can't be consistently applied on enough storage services. Contact your grid administrator for assistance.
+----
+若要解決此錯誤，請按照以下步驟操作：
+
+. 嘗試盡快使所有儲存節點或站點再次可用。
+. 如果您無法在每個站點提供足夠的存儲節點，請聯繫技術支持，他們可以幫助您恢復節點並確保在整個網格中一致應用更改。
+. 一旦根本問題解決，請提醒租用戶用戶重試其配置變更。
+
+
+.相關資訊
+* link:../tenant/index.html["使用租用戶帳戶"]
+* link:../s3/index.html["使用 S3 REST API"]
+* link:../maintain/index.html["恢復和維護"]
+

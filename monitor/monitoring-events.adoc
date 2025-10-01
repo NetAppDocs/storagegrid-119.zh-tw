@@ -1,0 +1,100 @@
+---
+permalink: monitor/monitoring-events.html 
+sidebar: sidebar 
+keywords: monitor, monitoring events, events, storageGRID events 
+summary: 您可以監控網格節點偵測到的事件，包括您建立的用於追蹤記錄到 syslog 伺服器的事件的自訂事件。網格管理器中顯示的「最後事件」訊息提供了有關最近事件的更多資訊。 
+---
+= 監視事件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以監控網格節點偵測到的事件，包括您建立的用於追蹤記錄到 syslog 伺服器的事件的自訂事件。網格管理器中顯示的「最後事件」訊息提供了有關最近事件的更多資訊。
+
+事件訊息也列在 `/var/local/log/bycast-err.log`記錄檔.查看link:logs-files-reference.html["日誌檔參考"]。
+
+SMTT（總事件）警報可能會因網路問題、斷電或升級等問題而反覆觸發。本節包含有關調查事件的信息，以便您更好地了解這些警報發生的原因。如果由於已知問題而發生事件，則可以安全地重設事件計數器。
+
+.步驟
+. 查看每個網格節點的系統事件：
++
+.. 選擇*支援* > *工具* > *網格拓撲*。
+.. 選擇 *_site_* > *_grid node_* > *SSM* > *Events* > *Overview* > *Main*。
+
+
+. 產生先前事件訊息的清單以幫助隔離過去發生的問題：
++
+.. 選擇*支援* > *工具* > *網格拓撲*。
+.. 選擇 *_site_* > *_grid node_* > *SSM* > *Events* > *Reports*。
+.. 選擇*文字*。
++
+*Last Event* 屬性未顯示在link:using-charts-and-reports.html["圖表視圖"]。要查看它：
+
+.. 將*屬性*變更為*最後事件*。
+.. 或者，選擇*快速查詢*的時間段。
+.. 選擇*更新*。
++
+image::../media/events_report.gif[活動頁面]
+
+
+
+
+
+
+
+== 建立自訂系統日誌事件
+
+自訂事件可讓您追蹤記錄到 syslog 伺服器的所有核心、守護程式、錯誤和關鍵層級使用者事件。自訂事件可用於監控系統日誌訊息（以及網路安全事件和硬體故障）的發生。
+
+.關於此任務
+考慮建立自訂事件來監控重複出現的問題。以下注意事項適用於自訂事件。
+
+* 建立自訂事件後，每次發生的事件都會受到監控。
+* 根據關鍵字建立自訂事件 `/var/local/log/messages`文件，這些文件中的日誌必須是：
++
+** 由內核生成
+** 由守護程式或使用者程式在錯誤或嚴重層級生成
+
+
+
+
+*注意：*並非所有條目 `/var/local/log/messages`除非滿足上述要求，否則文件不會被符合。
+
+.步驟
+. 選擇 *支援* > *警報（遺留）* > *自訂事件*。
+. 點選“編輯”image:../media/icon_nms_edit.gif["鉛筆圖示"] （或*插入*image:../media/icon_nms_insert.gif["加號圖示"]如果這不是第一次發生）。
+. 輸入自訂事件字串，例如，shutdown
++
+image::../media/custom_events.png[顯示輸入自訂事件字串位置的螢幕截圖]
+
+. 選擇*應用變更*。
+. 選擇*支援* > *工具* > *網格拓撲*。
+. 選擇 *_grid node_* > *SSM* > *Events*。
+. 在事件表中找到自訂事件的條目，並監視*Count*的值。
++
+如果計數增加，則表示您正在監控的自訂事件正在該網格節點上觸發。
+
++
+image::../media/custom_events_count.png[SSM > 事件 > 概覽頁面]
+
+
+
+
+
+== 將自訂事件的數量重設為零
+
+如果您只想重置自訂事件的計數器，則必須使用支援功能表中的網格拓撲頁面。
+
+重置計數器會導致下一個事件觸發警報。相反，當您確認警報時，只有達到下一個閾值水平時才會重新觸發該警報。
+
+.步驟
+. 選擇*支援* > *工具* > *網格拓撲*。
+. 選擇 *_grid node_* > *SSM* > *Events* > *Configuration* > *Main*。
+. 選取自訂事件的*重設*複選框。
++
+image::../media/custom_events_reset.gif[螢幕截圖位於 SSM > 事件 > 配置 > 主要]
+
+. 選擇*應用變更*。
+

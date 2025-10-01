@@ -1,0 +1,120 @@
+---
+permalink: monitor/grid-federation-monitor-connections.html 
+sidebar: sidebar 
+keywords: grid federation, monitor connection, cross grid replication metrics 
+summary: 您可以監控有關所有網格聯合連接的基本資訊、有關特定連接的詳細資訊或有關跨網格複製操作的 Prometheus 指標。您可以從任一網格監控連線。 
+---
+= 監控電網聯合連接
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以監控所有基本資訊link:../admin/grid-federation-overview.html["電網聯合連接"]、有關特定連接的詳細信息，或有關跨網格複製操作的 Prometheus 指標。您可以從任一網格監控連線。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["Root存取權限"]針對您登入的網格。
+
+
+
+
+== 查看所有連接
+
+網格聯合頁面顯示有關所有網格聯合連接以及所有允許使用網格聯合連接的租戶帳戶的基本資訊。
+
+.步驟
+. 選擇 *配置* > *系統* > *網格聯合*。
++
+出現網格聯合頁面。
+
+. 若要查看此網格上所有連接的基本信息，請選擇“*連接*”標籤。
++
+在此選項卡中，您可以：
+
++
+** link:../admin/grid-federation-create-connection.html["建立新連接"] 。
+** 選擇現有連接link:../admin/grid-federation-manage-connection.html["編輯或測試"]。
+
+
++
+image::../media/grid-federation-connections-tab.png[電網聯合連接選項卡]
+
+. 若要查看此網格上具有「使用網格聯合連線」權限的所有租用戶帳戶的基本信息，請選擇「允許的租用戶」標籤。
++
+在此選項卡中，您可以：
+
++
+** link:../monitor/monitoring-tenant-activity.html["查看每個允許租戶的詳細資訊頁面"] 。
+** 查看每個連接的詳細資訊頁面。看<<view-specific-connection,查看特定連接>> 。
+** 選擇允許的租戶並link:../admin/grid-federation-manage-tenants.html["刪除權限"]。
+** 檢查跨網格複製錯誤並清除最後一個錯誤（如果有）。看link:../admin/grid-federation-troubleshoot.html["解決網格聯合錯誤"] 。
++
+image::../media/grid-federation-permitted-tenants-tab.png[電網聯合允許的租戶選項卡]
+
+
+
+
+
+
+
+== [[view-specific-connection]]查看特定連接
+
+您可以查看特定電網聯合連接的詳細資訊。
+
+.步驟
+. 從電網聯合頁面中選擇任一選項卡，然後從表格中選擇連接名稱。
++
+從連接的詳細資訊頁面，您可以：
+
++
+** 查看有關連接的基本狀態信息，包括本地和遠端主機名稱、連接埠和連接狀態。
+** 選擇連接到link:../admin/grid-federation-manage-connection.html["編輯、測試或刪除"]。
+
+
+. 查看特定連線時，選擇「*允許的租戶*」標籤可查看有關該連線允許的租戶的詳細資訊。
++
+在此選項卡中，您可以：
+
++
+** link:../monitor/monitoring-tenant-activity.html["查看每個允許租戶的詳細資訊頁面"] 。
+** link:../admin/grid-federation-manage-tenants.html["刪除租用戶的權限"]使用連接。
+** 檢查跨網格複製錯誤並清除最後一個錯誤。看link:../admin/grid-federation-troubleshoot.html["解決網格聯合錯誤"] 。
++
+image::../media/grid-federation-permitted-tenants-tab-for-connection.png[電網聯合允許租戶連接選項卡]
+
+
+
+. 查看特定連線時，選擇「*憑證*」標籤可查看系統為該連線產生的伺服器和用戶端憑證。
++
+在此選項卡中，您可以：
+
++
+** link:../admin/grid-federation-manage-connection.html["輪換連接證書"] 。
+** 選擇*伺服器*或*用戶端*來檢視或下載相關憑證或複製憑證 PEM。
++
+image::../media/grid-federation-certificates-tab.png[網格聯合證書選項卡]
+
+
+
+
+
+
+
+== 查看跨網格複製指標
+
+您可以使用 Grafana 中的跨網格複製儀表板查看有關網格上跨網格複製操作的 Prometheus 指標。
+
+.步驟
+. 從網格管理器中，選擇 *SUPPORT* > *Tools* > *Metrics*。
++
+
+NOTE: 指標頁面上提供的工具僅供技術支援使用。這些工具中的某些功能和選單項目故意不起作用，並且可能會發生變化。查看列表link:../monitor/commonly-used-prometheus-metrics.html["常用的 Prometheus 指標"]。
+
+. 在頁面的 Grafana 部分中，選擇 *Cross Grid Replication*。
++
+有關詳細說明，請參閱link:../monitor/reviewing-support-metrics.html["審查支持指標"]。
+
+. 若要重試複製失敗的對象，請參閱link:../admin/grid-federation-retry-failed-replication.html["識別並重試失敗的複製操作"]。
+

@@ -1,0 +1,50 @@
+---
+permalink: ilm/enabling-s3-object-lock-globally.html 
+sidebar: sidebar 
+keywords: enable s3 object lock, object lock 
+summary: 如果 S3 租用戶帳戶在儲存物件資料時需要遵守法規要求，則必須為整個StorageGRID系統啟用 S3 物件鎖定。啟用全域 S3 物件鎖定設定允許任何 S3 租用戶使用者使用 S3 物件鎖定建立和管理儲存桶和物件。 
+---
+= 全域啟用 S3 物件鎖
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果 S3 租用戶帳戶在儲存物件資料時需要遵守法規要求，則必須為整個StorageGRID系統啟用 S3 物件鎖定。啟用全域 S3 物件鎖定設定允許任何 S3 租用戶使用者使用 S3 物件鎖定建立和管理儲存桶和物件。
+
+.開始之前
+* 你有link:../admin/admin-group-permissions.html["Root存取權限"]。
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 您已查看了 S3 物件鎖定工作流程，並且了解其中的注意事項。
+* 您已確認活動 ILM 策略中的預設規則符合要求。看link:creating-default-ilm-rule.html["建立預設 ILM 規則"]了解詳情。
+
+
+.關於此任務
+網格管理員必須啟用全域 S3 物件鎖定設置，以允許租用戶使用者建立已啟用 S3 物件鎖定的新儲存桶。此設定一旦啟用，就無法停用。
+
+啟用全域 S3 物件鎖定設定後，檢查現有租用戶的合規性設定。啟用此設定時，每個租用戶的 S3 物件鎖定設定取決於建立租用戶時的StorageGRID版本。
+
+
+NOTE: 全域合規性設定已被棄用。如果您使用先前版本的StorageGRID啟用此設置，則 S3 物件鎖定設定將自動啟用。您可以繼續使用StorageGRID來管理現有相容儲存桶的設定；但是，您無法建立新的相容儲存桶。有關詳細信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_manage_legacy_Compliant_buckets_in_StorageGRID_11.5["NetApp知識庫：如何在StorageGRID 11.5 中管理舊版相容儲存桶"^]。
+
+.步驟
+. 選擇 *配置* > *系統* > *S3 物件鎖定*。
++
+出現「S3 物件鎖定設定」頁面。
+
+. 選擇*啟用 S3 物件鎖定*。
+. 選擇*應用*。
++
+出現確認對話框，提醒您啟用 S3 物件鎖定後無法停用它。
+
+. 如果您確定要為整個系統永久啟用 S3 物件鎖，請選擇 *OK*。
++
+當您選擇“*確定*”：
+
++
+** 如果活動 ILM 策略中的預設規則符合要求，則 S3 物件鎖定現在會對整個網格啟用，並且無法停用。
+** 如果預設規則不符合要求，則會出現錯誤。您必須建立並啟動一個包含合規規則作為其預設規則的新 ILM 策略。選擇“確定”。然後，創建一個新策略，模擬它，並啟動它。看link:creating-ilm-policy.html["建立 ILM 策略"]以取得說明。
+
+
+

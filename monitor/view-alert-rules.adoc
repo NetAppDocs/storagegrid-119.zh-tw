@@ -1,0 +1,80 @@
+---
+permalink: monitor/view-alert-rules.html 
+sidebar: sidebar 
+keywords: how to manage alert rules 
+summary: 警報規則定義觸發特定警報的條件。  StorageGRID包含一組預設警報規則，您可以原樣使用或修改，也可以建立自訂警報規則。 
+---
+= 查看警報規則
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+警報規則定義觸發的條件link:alerts-reference.html["具體警報"]。  StorageGRID包含一組預設警報規則，您可以原樣使用或修改，也可以建立自訂警報規則。
+
+您可以查看所有預設和自訂警報規則的列表，以了解哪些條件將觸發每個警報，並查看是否有任何警報被停用。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["管理警報或 Root 存取權限"]。
+* 或者，您已經觀看了影片： https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2eea81c5-8323-417f-b0a0-b1ff008506c1["影片：警報概述"^]
++
+[link=https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2eea81c5-8323-417f-b0a0-b1ff008506c1]
+image::../media/video-screenshot-alert-overview-118.png[影片：警報概述]
+
+
+
+.步驟
+. 選擇*警報* > *規則*。
++
+出現「警報規則」頁面。
+
++
+image::../media/alert_rules_page.png[警報規則頁面]
+
+. 查看警報規則表中的資訊：
++
+[cols="1a,3a"]
+|===
+| 列標題 | 描述 
+
+
+ a| 
+Name
+ a| 
+警報規則的唯一名稱和描述。首先列出自訂警報規則，然後列出預設警報規則。警報規則名稱是電子郵件通知的主題。
+
+
+
+ a| 
+狀況
+ a| 
+決定何時觸發此警報的 Prometheus 表達式。可以在以下一個或多個嚴重性等級觸發警報，但不需要每個嚴重性都有條件。
+
+** *批判的*image:../media/icon_alert_red_critical.png["圖示警報紅色嚴重"] ：存在異常情況，導致StorageGRID節點或服務的正常運作停止。您必須立即解決根本問題。如果問題無法解決，可能會導致服務中斷和資料遺失。
+** *主要的*image:../media/icon_alert_orange_major.png["圖示警報橙色主要"] ：存在異常情況，該情況正在影響當前操作或接近嚴重警報的閾值。您應該調查主要警報並解決任何潛在問題，以確保異常情況不會停止StorageGRID節點或服務的正常運作。
+** *次要的*image:../media/icon_alert_yellow_minor.png["圖示警報黃色輕微"] ：系統運作正常，但有異常情況，如果持續下去，可能會影響系統的運作能力。您應該監控並解決那些無法自行消除的小警報，以確保它們不會導致更嚴重的問題。
+
+
+
+
+ a| 
+類型
+ a| 
+警報規則的類型：
+
+** *預設*：系統自帶的警報規則。您可以停用預設警報規則或編輯預設警報規則的條件和持續時間。您無法刪除預設警報規則。
+** *預設**：包含已編輯條件或持續時間的預設警報規則。根據需要，您可以輕鬆地將修改後的條件恢復為原始預設值。
+** *自訂*：您建立的警報規則。您可以停用、編輯和刪除自訂警報規則。
+
+
+
+
+ a| 
+地位
+ a| 
+此警報規則目前是啟用還是停用。不會評估禁用警報規則的條件，因此不會觸發任何警報。
+
+|===
+

@@ -1,0 +1,215 @@
+---
+permalink: tenant/considerations-for-platform-services.html 
+sidebar: sidebar 
+keywords: considerations for using platform services 
+summary: 在實施平台服務之前，請先查看使用這些服務的概述和注意事項。 
+---
+= 平台服務概述與注意事項
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在實施平台服務之前，請先查看使用這些服務的概述和注意事項。
+
+有關 S3 的信息，請參閱link:../s3/index.html["使用 S3 REST API"]。
+
+
+
+== 平台服務概覽
+
+StorageGRID平台服務可讓您將事件通知以及 S3 物件和物件元資料的副本傳送至外部目的地，從而協助您實施混合雲策略。
+
+由於平台服務的目標位置通常位於StorageGRID部署的外部，因此平台服務為您提供了使用外部儲存資源、通知服務以及資料搜尋或分析服務所帶來的強大功能和靈活性。
+
+可為單一 S3 儲存桶配置任意平台服務組合。例如，您可以配置link:../tenant/understanding-cloudmirror-replication-service.html["CloudMirror 服務"]和link:../tenant/understanding-notifications-for-buckets.html["通知"]在StorageGRID S3 儲存桶上，以便您可以將特定物件鏡像到 Amazon 簡單儲存服務 (S3)，同時將有關每個此類物件的通知傳送給第三方監控應用程序，以協助您追蹤 AWS 費用。
+
+
+TIP: StorageGRID管理員必須使用網格管理器或網格管理 API 為每個租用戶帳戶啟用平台服務的使用。
+
+
+
+== 如何配置平台服務
+
+平台服務與您使用設定的外部端點進行通信link:configuring-platform-services-endpoints.html["租戶經理"]或link:understanding-tenant-management-api.html["租戶管理 API"]。每個端點代表一個外部目的地，例如StorageGRID S3 儲存桶、Amazon Web Services 儲存桶、Amazon SNS 主題或在本機、AWS 或其他地方託管的 Elasticsearch 叢集。
+
+建立外部端點後，您可以透過向儲存桶新增 XML 配置來為儲存桶啟用平台服務。  XML 配置標識了儲存桶應該作用的物件、儲存桶應該採取的操作以及儲存桶應該用於服務的端點。
+
+您必須為要設定的每個平台服務新增單獨的 XML 配置。例如：
+
+* 如果您想要所有鍵以以下項目開頭的對象 `/images`若要複製到 Amazon S3 儲存桶，您必須在來源儲存桶中新增複製配置。
+* 如果您還想在這些物件儲存到儲存桶時發送通知，則必須新增通知配置。
+* 如果要索引這些物件的元數據，則必須新增用於實現搜尋整合的元資料通知配置。
+
+
+配置 XML 的格式由用於實作StorageGRID平台服務的 S3 REST API 控制：
+
+[cols="1a,2a,1a"]
+|===
+| 平台服務 | S3 REST API | 參考 
+
+
+ a| 
+CloudMirror 複製
+ a| 
+* 獲取Bucket複製
+* PutBucket複製
+
+ a| 
+* link:configuring-cloudmirror-replication.html["CloudMirror 複製"]
+* link:../s3/operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+
+ a| 
+通知
+ a| 
+* 取得儲存桶通知配置
+* PutBucketNotification配置
+
+ a| 
+* link:configuring-event-notifications.html["通知"]
+* link:../s3/operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+
+ a| 
+搜尋集成
+ a| 
+* 取得 Bucket 元資料通知配置
+* PUT Bucket 元資料通知配置
+
+ a| 
+* link:configuring-search-integration-service.html["搜尋集成"]
+* link:../s3/custom-operations-on-buckets.html["StorageGRID自訂操作"]
+
+
+|===
+
+
+== 使用平台服務的注意事項
+
+[cols="1a,3a"]
+|===
+| 考慮 | 細節 
+
+
+ a| 
+目標端點監控
+ a| 
+您必須監視每個目標端點的可用性。如果與目標端點的連線長時間遺失，且存在大量積壓請求，則對StorageGRID 的其他用戶端請求（例如 PUT 請求）將會失敗。當端點可存取時，您必須重試這些失敗的請求。
+
+
+
+ a| 
+目標端點限制
+ a| 
+如果傳送請求的速率超過目標端點接收請求的速率， StorageGRID軟體可能會限制儲存桶的傳入 S3 請求。只有當有大量請求等待傳送到目標端點時才會發生限制。
+
+唯一可見的效果是傳入的 S3 請求將需要更長時間才能執行。如果您開始偵測到效能明顯下降，則應降低攝取率或使用容量更高的端點。如果積壓的請求持續增加，客戶端 S3 操作（例如 PUT 請求）最終將會失敗。
+
+CloudMirror 請求更有可能受到目標端點效能的影響，因為這些請求通常涉及比搜尋整合或事件通知請求更多的資料傳輸。
+
+
+
+ a| 
+訂購保證
+ a| 
+StorageGRID保證站內物件的操作順序。只要針對某個物件的所有操作都在同一站點內，最終物件狀態（用於複製）將始終等於StorageGRID中的狀態。
+
+當跨StorageGRID站點進行操作時， StorageGRID會盡力嘗試對請求進行排序。例如，如果您最初將物件寫入網站 A，然後在網站 B 覆寫同一個對象，則 CloudMirror 複製到目標儲存桶的最終物件不能保證是較新的物件。
+
+
+
+ a| 
+ILM 驅動程式的物件刪除
+ a| 
+為了符合 AWS CRR 和 Amazon Simple Notification Service 的刪除行為，由於StorageGRID ILM 規則，當來源儲存桶中的物件被刪除時，不會傳送 CloudMirror 和事件通知請求。例如，如果 ILM 規則在 14 天後刪除某個對象，則不會發送任何 CloudMirror 或事件通知請求。
+
+相反，當由於 ILM 而刪除物件時，就會發送搜尋整合請求。
+
+
+
+ a| 
+使用 Kafka 端點
+ a| 
+對於 Kafka 端點，不支援 Mutual TLS。因此，如果你有 `ssl.client.auth`設定為 `required`在您的 Kafka 代理配置中，它可能會導致 Kafka 端點配置問題。
+
+Kafka 端點的身份驗證使用下列身份驗證類型。這些類型與用於其他端點（例如 Amazon SNS）的身份驗證的類型不同，並且需要使用者名稱和密碼憑證。
+
+* SASL/普通
+* SASL/SCRAM-SHA-256
+* SASL/SCRAM-SHA-512
+
+
+*注意：*配置的儲存代理設定不適用於 Kafka 平台服務端點。
+
+|===
+
+
+== 使用 CloudMirror 複製服務的注意事項
+
+[cols="1a,3a"]
+|===
+| 考慮 | 細節 
+
+
+ a| 
+複製狀態
+ a| 
+StorageGRID不支援 `x-amz-replication-status`標頭。
+
+
+
+ a| 
+物件大小
+ a| 
+CloudMirror 複製服務可以複製到目標儲存桶的物件的最大大小為 5 TiB，與最大支援的物件大小相同。
+
+*注意*：單一 PutObject 操作的最大_建議_大小為 5 GiB（5,368,709,120 位元組）。如果您的物件大於 5 GiB，請改用分段上傳。
+
+
+
+ a| 
+儲存桶版本控制和版本 ID
+ a| 
+如果StorageGRID中的來源 S3 儲存桶已啟用版本控制，則您也應該為目標儲存桶啟用版本控制。
+
+使用版本控制時，請注意，由於 S3 協定的限制，目標儲存桶中物件版本的排序是盡力而為的，並且 CloudMirror 服務不保證。
+
+*注意*： StorageGRID中來源儲存桶的版本 ID 與目標儲存桶的版本 ID 無關。
+
+
+
+ a| 
+物件版本標記
+ a| 
+由於 S3 協定的限制，CloudMirror 服務不會複製任何提供版本 ID 的 PutObjectTagging 或 DeleteObjectTagging 請求。由於來源和目標的版本 ID 不相關，因此無法確保特定版本 ID 的標籤更新會被複製。
+
+相較之下，CloudMirror 服務會複製未指定版本 ID 的 PutObjectTagging 請求或 DeleteObjectTagging 請求。這些請求更新最新金鑰的標籤（如果儲存桶有版本控制，則更新最新版本的標籤）。帶有標籤的正常攝取（不含標籤的更新）也會被複製。
+
+
+
+ a| 
+分段上傳和 `ETag`價值觀
+ a| 
+當映像使用分段上傳方式上傳的物件時，CloudMirror 服務不會保留這些部分。因此， `ETag`鏡像物件的值將不同於 `ETag`原始物件的值。
+
+
+
+ a| 
+使用 SSE-C 加密的物件（使用客戶提供的金鑰進行伺服器端加密）
+ a| 
+CloudMirror 服務不支援使用 SSE-C 加密的物件。如果您嘗試將物件提取到來源儲存桶以進行 CloudMirror 複製，並且請求包含 SSE-C 請求標頭，則操作將失敗。
+
+
+
+ a| 
+啟用了 S3 物件鎖的儲存桶
+ a| 
+啟用 S3 物件鎖定的來源儲存桶或目標儲存桶不支援複製。
+
+|===

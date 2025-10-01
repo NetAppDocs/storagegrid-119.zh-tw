@@ -1,0 +1,51 @@
+---
+permalink: rhel/navigating-to-grid-manager.html 
+sidebar: sidebar 
+keywords: how to navigate to grid manager 
+summary: 您可以使用網格管理器來定義配置StorageGRID系統所需的所有資訊。 
+---
+= 導航至網格管理器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用網格管理器來定義配置StorageGRID系統所需的所有資訊。
+
+.開始之前
+必須部署主管理節點並完成初始啟動序列。
+
+.步驟
+. 開啟您的網頁瀏覽器並導航至：
++
+`https://_primary_admin_node_ip_`
+
++
+或者，您可以透過連接埠 8443 存取網格管理器：
+
++
+`https://_primary_admin_node_ip_:8443`
+
++
+您可以根據您的網路設定使用網格網路或管理網路上的主要管理節點 IP 的 IP 位址。
+
+. 根據需要管理臨時安裝程序密碼：
++
+** 如果已經使用其中一種方法設定了密碼，請輸入密碼以繼續。
++
+*** 用戶之前在訪問安裝程式時設定了密碼
+*** 密碼已從節點設定檔自動匯入 `/etc/storagegrid/nodes/_<node_name>_.conf`
+
+
+** 如果尚未設定密碼，則可以選擇設定密碼以保護StorageGRID安裝程式。
+
+
+. 選擇*安裝StorageGRID系統*。
++
+出現用於設定StorageGRID系統的頁面。
+
++
+image::../media/gmi_installer_first_screen.gif[StorageGRID安裝程式第一個螢幕]
+
+

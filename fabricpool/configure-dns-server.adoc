@@ -1,0 +1,33 @@
+---
+permalink: fabricpool/configure-dns-server.html 
+sidebar: sidebar 
+keywords: dns, vip, virtual ip, fqdn, server name 
+summary: 配置高可用性群組、負載平衡器端點和 S3 網域後，必須確保 DNS 包含StorageGRID所需的必要條目。 
+---
+= 配置 DNS 伺服器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+配置高可用性群組、負載平衡器端點和 S3 端點網域後，必須確保 DNS 包含StorageGRID所需的必要條目。您必須為安全性憑證中的每個名稱以及您可能使用的每個 IP 位址包含一個 DNS 項目。
+
+看link:../admin/managing-load-balancing.html["負載平衡的注意事項"] 。
+
+
+
+== StorageGRID伺服器名稱的 DNS 項目
+
+新增 DNS 項目以將StorageGRID伺服器名稱（完全限定網域名稱）與您將使用的每個StorageGRID IP 位址關聯。您在 DNS 中輸入的 IP 位址取決於您是否使用負載平衡節點的 HA 群組：
+
+* 如果您已設定 HA 群組， ONTAP將連線至該 HA 群組的虛擬 IP 位址。
+* 如果您不使用 HA 群組， ONTAP可以使用任何網關節點或管理節點的 IP 位址連線至StorageGRID負載平衡器服務。
+* 如果伺服器名稱解析為多個 IP 位址，ONTAP會與所有 IP 位址建立用戶端連線（最多 16 個 IP 位址）。建立連線時，以循環方式取得 IP 位址。
+
+
+
+
+== 虛擬託管式請求的 DNS 項目
+
+如果你已經定義link:../admin/configuring-s3-api-endpoint-domain-names.html["S3 端點域名"]並且您將使用虛擬託管式請求，為所有必要的 S3 端點網域名稱新增 DNS 項目，包括任何通配符名稱。

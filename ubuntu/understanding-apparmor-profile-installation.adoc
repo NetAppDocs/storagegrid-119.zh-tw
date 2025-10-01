@@ -1,0 +1,43 @@
+---
+permalink: ubuntu/understanding-apparmor-profile-installation.html 
+sidebar: sidebar 
+keywords: how to install AppArmor profile 
+summary: 如果您在自行部署的 Ubuntu 環境中操作並使用 AppArmor 強制存取控制系統，則與您在基礎系統上安裝的軟體包相關的 AppArmor 設定檔可能會被使用StorageGRID安裝的相應軟體包阻止。 
+---
+= 了解 AppArmor 設定檔安裝
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您在自行部署的 Ubuntu 環境中操作並使用 AppArmor 強制存取控制系統，則與您在基礎系統上安裝的軟體包相關的 AppArmor 設定檔可能會被使用StorageGRID安裝的相應軟體包阻止。
+
+預設情況下，會為您在基礎作業系統上安裝的軟體包安裝 AppArmor 設定檔。當您從StorageGRID系統容器執行這些套件時，AppArmor 設定檔將會被封鎖。  DHCP、MySQL、NTP 和 tcdump 基礎包與 AppArmor 衝突，其他基礎包也可能有衝突。
+
+處理 AppArmor 設定檔有兩種選擇：
+
+* 停用基礎系統上安裝的與StorageGRID系統容器中的軟體包重疊的軟體包的單獨設定檔。當您停用單一設定檔時， StorageGRID日誌檔案中會出現一個條目，表示 AppArmor 已啟用。
++
+使用以下命令：
+
++
+[listing]
+----
+sudo ln -s /etc/apparmor.d/<profile.name> /etc/apparmor.d/disable/
+sudo apparmor_parser -R /etc/apparmor.d/<profile.name>
+----
++
+*例：*
+
++
+[listing]
+----
+sudo ln -s /etc/apparmor.d/bin.ping /etc/apparmor.d/disable/
+sudo apparmor_parser -R /etc/apparmor.d/bin.ping
+----
+* 完全禁用 AppArmor。對於 Ubuntu 9.10 或更高版本，請按照 Ubuntu 線上社群中的說明進行操作： https://help.ubuntu.com/community/AppArmor#Disable_AppArmor_framework["禁用 AppArmor"^] 。在較新的 Ubuntu 版本上可能無法完全停用 AppArmor。
++
+停用 AppArmor 後， StorageGRID日誌檔案中將不會出現任何表示 AppArmor 已啟用的項目。
+
+

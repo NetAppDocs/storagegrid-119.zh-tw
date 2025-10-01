@@ -1,0 +1,94 @@
+---
+permalink: audit/object-storage-audit-messages.html 
+sidebar: sidebar 
+keywords: audit, object storage, object management, object retrieval, node transfer, verification, BROR, CBSE, CBRE, CGRR, EBDL, EBKR, SCMT, SREM 
+summary: 您應該熟悉屬於物件儲存審計類別的審計訊息。這些事件與StorageGRID系統內的物件的儲存和管理有關。這些包括物件儲存和檢索、網格節點到網格節點的傳輸和驗證。 
+---
+= 物件儲存審計訊息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+屬於物件儲存審計類別的稽核訊息用於與StorageGRID系統內物件的儲存和管理相關的事件。這些包括物件儲存和檢索、網格節點到網格節點的傳輸和驗證。
+
+
+NOTE: 由於功能已被棄用，因此審計代碼已從產品和文件中刪除。如果您遇到此處未列出的審計代碼，請檢查此主題的先前版本以了解較舊的 SG 版本。例如，  https://docs.netapp.com/us-en/storagegrid-118/audit/object-storage-audit-messages.html["StorageGRID 11.8 物件儲存稽核訊息"^] 。
+
+[cols="1a,2a,1a"]
+|===
+| 程式碼 | 描述 | 看 
+
+
+ a| 
+布羅爾
+ a| 
+儲存桶只讀請求：儲存桶進入或退出唯讀模式。
+ a| 
+link:bror-bucket-read-only-request.html["BROR：儲存桶只讀請求"]
+
+
+
+ a| 
+CBSE
+ a| 
+物件傳送結束：來源實體完成網格節點到網格節點的資料傳輸操作。
+ a| 
+link:cbse-object-send-end.html["CBSE：物件發送結束"]
+
+
+
+ a| 
+世邦魏理仕
+ a| 
+物件接收端：目標實體完成了網格節點到網格節點的資料傳輸操作。
+ a| 
+link:cbre-object-receive-end.html["CBRE：物件接收端"]
+
+
+
+ a| 
+CGRR
+ a| 
+跨網格複製要求： StorageGRID嘗試進行跨網格複製操作，以在網格聯合連接中的儲存桶之間複製物件。
+ a| 
+link:cgrr-cross-grid-replication-request.html["CGRR：跨網格複製請求"]
+
+
+
+ a| 
+EBDL
+ a| 
+空儲存桶刪除：ILM 掃描器刪除了正在刪除所有物件的儲存桶中的物件（執行空白儲存桶操作）。
+ a| 
+link:ebdl-empty-bucket-delete.html["EBDL：空桶刪除"]
+
+
+
+ a| 
+EBKR
+ a| 
+空儲存桶請求：使用者發送開啟或關閉空白儲存桶的請求（即刪除儲存桶物件或停止刪除物件）。
+ a| 
+link:ebkr-empty-bucket-request.html["EBKR：空桶請求"]
+
+
+
+ a| 
+SCMT
+ a| 
+物件儲存提交：內容區塊已完全儲存並驗證，現在可以請求。
+ a| 
+link:scmt-object-store-commit.html["SCMT：對象儲存提交請求"]
+
+
+
+ a| 
+速動動眼睡眠
+ a| 
+物件儲存刪除：內容區塊已從網格節點中刪除，並且無法再直接要求。
+ a| 
+link:srem-object-store-remove.html["SREM：物件儲存刪除"]
+
+|===

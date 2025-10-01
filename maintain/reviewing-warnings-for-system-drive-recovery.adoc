@@ -1,0 +1,38 @@
+---
+permalink: maintain/reviewing-warnings-for-system-drive-recovery.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, system drive warning, storage node 
+summary: 在恢復儲存節點的故障系統磁碟機之前，請先查看網格節點復原的一般警告和注意事項以及以下具體警告。 
+---
+= 儲存節點系統磁碟機復原警告
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在恢復儲存節點的故障系統磁碟機之前，請先查看常規link:warnings-and-considerations-for-grid-node-recovery.html["網格節點復原的警告和注意事項"]以及以下具體警告。
+
+儲存節點有一個包含物件元資料的 Cassandra 資料庫。在以下情況下可能會重建 Cassandra 資料庫：
+
+* 儲存節點離線超過 15 天後將重新上線。
+* 儲存磁碟區發生故障並已復原。
+* 系統磁碟機和一個或多個儲存磁碟區發生故障並已復原。
+
+
+當 Cassandra 重建時，系統使用來自其他儲存節點的資訊。如果太多儲存節點處於離線狀態，某些 Cassandra 資料可能無法使用。如果 Cassandra 最近重建，Cassandra 資料可能在整個網格中尚不一致。如果在太多儲存節點離線時重建 Cassandra，或在 15 天內重建兩個或多個儲存節點，則可能會發生資料遺失。
+
+
+CAUTION: 如果多個儲存節點發生故障（或離線），請聯絡技術支援。不要執行以下恢復程序。可能會發生資料遺失。
+
+
+CAUTION: 如果這是儲存節點故障或恢復後 15 天內第二次發生儲存節點故障，請聯絡技術支援。在 15 天內在兩個或更多儲存節點上重建 Cassandra 可能會導致資料遺失。
+
+
+NOTE: 如果站點上的多個儲存節點發生故障，則可能需要站點復原程序。看link:how-site-recovery-is-performed-by-technical-support.html["技術支援如何恢復站點"] 。
+
+
+CAUTION: 如果此儲存節點處於唯讀維護模式，以允許另一個具有故障儲存卷的儲存節點檢索對象，則在恢復此故障儲存節點之前，先恢復具有故障儲存磁碟區的儲存節點上的磁碟區。請參閱說明link:recovering-from-storage-volume-failure-where-system-drive-is-intact.html["從系統磁碟機完好的儲存磁碟區故障中恢復"]。
+
+
+CAUTION: 如果 ILM 規則配置為僅儲存複製副本，且該副本存在於發生故障的儲存磁碟區上，則您將無法復原該物件。

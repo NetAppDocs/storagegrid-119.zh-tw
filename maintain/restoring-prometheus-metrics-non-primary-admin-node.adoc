@@ -1,0 +1,66 @@
+---
+permalink: maintain/restoring-prometheus-metrics-non-primary-admin-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, restore metrics, restore prometheus, non-primary admin node 
+summary: 或者，您可以保留發生故障的非主管理節點上由 Prometheus 維護的歷史指標。 
+---
+= 恢復非主管理節點時恢復 Prometheus 指標
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+或者，您可以保留發生故障的非主管理節點上由 Prometheus 維護的歷史指標。
+
+.開始之前
+* 恢復的管理節點已安裝並正在運行。
+* StorageGRID系統至少包含兩個管理節點。
+* 你有 `Passwords.txt`文件。
+* 您有配置密碼。
+
+
+.關於此任務
+如果管理節點發生故障，則管理節點上的 Prometheus 資料庫中維護的指標將會遺失。當您復原管理節點時，軟體安裝過程會建立一個新的 Prometheus 資料庫。復原的管理節點啟動後，它會記錄指標，就像您執行了StorageGRID系統的全新安裝一樣。
+
+如果您還原了非主管理節點，則可以透過將 Prometheus 資料庫從主管理節點（來源管理節點）複製到復原的管理節點來還原歷史指標。
+
+
+NOTE: 複製 Prometheus 資料庫可能需要一個小時或更長時間。當來源管理節點上的服務停止時，某些網格管理器功能將無法使用。
+
+.步驟
+. 登入來源管理節點：
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
+
+
+. 從來源管理節點停止 Prometheus 服務： `service prometheus stop`
+. 在復原的管理節點上完成以下步驟：
++
+.. 登入恢復的管理節點：
++
+... 輸入以下命令： `ssh admin@_grid_node_IP_`
+... 輸入 `Passwords.txt`文件。
+... 輸入以下命令切換到root： `su -`
+... 輸入 `Passwords.txt`文件。
+
+
+.. 停止 Prometheus 服務： `service prometheus stop`
+.. 將 SSH 私鑰新增至 SSH 代理程式。進入：``ssh-add``
+.. 輸入 `Passwords.txt`文件。
+.. 將 Prometheus 資料庫從來源管理節點複製到復原的管理節點： `/usr/local/prometheus/bin/prometheus-clone-db.sh Source_Admin_Node_IP`
+.. 出現提示時，請按 *Enter* 確認您要銷毀已復原的管理節點上的新 Prometheus 資料庫。
++
+原始 Prometheus 資料庫及其歷史資料被複製到復原的管理節點。複製操作完成後，腳本將啟動復原的管理節點。出現如下狀態：
+
++
+資料庫克隆，正在啟動服務
+
+.. 當您不再需要無密碼存取其他伺服器時，請從 SSH 代理程式中刪除私鑰。進入：``ssh-add -D``
+
+
+. 在來源管理節點上重新啟動 Prometheus 服務.`service prometheus start`
+

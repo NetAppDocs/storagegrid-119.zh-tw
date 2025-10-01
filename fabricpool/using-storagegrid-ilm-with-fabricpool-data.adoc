@@ -1,0 +1,154 @@
+---
+permalink: fabricpool/using-storagegrid-ilm-with-fabricpool-data.html 
+sidebar: sidebar 
+keywords: FabricPool, requirements, ILM, information lifecycle management, ILM rule, ILM rules, ILM policy, erasure coding, replication, cloud storage pool, glacier 
+summary: 您可以使用這個簡單的範例策略作為您自己的 ILM 規則和策略的起點。 
+---
+= 為FabricPool資料配置 ILM
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用這個簡單的範例策略作為您自己的 ILM 規則和策略的起點。
+
+本範例假設您正在為位於科羅拉多州丹佛市的單一資料中心具有四個儲存節點的StorageGRID系統設計 ILM 規則和 ILM 策略。本例中的FabricPool資料使用名為 `fabricpool-bucket`。
+
+
+CAUTION: 以下 ILM 規則和策略僅作為範例。配置 ILM 規則的方法有很多種。在啟動新策略之前，請先進行模擬以確認它能夠如預期運作以保護內容免於遺失。要了解更多信息，請參閱link:../ilm/index.html["使用 ILM 管理對象"]。
+
+
+CAUTION: 為避免資料遺失，請勿使用將過期或刪除FabricPool雲層資料的 ILM 規則。將保留期設為*永久*，以確保FabricPool物件不會被StorageGRID ILM 刪除。
+
+.開始之前
+* 您已審閱link:best-practices-ilm.html["將 ILM 與FabricPool資料結合使用的最佳實踐"]。
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["ILM 或 Root 存取權限"]。
+* 如果您從先前的StorageGRID版本升級至StorageGRID 11.9，則您已經設定了將使用的儲存池。一般來說，您應該為用於儲存資料的每個StorageGRID網站建立一個儲存池。
++
+
+NOTE: 如果您最初安裝的是StorageGRID 11.7 或 11.8，則此先決條件不適用。當您最初安裝這兩個版本中的任何一個時，都會自動為每個網站建立儲存池。
+
+
+
+.步驟
+. 建立僅適用於以下資料的 ILM 規則 `fabricpool-bucket`。此範例規則建立擦除編碼副本。
++
+[cols="1a,2a"]
+|===
+| 規則定義 | 範例值 
+
+
+ a| 
+規則名稱
+ a| 
+FabricPool資料的 2 + 1 擦除編碼
+
+
+
+ a| 
+儲存桶名稱
+ a| 
+`fabricpool-bucket`
+
+您也可以根據FabricPool租戶帳戶進行過濾。
+
+
+
+ a| 
+進階過濾器
+ a| 
+物件大小大於 0.2 MB。
+
+*注意：* FabricPool僅寫入 4 MB 對象，但您必須新增對像大小過濾器，因為此規則使用擦除編碼。
+
+
+
+ a| 
+參考時間
+ a| 
+攝取時間
+
+
+
+ a| 
+時段和展示位置
+ a| 
+從第 0 天開始永久存儲
+
+在 Denver 使用 2+1 EC 方案透過擦除編碼儲存對象，並將這些對象永久保留在StorageGRID中。
+
+
+CAUTION: 為避免資料遺失，請勿使用會過期或刪除FabricPool雲層資料的 ILM 規則。
+
+
+
+ a| 
+攝取行為
+ a| 
+均衡
+
+|===
+. 建立一個預設的 ILM 規則，該規則將為第一條規則不符的任何物件建立兩個副本。請勿選擇基本篩選器（租用戶帳戶或儲存桶名稱）或任何進階篩選器。
++
+[cols="1a,2a"]
+|===
+| 規則定義 | 範例值 
+
+
+ a| 
+規則名稱
+ a| 
+兩份影印本
+
+
+
+ a| 
+儲存桶名稱
+ a| 
+_沒有任何_
+
+
+
+ a| 
+進階過濾器
+ a| 
+_沒有任何_
+
+
+
+ a| 
+參考時間
+ a| 
+攝取時間
+
+
+
+ a| 
+時段和展示位置
+ a| 
+從第 0 天開始永久存儲
+
+透過在丹佛複製 2 個副本來儲存物件。
+
+
+
+ a| 
+攝取行為
+ a| 
+均衡
+
+|===
+. 建立 ILM 策略並選擇兩個規則。由於複製規則不使用任何過濾器，因此它可以作為策略的預設（最後）規則。
+. 將測試對象納入電網。
+. 使用測試對像模擬策略來驗證行為。
+. 激活該策略。
+
+
+啟動此策略後， StorageGRID將如下放置物件資料：
+
+* FabricPool中的分層數據 `fabricpool-bucket`將使用 2+1 擦除編碼方案進行擦除編碼。兩個資料片段和一個奇偶校驗片段將放置在三個不同的儲存節點上。
+* 所有其他儲存桶中的所有物件都將被複製。將建立兩個副本並放置在兩個不同的儲存節點上。
+* 這些副本將永遠保存在StorageGRID中。  StorageGRID ILM 不會刪除這些物件。
+

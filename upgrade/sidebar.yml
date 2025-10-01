@@ -1,0 +1,37 @@
+---
+section: upgrade
+title: 升級StorageGRID軟體
+entries:
+- title: 開始之前
+  pdf-filename: 升級StorageGRID軟體
+  url: "/upgrade/index.html"
+- title: StorageGRID 11.9 中的新功能
+  url: "/upgrade/whats-new.html"
+- title: 已刪除或棄用的功能
+  url: "/upgrade/removed-or-deprecated-features.html"
+- title: 網格管理 API 的變更
+  url: "/upgrade/changes-to-grid-management-api.html"
+- title: 租戶管理 API 的變更
+  url: "/upgrade/changes-to-tenant-management-api.html"
+- title: 規劃和準備升級
+  entries:
+  - title: 估計完成升級的時間
+    url: "/upgrade/estimating-time-to-complete-upgrade.html"
+  - title: 升級期間您的系統會受到什麼影響
+    url: "/upgrade/how-your-system-is-affected-during-upgrade.html"
+  - title: 驗證已安裝的StorageGRID版本
+    url: "/upgrade/verifying-installed-version-of-storagegrid.html"
+  - title: 取得所需材料
+    url: "/upgrade/obtaining-required-materials-for-software-upgrade.html"
+  - title: 檢查系統
+    url: "/upgrade/checking-systems-condition-before-upgrading-software.html"
+- title: 升級軟體
+  entries:
+  - title: 升級快速入門
+    url: "/upgrade/upgrade-workflow.html"
+  - title: Linux：下載並安裝 RPM 或 DEB 套件
+    url: "/upgrade/linux-installing-rpm-or-deb-package-on-all-hosts.html"
+  - title: 執行升級
+    url: "/upgrade/performing-upgrade.html"
+- title: 解決升級問題
+  url: "/upgrade/troubleshooting-upgrade-issues.html"

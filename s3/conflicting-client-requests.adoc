@@ -1,0 +1,16 @@
+---
+permalink: s3/conflicting-client-requests.html 
+sidebar: sidebar 
+keywords: conflicting client requests 
+summary: 衝突的客戶端請求（例如兩個客戶端寫入同一個金鑰）將根據「最新勝利」的原則解決。 
+---
+= 客戶端請求衝突
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+衝突的客戶端請求（例如兩個客戶端寫入同一個金鑰）將根據「最新勝利」的原則解決。
+
+「最新勝利」評估的時間取決於StorageGRID系統完成給定請求的時間，而不是 S3 用戶端開始操作的時間。

@@ -1,0 +1,31 @@
+---
+permalink: primer/ingest-data-flow.html 
+sidebar: sidebar 
+keywords: object data, ingest 
+summary: 攝取或儲存操作包括客戶端和StorageGRID系統之間定義的資料流。 
+---
+= 引入資料流
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+攝取或儲存操作包括客戶端和StorageGRID系統之間定義的資料流。
+
+
+
+== 資料流
+
+當用戶端將物件匯入StorageGRID系統時，儲存節點上的 LDR 服務會處理請求並將元資料和資料儲存到磁碟。
+
+image::../media/ingest_data_flow.png[同步放置]
+
+. 客戶端應用程式建立物件並透過 HTTP PUT 請求將其傳送到StorageGRID系統。
+. 根據系統的 ILM 策略對物件進行評估。
+. LDR 服務將物件資料儲存為複製副本或擦除編碼副本。  （該圖顯示了將複製副本儲存到磁碟的簡化版本。）
+. LDR 服務將物件元資料傳送至元資料儲存。
+. 元資料儲存將物件元資料儲存到磁碟。
+. 元資料儲存將物件元資料的副本傳播到其他儲存節點。這些副本也保存到磁碟。
+. LDR 服務向客戶端傳回 HTTP 200 OK 回應，以確認物件已被擷取。
+

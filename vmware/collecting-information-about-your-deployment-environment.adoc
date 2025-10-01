@@ -1,0 +1,106 @@
+---
+permalink: vmware/collecting-information-about-your-deployment-environment.html 
+sidebar: sidebar 
+keywords: how to collect information about your deployment environment 
+summary: 在部署網格節點之前，您必須收集有關網路配置和 VMware 環境的資訊。 
+---
+= 收集有關部署環境的信息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在部署網格節點之前，您必須收集有關網路配置和 VMware 環境的資訊。
+
+
+NOTE: 對所有節點執行一次安裝比現在安裝一些節點、稍後安裝一些節點更有效率。
+
+
+
+== VMware 資訊
+
+您必須存取部署環境並收集有關 VMware 環境的資訊；為網格、管理和用戶端網路建立的網路；以及您計劃用於儲存節點的儲存磁碟區類型。
+
+您必須收集有關 VMware 環境的信息，包括以下內容：
+
+* 具有適當權限以完成部署的 VMware vSphere 帳戶的使用者名稱和密碼。
+* 每個StorageGRID節點虛擬機器的主機、資料儲存和網路設定資訊。
+
+
+
+NOTE: VMware live vMotion 會導致虛擬機器時鐘時間跳躍，並且不支援任何類型的網格節點。雖然很少見，但不正確的時鐘時間可能會導致資料遺失或配置更新。
+
+
+
+== 電網資訊
+
+您必須收集有關為StorageGRID網格網路建立的 VMware 網路的資訊（必要），包括：
+
+* 網路名稱。
+* 用於分配 IP 位址的方法，靜態或 DHCP。
++
+** 如果您使用靜態 IP 位址，則每個網格節點所需的網路詳細資訊（IP 位址、閘道、網路遮罩）。
+** 如果您使用 DHCP，則為網格網路上主管理節點的 IP 位址。看link:how-grid-nodes-discover-primary-admin-node.html["網格節點如何發現主管理節點"]了解更多。
+
+
+
+
+
+
+== 管理網路訊息
+
+對於將連接到可選StorageGRID管理網路的節點，您必須收集有關為此網路建立的 VMware 網路的信息，包括：
+
+* 網路名稱。
+* 用於分配 IP 位址的方法，靜態或 DHCP。
++
+** 如果您使用靜態 IP 位址，則每個網格節點所需的網路詳細資訊（IP 位址、閘道、網路遮罩）。
+** 如果您使用 DHCP，則為網格網路上主管理節點的 IP 位址。看link:how-grid-nodes-discover-primary-admin-node.html["網格節點如何發現主管理節點"]了解更多。
+
+
+* 管理網路的外部子網路清單 (ESL)。
+
+
+
+
+== 客戶網路資訊
+
+對於將連接到可選StorageGRID客戶端網路的節點，您必須收集有關為此網路建立的 VMware 網路的信息，包括：
+
+* 網路名稱。
+* 用於分配 IP 位址的方法，靜態或 DHCP。
+* 如果您使用靜態 IP 位址，則每個網格節點所需的網路詳細資訊（IP 位址、閘道、網路遮罩）。
+
+
+
+
+== 有關附加介面的信息
+
+安裝節點後，您可以選擇在 vCenter 中向 VM 新增中繼或存取介面。例如，您可能想要在管理節點或網關節點新增中繼接口，以便可以使用 VLAN 介面來隔離屬於不同應用程式或租用戶的流量。或者，您可能想要新增一個存取介面以在高可用性 (HA) 群組中使用。
+
+您新增的介面顯示在網格管理器中的 VLAN 介面頁面和 HA 群組頁面上。
+
+* 如果新增中繼接口，請為每個新的父接口配置一個或多個 VLAN 接口。看link:../admin/configure-vlan-interfaces.html["配置 VLAN 介面"] 。
+* 如果新增存取接口，則必須將其直接新增至 HA 群組。看link:../admin/configure-high-availability-group.html["配置高可用性組"] 。
+
+
+
+
+== 虛擬儲存節點的儲存卷
+
+您必須收集基於虛擬機器的儲存節點的以下資訊：
+
+* 您計劃新增的儲存磁碟區（儲存 LUN）的數量和大小。請參閱link:storage-and-performance-requirements.html["儲存和效能要求"]。
+
+
+
+
+== 電網配置資訊
+
+您必須收集資訊來配置您的電網：
+
+* 電網許可證
+* 網路時間協定 (NTP) 伺服器 IP 位址
+* DNS 伺服器 IP 位址
+

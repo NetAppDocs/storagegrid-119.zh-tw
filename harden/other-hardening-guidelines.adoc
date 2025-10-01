@@ -1,0 +1,70 @@
+---
+permalink: harden/other-hardening-guidelines.html 
+sidebar: sidebar 
+keywords: Hardening guidelines, security 
+summary: 除了遵循StorageGRID網路和節點的強化指南外，您還應遵循StorageGRID系統其他區域的強化指南。 
+---
+= 其他強化指南
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+除了遵循StorageGRID網路和節點的強化指南外，您還應遵循StorageGRID系統其他區域的強化指南。
+
+
+
+== 臨時安裝密碼
+
+為了在安裝期間保護StorageGRID系統的安全，請在StorageGRID安裝 UI 或安裝 API 中的臨時安裝程式密碼頁面上設定密碼。設定後，此密碼適用於安裝StorageGRID 的所有方法，包括使用者介面、安裝 API 和 `configure-storagegrid.py`腳本。
+
+有關詳細信息，請參閱：
+
+* link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]
+* link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]
+* link:../vmware/index.html["在 VMware 上安裝StorageGRID"]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["安裝StorageGRID設備"^]
+
+
+
+
+== 日誌和審計訊息
+
+始終以安全的方式保護StorageGRID日誌和稽核訊息輸出。從支援和系統可用性的角度來看， StorageGRID日誌和稽核訊息提供了寶貴的資訊。此外， StorageGRID日誌和稽核訊息輸出中包含的資訊和詳細資訊通常具有敏感性質。
+
+設定StorageGRID以將安全事件傳送到外部系統日誌伺服器。如果使用 syslog 匯出，請選擇 TLS 和 RELP/TLS 作為傳輸協定。
+
+查看link:../monitor/logs-files-reference.html["日誌檔參考"]有關StorageGRID日誌的詳細資訊。看link:../audit/audit-messages-main.html["審計訊息"]有關StorageGRID審計訊息的詳細資訊。
+
+
+
+== NetAppAutoSupport
+
+StorageGRID的AutoSupport功能可讓您主動監控系統的健康狀況，並自動將軟體包傳送至NetApp支援網站、您組織的內部支援團隊或支援合作夥伴。預設情況下，首次配置StorageGRID時會啟用將AutoSupport套件傳送至NetApp 。
+
+可停用AutoSupport功能。但是， NetApp建議啟用它，因為如果StorageGRID系統出現問題， AutoSupport有助於加快問題識別和解決速度。
+
+AutoSupport支援 HTTPS、HTTP 和 SMTP 作為傳輸協定。由於AutoSupport軟體包的敏感性， NetApp強烈建議使用 HTTPS 作為向NetApp發送AutoSupport軟體包的預設傳輸協定。
+
+
+
+== 跨域資源共享（CORS）
+
+如果您希望其他網域中的 Web 應用程式可以存取 S3 儲存桶及其中的對象，則可以為該儲存桶配置跨網域資源共用 (CORS)。一般來說，除非有必要，否則不要啟用 CORS。如果需要 CORS，請將其限制為受信任的來源。
+
+請參閱link:../tenant/configuring-cross-origin-resource-sharing-cors.html["配置跨域資源共享（CORS）"]。
+
+
+
+== 外部安全設備
+
+完整的強化解決方案必須解決StorageGRID以外的安全機制。使用額外的基礎設施設備來過濾和限制對StorageGRID 的存取是建立和維護嚴格安全態勢的有效方法。這些外部安全設備包括防火牆、入侵防禦系統 (IPS) 和其他安全設備。
+
+對於不受信任的客戶端流量，建議使用第三方負載平衡器。第三方負載平衡提供了更多的控制和額外的防禦攻擊層。
+
+
+
+== 勒索軟體緩解
+
+遵循以下建議，協助保護您的物件資料免受勒索軟體攻擊 https://www.netapp.com/media/69498-tr-4921.pdf["使用StorageGRID防禦勒索軟體"^]。

@@ -1,0 +1,55 @@
+---
+permalink: audit/ecoc-corrupt-erasure-coded-data-fragment.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, ECOC, Corrupt Erasure-Coded Data Fragment 
+summary: 此審計訊息表明系統偵測到損壞的擦除編碼資料片段。 
+---
+= ECOC：損壞的擦除編碼資料片段
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+此審計訊息表明系統偵測到損壞的擦除編碼資料片段。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+壓控振盪器
+ a| 
+創投公司識別號
+ a| 
+包含損壞區塊的 VCS 的名稱。
+
+
+
+ a| 
+甚低密度脂蛋白
+ a| 
+卷 ID
+ a| 
+包含損壞的擦除編碼片段的 RangeDB 磁碟區。
+
+
+
+ a| 
+賽迪顧問
+ a| 
+區塊 ID
+ a| 
+損壞的擦除編碼片段的識別碼。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果
+ a| 
+該欄位的值為“NONE”。 RSLT 是必填訊息字段，但與此特定訊息無關。使用“NONE”而不是“SUCS”，以便不過濾該訊息。
+
+|===

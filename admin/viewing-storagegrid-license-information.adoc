@@ -1,0 +1,49 @@
+---
+permalink: admin/viewing-storagegrid-license-information.html 
+sidebar: sidebar 
+keywords: storagegrid license, view license, licensed capacity of grid 
+summary: 您可以隨時查看StorageGRID系統的許可證信息，例如網格的最大儲存容量。 
+---
+= 查看StorageGRID許可證信息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以隨時查看StorageGRID系統的許可證信息，例如網格的最大儲存容量。
+
+.開始之前
+您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+
+.關於此任務
+如果此StorageGRID系統的軟體許可證有問題，則儀表板上的健康狀態卡將包含許可證狀態圖示和 *許可證* 連結。該數字表示與許可證相關的問題的數量。
+
+image::../media/dashboard_health_panel_license_status.png[儀表板健康狀態卡許可證狀態]
+
+.步驟
+. 透過執行下列操作之一存取許可證頁面：
++
+** 選擇*維護* > *系統* > *許可證*。
+** 從儀表板上的健康狀態卡中，選擇許可證狀態圖示或*許可證*連結。
++
+僅當許可證出現問題時才會出現此連結。
+
+
+
+. 查看目前許可證的唯讀詳細資訊：
++
+** StorageGRID系統 ID，這是此StorageGRID安裝的唯一識別號
+** 許可證序號
+** 授權類型，*永久*或*訂閱*
+** 電網許可儲存容量
+** 支援的儲存容量
+** 許可證結束日期。永久許可證顯示為 *N/A*。
+** 支援結束日期
++
+此日期是從當前許可證文件中讀取的，如果您在獲取許可證文件後延長或續訂了支援服務合同，則該日期可能會過期。若要更新此值，請參閱link:updating-storagegrid-license-information.html["更新StorageGRID許可證信息"]。您也可以使用Active IQ查看實際合約結束日期。
+
+** 許可證文字檔案的內容
+
+
+

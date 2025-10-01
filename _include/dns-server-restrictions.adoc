@@ -1,0 +1,7 @@
+= 
+:allow-uri-read: 
+
+
+為確保正常運行，請指定兩個或三個 DNS 伺服器。如果您指定三個以上，則可能只會使用三個，因為某些平台上有已知的作業系統限制。如果您的環境中存在路由限制，您可以link:../maintain/modifying-dns-configuration-for-single-grid-node.html["自訂DNS伺服器列表"]為各個節點（通常是網站上的所有節點）使用一組不同的最多三個 DNS 伺服器。
+
+如果可能，請使用每個網站都可以在本機存取的 DNS 伺服器，以確保孤立網站可以解析外部目標的 FQDN。

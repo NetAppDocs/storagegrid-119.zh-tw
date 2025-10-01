@@ -1,0 +1,22 @@
+---
+permalink: monitor/creating-custom-monitoring-applications.html 
+sidebar: sidebar 
+keywords: custom monitoring, monitoring, dashboard 
+summary: 您可以使用網格管理 API 提供的StorageGRID指標建立自訂監控應用程式和儀表板。 
+---
+= 建立自訂監控應用程式
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用網格管理 API 提供的StorageGRID指標建立自訂監控應用程式和儀表板。
+
+如果您想要監控網格管理器現有頁面上未顯示的指標，或是想要為StorageGRID建立自訂儀表板，則可以使用網格管理 API 來查詢StorageGRID指標。
+
+您也可以使用外部監控工具（例如 Grafana）直接存取 Prometheus 指標。使用外部工具需要您上傳或產生管理用戶端證書，以允許StorageGRID對該工具進行安全驗證。查看link:../admin/index.html["StorageGRID管理說明"]。
+
+若要查看指標 API 操作（包括可用指標的完整清單），請前往網格管理員。從頁面頂部，選擇說明圖示並選擇*API 文件* > *指標*。image:../media/help_api_docs_metrics.png["幫助 API 文件指標部分"]
+
+如何實現自訂監控應用程式的詳細資訊超出了本文檔的範圍。

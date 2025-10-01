@@ -1,0 +1,132 @@
+---
+permalink: maintain/decommissioning-connected-grid-nodes.html 
+sidebar: sidebar 
+keywords: storagegrid, decommission, connected nodes, decommission node 
+summary: 您可以退役並永久刪除連接到電網的節點。 
+---
+= 退役已連接的電網節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以退役並永久刪除連接到電網的節點。
+
+.開始之前
+* 您了解退役的考慮因素link:considerations-for-decommissioning-admin-or-gateway-nodes.html["管理和網關節點"]以及退役考慮link:considerations-for-decommissioning-storage-nodes.html["儲存節點"]。
+* 您已收集到所有必需的材料。
+* 您已確保沒有處於活動狀態的資料修復作業。
+* 您已確認網格中任何地方均未進行儲存節點復原。如果是，請等到作為復原的一部分執行的任何 Cassandra 重建完成。然後您可以繼續進行退役。
+* 您已確保在節點退役程序運行時不會運行其他維護程序，除非節點退役程序暫停。
+* 您有配置密碼。
+* 網格節點是相互連接的。
+* 您想要退役的節點的「可能退役」欄位包含一個綠色複選標記。
++
+
+NOTE: 如果一個或多個磁碟區處於離線（未安裝）狀態，或處於連線（安裝）但處於錯誤狀態，則不會啟動退役作業。
+
++
+
+NOTE: 如果在退役過程中一個或多個卷脫機，則退役程序將在這些磁碟區重新連線後完成。
+
+* 所有網格節點均具有正常（綠色）健康狀態image:../media/icon_alert_green_checkmark.png["綠色複選標記圖標"]。如果您在「*健康*」列中看到以下圖示之一，則必須嘗試解決該問題：
++
+[cols="1a,1a,3a"]
+|===
+| 圖示 | 顏色 | 嚴重程度 
+
+
+ a| 
+image:../media/icon_alarm_yellow_notice.gif["黃色方形圖標"]
+ a| 
+黃色的
+ a| 
+注意
+
+
+
+ a| 
+image:../media/icon_alert_yellow_minor.png["淺橙色鑽石圖標"]
+ a| 
+淺橘色
+ a| 
+次要的
+
+
+
+ a| 
+image:../media/icon_alert_orange_major.png["深橙色菱形圖標"]
+ a| 
+深橙色
+ a| 
+主要的
+
+
+
+ a| 
+image:../media/icon_alert_red_critical.png["紅色 x 圖標"]
+ a| 
+紅色的
+ a| 
+批判的
+
+|===
+* 如果您先前已停用已中斷連線的儲存節點，則資料修復作業已全部成功完成。看link:checking-data-repair-jobs.html["檢查資料修復作業"] 。
+
+
+
+CAUTION: 在本過程中沒有得到指示之前，請勿刪除網格節點的虛擬機器或其他資源。
+
+
+CAUTION: 在包含基於軟體的純元資料節點的網格中停用儲存節點時請務必小心。如果您停用所有配置為儲存物件和元資料的節點，則儲存物件的能力將從網格中刪除。看link:../primer/what-storage-node-is.html#types-of-storage-nodes["儲存節點的類型"]有關僅元資料儲存節點的詳細資訊。
+
+.關於此任務
+當節點退役時，其服務將被停用並且節點將自動關閉。
+
+.步驟
+. 在「退役節點」頁面中，選取要退役的每個網格節點的核取方塊。
+. 輸入配置密碼。
++
+*開始退役*按鈕已啟用。
+
+. 選擇*開始退役*。
+. 查看確認對話框中的節點列表，然後選擇*確定*。
++
+節點退役程序開始，並顯示每個節點的進度。
+
++
+
+CAUTION: 退役程序開始後，請勿使儲存節點離線。改變狀態可能會導致某些內容無法複製到其他位置。
+
+. 一旦新的恢復包可用，請選擇橫幅中的恢復包連結或選擇*維護* > *系統* > *恢復包*以訪問恢復包頁面。然後，下載 `.zip`文件。
++
+看link:downloading-recovery-package.html["下載恢復包"] 。
+
++
+
+NOTE: 盡快下載恢復包，以確保在退役過程中出現問題時可以恢復電網。
+
+. 定期監控「退役節點」頁面，以確保所有選定的節點都已成功退役。
++
+
+TIP: 儲存節點可能需要幾天或幾週的時間才能退役。
+
++
+當所有任務完成後，節點選擇清單將重新顯示並顯示成功訊息。
+
+
+
+.完成後
+完成節點退役程序後，請完成以下步驟：
+
+. 按照適合您的平台的步驟進行操作。例如：
++
+** *Linux*：您可能想要分離磁碟區並刪除在安裝期間建立的節點設定檔。看link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]和link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]。
+** *VMware*：您可能想要使用 vCenter 的「從磁碟刪除」選項來刪除虛擬機器。您可能還需要刪除任何獨立於虛擬機器的資料磁碟。
+** * StorageGRID設備*：設備節點自動恢復到未部署狀態，您可以在該狀態存取StorageGRID設備安裝程式。您可以關閉設備電源或將其新增至另一個StorageGRID系統。
+
+
+. 確保已退役的網格節點的磁碟機已清除。使用市售的資料擦除工具或服務永久安全地從磁碟機中刪除資料。
+. 如果您停用了裝置節點，且裝置上的資料使用節點加密進行保護，請使用StorageGRID設備安裝程式清除金鑰管理伺服器設定（清除 KMS）。如果要將設備新增至另一個網格，則必須清除 KMS 配置。有關說明，請參閱 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/monitoring-node-encryption-in-maintenance-mode.html["維護模式下監控節點加密"^]。
+

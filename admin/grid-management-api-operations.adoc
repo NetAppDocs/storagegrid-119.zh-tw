@@ -1,0 +1,75 @@
+---
+permalink: admin/grid-management-api-operations.html 
+sidebar: sidebar 
+keywords: Grid Management API,  API operations 
+summary: 網格管理 API 將可用的 API 作業組織到以下部分。 
+---
+= 網格管理 API 操作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+網格管理 API 將可用的操作組織到以下部分。
+
+
+NOTE: 此清單僅包含公共 API 中可用的操作。
+
+* *accounts*：管理儲存租用戶帳戶的操作，包括建立新帳戶和檢索給定帳戶的儲存使用情況。
+* *alert-history*：已解決警報的操作。
+* *alert-receivers*：對警報通知接收器（電子郵件）的操作。
+* *alert-rules*：對警報規則的操作。
+* *alert-silences*：警報靜默操作。
+* *警報*：警報操作。
+* *審計*：列出並更新審計配置的操作。
+* *auth*：執行使用者會話認證的操作。
++
+網格管理 API 支援 Bearer Token 身份驗證方案。要登入，您需要在身份驗證請求的 JSON 主體中提供使用者名稱和密碼（即 `POST /api/v3/authorize`）。如果使用者驗證成功，則會傳回安全令牌。必須在後續 API 請求的標頭中提供此令牌（“Authorization: Bearer _token_”）。令牌將在 16 小時後過期。
+
++
+
+NOTE: 如果為StorageGRID系統啟用了單一登錄，則必須執行不同的步驟進行身份驗證。請參閱「如果啟用了單一登錄，則對 API 進行身份驗證」。
+
++
+有關提高身份驗證安全性的信息，請參閱「防止跨站點請求偽造」。
+
+* *client-certificates*：設定客戶端憑證的操作，以便可以使用外部監控工具安全地存取StorageGRID 。
+* *config*：與網格管理 API 的產品發佈和版本相關的操作。您可以列出產品發布版本和該版本支援的網格管理 API 的主要版本，並且可以停用 API 的棄用版本。
+* *deactivated-features*：查看可能已停用的功能的操作。
+* *dns-servers*：列出並變更已設定的外部 DNS 伺服器的操作。
+* *drive-details*：針對特定儲存裝置型號的磁碟機的操作。
+* *endpoint-domain-names*：列出並更改 S3 端點網域的操作。
+* *擦除編碼*：對擦除編碼設定檔的操作。
+* *擴充*：擴充操作（流程層級）。
+* *expansion-nodes*：擴充操作（節點層級）。
+* *expansion-sites*：擴充操作（站點層級）。
+* *grid-networks*：列出並變更網格網路清單的操作。
+* *grid-passwords*：網格密碼管理操作。
+* *groups*：管理本機網格管理員群組和從外部 LDAP 伺服器檢索聯合網格管理員群組的操作。
+* *identity-source*：設定外部身分來源並手動同步聯合群組和使用者資訊的操作。
+* *ilm*：資訊生命週期管理（ILM）的操作。
+* *in-progress-procedures*：檢索目前正在進行的維護程序。
+* *license*：擷取並更新StorageGRID許可證的操作。
+* *logs*：收集和下載日誌檔案的操作。 v
+* *指標*：對StorageGRID指標的操作，包括單一時間點的即時指標查詢和一段時間內的範圍指標查詢。網格管理 API 使用 Prometheus 系統監控工具作為後端資料來源。有關建立 Prometheus 查詢的信息，請參閱 Prometheus 網站。
++
+
+NOTE: 指標包括``_private_``其名稱僅供內部使用。這些指標在StorageGRID版本之間可能會發生變化，恕不另行通知。
+
+* *node-details*：對節點詳細資訊的操作。
+* *node-health*：節點健康狀態的操作。
+* *node-storage-state*：對節點儲存狀態的操作。
+* *ntp-servers*：列出或更新外部網路時間協定 (NTP) 伺服器的操作。
+* *物件*：對物件和物件元資料的操作。
+* *恢復*：恢復過程的操作。
+* *recovery-package*：下載復原套件的操作。
+* *regions*：檢視和建立區域的操作。
+* *s3-object-lock*：對全域 S3 物件鎖定設定的操作。
+* *server-certificate*：檢視並更新 Grid Manager 伺服器憑證的操作。
+* *snmp*：對目前 SNMP 配置進行操作。
+* *storage-watermarks*：儲存節點浮水印。
+* *traffic-classes*：流量分類策略的操作。
+* *untrusted-client-network*：對不受信任的客戶端網路設定進行操作。
+* *使用者*：檢視和管理網格管理器使用者的操作。
+

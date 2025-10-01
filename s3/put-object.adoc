@@ -1,0 +1,247 @@
+---
+permalink: s3/put-object.html 
+sidebar: sidebar 
+keywords: object, add object, put, PutObject request 
+summary: 您可以使用 S3 PutObject 請求將物件新增至儲存桶。 
+---
+= 放置對象
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 S3 PutObject 請求將物件新增至儲存桶。
+
+
+
+== 解決衝突
+
+衝突的客戶端請求（例如兩個客戶端寫入同一個金鑰）將根據「最新勝利」的原則解決。  「最新勝利」評估的時間取決於StorageGRID系統完成給定請求的時間，而不是 S3 用戶端開始操作的時間。
+
+
+
+== 物件大小
+
+單一 PutObject 操作的最大_建議_大小為 5 GiB（5,368,709,120 位元組）。如果您有大於 5 GiB 的對象，請使用link:operations-for-multipart-uploads.html["分段上傳"]反而。
+
+單一 PutObject 操作支援的最大大小為 5 TiB（5,497,558,138,880 位元組）。
+
+
+NOTE: 如果您從StorageGRID 11.6 或更早版本升級，則當您嘗試上傳超過 5 GiB 的物件時，將觸發 S3 PUT 物件大小過大警報。如果您新安裝了StorageGRID 11.7 或 11.8，則在這種情況下不會觸發警報。但是，為了與 AWS S3 標準保持一致， StorageGRID的未來版本將不支援上傳大於 5 GiB 的物件。
+
+
+
+== 用戶元資料大小
+
+Amazon S3 將每個 PUT 請求標頭內的使用者定義元資料的大小限制為 2 KB。 StorageGRID將用戶元資料限制為 24 KiB。使用者定義元資料的大小是透過計算每個鍵和值的 UTF-8 編碼的位元組數總和來衡量的。
+
+
+
+== 用戶元資料中的 UTF-8 字符
+
+如果請求在使用者定義元資料的鍵名或值中包含（未轉義的）UTF-8 值，則StorageGRID行為未定義。
+
+StorageGRID不會解析或解釋使用者定義元資料的鍵名或值中包含的轉義 UTF-8 字元。轉義的 UTF-8 字元將被視為 ASCII 字元：
+
+* 如果使用者定義的元資料包含轉義的 UTF-8 字符，則 PutObject、CopyObject、GetObject 和 HeadObject 請求會成功。
+* StorageGRID不回傳 `x-amz-missing-meta`如果鍵名或值的解釋值包含不可列印的字符，則為標頭。
+
+
+
+
+== 對象標籤限制
+
+您可以在上傳新物件時為其新增標籤，也可以將其新增至現有物件中。 StorageGRID和 Amazon S3 都支援每個物件最多 10 個標籤。與物件關聯的標籤必須具有唯一的標籤鍵。標籤鍵的長度最多為 128 個 Unicode 字符，標籤值的長度最多為 256 個 Unicode 字元。鍵和值區分大小寫。
+
+
+
+== 物件所有權
+
+在StorageGRID中，所有物件都歸儲存桶擁有者帳戶所有，包括由非擁有者帳戶或匿名使用者建立的物件。
+
+
+
+== 支援的請求標頭
+
+支援以下請求標頭：
+
+* `Cache-Control`
+* `Content-Disposition`
+* `Content-Encoding`
++
+當您指定 `aws-chunked`為了``Content-Encoding``StorageGRID不驗證下列項目：
+
++
+** StorageGRID不驗證 `chunk-signature`針對區塊資料。
+** StorageGRID不會驗證您提供的值 `x-amz-decoded-content-length`針對該對象。
+
+
+* `Content-Language`
+* `Content-Length`
+* `Content-MD5`
+* `Content-Type`
+* `Expires`
+* `Transfer-Encoding`
++
+如果支援分塊傳輸編碼 `aws-chunked`也使用了有效載荷簽名。
+
+* `x-amz-checksum-sha256`
+* `x-amz-meta-`，後面跟著包含使用者定義元資料的名稱-值對。
++
+為使用者定義的元資料指定名稱-值對時，請使用下列通用格式：
+
++
+[listing, subs="specialcharacters,quotes"]
+----
+x-amz-meta-_name_: _value_
+----
++
+如果要使用 *使用者定義建立時間* 選項作為 ILM 規則的參考時間，則必須使用 `creation-time`作為記錄物件建立時間的元資料的名稱。例如：
+
++
+[listing]
+----
+x-amz-meta-creation-time: 1443399726
+----
++
+價值 `creation-time`以 1970 年 1 月 1 日以來的秒數計算。
+
++
+
+NOTE: ILM 規則不能同時使用 *使用者定義的創建時間* 作為參考時間以及平衡或嚴格的攝取選項。建立 ILM 規則時傳回錯誤。
+
+* `x-amz-tagging`
+* S3 物件鎖定請求標頭
++
+** `x-amz-object-lock-mode`
+** `x-amz-object-lock-retain-until-date`
+** `x-amz-object-lock-legal-hold`
++
+如果發出的請求沒有這些標頭，則使用儲存桶預設保留設定來計算物件版本模式和保留截止日期。看link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"] 。
+
+
+
+* SSE 請求標頭：
++
+** `x-amz-server-side-encryption`
+** `x-amz-server-side-encryption-customer-key-MD5`
+** `x-amz-server-side-encryption-customer-key`
+** `x-amz-server-side-encryption-customer-algorithm`
++
+看<<伺服器端加密的請求標頭>>
+
+
+
+
+
+
+
+== 不支援的請求標頭
+
+不支援以下請求標頭：
+
+* `x-amz-acl`
+* `x-amz-sdk-checksum-algorithm`
+* `x-amz-trailer`
+* `x-amz-website-redirect-location`
++
+這 `x-amz-website-redirect-location`標題返回 `XNotImplemented`。
+
+
+
+
+
+== 儲存類別選項
+
+這 `x-amz-storage-class`支援請求標頭。提交的價值 `x-amz-storage-class`影響StorageGRID在攝取期間如何保護物件數據，而不是影響StorageGRID系統中儲存了多少個物件的持久副本（由 ILM 決定）。
+
+如果與已攝取物件相符的 ILM 規則使用嚴格攝取選項， `x-amz-storage-class`標頭無效。
+
+以下值可用於 `x-amz-storage-class`：
+
+* `STANDARD`(預設)
++
+** *雙重提交*：如果 ILM 規則為攝取行為指定了雙重提交選項，則一旦攝取對象，就會建立該對象的第二個副本並分發到不同的儲存節點（雙重提交）。在評估 ILM 時， StorageGRID會決定這些初始臨時副本是否符合規則中的放置說明。如果沒有，則可能需要在不同位置製作新的物件副本，並且可能需要刪除初始臨時副本。
+** *平衡*：如果 ILM 規則指定了平衡選項，且StorageGRID無法立即製作規則中指定的所有副本，StorageGRID會在不同的儲存節點上製作兩個暫存副本。
++
+如果StorageGRID可以立即建立 ILM 規則中指定的所有物件副本（同步放置），則 `x-amz-storage-class`標頭無效。
+
+
+
+* `REDUCED_REDUNDANCY`
++
+** *雙重提交*：如果 ILM 規則為攝取行為指定了雙重提交選項，則StorageGRID會在攝取物件時建立單一暫存副本（單次提交）。
+** *平衡*：如果 ILM 規則指定了平衡選項，則僅當系統無法立即製作規則中指定的所有副本時， StorageGRID才會製作單一暫存副本。如果StorageGRID可以執行同步放置，則此標頭無效。這 `REDUCED_REDUNDANCY`當與物件相符的 ILM 規則建立單一複製副本時，最好使用此選項。在這種情況下使用 `REDUCED_REDUNDANCY`消除了每次攝取操作時不必要的額外物件副本的建立和刪除。
+
+
++
+使用 `REDUCED_REDUNDANCY`在其他情況下不建議選擇此選項。 `REDUCED_REDUNDANCY`增加了攝取過程中物件資料遺失的風險。例如，如果單一副本最初儲存在儲存節點上，而該儲存節點在 ILM 評估發生之前發生故障，則您可能會遺失資料。
+
+
+
+
+CAUTION: 任何時間段內只有一個複製副本會使資料面臨永久遺失的風險。如果某個物件的副本只有一個，則當儲存節點發生故障或發生重大錯誤時，該物件將會遺失。在升級等維護過程中，您也會暫時失去對該物件的存取權限。
+
+指定 `REDUCED_REDUNDANCY`僅影響首次攝取物件時所建立的副本數量。它不會影響活動 ILM 策略評估物件時產生的物件副本數量，也不會導致資料在StorageGRID系統中以較低的冗餘層級進行儲存。
+
+
+NOTE: 如果您將物件提取到啟用了 S3 物件鎖定的儲存桶中，則 `REDUCED_REDUNDANCY`選項被忽略。如果您將物件提取到舊版相容儲存桶中， `REDUCED_REDUNDANCY`選項傳回錯誤。  StorageGRID將始終執行雙重提交攝取以確保滿足合規性要求。
+
+
+
+== 伺服器端加密的請求標頭
+
+您可以使用下列請求標頭來使用伺服器端加密來加密物件。  SSE 和 SSE-C 選項是互斥的。
+
+* *SSE*：如果您想要使用由StorageGRID管理的唯一金鑰加密對象，請使用下列標頭。
++
+** `x-amz-server-side-encryption`
++
+當 `x-amz-server-side-encryption`標頭未包含在 PutObject 請求中，網格範圍的link:../admin/changing-network-options-object-encryption.html["儲存物件加密設定"]從 PutObject 回應中省略。
+
+
+
+* *SSE-C*：如果您想使用您提供和管理的唯一金鑰加密對象，請使用所有這三個標頭。
++
+** `x-amz-server-side-encryption-customer-algorithm`： 指定 `AES256`。
+** `x-amz-server-side-encryption-customer-key`：為新物件指定加密金鑰。
+** `x-amz-server-side-encryption-customer-key-MD5`：指定新物件的加密金鑰的 MD5 摘要。
+
+
+
+
+
+CAUTION: 您提供的加密金鑰永遠不會被儲存。如果遺失了加密金鑰，您就會遺失對應的物件。在使用客戶提供的金鑰保護物件資料之前，請先查看以下注意事項link:using-server-side-encryption.html["使用伺服器端加密"]。
+
+
+NOTE: 如果使用 SSE 或 SSE-C 加密對象，則會忽略任何儲存桶層級或網格層級的加密設定。
+
+
+
+== 版本控制
+
+如果為儲存桶啟用了版本控制，則唯一的 `versionId`針對所儲存物件的版本會自動產生。這 `versionId`也會在回應中返回 `x-amz-version-id`響應頭。
+
+如果版本控制暫停，則物件版本將以空值儲存 `versionId`如果空版本已經存在，它將被覆蓋。
+
+
+
+== 授權標頭的簽章計算
+
+使用時 `Authorization`標頭來驗證請求， StorageGRID與 AWS 有以下不同：
+
+* StorageGRID不需要 `host`標題包含在 `CanonicalHeaders`。
+* StorageGRID不需要 `Content-Type`被納入 `CanonicalHeaders`。
+* StorageGRID不需要 `x-amz-*`標題包含在 `CanonicalHeaders`。
+
+
+
+NOTE: 作為一般的最佳做法，請始終將這些標題包含在 `CanonicalHeaders`以確保它們已被驗證；但是，如果排除這些標題， StorageGRID不會傳回錯誤。
+
+有關詳細信息，請參閱 https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-header-based-auth.html["授權標頭的簽章計算：在單一區塊中傳輸有效負載（AWS 簽章版本 4）"^]。
+
+.相關資訊
+* link:../ilm/index.html["使用 ILM 管理對象"]
+* link:https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html["Amazon Simple Storage Service API 參考：PutObject"^]
+

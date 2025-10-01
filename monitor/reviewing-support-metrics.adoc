@@ -1,0 +1,50 @@
+---
+permalink: monitor/reviewing-support-metrics.html 
+sidebar: sidebar 
+keywords: how to view support metrics, how to review support metrics 
+summary: 在解決問題時，您可以與技術支援人員合作，查看StorageGRID系統的詳細指標和圖表。 
+---
+= 審查支持指標
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在解決問題時，您可以與技術支援人員合作，查看StorageGRID系統的詳細指標和圖表。
+
+.開始之前
+* 您必須使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+
+
+.關於此任務
+Metrics 頁面可讓您存取 Prometheus 和 Grafana 使用者介面。  Prometheus 是一款用於收集指標的開源軟體。  Grafana 是一款用於指標視覺化的開源軟體。
+
+
+NOTE: 指標頁面上提供的工具僅供技術支援使用。這些工具中的某些功能和選單項目故意不起作用，並且可能會發生變化。查看列表link:commonly-used-prometheus-metrics.html["常用的 Prometheus 指標"]。
+
+.步驟
+. 按照技術支援的指示，選擇 *SUPPORT* > *Tools* > *Metrics*。
++
+指標頁面的範例如下所示：
+
++
+image::../media/metrics_page.png[指標頁面]
+
+. 若要查詢StorageGRID指標的目前值並查看隨時間變化的值的圖表，請按一下 Prometheus 部分中的連結。
++
+出現 Prometheus 介面。您可以使用此介面對可用的StorageGRID指標執行查詢並繪製隨時間變化的StorageGRID指標圖表。
+
++
+
+NOTE: 名稱中包含 _private_ 的指標僅供內部使用，並且可能會在StorageGRID版本之間發生變化，恕不另行通知。
+
+. 若要存取包含隨時間變化的StorageGRID指標圖表的預先建置儀表板，請按一下 Grafana 部分中的連結。
++
+出現您選擇的連結的 Grafana 介面。
+
++
+image::../media/metrics_page_grafana.png[指標頁 Grafana]
+
+

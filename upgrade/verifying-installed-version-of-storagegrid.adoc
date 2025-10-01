@@ -1,0 +1,57 @@
+---
+permalink: upgrade/verifying-installed-version-of-storagegrid.html 
+sidebar: sidebar 
+keywords: storagegrid, version, current version, previous version 
+summary: 在開始升級之前，請先確認目前是否安裝了先前版本的StorageGRID並套用了最新的可用修補程式。 
+---
+= 驗證已安裝的StorageGRID版本
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在開始升級之前，請先確認目前是否安裝了先前版本的StorageGRID並套用了最新的可用修補程式。
+
+.關於此任務
+在升級到StorageGRID 11.9 之前，您的網格必須安裝StorageGRID 11.8。如果您目前正在使用先前版本的StorageGRID，則必須安裝所有先前的升級檔案及其最新的修補程式（強烈建議），直到網格的目前版本為StorageGRID 11.8._x.y_。
+
+一種可能的升級路徑如下<<example-upgrade-path,例子>>。
+
+
+CAUTION: NetApp強烈建議您在升級到下一個版本之前為每個StorageGRID版本應用最新的修補程序，並且還為您安裝的每個新版本應用最新的修補程序。在某些情況下，您必須套用修補程式以避免資料遺失的風險。看 https://mysupport.netapp.com/site/products/all/details/storagegrid/downloads-tab["NetApp下載： StorageGRID"^]以及每個修補程式的發行說明以了解更多資訊。
+
+.步驟
+. Sign inlink:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+. 從網格管理器的頂部，選擇*幫助* > *關於*。
+. 驗證*版本*是否為 11.8._x.y_。
++
+在StorageGRID 11.8._x.y_ 版本號碼：
+
++
+** *主要版本*的 _x_ 值為 0（11.8.0）。
+** 如果已套用 *hotfix*，則其值為 _y_（例如，11.8.0.1）。
+
+
+. 如果 *Version* 不是 11.8._x.y_，請前往 https://mysupport.netapp.com/site/products/all/details/storagegrid/downloads-tab["NetApp下載： StorageGRID"^]下載每個先前版本的文件，包括每個版本的最新修補程式。
+. 取得您下載的每個版本的升級說明。然後，執行該版本的軟體升級過程，並應用該版本的最新修補程式（強烈建議）。
++
+查看link:../maintain/storagegrid-hotfix-procedure.html["StorageGRID修補程式程序"]。
+
+
+
+
+
+== [[example-upgrade-path]]範例：從版本 11.6 升級到StorageGRID 11.9
+
+以下範例顯示了從StorageGRID版本 11.6 升級到版本 11.8 以準備升級到StorageGRID 11.9 的步驟。
+
+依照以下順序下載並安裝軟體，為系統升級做好準備：
+
+. 升級到StorageGRID 11.6.0 主要版本。
+. 應用最新的StorageGRID 11.6.0._y_ 修補程式。
+. 升級到StorageGRID 11.7.0 主要版本。
+. 應用最新的StorageGRID 11.7.0._y_ 修補程式。
+. 升級到StorageGRID 11.8.0 主要版本。
+. 應用最新的StorageGRID 11.8.0._y_ 修補程式。
+

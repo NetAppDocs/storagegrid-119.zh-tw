@@ -1,0 +1,112 @@
+---
+permalink: expand/vmware-adding-storage-volumes-to-storage-node.html 
+sidebar: sidebar 
+keywords: expand, expansion, storage node, add storage volumes, VMware 
+summary: 如果儲存節點包含的儲存磁碟區少於 16 個，則可以使用 VMware vSphere 新增磁碟區來增加其容量。 
+---
+= VMware：將儲存磁碟區新增至儲存節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果儲存節點包含的儲存磁碟區少於 16 個，則可以使用 VMware vSphere 新增磁碟區來增加其容量。
+
+.開始之前
+* 您可以存取有關為 VMware 部署安裝StorageGRID 的說明。
++
+** link:../vmware/index.html["在 VMware 上安裝StorageGRID"]
+
+
+* 你有 `Passwords.txt`文件。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+
+
+
+CAUTION: 當軟體升級、復原流程或其他擴充程序處於活動狀態時，請勿嘗試將記憶體磁碟區新增至儲存節點。
+
+.關於此任務
+新增儲存卷時，儲存節點短時間內不可用。您應該一次在一個儲存節點上執行此流程，以避免影響面向客戶端的網格服務。
+
+.步驟
+. 如有必要，安裝新的儲存硬體並建立新的 VMware 資料儲存。
+. 在虛擬機器中新增一個或多個硬碟作為儲存（物件儲存）。
++
+.. 開啟 VMware vSphere Client。
+.. 編輯虛擬機器設定以新增一個或多個附加硬碟。
+
+
++
+硬碟通常配置為虛擬機器磁碟 (VMDK)。 VMDK 更常用且更易於管理，而 RDM 可能為使用較大物件大小（例如大於 100 MB）的工作負載提供更好的效能。有關向虛擬機器添加硬碟的更多信息，請參閱 VMware vSphere 文件。
+
+. 使用 VMware vSphere Client 中的「*重新啟動客戶機作業系統*」選項重新啟動虛擬機，或在虛擬機的 ssh 會話中輸入下列命令：``sudo reboot``
++
+
+NOTE: 請勿使用*關機*或*重設*來重新啟動虛擬機器。
+
+. 配置新儲存以供儲存節點使用：
++
+.. 登入網格節點：
++
+... 輸入以下命令： `ssh admin@_grid_node_IP_`
+... 輸入 `Passwords.txt`文件。
+... 輸入以下命令切換到root： `su -`
+... 輸入 `Passwords.txt`文件。當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+
+.. 配置新的儲存卷：
++
+`sudo add_rangedbs.rb`
+
++
+該腳本會尋找任何新的儲存磁碟區並提示您對其進行格式化。
+
+.. 輸入 *y* 接受格式。
+.. 如果任何磁碟區之前已被格式化，請決定是否要重新格式化它們。
++
+*** 輸入 *y* 重新格式化。
+*** 輸入 *n* 跳過重新格式化。
+
+
+
+
++
+這 `setup_rangedbs.sh`腳本自動運行。
+
+. 檢查服務是否正確啟動：
++
+.. 查看伺服器上所有服務的狀態清單：
++
+`sudo storagegrid-status`
+
++
+狀態會自動更新。
+
+.. 等到所有服務都正在運行或已驗證。
+.. 退出狀態畫面：
++
+`Ctrl+C`
+
+
+
+. 驗證儲存節點是否在線：
++
+.. Sign inlink:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+.. 選擇*支援* > *工具* > *網格拓撲*。
+.. 選擇 *_site_* > *_Storage Node_* > *LDR* > *Storage*。
+.. 選擇“*配置*”選項卡，然後選擇“*主要*”選項卡。
+.. 如果“*儲存狀態 - 所需*”下拉清單設定為“唯讀”或“離線”，請選擇“*線上*”。
+.. 選擇*應用變更*。
+
+
+. 若要查看新的物件儲存：
++
+.. 選擇 *NODES* > *_site_* > *_Storage Node_* > *Storage*。
+.. 查看*物件儲存*表中的詳細資訊。
+
+
+
+
+.結果
+您可以使用儲存節點的擴充容量來儲存物件資料。

@@ -1,0 +1,23 @@
+---
+permalink: audit/event-specific-data.html 
+sidebar: sidebar 
+keywords: audit message, event, shea, s3 head 
+summary: 審計日誌中的每個審計訊息都記錄特定於系統事件的資料。 
+---
+= 事件特定數據
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+審計日誌中的每個審計訊息都記錄特定於系統事件的資料。
+
+開幕後 `[AUDT:`標識訊息本身的容器，下一組屬性提供有關審計訊息所描述的事件或操作的資訊。以下範例中突出顯示了這些屬性：
+
+[]
+====
+2018-12-05T08：24：45.921845 [AUDT：*\[RSLT\(FC32\):SUCS\]* *\[TIME\(UI64\):11454\]\[SAIP\(IPAD\):"10.224.0.100"\]\[S3AI\(CSTR\):"60025621595611246499"\]\):"60025621595611246499"\]* *\[SACC\(CSTR\):"account"\]\[S3AK\(CSTR\):"SGKH4_Nc8SO1H6w3w0nCOFCGgk__E6dYzKlumRsKJA=="\]* *\[SUSR\(CSTR\):"urn:sgws:identity::60025621595611246499:root"\]* *\[SBAI\(CSTR\):"60025621595611246499"\]\[SBAC\(CSTR\):"帳號"\]\[S3BK\(CSTR\):"儲存桶"\]* *\[S3KY\(CSTR\):"物件"\]\[CBID\(UI64\):0xCC128B9B9E428347\]* *\[UUID\(CSTR\):"B975D2CE-E4DA-4D14-8A23-1CB4B83F2CD8"\]\[CSIZ\(UI64\):30720\]*[AVER(UI32):10] \[ATIM(UI64):1543998285921845]\[ATYP\(FC32\):SHEA\][ANID(UI32):12281045][AMID(FC32):S3RQ] \[ATID(UI64):1552417626174176267]
+
+====
+這 `ATYP`元素（範例中帶下劃線）標識產生該訊息的事件。此範例訊息包括link:shea-s3-head.html["乳木果"]訊息代碼（[ATYP(FC32):SHEA]），表示它是由成功的 S3 HEAD 請求產生的。

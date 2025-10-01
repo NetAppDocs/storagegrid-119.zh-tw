@@ -1,0 +1,28 @@
+---
+permalink: expand/adding-storage-capacity-for-erasure-coded-objects.html 
+sidebar: sidebar 
+keywords: erasure coding, capacity, storage nodes, ec, expand, expansion 
+summary: 如果您的 ILM 策略包含製作擦除編碼副本的規則，則必須規劃在何處新增儲存空間以及何時新增儲存。增加的儲存量和添加時間會影響電網的可用儲存容量。 
+---
+= 增加擦除編碼物件的儲存容量
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您的 ILM 策略包含製作擦除編碼副本的規則，則必須規劃在何處新增儲存空間以及何時新增儲存。增加的儲存量和添加時間會影響電網的可用儲存容量。
+
+規劃儲存擴充的第一步是檢查 ILM 策略中建立擦除編碼物件的規則。由於StorageGRID為每個擦除編碼物件建立 _k+m_ 個片段，並將每個片段儲存在不同的儲存節點上，因此您必須確保擴充後至少有 _k+m_ 個儲存節點有空間容納新的擦除編碼資料。如果擦除編碼設定檔提供網站遺失保護，則必須向每個網站新增儲存。看link:../ilm/what-erasure-coding-schemes-are.html["什麼是擦除編碼方案"]有關擦除編碼設定檔的資訊。
+
+您需要新增的節點數量也取決於執行擴充時現有節點的滿載程度。
+
+
+
+== 增加擦除編碼物件儲存容量的一般建議
+
+如果要避免詳細運算，可以在現有儲存節點達到 70% 容量時為每個站點新增兩個儲存節點。
+
+此一般建議為單一站點網格和擦除編碼提供站點遺失保護的網格的各種擦除編碼方案提供了合理的結果。
+
+為了更好地了解導致此建議的因素或為您的網站制定更精確的計劃，請參閱link:considerations-for-rebalancing-erasure-coded-data.html["重新平衡糾刪碼資料的注意事項"]。如需針對您的情況優化的客製化建議，請聯絡您的NetApp專業服務顧問。

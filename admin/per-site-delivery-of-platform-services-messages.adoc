@@ -1,0 +1,24 @@
+---
+permalink: admin/per-site-delivery-of-platform-services-messages.html 
+sidebar: sidebar 
+keywords: platform services message delivery 
+summary: 所有平台服務操作均依站點執行。 
+---
+= 按站點傳遞平台服務訊息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+所有平台服務操作均依站點執行。
+
+也就是說，如果租用戶使用用戶端透過連接到資料中心站點 1 的網關節點對物件執行 S3 API 建立操作，則會從資料中心站點 1 觸發並發送有關該操作的通知。
+
+image::../media/notification_multiple_sites.gif[此圖顯示了對站點 1 上的物件執行的操作觸發了來自站點 1 的通知]
+
+如果用戶端隨後從資料中心站點 2 對相同物件執行 S3 API 刪除操作，則會觸發有關刪除操作的通知並從資料中心站點 2 傳送。
+
+image::../media/notifications_site_2.gif[該圖顯示了對來自站點 2 的物件的操作觸發了來自站點 2 的通知]
+
+確保每個站點的網路配置都能夠使平台服務訊息傳送到目的地。

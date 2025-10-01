@@ -1,0 +1,36 @@
+= 
+:allow-uri-read: 
+
+
+審計日誌目錄和適用節點取決於您的審計目標設定。
+
+[cols="1a,2a"]
+|===
+| 選項 | 目的地 
+
+
+ a| 
+本地節點（預設）
+ a| 
+`/var/local/log/localaudit.log`
+
+
+
+ a| 
+管理節點/本地節點
+ a| 
+* 管理節點（主節點和非主節點）： `/var/local/audit/export/audit.log`
+* 所有節點： `/var/local/log/localaudit.log`在此模式下，文件通常為空或缺失。
+
+
+
+
+ a| 
+外部系統日誌伺服器
+ a| 
+`/var/local/log/localaudit.log`
+
+|===
+根據您的審計目標設置，輸入： `cd /var/local/log`或者 `/var/local/audit/export/`
+
+要了解更多信息，請參閱link:../monitor/configure-audit-messages.html#select-audit-information-destinations["選擇審計資訊目的地"]。

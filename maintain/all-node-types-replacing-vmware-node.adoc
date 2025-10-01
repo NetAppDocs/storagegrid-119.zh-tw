@@ -1,0 +1,78 @@
+---
+permalink: maintain/all-node-types-replacing-vmware-node.html 
+sidebar: sidebar 
+keywords: replace VMware node 
+summary: 當您還原託管在 VMware 上的故障StorageGRID節點時，您會刪除故障節點並部署復原節點。 
+---
+= 替換 VMware 節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您還原託管在 VMware 上的故障StorageGRID節點時，您會刪除故障節點並部署復原節點。
+
+.開始之前
+您已確定虛擬機器無法恢復，必須更換。
+
+.關於此任務
+您先使用 VMware vSphere Web Client 移除與故障網格節點關聯的虛擬機器。然後，您可以部署一個新的虛擬機器。
+
+此過程只是網格節點復原過程的一個步驟。所有 VMware 節點（包括管理節點、儲存節點和網關節點）的節點刪除和部署過程都是相同的。
+
+.步驟
+. 登入 VMware vSphere Web Client。
+. 導覽至發生故障的網格節點虛擬機器。
+. 記下部署恢復節點所需的所有資訊。
++
+.. 右鍵點選虛擬機，選擇「編輯設定」選項卡，並記下正在使用的設定。
+.. 選擇「*vApp 選項*」標籤來檢視和記錄網格節點網路設定。
+
+
+. 如果發生故障的網格節點是儲存節點，請確定用於資料儲存的任何虛擬硬碟是否未損壞，並保留它們以便重新連接到復原的網格節點。
+. 關閉虛擬機器。
+. 選擇“*操作*”>“*所有 vCenter 操作*”>“*從磁碟刪除*”以刪除虛擬機器。
+. 部署一個新的虛擬機器作為取代節點，並將其連接到一個或多個StorageGRID網路。有關說明，請參閱link:../vmware/deploying-storagegrid-node-as-virtual-machine.html["將StorageGRID節點部署為虛擬機"]。
++
+部署節點時，您可以選擇重新映射節點連接埠或增加 CPU 或記憶體設定。
+
++
+
+NOTE: 部署新節點後，您可以根據儲存需求新增新的虛擬磁碟，重新連接先前已刪除的故障網格節點保留的任何虛擬硬碟，或同時執行這兩項操作。
+
+. 根據要復原的節點類型完成節點復原過程。
++
+[cols="1a,2a"]
+|===
+| 節點類型 | 前往 
+
+
+ a| 
+主管理節點
+ a| 
+link:configuring-replacement-primary-admin-node.html["配置替換主管理節點"]
+
+
+
+ a| 
+非主管理節點
+ a| 
+link:selecting-start-recovery-to-configure-non-primary-admin-node.html["選擇“開始復原”以配置非主管理節點"]
+
+
+
+ a| 
+閘道
+ a| 
+link:selecting-start-recovery-to-configure-gateway-node.html["選擇“開始恢復”以設定網關節點"]
+
+
+
+ a| 
+儲存節點
+ a| 
+link:selecting-start-recovery-to-configure-storage-node.html["選擇“開始復原”以配置儲存節點"]
+
+|===
+

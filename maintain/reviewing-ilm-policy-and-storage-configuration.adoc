@@ -1,0 +1,65 @@
+---
+permalink: maintain/reviewing-ilm-policy-and-storage-configuration.html 
+sidebar: sidebar 
+keywords: storagegrid, restore, ilm policy, storage configuration 
+summary: 如果您計劃退役儲存節點，則應在開始退役程序之前檢查StorageGRID系統的 ILM 策略。 
+---
+= 檢查 ILM 策略和儲存配置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您計劃退役儲存節點，則應在開始退役程序之前檢查StorageGRID系統的 ILM 策略。
+
+在退役期間，所有物件資料都將從退役的儲存節點遷移到其他儲存節點。
+
+
+NOTE: 退役期間的 ILM 政策將是退役後使用的政策。您必須確保此策略在您開始退役之前和退役完成後都符合您的資料要求。
+
+你應該查看每個link:../ilm/creating-ilm-policy.html["主動 ILM 策略"]確保StorageGRID系統將繼續擁有正確類型和正確位置的足夠容量，以適應儲存節點的退役。
+
+請考慮以下情況：
+
+* ILM 評估服務是否可以複製物件資料以滿足 ILM 規則？
+* 如果在退役過程中站點暫時無法使用，會發生什麼情況？可以在其他地點製作更多副本嗎？
+* 退役過程將如何影響內容的最終分發？正如所述link:consolidating-storage-nodes.html["整合儲存節點"]，你應該link:../expand/index.html["新增的儲存節點"]在退役舊設備之前。如果在退役較小的儲存節點後添加更大的替換儲存節點，則舊儲存節點可能接近容量，而新儲存節點可能幾乎沒有內容。大多數針對新物件資料的寫入操作將直接針對新的儲存節點，從而降低系統操作的整體效率。
+* 系統是否始終包含足夠的儲存節點來滿足活動的 ILM 策略？
++
+
+NOTE: 無法滿足的 ILM 策略將導致積壓和警報，並可能停止StorageGRID系統的運作。
+
+
+
+透過評估表中列出的區域，驗證退役過程產生的建議拓樸是否符合 ILM 策略。
+
+[cols="1a,2a"]
+|===
+| 評估區域 | 需要考慮的事項 
+
+
+ a| 
+可用容量
+ a| 
+是否有足夠的儲存容量來容納StorageGRID系統中儲存的所有物件數據，包括目前儲存在即將退役的儲存節點上的物件資料的永久副本？
+
+退役完成後，是否有足夠的容量來處理合理時間間隔內儲存物件資料的預期成長？
+
+
+
+ a| 
+儲存位置
+ a| 
+如果整個StorageGRID系統中剩餘足夠的容量，那麼這些容量是否位於正確的位置以滿足StorageGRID系統的業務規則？
+
+
+
+ a| 
+儲存類型
+ a| 
+退役完成後是否有足夠的適當類型的儲存空間？
+
+例如，隨著內容老化，ILM 規則可能會將內容從一種類型的儲存移動到另一種類型的儲存。在這種情況下，您必須確保StorageGRID系統的最終配置中有足夠的適當類型的儲存。
+
+|===

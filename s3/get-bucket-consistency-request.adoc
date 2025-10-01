@@ -1,0 +1,94 @@
+---
+permalink: s3/get-bucket-consistency-request.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, GET bucket consistency 
+summary: GET Bucket 一致性請求可讓您確定應用於特定儲存桶的一致性。 
+---
+= 取得桶一致性
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+GET Bucket 一致性請求可讓您確定應用於特定儲存桶的一致性。
+
+預設一致性設定為保證新建立物件的先讀後寫。
+
+您必須擁有 s3:GetBucketConsistency 權限，或成為帳戶根，才能完成此操作。
+
+
+
+== 請求範例
+
+[listing, subs="specialcharacters,quotes"]
+----
+GET /bucket?x-ntap-sg-consistency HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----
+
+
+== 回覆
+
+在響應 XML 中， `<Consistency>`將傳回下列值之一：
+
+[cols="1a,2a"]
+|===
+| 一致性 | 描述 
+
+
+ a| 
+全部
+ a| 
+所有節點立即接收數據，否則請求將失敗。
+
+
+
+ a| 
+強大的全球
+ a| 
+保證所有網站上所有客戶端請求的讀寫一致性。
+
+
+
+ a| 
+強位點
+ a| 
+保證站點內所有客戶端請求的讀寫一致性。
+
+
+
+ a| 
+新寫後讀
+ a| 
+（預設）為新物件提供寫入後讀一致性，並為物件更新提供最終一致性。提供高可用性和資料保護保證。在大多數情況下建議使用。
+
+
+
+ a| 
+可用的
+ a| 
+為新物件和物件更新提供最終的一致性。對於 S3 儲存桶，僅在需要時使用（例如，對於包含很少讀取的日誌值的儲存桶，或對於不存在的鍵的 HEAD 或 GET 操作）。不支援 S3 FabricPool儲存桶。
+
+|===
+
+
+== 回應範例
+
+[listing]
+----
+HTTP/1.1 200 OK
+Date: Fri, 18 Sep 2020 01:02:18 GMT
+Connection: CLOSE
+Server: StorageGRID/11.5.0
+x-amz-request-id: 12345
+Content-Length: 127
+Content-Type: application/xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Consistency xmlns="http://s3.storagegrid.com/doc/2015-02-01/">read-after-new-write</Consistency>
+----
+.相關資訊
+link:consistency-controls.html["一致性值"]

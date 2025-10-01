@@ -1,0 +1,49 @@
+---
+permalink: monitor/disabling-alert-rules.html 
+sidebar: sidebar 
+keywords: how to disable alert rules, how to remove a custom alert rule 
+summary: 您可以變更預設或自訂警報規則的啟用/停用狀態。 
+---
+= 禁用警報規則
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以變更預設或自訂警報規則的啟用/停用狀態。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["管理警報或 Root 存取權限"]。
+
+
+.關於此任務
+當警報規則被停用時，其表達式不會被評估，也不會觸發任何警報。
+
+
+CAUTION: 一般來說，不建議停用預設警報規則。如果警報規則已停用，您可能無法偵測到潛在問題，直到它阻止關鍵操作完成。
+
+.步驟
+. 選擇*警報* > *規則*。
++
+出現「警報規則」頁面。
+
+. 選擇要停用或啟用的警報規則的單選按鈕。
+. 選擇*編輯規則*。
++
+出現「編輯規則」對話框。
+
+. 選取或清除「*已啟用*」核取方塊以確定此警報規則目前是否已啟用。
++
+如果停用警報規則，則不會評估其表達式，也不會觸發任何警報。
+
++
+
+NOTE: 如果您停用目前警報的警報規則，則必須等待幾分鐘才能使該警報不再顯示為活動警報。
+
+. 選擇*儲存*。
++
+*狀態* 列中顯示 *已停用*。
+
+

@@ -1,0 +1,66 @@
+---
+permalink: tenant/using-storagegrid-tenant-account.html 
+sidebar: sidebar 
+keywords: how to use tenant account 
+summary: '租用戶帳戶可讓您使用簡單儲存服務 \(S3\) REST API 在StorageGRID系統中儲存和擷取物件。' 
+---
+= 使用StorageGRID租用戶帳戶
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+租用戶帳戶可讓您使用簡單儲存服務 (S3) REST API 在StorageGRID系統中儲存和擷取物件。
+
+每個租用戶帳戶都有自己的聯合或本機群組、使用者、S3 儲存桶和物件。
+
+
+TIP: 此版本的文件網站已刪除 Swift 詳細資訊。看 https://docs.netapp.com/us-en/storagegrid-118/tenant/using-storagegrid-tenant-account.html["StorageGRID 11.8：使用StorageGRID租用戶帳戶"^]。
+
+或者，可以使用租用戶帳戶來依不同實體隔離儲存的物件。例如，多個租用戶帳戶可用於下列任一用例：
+
+* *企業用例：*如果在企業內部使用StorageGRID系統，則網格的物件儲存可能會由組織內的不同部門隔離。例如，可能有行銷部門、客戶支援部門、人力資源部門等的租戶帳戶。
++
+
+NOTE: 如果您使用 S3 用戶端協議，您也可以使用 S3 儲存桶和儲存桶策略在企業各部門之間隔離物件。您不需要建立單獨的租用戶帳戶。請參閱實施說明link:../s3/bucket-and-group-access-policies.html["S3 儲存桶和儲存桶策略"]了解更多。
+
+* *服務提供者用例：*如果服務提供者正在使用StorageGRID系統，則網格的物件儲存可能會由租用儲存的不同實體隔離。例如，可能有公司 A、公司 B、公司 C 等的租戶帳戶。
+
+
+
+
+== 建立租用戶帳戶
+
+租用戶帳戶由StorageGRID網格管理員使用網格管理器建立。建立租用戶帳戶時，網格管理員指定以下資訊：
+
+* 租用戶的顯示名稱（租用戶的帳戶 ID 是自動指派的，無法變更）。
+* 租用戶帳戶是否使用 S3 或 Swift 協議。
+* 對於 S3 租用戶帳戶：是否允許租戶帳戶使用平台服務。如果允許使用平台服務，則必須配置網格以支援其使用。
+* 可選地，租戶帳戶的儲存配額 - 租戶物件可用的最大 GB、TB 或 PB 數。租戶的儲存配額代表邏輯量（物件大小），而不是物理量（磁碟上的大小）。
+* 如果為StorageGRID系統啟用了身分聯合，則哪個聯合群組具有配置租用戶帳戶的 Root 存取權限。
+* 如果StorageGRID系統未使用單一登入 (SSO)，則租用戶帳戶是否使用自己的身分來源或共用網格的識別來源，以及租用戶本機 root 使用者的初始密碼。
+
+
+此外，如果 S3 租用戶帳戶需要遵守法規要求，網格管理員可以為StorageGRID系統啟用 S3 物件鎖定設定。啟用 S3 物件鎖定後，所有 S3 租用戶帳戶都可以建立和管理相容的儲存桶。
+
+
+
+== 配置 S3 租戶
+
+建立 S3 租用戶帳戶後，您可以存取租用戶管理員來執行下列任務：
+
+* 設定身份聯合（除非身分來源與網格共用），或建立本機群組和用戶
+* 管理 S3 存取密鑰
+* 建立和管理 S3 儲存桶，包括相容儲存桶
+* 使用平台服務（如果啟用）
+* 監控儲存使用情況
+
+
+
+TIP: 雖然您可以使用租用戶管理器建立和管理 S3 儲存桶，但您必須擁有 S3 存取金鑰並使用 S3 REST API 來提取和管理物件。
+
+.相關資訊
+* link:../admin/index.html["管理StorageGRID"]
+* link:../s3/index.html["使用 S3 REST API"]
+

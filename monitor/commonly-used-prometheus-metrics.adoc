@@ -1,0 +1,158 @@
+---
+permalink: monitor/commonly-used-prometheus-metrics.html 
+sidebar: sidebar 
+keywords: prometheus, Prometheus metrics, metrics 
+summary: 參考此常用 Prometheus 指標列表，以更好地理解預設警報規則中的條件或建立自訂警報規則的條件。 
+---
+= 常用的 Prometheus 指標
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+參考此常用 Prometheus 指標列表，以更好地理解預設警報規則中的條件或建立自訂警報規則的條件。
+
+您還可以<<obtain-all-metrics,取得所有指標的完整列表>> 。
+
+有關 Prometheus 查詢語法的詳細信息，請參閱 https://prometheus.io/docs/prometheus/latest/querying/basics/["查詢 Prometheus"^]。
+
+
+
+== Prometheus 指標是什麼？
+
+Prometheus 指標是時間序列測量。管理節點上的 Prometheus 服務從所有節點上的服務收集這些指標。指標儲存在每個管理節點上，直到為 Prometheus 資料保留的空間已滿。當 `/var/local/mysql_ibdata/`捲達到容量時，將先刪除最舊的指標。
+
+
+
+== Prometheus 指標在哪裡使用？
+
+Prometheus 收集的指標在網格管理器的幾個地方使用：
+
+* *節點頁面*：節點頁面上的標籤上的圖形和圖表使用 Grafana 視覺化工具顯示 Prometheus 收集的時間序列指標。  Grafana 以圖形和圖表格式顯示時間序列數據，而 Prometheus 則作為後端資料來源。
++
+image::../media/nodes_page_network_traffic_graph.png[Prometheus 圖]
+
+* *警報*：當使用 Prometheus 指標的警報規則條件評估為真時，會在特定嚴重程度等級觸發警報。
+* *網格管理 API*：您可以在自訂警報規則中使用 Prometheus 指標或使用外部自動化工具來監控您的StorageGRID系統。可以從網格管理 API 取得 Prometheus 指標的完整清單。 （從網格管理器頂部，選擇說明圖示並選擇*API 文件* > *指標*。）雖然有超過一千個指標可用，但只需要相對較少的指標來監控最關鍵的StorageGRID操作。
++
+
+NOTE: 名稱中包含 _private_ 的指標僅供內部使用，並且可能會在StorageGRID版本之間發生變化，恕不另行通知。
+
+* *SUPPORT* > *Tools* > *Diagnostics* 頁面和 *SUPPORT* > *Tools* > *Metrics* 頁面：這些頁面主要供技術支援使用，提供了使用 Prometheus 指標值的一些工具和圖表。
++
+
+NOTE: 指標頁面中的某些功能和選單項目有意設定為不起作用，並且可能會發生變化。
+
+
+
+
+
+== 最常見指標列表
+
+以下清單包含最常用的 Prometheus 指標。
+
+
+NOTE: 名稱中包含 _private_ 的指標僅供內部使用，並且在StorageGRID版本之間可能會發生變化，恕不另行通知。
+
+alertmanager_notifications_failed_total:: 失敗的警報通知總數。
+node_filesystem_avail_bytes:: 非 root 使用者可用的檔案系統空間量（以位元組為單位）。
+節點記憶體可用位元組數:: 記憶體資訊欄位MemAvailable_bytes。
+節點網路載體:: 承運商價值 `/sys/class/net/_iface_`。
+node_network_receive_errs_total:: 網路設備統計 `receive_errs`。
+node_network_transmit_errs_total:: 網路設備統計 `transmit_errs`。
+storagegrid_administratively_down:: 由於預期的原因，該節點未連接到電網。例如，節點或節點上的服務已正常關閉、節點正在重新啟動或軟體正在升級。
+storagegrid_appliance_compute_controller_hardware_status:: 設備中計算控制器硬體的狀態。
+storagegrid_appliance_failed_disks:: 對於設備中的儲存控制器，驅動器的數量不是最佳的。
+storagegrid_appliance_storage_controller_hardware_status:: 設備中儲存控制器硬體的整體狀態。
+storagegrid_content_buckets_and_containers:: 此儲存節點已知的 S3 儲存桶和 Swift 容器的總數。
+storagegrid_content_objects:: 此儲存節點已知的 S3 和 Swift 資料物件的總數。計數僅對透過 S3 與系統互動的客戶端應用程式所建立的資料物件有效。
+storagegrid_content_objects_lost:: 此服務偵測到的StorageGRID系統中缺少的物件總數。應採取行動確定損失的原因並確定是否有可能恢復。
++
+--
+link:../troubleshoot/troubleshooting-lost-and-missing-object-data.html["解決物件資料遺失和缺失問題"]
+
+--
+storagegrid_http_sessions_incoming_attempted:: 嘗試存取儲存節點的 HTTP 會話總數。
+storagegrid_http_sessions_incoming_currently_established:: 儲存節點上目前處於活動狀態（開啟）的 HTTP 會話數。
+storagegrid_http_sessions_incoming_failed:: 由於 HTTP 請求格式錯誤或處理操作時發生故障而未能成功完成的 HTTP 會話總數。
+storagegrid_http_sessions_incoming_successful:: 已成功完成的 HTTP 會話總數。
+storagegrid_ilm_awaiting_background_objects:: 此節點上等待掃描的 ILM 評估的物件總數。
+storagegrid_ilm_awaiting_client_evaluation_objects_per_second:: 根據此節點上的 ILM 策略評估物件的目前速率。
+storagegrid_ilm_awaiting_client_objects:: 此節點上等待客戶端操作（例如，攝取）進行 ILM 評估的物件總數。
+storagegrid_ilm_awaiting_total_objects:: 等待 ILM 評估的對象總數。
+storagegrid_ilm_scan_objects_per_second:: 掃描此節點擁有的物件並將其排隊等待 ILM 的速率。
+storagegrid_ilm_scan_period_estimated_minutes:: 完成此節點上的完整 ILM 掃描的預計時間。
++
+--
+*注意：*完整掃描無法保證 ILM 已套用於該節點擁有的所有物件。
+
+--
+storagegrid_load_balancer_endpoint_cert_expiry_time:: 負載平衡器端點憑證自紀元以來的到期時間（以秒為單位）。
+storagegrid_metadata_queries_average_latency_milliseconds:: 透過此服務對元資料儲存執行查詢所需的平均時間。
+storagegrid_network_received_bytes:: 自安裝以來接收的資料總量。
+storagegrid_network_transmitted_bytes:: 自安裝以來發送的資料總量。
+storagegrid_node_cpu_utilization_percentage:: 此服務目前使用的可用 CPU 時間百分比。指示服務繁忙程度。可用 CPU 時間的數量取決於伺服器的 CPU 數量。
+storagegrid_ntp_chosen_time_source_offset_milliseconds:: 所選時間來源提供的系統時間偏移。當到達時間來源的延遲不等於時間來源到達 NTP 用戶端所需的時間時，就會引入偏移。
+storagegrid_ntp_locked:: 此節點未鎖定至網路時間協定 (NTP) 伺服器。
+storagegrid_s3_data_transfers_bytes_ingested:: 自上次重置屬性以來從 S3 用戶端提取到此儲存節點的資料總量。
+storagegrid_s3_data_transfers_bytes_retrieved:: 自上次重置屬性以來，S3 用戶端從此儲存節點檢索的資料總量。
+storagegrid_s3_operations_failed:: 失敗的 S3 操作總數（HTTP 狀態代碼 4xx 和 5xx），不包括 S3 授權失敗導致的操作。
+storagegrid_s3_operations_successful:: 成功的 S3 操作總數（HTTP 狀態代碼 2xx）。
+storagegrid_s3_operations_unauthorized:: 由於授權失敗而導致的失敗 S3 操作總數。
+storagegrid_servercertificate_management_interface_cert_expiry_days:: 管理介面憑證過期前的天數。
+storagegrid_servercertificate_storage_api_endpoints_cert_expiry_days:: 物件儲存 API 憑證過期前的天數。
+storagegrid_service_cpu_seconds:: 自安裝以來此服務使用 CPU 的累積時間。
+storagegrid_service_memory_usage_bytes:: 此服務目前使用的記憶體（RAM）量。該值與 Linux top 實用程式顯示的 RES 值相同。
+storagegrid_service_network_received_bytes:: 自安裝以來此服務接收的資料總量。
+storagegrid_service_network_transmitted_bytes:: 此服務發送的資料總量。
+storagegrid_service_restarts:: 服務重啟的總次數。
+storagegrid_service_runtime_seconds:: 該服務自安裝以來運行的總時間。
+storagegrid_service_uptime_seconds:: 自上次重新啟動以來服務運行的總時間。
+storagegrid_storage_state_current:: 儲存服務的目前狀態。屬性值為：
++
+--
+* 10 = 離線
+* 15 = 維護
+* 20 = 唯讀
+* 30 = 在線
+
+
+--
+storagegrid_storage_status:: 儲存服務的目前狀態。屬性值為：
++
+--
+* 0 = 無錯誤
+* 10 = 過渡期
+* 20 = 可用空間不足
+* 30 = 卷不可用
+* 40 = 錯誤
+
+
+--
+storagegrid_storage_utilization_data_bytes:: 儲存節點上複製和擦除編碼物件資料的總大小的估計值。
+storagegrid_storage_utilization_metadata_allowed_bytes:: 每個儲存節點的磁碟區 0 上允許用於物件元資料的總空間。該值始終小於節點上為元資料保留的實際空間，因為部分保留空間是用於基本資料庫操作（例如壓縮和修復）以及未來硬體和軟體升級的。物件元資料的允許空間控制整體物件容量。
+storagegrid_storage_utilization_metadata_bytes:: 儲存磁碟區 0 上的物件元資料的數量（以位元組為單位）。
+storagegrid_storage_utilization_total_space_bytes:: 分配給所有物件儲存的總儲存空間量。
+storagegrid_storage_utilization_usable_space_bytes:: 剩餘的物件儲存空間總量。透過將儲存節點上所有物件儲存的可用空間量加在一起來計算。
+storagegrid_swift_data_transfers_bytes_ingested:: 自上次重置屬性以來從 Swift 用戶端提取到此儲存節點的資料總量。
+storagegrid_swift_data_transfers_bytes_retrieved:: 自上次重置屬性以來，Swift 用戶端從此儲存節點檢索的資料總量。
+storagegrid_swift_operations_failed:: 失敗的 Swift 操作總數（HTTP 狀態代碼 4xx 和 5xx），不包含因 Swift 授權失敗而導致的操作。
+storagegrid_swift_operations_successful:: 成功的 Swift 操作總數（HTTP 狀態代碼 2xx）。
+storagegrid_swift_operations_unauthorized:: 由於授權失敗（HTTP 狀態代碼 401、403、405）而導致的失敗 Swift 操作總數。
+storagegrid_tenant_usage_data_bytes:: 租戶所有物件的邏輯大小。
+storagegrid_tenant_usage_object_count:: 租戶的對象數量。
+storagegrid_tenant_usage_quota_bytes:: 租戶物件可用的最大邏輯空間量。如果未提供配額指標，則可用空間量不受限制。
+
+
+
+
+== 取得所有指標的列表
+
+[[obtain-all-metrics]]要取得完整的指標列表，請使用網格管理 API。
+
+. 從網格管理器的頂部，選擇幫助圖示並選擇*API 文件*。
+. 找到*metrics*操作。
+. 執行 `GET /grid/metric-names`手術。
+. 下載結果。
+

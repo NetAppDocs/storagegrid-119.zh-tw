@@ -1,0 +1,59 @@
+---
+permalink: rhel/index.html 
+sidebar: sidebar 
+keywords: red hat enterprise linux, rhel, quick start 
+summary: '請依照這些進階步驟安裝 Red Hat Enterprise Linux (RHEL) Linux StorageGRID節點。' 
+---
+= 在 Red Hat Enterprise Linux 上安裝StorageGRID的快速入門
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+請依照這些進階步驟安裝 Red Hat Enterprise Linux (RHEL) Linux StorageGRID節點。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一"]準備
+[role="quick-margin-list"]
+* 了解link:../primer/storagegrid-architecture-and-network-topology.html["StorageGRID架構與網路拓撲"]。
+* 了解具體情況link:../network/index.html["StorageGRID網路"]。
+* 收集並準備link:required-materials.html["所需資訊和材料"]。
+* 準備所需的link:cpu-and-ram-requirements.html["CPU和RAM"]。
+* 提供link:storage-and-performance-requirements.html["儲存和效能要求"]。
+* link:how-host-wide-settings-change.html["準備 Linux 伺服器"]將託管您的StorageGRID節點。
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["二"]部署
+[role="quick-margin-para"]
+部署網格節點。當您部署網格節點時，它們將作為StorageGRID系統的一部分建立並連接到一個或多個網路。
+
+[role="quick-margin-list"]
+* 若要在步驟 1 中準備好的主機上部署基於軟體的網格節點，請使用 Linux 命令列和link:creating-node-configuration-files.html["節點設定檔"]。
+* 若要部署StorageGRID設備節點，請依照 https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["硬體安裝快速啟動"^]。
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]配置
+[role="quick-margin-para"]
+當所有節點都已部署後，使用網格管理器link:navigating-to-grid-manager.html["配置網格並完成安裝"]。
+
+
+
+== 自動化安裝
+
+為了節省時間並提供一致性，您可以自動安裝StorageGRID主機服務和設定網格節點。
+
+* 使用標準編排框架（如 Ansible、Puppet 或 Chef）實現自動化：
++
+** 安裝 RHEL
+** 網路和儲存配置
+** 容器引擎和StorageGRID主機服務的安裝
+** 虛擬電網節點部署
+
+
++
+看link:automating-installation.html#automate-the-installation-and-configuration-of-the-storagegrid-host-service["自動安裝並設定StorageGRID主機服務"] 。
+
+* 部署網格節點後，link:automating-installation.html#automate-the-configuration-of-storagegrid["自動化StorageGRID系統的配置"]使用安裝檔案中提供的 Python 設定腳本。
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/automating-appliance-installation-and-configuration.html["自動安裝並配置設備網格節點"^]
+* 如果您是StorageGRID部署的高級開發人員，可以使用link:overview-of-installation-rest-api.html["安裝 REST API"]。
+

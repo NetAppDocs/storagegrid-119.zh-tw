@@ -1,0 +1,33 @@
+---
+permalink: vmware/specifying-storagegrid-license-information.html 
+sidebar: sidebar 
+keywords: how to specify the StorageGRID license information 
+summary: 您必須指定StorageGRID系統的名稱並上傳NetApp提供的授權檔案。 
+---
+= 指定StorageGRID許可證信息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須指定StorageGRID系統的名稱並上傳NetApp提供的授權檔案。
+
+.步驟
+. 在許可證頁面上，在*網格名稱*欄位中輸入StorageGRID系統的有意義的名稱。
++
+安裝後，名稱顯示在節點選單的頂部。
+
+. 選擇“瀏覽”，找到NetApp許可證文件(`NLF-_unique-id_.txt`)，然後選擇*開啟*。
++
+許可證文件已驗證，並顯示序號。
+
++
+
+NOTE: StorageGRID安裝檔案包含一個免費許可證，但不提供任何產品支援權利。您可以更新到安裝後提供支援的授權。
+
++
+image::../media/2_gmi_installer_license_page.png[StorageGRID安裝程式授權頁面]
+
+. 選擇“下一步”。
+

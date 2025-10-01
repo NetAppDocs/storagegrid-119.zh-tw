@@ -1,0 +1,64 @@
+---
+permalink: audit/bror-bucket-read-only-request.html 
+sidebar: sidebar 
+keywords: bror, bucket read only request, empty bucket, audit message, 
+summary: 當儲存桶進入或退出唯讀模式時，LDR 服務會產生此稽核訊息。例如，儲存桶在被清空時進入唯讀模式。 
+---
+= BROR：儲存桶只讀請求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當儲存桶進入或退出唯讀模式時，LDR 服務會產生此稽核訊息。例如，當所有物件被刪除時，儲存桶進入唯讀模式。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+BKHD
+ a| 
+儲存桶 UUID
+ a| 
+儲存桶 ID。
+
+
+
+ a| 
+布羅夫
+ a| 
+Bucket 唯讀請求值
+ a| 
+儲存桶是否變成唯讀或是否離開唯讀狀態（1 = 唯讀，0 = 非唯讀）。
+
+
+
+ a| 
+兄弟
+ a| 
+儲存桶只讀原因
+ a| 
+儲存桶變成唯讀或離開唯讀狀態的原因。例如，emptyBucket。
+
+
+
+ a| 
+S3AI
+ a| 
+S3 租用戶帳號 ID
+ a| 
+發送請求的租戶帳戶的 ID。空值表示匿名存取。
+
+
+
+ a| 
+S3BK
+ a| 
+S3 儲存桶
+ a| 
+S3 儲存桶名稱。
+
+|===

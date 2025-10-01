@@ -1,0 +1,27 @@
+---
+permalink: primer/retrieve-data-flow.html 
+sidebar: sidebar 
+keywords: object data, retrieve 
+summary: 檢索操作由StorageGRID系統與客戶端之間定義的資料流所組成。系統使用屬性來追蹤從儲存節點或（如有必要）雲端儲存池檢索物件的過程。 
+---
+= 檢索資料流
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+檢索操作由StorageGRID系統與客戶端之間定義的資料流所組成。系統使用屬性來追蹤從儲存節點或（如有必要）雲端儲存池檢索物件的過程。
+
+儲存節點的 LDR 服務查詢元資料儲存中物件資料的位置，並從來源 LDR 服務中檢索它。優先從儲存節點進行檢索。如果儲存節點上沒有該對象，則檢索請求將被定向到雲端儲存池。
+
+
+NOTE: 如果唯一的物件副本位於 AWS Glacier 儲存體或 Azure 存檔層，則用戶端應用程式必須發出 S3 RestoreObject 要求以將可擷取的副本還原到雲端儲存池。
+
+image::../media/retrieve_data_flow.png[取回]
+
+. LDR 服務從客戶端應用程式接收檢索請求。
+. LDR 服務查詢元資料儲存以取得物件資料位置和元資料。
+. LDR 服務將檢索請求轉送至來源 LDR 服務。
+. 來源LDR服務從查詢的LDR服務傳回物件數據，系統將物件傳回給客戶端應用程式。
+

@@ -1,0 +1,35 @@
+---
+permalink: maintain/checking-storage-state-after-recovering-sga.html 
+sidebar: sidebar 
+keywords: storagegrid, recovery, node recovery, storage state 
+summary: 恢復設備儲存節點後，必須驗證設備儲存節點的所需狀態是否設定為在線，並確保每次重新啟動儲存節點伺服器時該狀態都預設為線上。 
+---
+= 恢復設備儲存節點後檢查儲存狀態
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+恢復設備儲存節點後，必須驗證設備儲存節點的所需狀態是否設定為在線，並確保每次重新啟動儲存節點伺服器時該狀態都預設為線上。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 儲存節點已恢復，資料恢復完成。
+
+
+.步驟
+. 選擇*支援* > *工具* > *網格拓撲*。
+. 檢查 *Recovered Storage Node* > *LDR* > *Storage* > *Storage State -- Desired* 和 *Storage State -- Current* 的值。
++
+兩個屬性的值都應該是 Online。
+
+. 如果“儲存狀態-所需”設定為“唯讀”，請完成以下步驟：
++
+.. 按一下“*配置*”標籤。
+.. 從*儲存狀態-所需*下拉清單中，選擇*線上*。
+.. 按一下“應用變更”。
+.. 按一下「*概覽*」標籤，確認「*儲存狀態-所需*」和「*儲存狀態-目前*」的值已更新為「線上」。
+
+
+

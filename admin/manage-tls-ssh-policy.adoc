@@ -1,0 +1,135 @@
+---
+permalink: admin/manage-tls-ssh-policy.html 
+sidebar: sidebar 
+keywords: TLS and SSH policy, secure connection, FIPS, Common Criteria 
+summary: TLS 和 SSH 原則決定使用哪些協定和密碼與用戶端應用程式建立安全的 TLS 連線以及與內部StorageGRID服務建立安全的 SSH 連線。 
+---
+= 管理 TLS 和 SSH 策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+TLS 和 SSH 原則決定使用哪些協定和密碼與用戶端應用程式建立安全的 TLS 連線以及與內部StorageGRID服務建立安全的 SSH 連線。
+
+安全性策略控制 TLS 和 SSH 如何加密傳輸中的資料。一般來說，使用現代相容性（預設）策略，除非您的系統需要符合通用標準或您需要使用其他密碼。
+
+
+NOTE: 某些StorageGRID服務尚未更新以使用這些原則中的密碼。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:admin-group-permissions.html["Root存取權限"]。
+
+
+
+
+== 選擇安全策略
+
+.步驟
+. 選擇*配置* > *安全* > *安全設定*。
++
+*TLS 和 SSH 策略*標籤顯示可用的策略。目前有效的策略在策略圖塊上以綠色複選標記表示。
+
++
+image::../media/securitysettings_tls_ssh_policies_current.png[TLS 和 SSH 策略]
+
+. 查看圖塊以了解可用的策略。
++
+[cols="1a,2a"]
+|===
+| 政策 | 描述 
+
+
+ a| 
+現代相容性（預設）
+ a| 
+如果您需要強加密並且除非您有特殊要求，請使用預設策略。此策略與大多數 TLS 和 SSH 用戶端相容。
+
+
+
+ a| 
+舊版相容性
+ a| 
+如果您需要為舊客戶端提供額外的相容性選項，請使用此原則。此策略中的附加選項可能會使其安全性低於現代相容性策略。
+
+
+
+ a| 
+通用標準
+ a| 
+如果您需要通用標準認證，請使用此政策。
+
+
+
+ a| 
+FIPS 嚴格
+ a| 
+如果您需要通用標準認證並且需要使用NetApp加密安全模組 3.0.8 將外部用戶端連接到負載平衡器端點、租用戶管理器和網格管理器，請使用此原則。使用此策略可能會降低效能。
+
+*注意*：選擇此策略後，所有節點都必須link:../maintain/rolling-reboot-procedure.html["以滾動方式重啟"]啟動NetApp加密安全模組。使用*維護* > *滾動重新啟動*來啟動和監控重新啟動。
+
+
+
+ a| 
+風俗
+ a| 
+如果您需要套用自己的密碼，請建立自訂原則。
+
+|===
+. 要查看有關每個策略的密碼、協定和演算法的詳細信息，請選擇*查看詳細資訊*。
+. 若要變更目前策略，請選擇*使用策略*。
++
+政策圖塊上的「目前政策」旁邊會出現一個綠色複選標記。
+
+
+
+
+
+== 建立自訂安全性策略
+
+如果您需要套用自己的密碼，您可以建立自訂原則。
+
+.步驟
+. 從與您要建立的自訂策略最相似的策略的圖塊中，選擇「查看詳細資訊」。
+. 選擇*複製到剪貼簿*，然後選擇*取消*。
++
+image::../media/securitysettings-custom-security-policy-copy.png[複製現有策略來建立自訂策略]
+
+. 從*自訂策略*圖塊中，選擇*配置和​​使用*。
+. 貼上您複製的 JSON 並進行所需的更改。
+. 選擇*使用策略*。
++
+自訂策略圖塊上的「*目前策略*」旁邊會出現一個綠色複選標記。
+
+. 或者，選擇「*編輯配置*」對新的自訂策略進行更多變更。
+
+
+
+
+== 暫時恢復預設安全策略
+
+如果您設定了自訂安全性策略，且設定的 TLS 策略與link:global-certificate-types.html["設定伺服器憑證"]。
+
+您可以暫時恢復預設安全性策略。
+
+.步驟
+. 登入管理節點：
++
+.. 輸入以下命令： `ssh admin@_Admin_Node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+
+
+. 運行以下命令：
++
+`restore-default-cipher-configurations`
+
+. 從 Web 瀏覽器存取相同管理節點上的網格管理器。
+. 請依照以下步驟操作<<select-a-security-policy,選擇安全策略>>重新配置策略。
+

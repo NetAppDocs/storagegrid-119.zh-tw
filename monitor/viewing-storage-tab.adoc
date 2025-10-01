@@ -1,0 +1,38 @@
+---
+permalink: monitor/viewing-storage-tab.html 
+sidebar: sidebar 
+keywords: storage tab 
+summary: 儲存選項卡總結了儲存可用性和其他儲存指標。 
+---
+= 查看“儲存”選項卡
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+儲存選項卡總結了儲存可用性和其他儲存指標。
+
+所有節點、每個站點和整個網格均顯示「儲存」標籤。
+
+
+
+== 儲存使用情況圖表
+
+對於儲存節點、每個站點和整個網格，「儲存」標籤包含圖表，顯示物件資料和物件元資料在一段時間內使用了多少儲存空間。
+
+
+NOTE: 當節點未連接到電網時（例如在升級或斷開連接狀態期間），某些指標可能無法使用或被排除在站點和電網總數之外。節點重新連接到電網後，等待幾分鐘以使值穩定下來。
+
+image::../media/nodes_storage_node_storage_tab.png[節點 > 儲存節點 > 儲存選項卡]
+
+
+
+== 磁碟設備、磁碟區和物件儲存表
+
+對於所有節點，「儲存」標籤包含節點上的磁碟設備和磁碟區的詳細資訊。對於儲存節點，物件儲存表提供有關每個儲存磁碟區的資訊。
+
+image::../media/nodes_page_storage_tables.png[節點頁面儲存表]
+
+.相關資訊
+link:monitoring-storage-capacity.html["監控儲存容量"]

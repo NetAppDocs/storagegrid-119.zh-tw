@@ -1,0 +1,57 @@
+---
+permalink: maintain/checking-data-repair-jobs.html 
+sidebar: sidebar 
+keywords: storagegrid, data repair 
+summary: 在退役網格節點之前，您必須確認沒有處於活動狀態的資料修復作業。如果任何修復失敗，則必須重新啟動它們並讓它們完成，然後再執行退役程序。 
+---
+= 檢查資料修復作業
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在退役網格節點之前，您必須確認沒有處於活動狀態的資料修復作業。如果任何修復失敗，則必須重新啟動它們並讓它們完成，然後再執行退役程序。
+
+.關於此任務
+如果您需要停用已中斷連線的儲存節點，您也需要在停用程序完成後完成這些步驟，以確保資料修復工作已成功完成。您必須確保已刪除節點上的所有擦除編碼片段都已成功復原。
+
+這些步驟僅適用於具有擦除編碼物件的系統。
+
+.步驟
+. 登入主管理節點：
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+
+
+. 檢查正在進行的維修： `repair-data show-ec-repair-status`
++
+** 如果您從未執行過資料修復作業，則輸出為 `No job found`。您不需要重新啟動任何修復工作。
+** 如果資料修復作業之前已運行或目前正在運行，則輸出將列出修復資訊。每次維修都有唯一的維修 ID。
++
+image::../media/repair-data-status.png[修復資料狀態]
+
+
+
++
+
+TIP: 或者，您可以使用網格管理器來監控正在進行的恢復過程並顯示恢復歷史記錄。看link:../maintain/restoring-volume.html["使用網格管理器恢復物件數據"] 。
+
+. 如果所有維修費用由州政府承擔 `Completed`，您不需要重新啟動任何修復工作。
+. 如果國家要求任何維修 `Stopped`，則必須重新啟動該修復。
++
+.. 從輸出取得失敗修復的修復 ID。
+.. 運行 `repair-data start-ec-node-repair`命令。
++
+使用 `--repair-id`選項來指定修復 ID。例如，如果您想重試修復 ID 為 949292 的修復，請執行下列命令： `repair-data start-ec-node-repair --repair-id 949292`
+
+.. 繼續追蹤 EC 資料修復狀態，直到所有修復的狀態都 `Completed`。
+
+
+

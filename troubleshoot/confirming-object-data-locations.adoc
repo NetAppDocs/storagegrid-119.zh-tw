@@ -1,0 +1,57 @@
+---
+permalink: troubleshoot/confirming-object-data-locations.html 
+sidebar: sidebar 
+keywords: how to confirm object location, object metadata lookup 
+summary: 根據問題的不同，您可能需要確認物件資料的儲存位置。例如，您可能想要驗證 ILM 策略是否如預期執行以及物件資料是否儲存在預期的位置。 
+---
+= 確認物件資料位置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+根據問題的不同，你可能需要link:../audit/object-ingest-transactions.html["確認物件資料的儲存位置"]。例如，您可能想要驗證 ILM 策略是否如預期執行以及物件資料是否儲存在預期的位置。
+
+.開始之前
+* 您必須有一個物件標識符，它可以是以下其中之一：
++
+** *UUID*：物件的通用唯一識別碼。以全部大寫的形式輸入 UUID。
+** *CBID*： StorageGRID內物件的唯一識別碼。您可以從稽核日誌中取得物件的 CBID。以全部大寫的形式輸入 CBID。
+** *S3 bucket 和 object key*: 當一個物件通過link:../s3/operations-on-objects.html["S3介面"]，客戶端應用程式使用儲存桶和物件鍵組合來儲存和識別物件。
+
+
+
+
+.步驟
+. 選擇 *ILM* > *物件元資料查找*。
+. 在*標識符*欄位中輸入物件的標識符。
++
+您可以輸入 UUID、CBID、S3 儲存桶/物件鍵或 Swift 容器/物件名稱。
+
+. 如果要尋找物件的特定版本，請輸入版本 ID（可選）。
++
+image::../media/object_lookup.png[對象查找頁面]
+
+. 選擇*尋找*。
++
+這link:../ilm/verifying-ilm-policy-with-object-metadata-lookup.html["對像元資料查找結果"]出現。此頁面列出了以下類型的信息：
+
++
+** 系統元數據，包括物件 ID（UUID）、版本 ID（可選）、物件名稱、容器名稱、租用戶帳戶名稱或 ID、物件的邏輯大小、物件首次建立的日期和時間以及物件最後修改的日期和時間。
+** 與物件關聯的任何自訂用戶元資料鍵值對。
+** 對於 S3 對象，與該對象關聯的任何對象標籤鍵值對。
+** 對於複製的物件副本，每個副本的目前儲存位置。
+** 對於擦除編碼物件副本，每個片段的目前儲存位置。
+** 對於雲端儲存池中的物件副本，物件的位置，包括外部儲存桶的名稱和物件的唯一識別碼。
+** 對於分段對象和多部分對象，對象段的清單包括段標識符和資料大小。對於具有超過 100 個段的對象，僅顯示前 100 個段。
+** 所有物件元資料均採用未處理的內部儲存格式。此原始元數據包括內部系統元數據，不能保證其在各個版本之間持續存在。
++
+以下範例顯示儲存為兩個副本的 S3 測試物件的物件元資料查找結果。
+
+
+
++
+image::../media/object_lookup_results.png[對象查找結果]
+
+

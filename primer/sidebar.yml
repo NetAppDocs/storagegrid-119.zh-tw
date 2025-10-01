@@ -1,0 +1,47 @@
+---
+section: primer
+title: 了解StorageGRID
+entries:
+- title: 什麼是StorageGRID？
+  pdf-filename: StorageGRID網格入門
+  url: "/primer/index.html"
+- title: 使用StorageGRID的混合雲
+  url: "/primer/hybrid-clouds-with-storagegrid.html"
+- title: 架構和網路拓撲
+  url: "/primer/storagegrid-architecture-and-network-topology.html"
+- title: 網格節點和服務
+  entries:
+  - title: 節點和服務
+    url: "/primer/nodes-and-services.html"
+    pdf-filename: 節點和服務
+  - title: 什麼是管理節點
+    url: "/primer/what-admin-node-is.html"
+  - title: 什麼是儲存節點
+    url: "/primer/what-storage-node-is.html"
+  - title: 什麼是網關節點
+    url: "/primer/what-gateway-node-is.html"
+  - title: 什麼是存檔節點
+    url: "/primer/what-archive-node-is.html"
+- title: StorageGRID如何管理數據
+  entries:
+  - title: 什麼是對象
+    pdf-filename: StorageGRID如何管理資料 - 概述
+    url: "/primer/how-storagegrid-manages-data.html"
+  - title: 物體的壽命
+    url: "/primer/life-of-object.html"
+  - title: 引入資料流
+    url: "/primer/ingest-data-flow.html"
+  - title: 複製管理
+    url: "/primer/copy-management.html"
+  - title: 檢索資料流
+    url: "/primer/retrieve-data-flow.html"
+  - title: 刪除資料流
+    url: "/primer/delete-data-flow.html"
+  - title: 資訊生命週期管理
+    url: "/primer/using-information-lifecycle-management.html"
+- title: 探索StorageGRID
+  entries:
+  - title: 探索網格管理器
+    url: "/primer/exploring-grid-manager.html"
+  - title: 探索租戶管理器
+    url: "/primer/exploring-tenant-manager.html"

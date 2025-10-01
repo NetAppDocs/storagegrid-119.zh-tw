@@ -1,0 +1,149 @@
+---
+permalink: audit/wdel-swift-delete.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, WDEL, Swift DELETE 
+summary: 當 Swift 用戶端發出 DELETE 交易時，會發出刪除指定物件或容器的請求。如果交易成功，伺服器將發出此訊息。 
+---
+= WDEL：快速刪除
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當 Swift 用戶端發出 DELETE 交易時，會發出刪除指定物件或容器的請求。如果交易成功，伺服器將發出此訊息。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+中央商務區
+ a| 
+內容區塊標識符
+ a| 
+所請求內容區塊的唯一識別碼。如果 CBID 未知，則該欄位設為 0。對容器的操作不包含此欄位。
+
+
+
+ a| 
+CSIZ
+ a| 
+內容大小
+ a| 
+已刪除物件的大小（以位元組為單位）。對容器的操作不包含此欄位。
+
+
+
+ a| 
+HTRH
+ a| 
+HTTP 請求標頭
+ a| 
+在配置期間選擇的已記錄 HTTP 請求標頭名稱和值的清單。
+
+ `X-Forwarded-For`如果請求中存在，則會自動包含在內，並且 `X-Forwarded-For`值與請求發送者IP位址（SAIP審計欄位）不同。
+
+
+
+ a| 
+行動式微電子
+ a| 
+上次修改時間
+ a| 
+Unix 時間戳（以微秒為單位），指示物件最後修改的時間。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果代碼
+ a| 
+DELETE 交易的結果。結果總是：
+
+SUCS：成功
+
+
+
+ a| 
+薩伊普
+ a| 
+請求客戶端的 IP 位址
+ a| 
+發出請求的客戶端應用程式的 IP 位址。
+
+
+
+ a| 
+SGRP
+ a| 
+站點（組）
+ a| 
+如果存在，則表示該物件已在指定網站被刪除，但該網站不是該物件被攝取的網站。
+
+
+
+ a| 
+時間
+ a| 
+時間
+ a| 
+請求的總處理時間（以微秒為單位）。
+
+
+
+ a| 
+TLIP
+ a| 
+受信任的負載平衡器 IP 位址
+ a| 
+如果請求由受信任的第 7 層負載平衡器路由，則為該負載平衡器的 IP 位址。
+
+
+
+ a| 
+唯一識別符
+ a| 
+通用唯一識別符
+ a| 
+StorageGRID系統內物件的識別碼。
+
+
+
+ a| 
+加權平均資本成本
+ a| 
+Swift 帳號 ID
+ a| 
+StorageGRID系統指定的唯一帳戶 ID。
+
+
+
+ a| 
+WCON
+ a| 
+Swift 容器
+ a| 
+Swift 容器名稱。
+
+
+
+ a| 
+沃本傑明
+ a| 
+Swift 物件
+ a| 
+Swift 物件識別碼。對容器的操作不包含此欄位。
+
+
+
+ a| 
+烏蘇拉
+ a| 
+Swift 帳號用戶
+ a| 
+唯一標識執行交易的客戶的 Swift 帳戶使用者名稱。
+
+|===

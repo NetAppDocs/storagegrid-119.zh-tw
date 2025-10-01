@@ -1,0 +1,25 @@
+---
+permalink: network/topology-for-all-three-networks.html 
+sidebar: sidebar 
+keywords: network topology for storagegrid 
+summary: 您可以將所有三個網路配置為由私有網格網路、有界站點特定管理網路和開放用戶端網路組成的網路拓撲。如果需要，使用負載平衡器端點和不受信任的客戶端網路可以提供額外的安全性。 
+---
+= 所有三個網路的拓撲
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以將所有三個網路配置為由私有網格網路、有界站點特定管理網路和開放用戶端網路組成的網路拓撲。如果需要，使用負載平衡器端點和不受信任的客戶端網路可以提供額外的安全性。
+
+在此範例中：
+
+* 網格網路用於與內部物件管理操作相關的網路流量。
+* 管理網路用於與管理功能相關的流量。
+* 客戶端網路用於與 S3 用戶端請求相關的流量。
+
+
+*拓撲範例：網格、管理和客戶端網路*
+
+image::../media/grid_admin_client_networks.png[網格管理客戶端網絡]

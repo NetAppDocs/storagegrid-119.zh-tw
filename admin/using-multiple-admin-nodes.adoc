@@ -1,0 +1,30 @@
+---
+permalink: admin/using-multiple-admin-nodes.html 
+sidebar: sidebar 
+keywords: admin nodes, more than one admin node, multiple admin nodes 
+summary: StorageGRID系統可以包含多個管理節點，以便即使一個管理節點發生故障，您也能夠持續監控和設定StorageGRID系統。 
+---
+= 使用多個管理節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID系統可以包含多個管理節點，以便即使一個管理節點發生故障，您也能夠持續監控和設定StorageGRID系統。
+
+如果管理節點不可用，屬性處理仍會持續，警報仍會觸發，且電子郵件通知和AutoSupport套件仍會傳送。但是，除了通知和AutoSupport套件之外，擁有多個管理節點並不提供故障轉移保護。
+
+image::../media/admin_node_redundancy.png[管理節點冗餘圖]
+
+如果管理節點發生故障，則有兩個選項可以繼續檢視和設定StorageGRID系統：
+
+* Web 用戶端可以重新連線到任何其他可用的管理節點。
+* 如果系統管理員配置了管理節點的高可用性群組，則 Web 用戶端可以繼續使用 HA 群組的虛擬 IP 位址存取網格管理員或租用戶管理員。看link:managing-high-availability-groups.html["管理高可用性組"] 。
++
+
+NOTE: 使用 HA 群組時，如果活動管理節點發生故障，存取就會中斷。當 HA 群組的虛擬 IP 位址故障轉移到群組中的另一個管理節點後，使用者必須重新登入。
+
+
+
+某些維護任務只能使用主管理節點執行。如果主管理節點發生故障，則必須先恢復它， StorageGRID系統才能再次完全正常運作。

@@ -1,0 +1,83 @@
+= 
+:allow-uri-read: 
+
+
+[cols="1a,1a"]
+|===
+| 路徑和檔名 | 描述 
+
+
+| ./debs/README  a| 
+描述StorageGRID下載檔案中所包含的所有檔案的文字檔案。
+
+
+
+| ./debs/NLF000000.txt  a| 
+非生產NetApp許可證文件，可用於測試和概念驗證部署。
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
+用於在 Ubuntu 或 Debian 主機上安裝StorageGRID節點映像的 DEB 套件。
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb.md5  a| 
+文件的 MD5 校驗和 `/debs/storagegrid-webscale-images-version-SHA.deb`。
+
+
+
+| ./debs/storagegrid-webscale-service-version-SHA.deb  a| 
+用於在 Ubuntu 或 Debian 主機上安裝StorageGRID主機服務的 DEB 套件。
+
+
+
+| 部署腳本工具 | 描述 
+
+
+| ./debs/configure-storagegrid.py  a| 
+用於自動設定StorageGRID系統的 Python 腳本。
+
+
+
+| ./debs/configure-sga.py  a| 
+用於自動設定StorageGRID設備的 Python 腳本。
+
+
+
+| ./debs/storagegrid-ssoauth.py  a| 
+啟用單一登入後，您可以使用範例 Python 腳本登入網格管理 API。您也可以使用此腳本進行 Ping Federate 整合。
+
+
+
+| ./debs/configure-storagegrid.sample.json  a| 
+與以下文件一起使用的範例設定文件 `configure-storagegrid.py`腳本。
+
+
+
+| ./debs/configure-storagegrid.blank.json  a| 
+用於 `configure-storagegrid.py`腳本。
+
+
+
+| ./debs/extras/ansible  a| 
+用於設定 Ubuntu 或 Debian 主機以進行StorageGRID容器部署的範例 Ansible 角色和劇本。您可以根據需要自訂角色或劇本。
+
+
+
+| ./debs/storagegrid-ssoauth-azure.py  a| 
+當使用 Active Directory 或 Ping Federate 啟用單一登入 (SSO) 時，您可以使用該範例 Python 腳本登入網格管理 API。
+
+
+
+| ./debs/storagegrid-ssoauth-azure.js  a| 
+同伴呼叫的輔助腳本 `storagegrid-ssoauth-azure.py`用於與 Azure 執行 SSO 互動的 Python 腳本。
+
+
+
+| ./debs/extras/api-schemas  a| 
+StorageGRID的 API 模式。
+
+*注意*：在執行升級之前，如果您沒有非生產StorageGRID環境進行升級相容性測試，則可以使用這些模式來確認您編寫的任何使用StorageGRID管理 API 的程式碼是否與新的StorageGRID版本相容。
+
+|===

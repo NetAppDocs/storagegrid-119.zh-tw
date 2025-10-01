@@ -1,0 +1,167 @@
+---
+permalink: maintain/linux-migrating-grid-node-to-new-host.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, linux, migrate node, migrating node, new host for node 
+summary: 您可以將一個或多個StorageGRID節點從一個 Linux 主機遷移到另一個 Linux 主機以執行主機維護，而不會影響網格的功能或可用性。 
+---
+= Linux：將網格節點遷移到新主機
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以將一個或多個StorageGRID節點從一個 Linux 主機（來源主機）遷移到另一個 Linux 主機（目標主機）以執行主機維護，而不會影響網格的功能或可用性。
+
+例如，您可能想要遷移一個節點來執行作業系統修補和重新啟動。
+
+.開始之前
+* 您計劃將StorageGRID部署包含遷移支援。
++
+** link:../rhel/node-container-migration-requirements.html["Red Hat Enterprise Linux 的節點容器遷移需求"]
+** link:../ubuntu/node-container-migration-requirements.html["Ubuntu 或 Debian 的 Node 容器遷移要求"]
+
+
+* 目標主機已準備好供StorageGRID使用。
+* 所有節點儲存卷均使用共享存儲
+* 網路介面在各個主機之間具有一致的名稱。
+
+
+[NOTE]
+====
+在生產部署中，不要在單一主機上執行多個儲存節點。為每個儲存節點使用專用主機可提供隔離的故障域。
+
+其他類型的節點，例如管理節點或網關節點，可以部署在同一主機上。但是，如果您有多個相同類型的節點（例如兩個網關節點），請不要在同一主機上安裝所有執行個體。
+
+====
+
+
+== 從來源主機匯出節點
+
+第一步，關閉網格節點並將其從來源 Linux 主機匯出。
+
+在_來源主機_上執行以下命令。
+
+.步驟
+. 取得來源主機上目前執行的所有節點的狀態。
++
+`sudo storagegrid node status all`
+
++
+範例輸出：
+
++
+[listing]
+----
+Name Config-State Run-State
+DC1-ADM1 Configured Running
+DC1-ARC1 Configured Running
+DC1-GW1 Configured Running
+DC1-S1 Configured Running
+DC1-S2 Configured Running
+DC1-S3 Configured Running
+----
+. 確定要遷移的節點的名稱，如果其運行狀態為正在運行，則停止它。
++
+`sudo storagegrid node stop DC1-S3`
+
++
+範例輸出：
+
++
+[listing]
+----
+Stopping node DC1-S3
+Waiting up to 630 seconds for node shutdown
+----
+. 從來源主機匯出節點。
++
+`sudo storagegrid node export DC1-S3`
+
++
+範例輸出：
+
++
+[listing]
+----
+Finished exporting node DC1-S3 to /dev/mapper/sgws-dc1-s3-var-local.
+Use 'storagegrid node import /dev/mapper/sgws-dc1-s3-var-local' if you
+want to import it again.
+----
+. 記下 `import`輸出中建議的命令。
++
+您將在下一步中在目標主機上執行此命令。
+
+
+
+
+
+== 在目標主機上匯入節點
+
+從來源主機匯出節點後，在目標主機上匯入並驗證該節點。驗證確認該節點可以存取與來源主機上相同的區塊儲存和網路介面設備。
+
+在_目標主機_上執行以下命令。
+
+.步驟
+. 在目標主機上匯入節點。
++
+`sudo storagegrid node import /dev/mapper/sgws-dc1-s3-var-local`
+
++
+範例輸出：
+
++
+[listing]
+----
+Finished importing node DC1-S3 from /dev/mapper/sgws-dc1-s3-var-local.
+You should run 'storagegrid node validate DC1-S3'
+----
+. 驗證新主機上的節點配置。
++
+`sudo storagegrid node validate DC1-S3`
+
++
+範例輸出：
+
++
+[listing]
+----
+Confirming existence of node DC1-S3... PASSED
+Checking configuration file /etc/storagegrid/nodes/DC1-S3.conf for node DC1-S3... PASSED
+Checking for duplication of unique values... PASSED
+----
+. 如果發生任何驗證錯誤，請在啟動遷移節點之前解決它們。
++
+有關故障排除訊息，請參閱 Linux 作業系統的StorageGRID安裝說明。
+
++
+** link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]
+** link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]
+
+
+
+
+
+
+== 啟動遷移節點
+
+驗證遷移的節點後，透過在_目標主機_上執行命令來啟動該節點。
+
+.步驟
+. 在新主機上啟動節點。
++
+`sudo storagegrid node start DC1-S3`
+
+. Sign in入網格管理器並驗證節點狀態為綠色且沒有警報。
++
+
+CAUTION: 驗證節點的狀態是否為綠色可確保遷移的節點已完全重新啟動並重新加入網格。如果狀態不是綠色，請不要遷移任何其他節點，以免多個節點停止服務。
+
+. 如果您無法存取網格管理器，請等待 10 分鐘，然後執行以下命令：
++
+`sudo storagegrid node status _node-name`
+
++
+確認遷移後的節點的運作狀態為正在運作。
+
+

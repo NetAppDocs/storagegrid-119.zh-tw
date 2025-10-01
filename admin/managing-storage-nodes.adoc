@@ -1,0 +1,22 @@
+---
+permalink: admin/managing-storage-nodes.html 
+sidebar: sidebar 
+keywords: storage nodes, what is a storage node 
+summary: 儲存節點提供磁碟儲存容量和服務。管理儲存節點需要監控每個節點上的可用空間量、使用浮水印設定以及應用儲存節點配置設定。 
+---
+= 管理儲存節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+儲存節點提供磁碟儲存容量和服務。管理儲存節點需要執行以下操作：
+
+* 管理儲存選項
+* 了解儲存卷水印是什麼以及如何使用浮水印覆蓋來控制儲存節點何時變為唯讀
+* 監控和管理用於物件元資料的空間
+* 配置儲存物件的全域設定
+* 應用程式儲存節點配置設定
+* 管理完整儲存節點
+

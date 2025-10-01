@@ -1,0 +1,78 @@
+---
+permalink: maintain/whats-next-performing-additional-recovery-steps-if-required.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, corrective action, additional recovery 
+summary: 根據您為使StorageGRID節點在替換主機上運作所採取的特定操作，您可能需要對每個節點執行額外的復原步驟。 
+---
+= 下一步：如果需要，請執行其他恢復步驟
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+根據您為使StorageGRID節點在替換主機上運作所採取的特定操作，您可能需要對每個節點執行額外的復原步驟。
+
+如果在更換 Linux 主機或將故障網格節點還原到新主機時不需要採取任何修正措施，則節點復原已完成。
+
+
+
+== 糾正措施和後續步驟
+
+在節點更換期間，您可能需要採取以下糾正措施之一：
+
+* 你必須使用 `--force`標誌來導入節點。
+* 對於任意 `<PURPOSE>`，的價值 `BLOCK_DEVICE_<PURPOSE>`設定檔變數指的是不包含主機故障之前相同資料的區塊設備。
+* 您發出 `storagegrid node force-recovery _node-name_`對於節點。
+* 您新增了一個新的區塊設備。
+
+
+如果您採取了任何這些糾正措施，則必須執行額外的恢復步驟。
+
+[cols="2a,1a"]
+|===
+| 恢復類型 | 下一步 
+
+
+ a| 
+主管理節點
+ a| 
+link:configuring-replacement-primary-admin-node.html["配置替換主管理節點"]
+
+
+
+ a| 
+非主管理節點
+ a| 
+link:selecting-start-recovery-to-configure-non-primary-admin-node.html["選擇“開始復原”以配置非主管理節點"]
+
+
+
+ a| 
+閘道
+ a| 
+link:selecting-start-recovery-to-configure-gateway-node.html["選擇“開始恢復”以設定網關節點"]
+
+
+
+ a| 
+儲存節點（基於軟體）：
+
+* 如果你必須使用 `--force`標誌來導入節點，或您發出 `storagegrid node force-recovery _node-name_`
+* 如果您必須重新安裝完整節點，或需要還原 /var/local
+
+ a| 
+link:selecting-start-recovery-to-configure-storage-node.html["選擇“開始復原”以配置儲存節點"]
+
+
+
+ a| 
+儲存節點（基於軟體）：
+
+* 如果您新增了新的區塊設備。
+* 如果對於任意 `<PURPOSE>`，的價值 `BLOCK_DEVICE_<PURPOSE>`設定檔變數指的是不包含主機故障之前相同資料的區塊設備。
+
+ a| 
+link:recovering-from-storage-volume-failure-where-system-drive-is-intact.html["從系統磁碟機完好的儲存磁碟區故障中恢復"]
+
+|===

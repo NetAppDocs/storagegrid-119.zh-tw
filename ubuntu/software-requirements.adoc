@@ -1,0 +1,70 @@
+---
+permalink: ubuntu/software-requirements.html 
+sidebar: sidebar 
+keywords: software requirements 
+summary: 您可以使用虛擬機器來託管任何類型的StorageGRID節點。每個網格節點都需要一個虛擬機器。 
+---
+= Ubuntu 和 Debian 的軟體需求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用虛擬機器來託管任何類型的StorageGRID節點。每個網格節點都需要一個虛擬機器。
+
+要在 Ubuntu 或 Debian 上安裝StorageGRID ，您必須安裝一些第三方軟體套件。某些支援的 Linux 發行版預設不包含這些軟體包。StorageGRID安裝測試的軟體包版本包括本頁列出的版本。
+
+如果您選擇的 Linux 發行版和容器運行時安裝選項需要這些軟體包，且 Linux 發行版沒有自動安裝它們，請安裝此處列出的版本之一（如果您的提供者或 Linux 發行版的支援供應商提供此版本）。否則，請使用供應商提供的預設軟體包版本。
+
+所有安裝選項都需要 Podman 或 Docker。不要安裝這兩個套件。僅安裝安裝選項所需的套件。
+
+
+NOTE: 不再支援將 Docker 作為純軟體部署的容器引擎。Docker 將在未來的版本中被另一個容器引擎取代。
+
+
+
+== 測試的 Python 版本
+
+* 3.5.2-2
+* 3.6.8-2
+* 3.6.8-38
+* 3.6.9-1
+* 3.7.3-1
+* 3.8.10-0
+* 3.9.2-1
+* 3.9.10-2
+* 3.9.16-1
+* 3.10.6-1
+* 3.11.2-6
+
+
+
+
+== 測試的 Podman 版本
+
+* 3.2.3-0
+* 3.4.4+ds1
+* 4.1.1-7
+* 4.2.0-11
+* 4.3.1+ds1-8+b1
+* 4.4.1-8
+* 4.4.1-12
+
+
+
+
+== 測試的 Docker 版本
+
+
+IMPORTANT: Docker 支援已棄用並將在未來版本中刪除。
+
+* Docker-CE 20.10.7
+* Docker-CE 20.10.20-3
+* Docker-CE 23.0.6-1
+* Docker-CE 24.0.2-1
+* Docker-CE 24.0.4-1
+* Docker-CE 24.0.5-1
+* Docker-CE 24.0.7-1
+* 1.5-2
+

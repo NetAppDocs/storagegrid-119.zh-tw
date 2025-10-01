@@ -1,0 +1,132 @@
+---
+permalink: audit/object-ingest-transactions.html 
+sidebar: sidebar 
+keywords: object ingest transaction, S3 ingest, SPUT, ORLM, WPUT 
+summary: 您可以透過定位 S3 API 特定的稽核訊息來識別稽核日誌中的用戶端攝取交易。 
+---
+= 物件攝取交易
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以透過定位 S3 API 特定的稽核訊息來識別稽核日誌中的用戶端攝取交易。
+
+下表並未列出攝取事務期間產生的所有稽核訊息。僅包含追蹤攝取事務所需的訊息。
+
+
+
+== S3 提取審計訊息
+
+[cols="1a,1a,2a,1a,2a"]
+|===
+| 程式碼 | Name | 描述 | 痕跡 | 看 
+
+
+ a| 
+噴管
+ a| 
+S3 PUT 事務
+ a| 
+S3 PUT 攝取事務已成功完成。
+ a| 
+CBID、S3BK、S3KY
+ a| 
+link:sput-s3-put.html["噴口：S3 放置"]
+
+
+
+ a| 
+奧利佛‧洛倫茲
+ a| 
+符合物件規則
+ a| 
+該物件已滿足 ILM 策略。
+ a| 
+中央商務區
+ a| 
+link:orlm-object-rules-met.html["ORLM：滿足物件規則"]
+
+|===
+
+
+== Swift 提取審計訊息
+
+[cols="1a,1a,2a,1a,2a"]
+|===
+| 程式碼 | Name | 描述 | 痕跡 | 看 
+
+
+ a| 
+西普特
+ a| 
+Swift PUT 交易
+ a| 
+Swift PUT 攝取交易已成功完成。
+ a| 
+CBID、WCON、WOBJ
+ a| 
+link:wput-swift-put.html["WPUT：Swift PUT"]
+
+
+
+ a| 
+奧利佛‧洛倫茲
+ a| 
+符合物件規則
+ a| 
+該物件已滿足 ILM 策略。
+ a| 
+中央商務區
+ a| 
+link:orlm-object-rules-met.html["ORLM：滿足物件規則"]
+
+|===
+
+
+== 範例：S3 物件擷取
+
+以下一系列審計訊息是 S3 用戶端將物件提取到儲存節點（LDR 服務）時產生並儲存到審計日誌的審計訊息的範例。
+
+在此範例中，活動的 ILM 策略包括 Make 2 Copies ILM 規則。
+
+
+NOTE: 以下範例中並未列出事務期間產生的所有稽核訊息。僅列出與 S3 攝取事務 (SPUT) 相關的那些。
+
+此範例假設先前已建立 S3 儲存桶。
+
+
+
+=== 噴口：S3 放置
+
+產生 SPUT 訊息以指示已發出 S3 PUT 交易以在特定儲存桶中建立物件。
+
+[listing, subs="specialcharacters,quotes"]
+----
+2017-07-17T21:17:58.959669[AUDT:[RSLT(FC32):SUCS][TIME(UI64):25771][SAIP(IPAD):"10.96.112.29"][S3AI(CSTR):"70899244468554783528"][SACC(CSTR):"test"][S3AK(CSTR):"SGKHyalRU_5cLflqajtaFmxJn946lAWRJfBF33gAOg=="][SUSR(CSTR):"urn:sgws:identity::70899244468554783528:root"][SBAI(CSTR):"70899244468554783528"][SBAC(CSTR):"test"][S3BK(CSTR):"example"][S3KY(CSTR):"testobject-0-3"][CBID\(UI64\):0x8EF52DF8025E63A8][CSIZ(UI64):30720][AVER(UI32):10][ATIM(UI64):150032627859669][ATYP\(FC32\):SPUT][ANID(UI32):12086324][AMID(FC32):S3RQ][ATID(UI64):14399932238768197038]]
+----
+
+
+=== ORLM：滿足物件規則
+
+ORLM 訊息表示該物件已滿足 ILM 策略。該訊息包括物件的 CBID 和所應用的 ILM 規則的名稱。
+
+對於複製的對象，LOCS 欄位包括對象位置的 LDR 節點 ID 和磁碟區 ID。
+
+[listing, subs="specialcharacters,quotes"]
+----
+2019-07-17T21:18:31.230669[AUDT:[CBID\(UI64\):0x50C4F7AC2BC8EDF7][RULE(CSTR):"Make 2 Copies"][STAT(FC32):DONE][CSIZ(UI64):0][UUID(CSTR):"0B344E18-98ED-4F22-A6C8-A93ED68F8D3F"][LOCS(CSTR):"CLDI 12828634 2148730112, CLDI 12745543 2147552014"][RSLT(FC32):SUCS][AVER(UI32):10][ATYP\(FC32\):ORLM][ATIM(UI64):1563398230669][ATID(UI64):15494889725796157557][ANID(UI32):13100453][AMID(FC32):BCMS]]
+----
+對於糾刪碼對象，LOCS 欄位包含糾刪碼設定檔 ID 和糾刪碼群組 ID
+
+[listing, subs="specialcharacters,quotes"]
+----
+2019-02-23T01:52:54.647537 [AUDT:[CBID(UI64):0xFA8ABE5B5001F7E2][RULE(CSTR):"EC_2_plus_1"][STAT(FC32):DONE][CSIZ(UI64):10000][UUID(CSTR):"E291E456-D11A-4701-8F51-D2F7CC9AFECA"][LOCS(CSTR):"CLEC 1 A471E45D-A400-47C7-86AC-12E77F229831"][RSLT(FC32):SUCS][AVER(UI32):10][ATIM(UI64):1550929974537]\[ATYP\(FC32\):ORLM\][ANID(UI32):12355278][AMID(FC32):ILMX][ATID(UI64):4168559046473725560]]
+----
+PATH 欄位包括 S3 儲存桶和金鑰資訊或 Swift 容器和物件訊息，取決於所使用的 API。
+
+[listing]
+----
+2019-09-15.txt:2018-01-24T13:52:54.131559 [AUDT:[CBID(UI64):0x82704DFA4C9674F4][RULE(CSTR):"Make 2 Copies"][STAT(FC32):DONE][CSIZ(UI64):3145729][UUID(CSTR):"8C1C9CAC-22BB-4880-9115-CE604F8CE687"][PATH(CSTR):"frisbee_Bucket1/GridDataTests151683676324774_1_1vf9d"][LOCS(CSTR):"CLDI 12525468, CLDI 12222978"][RSLT(FC32):SUCS][AVER(UI32):10][ATIM(UI64):1568555574559][ATYP(FC32):ORLM][ANID(UI32):12525468][AMID(FC32):OBDI][ATID(UI64):344833886538369336]]
+----

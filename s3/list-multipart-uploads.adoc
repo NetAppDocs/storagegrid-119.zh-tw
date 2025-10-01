@@ -1,0 +1,32 @@
+---
+permalink: s3/list-multipart-uploads.html 
+sidebar: sidebar 
+keywords: ListMultipartUploads, uploads, multipart uploads, bucket 
+summary: ListMultipartUploads 操作列出儲存桶正在進行的分段上傳。 
+---
+= 列出多部分上傳
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ListMultipartUploads 操作列出儲存桶正在進行的分段上傳。
+
+支援以下請求參數：
+
+* `encoding-type`
+* `key-marker`
+* `max-uploads`
+* `prefix`
+* `upload-id-marker`
+* `Host`
+* `Date`
+* `Authorization`
+
+
+
+
+== 版本控制
+
+分段上傳包括啟動上傳、列出上傳、上傳部分、組裝上傳部分和完成上傳的單獨操作。執行 CompleteMultipartUpload 作業時會建立物件（如果適用，也會進行版本控制）。

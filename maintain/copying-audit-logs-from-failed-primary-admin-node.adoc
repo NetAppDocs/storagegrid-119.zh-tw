@@ -1,0 +1,58 @@
+---
+permalink: maintain/copying-audit-logs-from-failed-primary-admin-node.html 
+sidebar: sidebar 
+keywords: storagegrid, audit log, copy audit log, copying audit log, primary admin node, primary admin node 
+summary: 如果您能夠從發生故障的主管理節點複製稽核日誌，則應保留它們以維護網格的系統活動和使用記錄。您可以在復原的主管理節點啟動並執行後，將已儲存的稽核日誌還原到該節點。 
+---
+= 從發生故障的主管理節點複製審計日誌
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您能夠從發生故障的主管理節點複製稽核日誌，則應保留它們以維護網格的系統活動和使用記錄。您可以在復原的主管理節點啟動並執行後，將已儲存的稽核日誌還原到該節點。
+
+.關於此任務
+此程序將稽核日誌檔案從故障的管理節點複製到單獨的網格節點上的暫存位置。然後可以將這些已儲存的稽核日誌複製到替換的管理節點。審計日誌不會自動複製到新的管理節點。
+
+根據故障類型，您可能無法從發生故障的管理節點複製稽核日誌。如果部署中只有一個管理節點，則復原的管理節點將開始將事件記錄到新的空文件中的稽核日誌中，並且先前記錄的資料將會遺失。如果部署包含多個管理節點，您可以從另一個管理節點還原稽核日誌。
+
+
+NOTE: 如果現在無法在發生故障的管理節點上存取稽核日誌，您可能稍後可以存取它們，例如，在主機復原後。
+
+.步驟
+. 如果可能，請登入發生故障的管理節點。否則，請登入主管理節點或另一個管理節點（如果可用）。
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+
+
+. 停止 AMS 服務以防止其建立新的日誌檔案：``service ams stop``
+. 導航到審計導出目錄：
++
+`cd /var/local/log`
+
+. 重新命名來源 `audit.log`文件具有唯一編號的檔案名稱。例如，將 audit.log 檔案重新命名為 `2023-10-25.txt.1`。
++
+[listing]
+----
+ls -l
+mv audit.log 2023-10-25.txt.1
+----
+. 重新啟動 AMS 服務： `service ams start`
+. 建立目錄以將所有稽核日誌檔案複製到單獨網格節點上的暫存位置： `ssh admin@_grid_node_IP_ mkdir -p /var/local/tmp/saved-audit-logs`
++
+出現提示時，輸入管理員密碼。
+
+. 將所有審計日誌檔案複製到臨時位置： `scp -p * admin@_grid_node_IP_:/var/local/tmp/saved-audit-logs`
++
+出現提示時，輸入管理員密碼。
+
+. 以 root 身分註銷： `exit`
+

@@ -1,0 +1,36 @@
+---
+permalink: monitor/reviewing-audit-messages.html 
+sidebar: sidebar 
+keywords: how to review audit messages, how to view audit messages 
+summary: 審計訊息可以幫助您更了解StorageGRID系統的詳細操作。您可以使用稽核日誌來解決問題並評估效能。 
+---
+= 審查審計訊息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+審計訊息可以幫助您更了解StorageGRID系統的詳細操作。您可以使用稽核日誌來解決問題並評估效能。
+
+在系統正常運作期間，所有StorageGRID服務都會產生稽核訊息，如下所示：
+
+* 系統審計訊息與審計系統本身、網格節點狀態、系統範圍的任務活動和服務備份作業有關。
+* 物件儲存審計訊息與StorageGRID內的物件的儲存和管理有關，包括物件儲存和檢索、網格節點到網格節點的傳輸和驗證。
+* 當 S3 用戶端應用程式發出建立、修改或檢索物件的請求時，會記錄用戶端讀取和寫入稽核訊息。
+* 管理審計訊息將使用者請求記錄到管理 API。
+
+
+每個管理節點都將稽核訊息儲存在文字檔案中。審計共享包含活動文件（audit.log）以及前幾天的壓縮審計日誌。網格中的每個節點也儲存在該節點上產生的稽核資訊的副本。
+
+您可以直接從管理節點的命令列存取審計日誌檔案。
+
+StorageGRID可以預設發送審計訊息，或者您可以更改目的地：
+
+* StorageGRID預設為本機節點稽核目的地。
+* 網格管理器和租用戶管理器稽核日誌條目可能會被傳送到儲存節點。
+* 或者，您可以變更稽核日誌的目標並將稽核資訊傳送至外部系統日誌伺服器。當設定外部系統日誌伺服器時，將繼續產生和儲存稽核記錄的本機日誌。
+* link:../monitor/configure-audit-messages.html["了解如何設定稽核訊息和日誌目標"] 。
+
+
+有關審計日誌文件、審計訊息的格式、審計訊息的類型以及可用於分析審計訊息的工具的詳細信息，請參閱link:../audit/index.html["審查審計日誌"]。

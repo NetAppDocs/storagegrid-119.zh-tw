@@ -1,0 +1,43 @@
+---
+permalink: s3/deprecated-bucket-requests-for-legacy-compliance.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, deprecated bucket requests 
+summary: 您可能需要使用StorageGRID S3 REST API 來管理使用舊版合規功能建立的儲存桶。 
+---
+= 已棄用舊版合規性儲存桶請求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可能需要使用StorageGRID S3 REST API 來管理使用舊版合規功能建立的儲存桶。
+
+
+
+== 合規性功能已棄用
+
+先前版本的StorageGRID中提供的StorageGRID合規功能已被棄用，並已被 S3 物件鎖定取代。
+
+如果您之前啟用了全域合規性設置，則全域 S3 物件鎖定設定在StorageGRID 11.6 中啟用。您無法再建立啟用了合規性的新儲存桶；但是，根據需要，您可以使用StorageGRID S3 REST API 來管理任何現有的舊版合規儲存桶。
+
+* link:use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+* link:../ilm/index.html["使用 ILM 管理對象"]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_manage_legacy_Compliant_buckets_in_StorageGRID_11.5["NetApp知識庫：如何在StorageGRID 11.5 中管理舊版相容儲存桶"^]
+
+
+已棄用的合規性請求：
+
+* link:../s3/deprecated-put-bucket-request-modifications-for-compliance.html["已棄用 - PUT Bucket 請求修改以實現合規性"]
++
+SGCompliance XML 元素已被棄用。以前，您可以在 PUT Bucket 請求的可選 XML 請求正文中包含此StorageGRID自訂元素來建立相容儲存桶。
+
+* link:../s3/deprecated-get-bucket-compliance-request.html["已棄用 - GET Bucket 合規性"]
++
+GET Bucket 合規性請求已被棄用。但是，您可以繼續使用此要求來確定現有舊版合規儲存桶目前有效的合規性設定。
+
+* link:../s3/deprecated-put-bucket-compliance-request.html["已棄用 - PUT Bucket 合規性"]
++
+PUT Bucket 合規性請求已被棄用。但是，您可以繼續使用此請求來修改現有舊版合規儲存桶的合規性設定。例如，您可以將現有儲存桶置於合法保留狀態或延長其保留期。
+
+

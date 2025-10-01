@@ -1,0 +1,82 @@
+---
+permalink: maintain/monitoring-services-appliance-installation.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, appliance 
+summary: StorageGRID Appliance Installer 提供狀態直到安裝完成。軟體安裝完成後，設備將重新啟動。 
+---
+= 監控服務設備安裝
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID Appliance Installer 提供狀態直到安裝完成。軟體安裝完成後，設備將重新啟動。
+
+.步驟
+. 若要監控安裝進度，請點選功能表列中的「監控安裝」*。
++
+監控安裝頁面顯示安裝進度。
+
++
+image::../media/monitor_installation_services_appl.png[監控安裝 - 服務應用]
+
++
+藍色狀態列指示目前正在進行的任務。綠色狀態條表示任務已成功完成。
+
++
+
+NOTE: 安裝程式確保不會重新執行先前安裝中完成的任務。如果您重新執行安裝，任何不需要重新執行的任務都會顯示綠色狀態列和「已跳過」狀態。
+
+. 回顧前兩個安裝階段的進度。
++
+** *1.配置儲存*
++
+在此階段，安裝程式將清除磁碟機中的所有現有配置，並配置主機設定。
+
+** *2.安裝作業系統*
++
+在此階段，安裝程式將StorageGRID的基本作業系統映像從主管理節點複製到設備，或從主管理節點的安裝套件安裝基本作業系統。
+
+
+
+. 繼續監視安裝進度，直到出現以下情況之一：
++
+** 對於設備網關節點或非主設備管理節點，*安裝StorageGRID* 階段會暫停，且嵌入式控制台上會出現一則訊息，提示您使用網格管理器在管理節點上核准此節點。
++
+image::../media/monitor_installation_install_sgws.gif[圖像由周圍的文字描述]
+
+** 對於設備主管理節點，出現第五階段（載入StorageGRID安裝程式）。如果第五階段持續超過10分鐘，請手動重新整理頁面。
++
+image::../media/monitor_reinstallation_primary_admin.png[主管理節點重新安裝第五階段的螢幕截圖]
+
+
+
+. 針對您正在復原的裝置網格節點類型，請前往復原過程的下一步。
++
+[cols="1a,2a"]
+|===
+| 恢復類型 | 參考 
+
+
+ a| 
+閘道
+ a| 
+link:selecting-start-recovery-to-configure-gateway-node.html["選擇“開始恢復”以設定網關節點"]
+
+
+
+ a| 
+非主管理節點
+ a| 
+link:selecting-start-recovery-to-configure-non-primary-admin-node.html["選擇“開始復原”以配置非主管理節點"]
+
+
+
+ a| 
+主管理節點
+ a| 
+link:configuring-replacement-primary-admin-node.html["配置替換主管理節點"]
+
+|===
+

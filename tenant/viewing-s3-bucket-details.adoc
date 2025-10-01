@@ -1,0 +1,108 @@
+---
+permalink: tenant/viewing-s3-bucket-details.html 
+sidebar: sidebar 
+keywords: how to view bucket details 
+summary: 您可以在您的租用戶帳戶中查看儲存桶。 
+---
+= 查看儲存桶詳細信息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以在您的租用戶帳戶中查看儲存桶。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 您屬於具有link:tenant-management-permissions.html["Root 存取權限、管理所有儲存桶或查看所有儲存桶權限"]。這些權限會覆寫群組或儲存桶策略中的權限設定。
+
+
+.步驟
+. 從儀表板中選擇 *查看儲存桶*，或選擇 *儲存（S3）* > *儲存桶*。
++
+出現「儲存桶」頁面。
+
+. 查看每個儲存桶的摘要表。
++
+根據需要，您可以按任意列對資訊進行排序，也可以在清單中向前或向後翻頁。
+
++
+
+NOTE: 顯示的物件計數、已使用空間和使用值都是估計值。這些估計值受到攝取時間、網路連接和節點狀態的影響。如果儲存桶啟用了版本控制，則已刪除的物件版本將包含在物件計數中。
+
++
+Name:: 儲存桶的唯一名稱，無法變更。
+已啟用的功能:: 為儲存桶啟用的功能清單。
+S3 對象鎖:: 是否為儲存桶啟用了 S3 物件鎖定。
++
+--
+僅當為網格啟用了 S3 物件鎖定時才會出現此列。此列還顯示任何舊版相容儲存桶的資訊。
+
+--
+地區:: bucket 的區域，不可更改。預設情況下，此列是隱藏的。
+對象計數:: 此儲存桶中的物件數量。如果儲存桶啟用了版本控制，則非目前物件版本將包含在此值中。
++
+--
+當新增或刪除物件時，該值可能不會立即更新。
+
+--
+已用空間:: 儲存桶中所有物件的邏輯大小。邏輯大小不包括複製或擦除編碼副本或物件元資料所需的實際空間。
++
+--
+此值可能需要長達 10 分鐘才能更新。
+
+--
+用法:: 如果已設置，則為儲存桶容量限制的使用百分比。
++
+--
+使用價值基於內部估計，在某些情況下可能會超出。例如，當租用戶開始上傳物件時， StorageGRID會檢查容量限制（如果設定），如果租用戶已超出容量限制，則拒絕將此儲存桶進行新的攝取。但是， StorageGRID在決定是否超出容量限制時不會考慮目前上傳的大小。如果物件被刪除，租用戶可能會暫時無法將新物件上傳到此儲存桶，直到重新運算容量限制使用情況。計算可能需要 10 分鐘或更長。
+
+該值表示邏輯大小，而不是儲存物件及其元資料所需的物理大小。
+
+--
+容量:: 如果設置，則為儲存桶的容量限制。
+建立日期:: 儲存桶的建立日期和時間。預設情況下，此列是隱藏的。
+
+
+. 要查看特定儲存桶的詳細信息，請從表中選擇儲存桶名稱。
++
+.. 查看網頁頂部的摘要資訊以確認儲存桶的詳細信息，例如區域和物件數量。
+.. 查看容量限制使用欄。如果使用率達到或接近 100%，請考慮增加限製或刪除一些物件。
+.. 根據需要選擇*刪除儲存桶中的物件*和*刪除儲存桶*。
++
+[CAUTION]
+====
+選擇每個選項時，請密切注意出現的警告。有關詳細信息，請參閱：
+
+*** link:deleting-s3-bucket-objects.html["刪除儲存桶中的所有對象"]
+*** link:deleting-s3-bucket.html["刪除儲存桶"]（存儲桶必須為空）
+
+
+====
+.. 根據需要查看或變更每個標籤中儲存桶的設定。
++
+*** *S3 控制台*：檢視儲存桶的物件。有關詳細信息，請參閱link:use-s3-console.html["使用 S3 控制台"] 。
+*** *儲存桶選項*：檢視或變更選項設定。某些設定（例如 S3 物件鎖定）在儲存桶建立後無法變更。
++
+**** link:manage-bucket-consistency.html["管理存儲桶一致性"]
+**** link:enabling-or-disabling-last-access-time-updates.html["最後訪問時間更新"]
+**** link:../tenant/creating-s3-bucket.html#capacity-limit["容量限制"]
+**** link:changing-bucket-versioning.html["物件版本控制"]
+**** link:using-s3-object-lock.html["S3 對象鎖"]
+**** link:update-default-retention-settings.html["預設儲存桶保留"]
+**** link:grid-federation-manage-cross-grid-replication.html["管理跨網格複製"]（如果租戶允許）
+
+
+*** *平台服務*：link:considerations-for-platform-services.html["管理平台服務"] （如果租戶允許）
+*** *儲存桶存取*：檢視或變更選項設定。您必須具有特定的存取權限。
++
+**** 配置link:configuring-cross-origin-resource-sharing-cors.html["跨域資源共享（CORS）"]因此其他網域中的 Web 應用程式可以存取該儲存桶和儲存桶中的物件。
+**** link:../tenant/manage-bucket-policy.html["控制用戶訪問"]針對 S3 儲存桶及其中的物件。
+
+
+
+
+
+
+

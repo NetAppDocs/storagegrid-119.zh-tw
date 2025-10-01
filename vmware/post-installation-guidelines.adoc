@@ -1,0 +1,26 @@
+---
+permalink: vmware/post-installation-guidelines.html 
+sidebar: sidebar 
+keywords: after installation guidelines vmware 
+summary: 完成網格節點部署和設定後，請遵循下列準則進行 DHCP 位址和網路設定變更。 
+---
+= 安裝後指南
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+完成網格節點部署和設定後，請遵循下列準則進行 DHCP 位址和網路設定變更。
+
+* 如果使用 DHCP 指派 IP 位址，請為正在使用的網路上的每個 IP 位址設定 DHCP 保留。
++
+您只能在部署階段設定 DHCP。您無法在設定期間設定 DHCP。
+
++
+
+NOTE: 當 DHCP 變更網格網路配置時，節點會重新啟動，如果 DHCP 變更同時影響多個節點，則可能會導致中斷。
+
+* 如果要變更網格節點的 IP 位址、子網路遮罩和預設網關，則必須使用變更 IP 程序。看link:../maintain/configuring-ip-addresses.html["配置 IP 位址"] 。
+* 如果您進行網路設定變更（包括路由和閘道變更），則用戶端與主管理節點和其他網格節點的連線可能會遺失。根據所套用的網路更改，您可能需要重新建立這些連線。
+

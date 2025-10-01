@@ -1,0 +1,191 @@
+---
+permalink: s3/operations-on-objects.html 
+sidebar: sidebar 
+keywords: bucket, buckets, operations on buckets 
+summary: 本節介紹StorageGRID系統如何為物件實作 S3 REST API 操作。 
+---
+= 對物件的操作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹StorageGRID系統如何為物件實作 S3 REST API 操作。
+
+以下條件適用於所有物件操作：
+
+* StorageGRIDlink:consistency-controls.html["一致性值"]所有物件操作均支持，但以下操作除外：
++
+** 取得對象Acl
+** `OPTIONS /`
+** 放置對象合法保留
+** PutObjectRetention
+** 選擇對象內容
+
+
+* 衝突的客戶端請求（例如兩個客戶端寫入同一個金鑰）將根據「最新勝利」的原則解決。  「最新勝利」評估的時間取決於StorageGRID系統完成給定請求的時間，而不是 S3 用戶端開始操作的時間。
+* StorageGRID儲存桶中的所有物件均歸儲存體桶擁有者所有，包括由匿名使用者或其他帳號建立的物件。
+* 透過 Swift 提取到StorageGRID系統的資料物件無法透過 S3 存取。
+
+
+下表描述了StorageGRID如何實作 S3 REST API 物件操作。
+
+[cols="1a,2a"]
+|===
+| 手術 | 執行 
+
+
+ a| 
+刪除對象
+ a| 
+多重身份驗證 (MFA) 和回應標頭 `x-amz-mfa`不受支援。
+
+在處理 DeleteObject 請求時， StorageGRID會嘗試立即從所有儲存位置刪除該物件的所有副本。如果成功， StorageGRID會立即向用戶端回傳回應。如果無法在 30 秒內刪除所有副本（例如，由於某個位置暫時無法使用）， StorageGRID會將副本排隊等待刪除，然後向用戶端指示成功。
+
+版本控制:: 要刪除特定版本，請求者必須是儲存桶擁有者並使用 `versionId`子資源。使用此子資源將永久刪除該版本。如果 `versionId`對應刪除標記，響應頭 `x-amz-delete-marker`返回設定為 `true`。
++
+--
+* 如果刪除物件時沒有 `versionId`啟用版本控制的儲存桶上的子資源，會導致產生刪除標記。這 `versionId`刪除標記的回傳方式是使用 `x-amz-version-id`響應頭，以及 `x-amz-delete-marker`響應頭返回設定為 `true`。
+* 如果刪除物件時沒有 `versionId`在暫停版本控制的儲存桶上刪除子資源，將導致永久刪除已經存在的「空白」版本或「空」刪除標記，並產生新的「空」刪除標記。這 `x-amz-delete-marker`響應頭返回設定為 `true`。
++
+*注意*：在某些情況下，一個物件可能存在多個刪除標記。
+
+
+
+--
+
+
+看link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]了解如何在治理模式下刪除物件版本。
+
+
+
+ a| 
+刪除對象
+
+（以前稱為 DELETE 多個物件）
+ a| 
+多重身份驗證 (MFA) 和回應標頭 `x-amz-mfa`不受支援。
+
+可以在同一個請求訊息中刪除多個物件。
+
+看link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]了解如何在治理模式下刪除物件版本。
+
+
+
+ a| 
+刪除物件標記
+ a| 
+使用 `tagging`子資源會從物件中刪除所有標籤。
+
+版本控制:: 如果 `versionId`如果請求中未指定查詢參數，則該操作將從版本化儲存桶中物件的最新版本中刪除所有標籤。如果物件的目前版本是刪除標記，則傳回「MethodNotAllowed」狀態，並 `x-amz-delete-marker`響應頭設定為 `true`。
+
+
+
+
+ a| 
+取得對象
+ a| 
+link:get-object.html["取得對象"]
+
+
+
+ a| 
+取得對象Acl
+ a| 
+如果為帳戶提供了必要的存取憑證，則操作將傳回肯定回應以及物件擁有者的 ID、DisplayName 和 Permission，表示擁有者對該物件具有完全存取權。
+
+
+
+ a| 
+獲取對象合法持有
+ a| 
+link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+ a| 
+取得對象保留
+ a| 
+link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+ a| 
+取得物件標記
+ a| 
+使用 `tagging`子資源傳回物件的所有標籤。
+
+版本控制:: 如果 `versionId`如果請求中未指定查詢參數，則操作將傳回版本化儲存桶中物件最新版本的所有標籤。如果物件的目前版本是刪除標記，則傳回「MethodNotAllowed」狀態，並 `x-amz-delete-marker`響應頭設定為 `true`。
+
+
+
+
+ a| 
+頭部對象
+ a| 
+link:head-object.html["頭部對象"]
+
+
+
+ a| 
+復原對象
+ a| 
+link:post-object-restore.html["復原對象"]
+
+
+
+ a| 
+放置對象
+ a| 
+link:put-object.html["放置對象"]
+
+
+
+ a| 
+複製對象
+
+（之前名為 PUT 物件 - 複製）
+ a| 
+link:put-object-copy.html["複製對象"]
+
+
+
+ a| 
+放置對象合法保留
+ a| 
+link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+ a| 
+PutObjectRetention
+ a| 
+link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+ a| 
+PutObjectTagging
+ a| 
+使用 `tagging`子資源會為現有物件新增一組標籤。
+
+對象標籤限制:: 您可以在上傳新物件時為其新增標籤，也可以將其新增至現有物件中。 StorageGRID和 Amazon S3 都支援每個物件最多 10 個標籤。與物件關聯的標籤必須具有唯一的標籤鍵。標籤鍵的長度最多為 128 個 Unicode 字符，標籤值的長度最多為 256 個 Unicode 字元。鍵和值區分大小寫。
+標籤更新和攝取行為:: 當您使用 PutObjectTagging 更新物件的標籤時， StorageGRID不會重新擷取該物件。這表示符合的 ILM 規則中指定的 Ingest Behavior 選項未被使用。當 ILM 由正常後台 ILM 程序重新評估時，將對更新觸發的物件位置進行任何變更。
++
+--
+這意味著，如果 ILM 規則對攝取行為使用嚴格選項，則當無法進行所需的物件放置時（例如，因為新需要的位置不可用），不會採取任何措施。更新後的物件將保留其目前位置，直到可以實現所需的位置。
+
+--
+解決衝突:: 衝突的客戶端請求（例如兩個客戶端寫入同一個金鑰）將根據「最新勝利」的原則解決。  「最新勝利」評估的時間取決於StorageGRID系統完成給定請求的時間，而不是 S3 用戶端開始操作的時間。
+版本控制:: 如果 `versionId`如果請求中未指定查詢參數，則操作會將標籤新增至版本化儲存桶中物件的最新版本。如果物件的目前版本是刪除標記，則傳回「MethodNotAllowed」狀態，並 `x-amz-delete-marker`響應頭設定為 `true`。
+
+
+
+
+ a| 
+選擇對象內容
+ a| 
+link:select-object-content.html["選擇對象內容"]
+
+|===

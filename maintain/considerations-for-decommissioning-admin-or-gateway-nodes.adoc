@@ -1,0 +1,36 @@
+---
+permalink: maintain/considerations-for-decommissioning-admin-or-gateway-nodes.html 
+sidebar: sidebar 
+keywords: storagegrid, decommission admin node, decommission gateway node 
+summary: 查看停用管理節點或網關節點的注意事項。 
+---
+= 停用管理節點或網關節點的注意事項
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看停用管理節點或網關節點的注意事項。
+
+
+
+== 管理節點注意事項
+
+* 您不能停用主管理節點。
+* 如果管理節點的某個網路介面屬於高可用性 (HA) 群組的一部分，則您無法停用該管理節點。您必須先從 HA 群組中刪除網路介面。請參閱說明link:../admin/managing-high-availability-groups.html["管理 HA 組"]。
+* 根據需要，您可以在停用管理節點時安全地變更 ILM 策略。
+* 如果您停用管理節點並且為StorageGRID系統啟用了單一登入 (SSO)，則必須記住從 Active Directory 聯合驗證服務 (AD FS) 中刪除該節點的信賴方信任。
+* 如果你使用link:../admin/grid-federation-overview.html["網格聯盟"]，請確保您要退役的節點的 IP 位址未指定用於電網聯合連線。
+* 當您停用斷開連線的管理節點時，您將遺失來自該節點的稽核日誌；但是，這些日誌也應該存在於主管理節點上。
+
+
+
+
+== 網關節點的注意事項
+
+* 如果網關節點的某個網路介面屬於高可用性 (HA) 群組的一部分，則您無法停用該網關節點。您必須先從 HA 群組中刪除網路介面。請參閱說明link:../admin/managing-high-availability-groups.html["管理 HA 組"]。
+* 根據需要，您可以在退役網關節點時安全地變更 ILM 策略。
+* 如果你使用link:../admin/grid-federation-overview.html["網格聯盟"]，請確保您要退役的節點的 IP 位址未指定用於電網聯合連線。
+* 當網關節點斷開連線時，您可以安全地將其停用。
+

@@ -1,0 +1,53 @@
+---
+permalink: maintain/linux-adding-interfaces-to-existing-node.html 
+sidebar: sidebar 
+keywords: add interfaces, add client network interface, add admin network interface 
+summary: 安裝 Linux 節點後，請依照下列步驟將管理網路或用戶端網路上的介面新增至該節點。 
+---
+= Linux：為現有節點新增管理或客戶端介面
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+安裝 Linux 節點後，請依照下列步驟將管理網路或用戶端網路上的介面新增至該節點。
+
+如果在安裝期間未在 Linux 主機上的節點設定檔中設定 ADMIN_NETWORK_TARGET 或 CLIENT_NETWORK_TARGET，請使用此程序新增介面。有關節點設定檔的更多信息，請參閱 Linux 作業系統的說明：
+
+* link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]
+* link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]
+
+
+您在託管需要新網路分配的節點的 Linux 伺服器上執行此過程，而不是在節點內部執行。此程序僅將介面新增至節點；如果您嘗試指定任何其他網路參數，則會發生驗證錯誤。
+
+若要提供尋址訊息，您必須使用變更 IP 工具。看link:changing-nodes-network-configuration.html["更改節點網路配置"] 。
+
+.步驟
+. 登入託管節點的 Linux 伺服器。
+. 編輯節點設定檔： `/etc/storagegrid/nodes/_node-name_.conf` 。
++
+
+NOTE: 請勿指定任何其他網路參數，否則會導致驗證錯誤。
+
++
+.. 為新的網路目標新增一個條目。例如：
++
+`CLIENT_NETWORK_TARGET = bond0.3206`
+
+.. 可選：新增 MAC 位址條目。例如：
++
+`CLIENT_NETWORK_MAC = aa:57:61:07:ea:5c`
+
+
+
+. 運行節點驗證命令：
++
+`sudo storagegrid node validate _node-name_`
+
+. 解決所有驗證錯誤。
+. 運行節點重新載入命令：
++
+`sudo storagegrid node reload _node-name_`
+
+

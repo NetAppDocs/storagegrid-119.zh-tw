@@ -1,0 +1,67 @@
+---
+permalink: vmware/required-materials.html 
+sidebar: sidebar 
+keywords: installation materials vmware 
+summary: 在安裝StorageGRID之前，請收集並準備所需的資訊和資料。 
+---
+= 所需資訊和材料
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在安裝StorageGRID之前，請收集並準備所需的資訊和資料。
+
+
+
+== 所需資訊
+
+網路規劃:: 您打算將哪些網路連接到每個StorageGRID節點。  StorageGRID支援多種網絡，以實現流量分離、安全性和管理便利性。
++
+--
+查看StorageGRIDlink:../network/index.html["網路指南"] 。
+
+--
+網路資訊:: 分配給每個網格節點的 IP 位址以及 DNS 和 NTP 伺服器的 IP 位址。
+網格節點伺服器:: 確定一組伺服器（實體、虛擬或兩者），它們總體上提供足夠的資源來支援您計劃部署的StorageGRID節點的數量和類型。
++
+--
+
+NOTE: 如果您的StorageGRID安裝不使用StorageGRID裝置（硬體）儲存節點，則必須使用具有電池支援的寫入快取 (BBWC) 的硬體 RAID 儲存。  StorageGRID不支援使用虛擬儲存區域網路 (vSAN)、軟體 RAID 或無 RAID 保護。
+
+--
+相關資訊:: https://imt.netapp.com/matrix/#welcome["NetApp互通性表工具"^]
+
+
+
+
+== 所需材料
+
+NetApp StorageGRID許可證:: 您必須擁有有效的、經過數位簽署的NetApp許可證。
+
+
+
+NOTE: StorageGRID安裝檔案中包含一個非生產許可證，可用於測試和概念驗證網格。
+
+StorageGRID安裝存檔:: link:downloading-and-extracting-storagegrid-installation-files.html["下載StorageGRID安裝檔案並提取文件"] 。
+維修筆記型電腦:: StorageGRID系統是透過服務筆記型電腦安裝的。
++
+--
+服務筆記型電腦必須具備：
+
+* 網路連接埠
+* SSH 用戶端（例如，PuTTY）
+* link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]
+
+
+--
+StorageGRID文檔::
++
+--
+* link:../release-notes/index.html["發行說明"]
+* link:../admin/index.html["StorageGRID管理說明"]
+
+
+--
+

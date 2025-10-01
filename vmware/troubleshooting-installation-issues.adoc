@@ -1,0 +1,81 @@
+---
+permalink: vmware/troubleshooting-installation-issues.html 
+sidebar: sidebar 
+keywords: how to troubleshoot installation issues 
+summary: 如果在安裝StorageGRID系統時出現任何問題，您可以存取安裝日誌檔案。 
+---
+= 解決安裝問題
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果在安裝StorageGRID系統時出現任何問題，您可以存取安裝日誌檔案。
+
+以下是主要的安裝日誌文件，技術支援可能需要這些文件來解決問題。
+
+* `/var/local/log/install.log`（在所有網格節點上找到）
+* `/var/local/log/gdu-server.log`（位於主管理節點上）
+
+
+.相關資訊
+若要了解如何存取日誌文件，請參閱link:../monitor/logs-files-reference.html["日誌檔參考"]。
+
+如果您需要更多協助，請聯繫 https://mysupport.netapp.com/site/global/dashboard["NetApp支援"^]。
+
+
+
+== 虛擬機器資源預留需要調整
+
+OVF 檔案包括資源預留，旨在確保每個網格節點都有足夠的 RAM 和 CPU 來有效運作。如果您透過在 VMware 上部署這些 OVF 檔案來建立虛擬機，且預先定義數量的資源不可用，則虛擬機將無法啟動。
+
+.關於此任務
+如果您確定 VM 主機具有足夠的資源供每個網格節點使用，請手動調整為每個虛擬機器指派的資源，然後嘗試啟動虛擬機器。
+
+.步驟
+. 在 VMware vSphere Hypervisor 用戶端樹中，選擇未啟動的虛擬機器。
+. 右鍵單擊虛擬機，然後選擇“編輯設定”。
+. 從虛擬機器屬性視窗中，選擇「*資源*」標籤。
+. 調整分配給虛擬機器的資源：
++
+.. 選擇 *CPU*，然後使用預留滑桿調整為此虛擬機器預留的 MHz。
+.. 選擇*記憶體*，然後使用預留滑桿調整為此虛擬機器預留的 MB。
+
+
+. 按一下“*確定*”。
+. 根據需要對同一 VM 主機上託管的其他虛擬機器重複此操作。
+
+
+
+
+== 臨時安裝密碼已停用
+
+部署 VMware 節點時，您可以選擇指定暫時安裝密碼。在新節點加入網格之前，您必須擁有此密碼才能存取 VM 控制台或使用 SSH。
+
+如果您選擇停用臨時安裝密碼，則必須執行其他步驟來偵錯安裝問題。
+
+您可以執行下列任一操作：
+
+* 重新部署虛擬機器但指定暫時安裝密碼，以便您可以存取控制台或使用 SSH 偵錯安裝問題。
+* 使用 vCenter 設定密碼：
++
+.. 關閉虛擬機器。
+.. 前往 *VM*，選擇 *Configure* 選項卡，然後選擇 *vApp Options*。
+.. 指定要設定的臨時安裝密碼類型：
++
+*** 選擇 *CUSTOM_TEMPORARY_PASSWORD* 來設定自訂臨時密碼。
+*** 選擇 *TEMPORARY_PASSWORD_TYPE*​​ 以使用節點名稱作為臨時密碼。
+
+
+.. 選擇*設定值*。
+.. 設定臨時密碼：
++
+*** 將 *CUSTOM_TEMPORARY_PASSWORD* 變更為自訂密碼值。
+*** 使用 *使用節點名稱* 值更新 *TEMPORARY_PASSWORD_TYPE*​​。
+
+
+.. 重新啟動虛擬機器以套用新密碼。
+
+
+

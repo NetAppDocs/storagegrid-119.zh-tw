@@ -1,0 +1,483 @@
+---
+permalink: network/internal-grid-node-communications.html 
+sidebar: sidebar 
+keywords: storagegrid, network port, internal communications, ports, TCP, UDP, grid communications, port 
+summary: StorageGRID內部防火牆僅允許與網格網路上的特定連接埠建立傳入連接，但連接埠 22、80、123 和 443 除外（請參閱有關外部通訊的資訊）。負載平衡器端點定義的連接埠也接受連線。 
+---
+= 內部網格節點通信
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID內部防火牆允許傳入連接到網格網路上的特定連接埠。負載平衡器端點定義的連接埠也接受連線。
+
+
+NOTE: NetApp建議您在網格節點之間啟用 Internet 控制訊息協定 (ICMP) 流量。當無法存取網格節點時，允許 ICMP 流量可以提高故障轉移效能。
+
+除了 ICMP 和表中列出的連接埠之外， StorageGRID還使用虛擬路由器冗餘協定 (VRRP)。  VRRP 是一種使用 IP 協定編號 112 的網際網路協定。 StorageGRID僅在單播模式下使用 VRRP。只有以下情況需要 VRRPlink:../admin/managing-high-availability-groups.html["高可用性組"]已配置。
+
+
+
+== 基於 Linux 的節點指南
+
+如果企業網路策略限制對任何這些連接埠的訪問，您可以在部署時使用部署設定參數重新對應連接埠。有關連接埠重新映射和部署配置參數的更多信息，請參見：
+
+* link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]
+* link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]
+
+
+
+
+== 基於 VMware 的節點指南
+
+僅當需要定義 VMware 網路外部的防火牆限制時才配置下列連接埠。
+
+如果企業網路策略限制對任何這些連接埠的訪問，您可以在使用 VMware vSphere Web Client 部署節點時重新對應端口，或在自動化網格節點部署時使用設定檔設定重新對應連接埠。有關連接埠重新映射和部署配置參數的更多信息，請參閱link:../vmware/index.html["在 VMware 上安裝StorageGRID"]。
+
+
+
+== 設備節點指南
+
+如果企業網路策略限制對任何這些連接埠的訪問，您可以使用StorageGRID Appliance Installer 重新對應連接埠。看 https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-remapping-network-ports-for-appliance.html["可選：重新映射設備的網路端口"^]。
+
+
+
+== StorageGRID內部連接埠
+
+[cols="1a,1a,1a,1a,4a"]
+|===
+| 港口 | TCP 或 UDP | 從 | 到 | 細節 
+
+
+ a| 
+22
+ a| 
+TCP
+ a| 
+主管理節點
+ a| 
+所有節點
+ a| 
+對於維護程序，主管理節點必須能夠使用連接埠 22 上的 SSH 與所有其他節點進行通訊。允許來自其他節點的 SSH 流量是可選的。
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+家電
+ a| 
+主管理節點
+ a| 
+由StorageGRID設備用於與主管理節點通訊以啟動安裝。
+
+
+
+ a| 
+123
+ a| 
+UDP
+ a| 
+所有節點
+ a| 
+所有節點
+ a| 
+網路時間協定服務。每個節點使用 NTP 與其他每個節點同步其時間。
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+主管理節點
+ a| 
+用於在安裝和其他維護過程中向主管理節點傳達狀態。
+
+
+
+ a| 
+1055
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+主管理節點
+ a| 
+安裝、擴充、復原和其他維護過程的內部流量。
+
+
+
+ a| 
+1139
+ a| 
+TCP
+ a| 
+儲存節點
+ a| 
+儲存節點
+ a| 
+儲存節點之間的內部流量。
+
+
+
+ a| 
+1501
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+具有 ADC 的儲存節點
+ a| 
+報告、審計和配置內部流量。
+
+
+
+ a| 
+1502
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+儲存節點
+ a| 
+S3 和 Swift 相關的內部流量。
+
+
+
+ a| 
+1504
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+管理節點
+ a| 
+NMS服務報告和配置內部流量。
+
+
+
+ a| 
+1505
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+管理節點
+ a| 
+AMS 服務內部流量。
+
+
+
+ a| 
+1506
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+所有節點
+ a| 
+伺服器狀態內部流量。
+
+
+
+ a| 
+1507
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+閘道
+ a| 
+負載平衡器內部流量。
+
+
+
+ a| 
+1508
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+主管理節點
+ a| 
+配置管理內部流量。
+
+
+
+ a| 
+1511
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+儲存節點
+ a| 
+元資料內部流量。
+
+
+
+ a| 
+7001
+ a| 
+TCP
+ a| 
+儲存節點
+ a| 
+儲存節點
+ a| 
+Cassandra TLS 節點間叢集通訊。
+
+
+
+ a| 
+7443
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+主管理節點
+ a| 
+用於安裝、擴充、復原、其他維護程序和錯誤報告的內部流量。
+
+
+
+ a| 
+8011
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+主管理節點
+ a| 
+安裝、擴充、復原和其他維護過程的內部流量。
+
+
+
+ a| 
+8443
+ a| 
+TCP
+ a| 
+主管理節點
+ a| 
+設備節點
+ a| 
+與維護模式程序相關的內部流量。
+
+
+
+ a| 
+9042
+ a| 
+TCP
+ a| 
+儲存節點
+ a| 
+儲存節點
+ a| 
+Cassandra 用戶端連接埠。
+
+
+
+ a| 
+9999
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+所有節點
+ a| 
+多種服務的內部流量。包括維護程序、指標和網路更新。
+
+
+
+ a| 
+10226
+ a| 
+TCP
+ a| 
+儲存節點
+ a| 
+主管理節點
+ a| 
+由StorageGRID設備用於將AutoSupport套件從 E 系列SANtricity系統管理員轉送至主管理節點。
+
+
+
+ a| 
+10342
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+主管理節點
+ a| 
+安裝、擴充、復原和其他維護過程的內部流量。
+
+
+
+ a| 
+18000
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+具有 ADC 的儲存節點
+ a| 
+帳戶服務內部流量。
+
+
+
+ a| 
+18001
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+具有 ADC 的儲存節點
+ a| 
+身分聯合內部流量。
+
+
+
+ a| 
+18002
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+儲存節點
+ a| 
+與物件協定相關的內部 API 流量。
+
+
+
+ a| 
+18003
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+具有 ADC 的儲存節點
+ a| 
+平台服務內部流量。
+
+
+
+ a| 
+18017
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+儲存節點
+ a| 
+雲端儲存池的 Data Mover 服務內部流量。
+
+
+
+ a| 
+18019
+ a| 
+TCP
+ a| 
+儲存節點
+ a| 
+儲存節點
+ a| 
+用於擦除編碼的區塊服務內部流量。
+
+
+
+ a| 
+18082
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+儲存節點
+ a| 
+與 S3 相關的內部流量。
+
+
+
+ a| 
+18083
+ a| 
+TCP
+ a| 
+所有節點
+ a| 
+儲存節點
+ a| 
+與 Swift 相關的內部流量。
+
+
+
+ a| 
+18086
+ a| 
+TCP
+ a| 
+所有網格節點
+ a| 
+所有儲存節點
+ a| 
+與 LDR 服務相關的內部流量。
+
+
+
+ a| 
+18200
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+儲存節點
+ a| 
+有關客戶端請求的附加統計資料。
+
+
+
+ a| 
+19000
+ a| 
+TCP
+ a| 
+管理/儲存節點
+ a| 
+具有 ADC 的儲存節點
+ a| 
+Keystone服務內部流量。
+
+|===
+.相關資訊
+link:external-communications.html["外部溝通"]

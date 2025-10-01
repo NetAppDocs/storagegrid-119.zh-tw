@@ -1,0 +1,102 @@
+---
+permalink: admin/configuring-s3-api-endpoint-domain-names.html 
+sidebar: sidebar 
+keywords: s3 endpoint domain names, virtual-hosted-style requests 
+summary: 若要支援 S3 虛擬託管式請求，您必須使用網格管理員來設定 S3 用戶端連線到的 S3 端點網域清單。 
+---
+= 配置 S3 端點域名
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+若要支援 S3 虛擬託管式請求，您必須使用網格管理員來設定 S3 用戶端連線到的 S3 端點網域清單。
+
+
+CAUTION: 不支援使用 IP 位址作為端點網域名稱。未來版本將阻止這種配置。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+* 您已確認電網升級未正在進行中。
++
+
+CAUTION: 在電網升級過程中，請勿對網域配置進行任何變更。
+
+
+
+.關於此任務
+若要讓客戶端能夠使用 S3 端點域名，您必須執行以下所有操作：
+
+* 使用網格管理器將 S3 端點網域新增至StorageGRID系統。
+* 確保link:../admin/configuring-administrator-client-certificates.html["用戶端用於與StorageGRID進行 HTTPS 連線的憑證"]已為客戶端所需的所有網域簽署。
++
+例如，如果端點是 `s3.company.com`，您必須確保用於 HTTPS 連線的憑證包含 `s3.company.com`端點和端點的通配符主題備用名稱 (SAN)： `*.s3.company.com` 。
+
+* 設定客戶端使用的DNS伺服器。包含用戶端用於建立連線的 IP 位址的 DNS 記錄，並確保記錄引用所有必要的 S3 端點域名，包括任何通配符名稱。
++
+
+NOTE: 用戶端可以使用網關節點、管理節點或儲存節點的 IP 位址連接到StorageGRID ，或透過連接到高可用性群組的虛擬 IP 位址連接到 StorageGRID。您應該了解用戶端應用程式如何連接到電網，以便在 DNS 記錄中包含正確的 IP 位址。
+
+
+
+使用 HTTPS 連線（建議）到電網的用戶端可以使用下列任一憑證：
+
+* 連接到負載平衡器端點的用戶端可以使用該端點的自訂憑證。每個負載平衡器端點可以設定為識別不同的 S3 端點網域名稱。
+* 連接到負載平衡器端點或直接連接到儲存節點的用戶端可以自訂全域 S3 API 憑證以包含所有必要的 S3 端點網域。
+
+
+
+NOTE: 如果您不新增 S3 端點網域名稱且清單為空，則對 S3 虛擬託管式要求的支援將被停用。
+
+
+
+== 新增 S3 端點域名
+
+.步驟
+. 選擇 *設定* > *網路* > *S3 端點網域*。
+. 在*網域 1* 欄位中輸入網域名稱。選擇*新增其他網域*以新增更多網域。
+. 選擇*儲存*。
+. 確保用戶端使用的伺服器憑證與所需的 S3 端點網域名稱相符。
++
+** 如果用戶端連接到使用其自己的憑證的負載平衡器端點，link:../admin/configuring-load-balancer-endpoints.html["更新與端點關聯的憑證"] 。
+** 如果用戶端連接到使用全域 S3 API 憑證的負載平衡器端點或直接連接到儲存節點，link:../admin/use-s3-setup-wizard-steps.html["更新全域 S3 API 證書"] 。
+
+
+. 新增所需的DNS記錄，確保終端域名請求能夠被解析。
+
+
+.結果
+現在，當客戶端使用端點時 `_bucket.s3.company.com_`，DNS 伺服器解析到正確的端點，並且憑證按預期對端點進行身份驗證。
+
+
+
+== 重新命名 S3 端點域名
+
+如果您變更 S3 應用程式使用的名稱，虛擬託管樣式的請求將會失敗。
+
+.步驟
+. 選擇 *設定* > *網路* > *S3 端點網域*。
+. 選擇您要編輯的網域名稱欄位並進行必要的變更。
+. 選擇*儲存*。
+. 選擇“是”確認您的更改。
+
+
+
+
+== 刪除 S3 終端節點域名
+
+如果刪除 S3 應用程式使用的名稱，虛擬託管樣式請求將會失敗。
+
+.步驟
+. 選擇 *設定* > *網路* > *S3 端點網域*。
+. 選擇刪除圖標image:../media/icon-x-to-remove.png["刪除圖示"]域名旁邊。
+. 選擇“是”確認刪除。
+
+
+.相關資訊
+* link:../s3/index.html["使用 S3 REST API"]
+* link:viewing-ip-addresses.html["查看 IP 位址"]
+* link:configure-high-availability-group.html["配置高可用性組"]
+

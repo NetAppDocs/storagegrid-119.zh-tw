@@ -1,0 +1,71 @@
+---
+permalink: rhel/download-files-verify.html 
+sidebar: sidebar 
+keywords: red hat linux installation files, how to verify files 
+summary: 如有必要，您可以手動驗證StorageGRID安裝檔案中的檔案。 
+---
+= 手動驗證安裝檔（可選）
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如有必要，您可以手動驗證StorageGRID安裝檔案中的檔案。
+
+.開始之前
+你有link:../rhel/downloading-and-extracting-storagegrid-installation-files.html#rhel-download-verification-package["下載了驗證包"]從 https://mysupport.netapp.com/site/products/all/details/storagegrid/downloads-tab["NetApp StorageGRID下載頁面"^]。
+
+.步驟
+. 從驗證包中提取工件：
++
+`tar -xf StorageGRID_11.9.0_Code_Signature_Verification_Package.tar.gz`
+
+. 確保已提取以下工件：
++
+** 葉子證書： `Leaf-Cert.pem`
+** 證書鏈： `CA-Int-Cert.pem`
+** 時間戳響應鏈： `TS-Cert.pem`
+** 校驗文件： `sha256sum`
+** 校驗簽名： `sha256sum.sig`
+** 時間戳響應文件： `sha256sum.sig.tsr`
+
+
+. 使用鏈來驗證葉證書是否有效。
++
+*例子*： `openssl verify -CAfile CA-Int-Cert.pem Leaf-Cert.pem`
+
++
+*預期輸出*： `Leaf-Cert.pem: OK`
+
+. 如果步驟 _2_ 因葉憑證過期而失敗，請使用 `tsr`文件進行驗證。
++
+*例子*： `openssl ts -CAfile CA-Int-Cert.pem -untrusted TS-Cert.pem -verify -data sha256sum.sig -in sha256sum.sig.tsr`
+
++
+*預期輸出包括*： `Verification: OK`
+
+. 從葉證書建立公鑰檔案。
++
+*例子*： `openssl x509 -pubkey -noout -in Leaf-Cert.pem > Leaf-Cert.pub`
+
++
+*預期輸出*：_無_
+
+. 使用公鑰來驗證 `sha256sum`提起訴訟 `sha256sum.sig`。
++
+*例子*： `openssl dgst -sha256 -verify Leaf-Cert.pub -signature sha256sum.sig sha256sum`
+
++
+*預期輸出*： `Verified OK`
+
+. 驗證 `sha256sum`文件內容與新建立的校驗和相比較。
++
+*例子*： `sha256sum -c sha256sum`
+
++
+*預期輸出*： `_<filename>_: OK` +
+`_<filename>_`是您下載的存檔檔案的名稱。
+
+. link:../rhel/downloading-and-extracting-storagegrid-installation-files.html["完成剩餘步驟"]從安裝檔案中提取並選擇適當的文件。
+

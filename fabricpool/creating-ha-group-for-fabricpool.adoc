@@ -1,0 +1,99 @@
+---
+permalink: fabricpool/creating-ha-group-for-fabricpool.html 
+sidebar: sidebar 
+keywords: fabricPool, high availability group, HA group, create, creating, virtual IP, VIP, active interface, backup interface 
+summary: '配置StorageGRID以與FabricPool一起使用時，您可以選擇建立一個或多個高可用性 (HA) 群組。  HA 群組是每個包含StorageGRID負載平衡器服務的節點集合。  HA 群組可以包含網關節點、管理節點或兩者。' 
+---
+= 為FabricPool建立高可用性 (HA) 群組
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+配置StorageGRID以與FabricPool一起使用時，您可以選擇建立一個或多個高可用性 (HA) 群組。  HA 群組是每個包含StorageGRID負載平衡器服務的節點集合。  HA 群組可以包含網關節點、管理節點或兩者。
+
+您可以使用 HA 群組來幫助保持FabricPool資料連接可用。 HA 群組使用虛擬 IP 位址 (VIP) 來提供對負載平衡器服務的高度可用存取。如果 HA 群組中的活動介面發生故障，則備用介面可以管理工作負載，而對FabricPool操作的影響很小。
+
+有關此任務的詳細信息，請參閱link:../admin/managing-high-availability-groups.html["管理高可用性組"]。若要使用FabricPool設定精靈完成此任務，請前往link:use-fabricpool-setup-wizard-steps.html["存取並完成FabricPool設定精靈"]。
+
+.開始之前
+* 您已審閱link:best-practices-for-high-availability-groups.html["高可用性組的最佳實踐"]。
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["Root存取權限"]。
+* 如果您打算使用 VLAN，則您已經建立了 VLAN 介面。看link:../admin/configure-vlan-interfaces.html["配置VLAN介面"] 。
+
+
+.步驟
+. 選擇 *配置* > *網路* > *高可用性群組*。
+. 選擇“*創建*”。
+. 對於*輸入詳細資料*步驟，請填寫以下欄位。
++
+[cols="1a,2a"]
+|===
+| 場地 | 描述 
+
+
+ a| 
+HA組名稱
+ a| 
+此 HA 組的唯一顯示名稱。
+
+
+
+ a| 
+描述（可選）
+ a| 
+該 HA 組的描述。
+
+|===
+. 對於*新增介面*步驟，選擇您想要在此 HA 群組中使用的節點介面。
++
+使用列標題對行進行排序，或輸入搜尋字詞以更快找到介面。
+
++
+您可以選擇一個或多個節點，但每個節點只能選擇一個介面。
+
+. 對於*優先考慮介面*步驟，請確定此 HA 群組的主介面和任何備份介面。
++
+拖曳行來變更「優先順序」列中的值。
+
++
+清單中的第一個介面是主介面。除非發生故障，否則主介面是活動介面。
+
++
+如果 HA 群組包含多個介面且活動介面發生故障，則虛擬 IP (VIP) 位址將依優先順序移至第一個備份介面。如果該接口發生故障，VIP 位址將移動到下一個備份接口，依此類推。當故障解決後，VIP 位址將移回可用的最高優先權介面。
+
+. 對於*輸入 IP 位址*步驟，請填寫以下欄位。
++
+[cols="1a,2a"]
+|===
+| 場地 | 描述 
+
+
+ a| 
+子網路 CIDR
+ a| 
+CIDR 表示法中的 VIP 子網路位址－IPv4 位址後面接著斜槓和子網路長度（0-32）。
+
+網路位址不得設定任何主機位元。例如，  `192.16.0.0/22` 。
+
+
+
+ a| 
+網關 IP 位址（可選）
+ a| 
+選修的。如果用於存取StorageGRID 的ONTAP IP 位址與StorageGRID VIP 位址不在同一子網路中，請輸入StorageGRID VIP 本地閘道 IP 位址。本機網關IP位址必須在VIP子網路內。
+
+
+
+ a| 
+虛擬 IP 位址
+ a| 
+為 HA 組中的活動介面輸入至少一個、最多十個 VIP 位址。所有 VIP 位址都必須位於 VIP 子網路內。
+
+至少一個位址必須是 IPv4。您也可以選擇指定其他 IPv4 和 IPv6 位址。
+
+|===
+. 選擇*建立 HA 組*，然後選擇*完成*。
+

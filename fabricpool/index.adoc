@@ -1,0 +1,92 @@
+---
+permalink: fabricpool/index.html 
+sidebar: sidebar 
+keywords: how to configure storagegrid for fabricpool, using fabricpool with storagegrid, 
+summary: 如果您使用NetApp ONTAP軟體，則可以使用NetApp FabricPool將非活動資料分層到NetApp StorageGRID物件儲存系統。 
+---
+= 為FabricPool配置StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您使用NetApp ONTAP軟體，則可以使用NetApp FabricPool將非活動資料分層到NetApp StorageGRID物件儲存系統。
+
+使用這些說明來：
+
+* 了解為FabricPool工作負載配置StorageGRID 的注意事項和最佳實務。
+* 了解如何配置StorageGRID物件儲存系統以與FabricPool一起使用。
+* 了解在將StorageGRID附加為FabricPool雲層時如何向ONTAP提供所需的值。
+
+
+
+
+== 為FabricPool配置StorageGRID 的快速入門
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一"]規劃您的配置
+[role="quick-margin-list"]
+* 決定將使用哪種FabricPool磁碟區分層策略將非活動ONTAP資料分層到StorageGRID。
+* 規劃並安裝StorageGRID系統以滿足您的儲存容量和效能需求。
+* 熟悉StorageGRID系統軟體，包括link:../primer/exploring-grid-manager.html["網格管理器"]以及link:../primer/exploring-tenant-manager.html["租戶經理"]。
+* 查看FabricPool最佳實踐link:best-practices-for-high-availability-groups.html["HA 群組"]，link:best-practices-for-load-balancing.html["負載平衡"] ，link:best-practices-ilm.html["工業光魔"] ， 和link:other-best-practices-for-storagegrid-and-fabricpool.html["更多的"]。
+* 查看以下其他資源，其中提供了有關使用和配置ONTAP和FabricPool 的詳細資訊：
++
+https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598： ONTAP中的FabricPool最佳實踐"^]
+
++
+https://docs.netapp.com/us-en/ontap/fabricpool/index.html["FabricPool的ONTAP文檔"^]
+
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["二"]執行先決條件任務
+[role="quick-margin-para"]
+獲取link:information-needed-to-attach-storagegrid-as-cloud-tier.html["將StorageGRID附加為雲層所需的信息"]， 包括：
+
+[role="quick-margin-list"]
+* IP 位址
+* 網域
+* SSL 憑證
+
+
+[role="quick-margin-para"]
+可選地，配置link:../admin/using-identity-federation.html["身分聯合"]和link:../admin/configuring-sso.html["單一登入"]。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]配置StorageGRID設定
+[role="quick-margin-para"]
+使用StorageGRID取得ONTAP連接到網格所需的值。
+
+[role="quick-margin-para"]
+使用link:use-fabricpool-setup-wizard.html["FabricPool設定精靈"]是配置所有專案的推薦和最快方法，但如果需要，您也可以手動設定每個實體。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四"]配置ONTAP和 DNS
+[role="quick-margin-para"]
+使用ONTAPlink:configure-ontap.html["新增雲層"]使用StorageGRID值。然後，link:configure-dns-server.html["配置 DNS 條目"]將 IP 位址與您計劃使用的任何網域名稱關聯。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五"]監視和管理
+[role="quick-margin-para"]
+當您的系統啟動並執行時，請在ONTAP和StorageGRID中執行持續任務以管理和監控FabricPool資料分層。
+
+
+
+== 什麼是FabricPool？
+
+FabricPool是一種ONTAP混合式儲存解決方案，它使用高效能快閃記憶體聚合作為效能層，使用物件儲存作為雲層。使用支援FabricPool 的聚合可以幫助您降低儲存成本，而不會影響效能、效率或保護。
+
+FabricPool將雲層（外部物件存儲，例如StorageGRID）與本機層（ ONTAP儲存聚合）關聯以建立複合磁碟集合。然後， FabricPool內的磁碟區可以利用分層功能，將活動（熱）資料保存在高效能儲存（本機層）上，並將非活動（冷）資料分層到外部物件儲存（雲層）。
+
+無需進行任何架構更改，您可以繼續從中央ONTAP儲存系統管理您的資料和應用程式環境。
+
+
+
+== 什麼是StorageGRID？
+
+NetApp StorageGRID是一種將資料作為物件進行管理的儲存架構，與檔案或區塊儲存等其他儲存架構不同。物件保存在單一容器（例如儲存桶）內，並且不會作為檔案嵌套在其他目錄內的目錄中。雖然物件儲存通常提供的效能低於檔案或區塊存儲，但它的可擴充性明顯更強。  StorageGRID桶可容納數 PB 的資料和數十億個物件。
+
+
+
+== 為什麼要使用StorageGRID作為FabricPool雲層？
+
+FabricPool可以將ONTAP資料分層到多個物件儲存提供者，包括StorageGRID。與可能在儲存桶或容器層級設定每秒支援的最大輸入/輸出操作數 (IOPS) 的公有雲不同， StorageGRID效能會隨著系統中的節點數量而擴展。使用StorageGRID作為FabricPool雲層，您可以將冷資料保存在自己的私有雲中，以實現最高效能並完全控制您的資料。
+
+此外，當您使用StorageGRID作為雲端時，不需要FabricPool授權。

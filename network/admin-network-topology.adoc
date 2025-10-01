@@ -1,0 +1,24 @@
+---
+permalink: network/admin-network-topology.html 
+sidebar: sidebar 
+keywords: admin network topology, using admin network 
+summary: 擁有管理網路是可選的。使用管理網路和網格網路的一種方法是為每個節點配置可路由的網格網路和有界的管理網路。 
+---
+= 管理網路拓撲
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+擁有管理網路是可選的。使用管理網路和網格網路的一種方法是為每個節點配置可路由的網格網路和有界的管理網路。
+
+設定管理網路時，您將為每個網格節點的 eth1 介面建立主機 IP 位址、子網路遮罩和閘道 IP 位址。
+
+管理網路對於每個節點來說都是唯一的，並且可以由多個子網路組成。每個節點都可以設定一個管理外部子網路清單 (AESL)。  AESL 列出了每個節點可透過管理網路存取的子網路。 AESL 還必須包括網格將透過管理網路存取的任何服務的子網，例如 NTP、DNS、KMS 和 LDAP。靜態路由適用於 AESL 中的每個子網路。
+
+在此範例中，網格網路用於與 S3 用戶端請求和物件管理相關的流量，而管理網路則用於管理功能。
+
+image::../media/grid_admin_networks.png[網格管理網絡]
+
+image::../media/grid_admin_networks_ips.png[網格管理網路 IP]

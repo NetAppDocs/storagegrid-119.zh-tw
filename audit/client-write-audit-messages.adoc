@@ -1,0 +1,100 @@
+---
+permalink: audit/client-write-audit-messages.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, messages, client write, OVWR, SDEL, SPOS, SPUT, SUPD, WDEL, WPUT, S3 
+summary: 當 S3 用戶端應用程式發出建立或修改物件的請求時，會記錄用戶端寫入稽核訊息。 
+---
+= 客戶端寫入審計訊息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當 S3 用戶端應用程式發出建立或修改物件的請求時，會記錄用戶端寫入稽核訊息。
+
+[cols="1a,3a,1a,1a"]
+|===
+| 程式碼 | 描述 | 使用者 | 看 
+
+
+ a| 
+OVWR
+ a| 
+物件覆蓋：記錄用一個物件覆寫另一個物件的事務。
+ a| 
+S3 和 Swift 用戶端
+ a| 
+link:ovwr-object-overwrite.html["OVWR：物件覆蓋"]
+
+
+
+ a| 
+斯德勒
+ a| 
+S3 DELETE：記錄成功刪除物件或儲存桶的交易。
+
+*注意：*如果事務操作的是子資源，審計訊息中會包含欄位S3SR。
+ a| 
+S3 用戶端
+ a| 
+link:sdel-s3-delete.html["SDEL：S3 刪除"]
+
+
+
+ a| 
+銷售點系統
+ a| 
+S3 POST：記錄將物件從 AWS Glacier 儲存還原到雲端儲存池的成功交易。
+ a| 
+S3 用戶端
+ a| 
+link:spos-s3-post.html["SPOS：S3 POST"]
+
+
+
+ a| 
+噴管
+ a| 
+S3 PUT：記錄建立新物件或儲存桶的成功交易。
+
+*注意：*如果事務操作的是子資源，審計訊息中會包含欄位S3SR。
+ a| 
+S3 用戶端
+ a| 
+link:sput-s3-put.html["噴口：S3 放置"]
+
+
+
+ a| 
+SUPD
+ a| 
+S3 元資料已更新：記錄成功的交易以更新現有物件或儲存桶的元資料。
+ a| 
+S3 用戶端
+ a| 
+link:supd-s3-metadata-updated.html["SUPD：S3 元資料已更新"]
+
+
+
+ a| 
+WDEL
+ a| 
+Swift DELETE：記錄成功刪除物件或容器的交易。
+ a| 
+Swift 用戶端
+ a| 
+link:wdel-swift-delete.html["WDEL：快速刪除"]
+
+
+
+ a| 
+西普特
+ a| 
+Swift PUT：記錄成功的交易以建立新的物件或容器。
+ a| 
+Swift 用戶端
+ a| 
+link:wput-swift-put.html["WPUT：Swift PUT"]
+
+|===

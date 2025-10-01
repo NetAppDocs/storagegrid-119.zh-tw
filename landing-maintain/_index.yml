@@ -1,0 +1,35 @@
+---
+indexpage:
+  title: 維護StorageGRID系統
+  summary: 您可以執行維護程序來從故障中恢復或保持您的StorageGRID系統最新並有效率地運作。
+  keywords: maintain grid, recovery package
+  lead: 您可以執行維護程序來從故障中恢復或保持您的StorageGRID系統最新並有效率地運作。
+  tiles:
+  - title: 開始
+    links:
+    - title: 電網維護
+      url: "../maintain/index.html"
+    - title: 下載恢復包
+      url: "../maintain/downloading-recovery-package.html"
+  - title: 退役節點或站點
+    links:
+    - title: 退役類型
+      url: "../maintain/decommission-procedure.html"
+    - title: 刪除網格節點
+      url: "../maintain/grid-node-decommissioning.html"
+    - title: 刪除站點
+      url: "../maintain/considerations-for-removing-site.html"
+  - title: 額外的維護程序
+    links:
+    - title: 重新命名網格、站點或節點
+      url: "../maintain/rename-grid-site-node-overview.html"
+    - title: 節點程式
+      url: "../maintain/grid-node-procedures.html"
+    - title: 網路程式
+      url: "../maintain/updating-subnets-for-grid-network.html"
+    - title: 主機和中介軟體程序
+      url: "../maintain/linux-migrating-grid-node-to-new-host.html"
+  - title: 維護StorageGRID設備
+    links:
+    - title: StorageGRID設備文檔
+      url: https://docs.netapp.com/us-en/storagegrid-appliances/

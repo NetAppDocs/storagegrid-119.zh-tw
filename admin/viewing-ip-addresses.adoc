@@ -1,0 +1,31 @@
+---
+permalink: admin/viewing-ip-addresses.html 
+sidebar: sidebar 
+keywords: ip address, view ip addresses for nodes, what is node ip address 
+summary: 您可以查看StorageGRID系統中每個網格節點的 IP 位址。然後，您可以使用此 IP 位址在命令列登入網格節點並執行各種維護程序。 
+---
+= 查看 IP 位址
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以查看StorageGRID系統中每個網格節點的 IP 位址。然後，您可以使用此 IP 位址在命令列登入網格節點並執行各種維護程序。
+
+.開始之前
+您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+
+.關於此任務
+有關更改 IP 位址的信息，請參閱link:../maintain/configuring-ip-addresses.html["配置 IP 位址"]。
+
+.步驟
+. 選擇 *NODES* > *_grid node_* > *Overview*。
+. 選擇 IP 位址標題右側的 *顯示更多*。
++
+此網格節點的 IP 位址列在表中。
+
++
+image::../media/nodes_page_overview_tab_extended.png[節點頁面 IP 位址]
+
+

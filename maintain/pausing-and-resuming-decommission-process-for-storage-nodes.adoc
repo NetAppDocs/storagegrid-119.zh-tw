@@ -1,0 +1,46 @@
+---
+permalink: maintain/pausing-and-resuming-decommission-process-for-storage-nodes.html 
+sidebar: sidebar 
+keywords: how to pause decommission 
+summary: 如果需要執行第二次維護程序，您可以在某些階段暫停儲存節點的退役程序。待其他程序完成後，即可恢復退役。 
+---
+= 暫停和恢復儲存節點的退役過程
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果需要執行第二次維護程序，您可以在某些階段暫停儲存節點的退役程序。待其他程序完成後，即可恢復退役。
+
+
+NOTE: 只有在達到 ILM 評估或擦除編碼資料退役階段時才會啟用 *暫停* 按鈕；但是，ILM 評估（資料遷移）將繼續在背景執行。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["維護或 Root 存取權限"]。
+
+
+.步驟
+. 選擇*維護* > *任務* > *退役*。
++
+出現「退役」頁面。
+
+. 選擇*退役節點*。
++
+出現「退役節點」頁面。當退役程序達到以下任一階段時，*暫停*按鈕將會啟用。
+
++
+** 評估ILM
+** 退役擦除編碼數據
+
+
+. 選擇“*暫停*”以暫停程序。
++
+當前階段已暫停，且「*恢復*」按鈕已啟用。
+
++
+image::../media/decommission_nodes_procedure_paused.png[節點退役程序已暫停]
+
+. 其他維護程序完成後，選擇*恢復*繼續退役。
+

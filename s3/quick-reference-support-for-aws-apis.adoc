@@ -1,0 +1,1007 @@
+---
+permalink: s3/quick-reference-support-for-aws-apis.html 
+sidebar: sidebar 
+keywords: Amazon s3, API, request headers, s3 support, request syntax, supported, aws s3 
+summary: '本頁總結了StorageGRID如何支援 Amazon Simple Storage Service (S3) API。' 
+---
+= 快速參考：支援的 S3 API 請求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+本頁總結了StorageGRID如何支援 Amazon Simple Storage Service (S3) API。
+
+此頁僅包含StorageGRID支援的 S3 操作。
+
+
+NOTE: 若要查看每個操作的 AWS 文檔，請選擇標題中的連結。
+
+
+
+== 通用 URI 查詢參數和請求標頭
+
+除非另有說明，否則支援以下常見 URI 查詢參數：
+
+* `versionId`（根據物件操作的需要）
+
+
+除非另有說明，否則支援以下常見請求標頭：
+
+* `Authorization`
+* `Connection`
+* `Content-Length`
+* `Content-MD5`
+* `Content-Type`
+* `Date`
+* `Expect`
+* `Host`
+* `x-amz-date`
+
+
+.相關資訊
+* link:../s3/s3-rest-api-supported-operations-and-limitations.html["S3 REST API 實作細節"]
+* https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html["Amazon Simple Storage Service API 參考：常見請求標頭"^]
+
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html["中止分段上傳"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加 URI 查詢參數：
+
+* `uploadId`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-for-multipart-uploads.html["分段上傳的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html["完成多部分上傳"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加 URI 查詢參數：
+
+* `uploadId`
+* `x-amz-checksum-sha256`
+
+
+.請求主體 XML 標籤
+StorageGRID支援以下請求正文 XML 標籤：
+
+* `ChecksumSHA256`
+* `CompleteMultipartUpload`
+* `ETag`
+* `Part`
+* `PartNumber`
+
+
+.StorageGRID文檔
+link:complete-multipart-upload.html["完成多部分上傳"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html["複製對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加標頭：
+
+* `x-amz-copy-source`
+* `x-amz-copy-source-if-match`
+* `x-amz-copy-source-if-modified-since`
+* `x-amz-copy-source-if-none-match`
+* `x-amz-copy-source-if-unmodified-since`
+* `x-amz-copy-source-server-side-encryption-customer-algorithm`
+* `x-amz-copy-source-server-side-encryption-customer-key`
+* `x-amz-copy-source-server-side-encryption-customer-key-MD5`
+* `x-amz-metadata-directive`
+* `x-amz-object-lock-legal-hold`
+* `x-amz-object-lock-mode`
+* `x-amz-object-lock-retain-until-date`
+* `x-amz-server-side-encryption`
+* `x-amz-server-side-encryption-customer-algorithm`
+* `x-amz-server-side-encryption-customer-key`
+* `x-amz-server-side-encryption-customer-key-MD5`
+* `x-amz-storage-class`
+* `x-amz-tagging`
+* `x-amz-tagging-directive`
+* `x-amz-meta-<metadata-name>`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:put-object-copy.html["複製對象"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html["創建桶"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加標頭：
+
+* `x-amz-bucket-object-lock-enabled`
+
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html["建立多部分上傳"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加標頭：
+
+* `Cache-Control`
+* `Content-Disposition`
+* `Content-Encoding`
+* `Content-Language`
+* `Expires`
+* `x-amz-checksum-algorithm`
+* `x-amz-server-side-encryption`
+* `x-amz-storage-class`
+* `x-amz-server-side-encryption-customer-algorithm`
+* `x-amz-server-side-encryption-customer-key`
+* `x-amz-server-side-encryption-customer-key-MD5`
+* `x-amz-tagging`
+* `x-amz-object-lock-mode`
+* `x-amz-object-lock-retain-until-date`
+* `x-amz-object-lock-legal-hold`
+* `x-amz-meta-<metadata-name>`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:initiate-multipart-upload.html["建立多部分上傳"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html["刪除桶"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html["刪除BucketCors"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html["刪除桶加密"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html["DeleteBucket生命週期"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+* link:operations-on-buckets.html["對 bucket 的操作"]
+* link:create-s3-lifecycle-configuration.html["建立 S3 生命週期配置"]
+
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketPolicy.html["刪除桶策略"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html["刪除桶複製"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html["刪除桶標記"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html["刪除對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加請求標頭：
+
+* `x-amz-bypass-governance-retention`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-objects.html["對物件的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html["刪除對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加請求標頭：
+
+* `x-amz-bypass-governance-retention`
+
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:operations-on-objects.html["對物件的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html["刪除物件標記"^]
+
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-objects.html["對物件的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAcl.html["獲取BucketAcl"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketCors.html["獲取BucketCors"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html["取得桶加密"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html["取得BucketLifecycleConfiguration"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+* link:operations-on-buckets.html["對 bucket 的操作"]
+* link:create-s3-lifecycle-configuration.html["建立 S3 生命週期配置"]
+
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLocation.html["取得儲存桶位置"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html["取得儲存桶通知配置"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicy.html["取得BucketPolicy"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html["獲取Bucket複製"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html["取得桶標記"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html["取得Bucket版本"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html["取得對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加 URI 查詢參數：
+
+* `x-amz-checksum-mode`
+* `partNumber`
+* `response-cache-control`
+* `response-content-disposition`
+* `response-content-encoding`
+* `response-content-language`
+* `response-content-type`
+* `response-expires`
+
+
+以及這些額外的請求標頭：
+
+* `Range`
+* `x-amz-server-side-encryption-customer-algorithm`
+* `x-amz-server-side-encryption-customer-key`
+* `x-amz-server-side-encryption-customer-key-MD5`
+* `If-Match`
+* `If-Modified-Since`
+* `If-None-Match`
+* `If-Unmodified-Since`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:get-object.html["取得對象"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html["取得對象Acl"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-objects.html["對物件的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLegalHold.html["獲取對象合法持有"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLockConfiguration.html["取得物件鎖配置"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectRetention.html["取得對象保留"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:../s3/use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html["取得物件標記"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-objects.html["對物件的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html["頭桶"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadObject.html["頭部對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加標頭：
+
+* `x-amz-checksum-mode`
+* `x-amz-server-side-encryption-customer-algorithm`
+* `x-amz-server-side-encryption-customer-key`
+* `x-amz-server-side-encryption-customer-key-MD5`
+* `If-Match`
+* `If-Modified-Since`
+* `If-None-Match`
+* `If-Unmodified-Since`
+* `Range`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:head-object.html["頭部對象"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html["列表桶"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-the-service.html["服務上的操作 > ListBuckets"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html["列出多部分上傳"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加參數：
+
+* `encoding-type`
+* `key-marker`
+* `max-uploads`
+* `prefix`
+* `upload-id-marker`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:list-multipart-uploads.html["列出多部分上傳"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html["清單對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加參數：
+
+* `delimiter`
+* `encoding-type`
+* `marker`
+* `max-keys`
+* `prefix`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html["ListObjectsV2"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加參數：
+
+* `continuation-token`
+* `delimiter`
+* `encoding-type`
+* `fetch-owner`
+* `max-keys`
+* `prefix`
+* `start-after`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectVersions.html["列出物件版本"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加參數：
+
+* `delimiter`
+* `encoding-type`
+* `key-marker`
+* `max-keys`
+* `prefix`
+* `version-id-marker`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html["列出零件"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加參數：
+
+* `max-parts`
+* `part-number-marker`
+* `uploadId`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:list-multipart-uploads.html["列出多部分上傳"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html["PutBucketCors"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html["PutBucket加密"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求主體 XML 標籤
+StorageGRID支援以下請求正文 XML 標籤：
+
+* `ApplyServerSideEncryptionByDefault`
+* `Rule`
+* `ServerSideEncryptionConfiguration`
+* `SSEAlgorithm`
+
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html["PutBucket生命週期配置"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求主體 XML 標籤
+StorageGRID支援以下請求正文 XML 標籤：
+
+* `And`
+* `Days`
+* `Expiration`
+* `ExpiredObjectDeleteMarker`
+* `Filter`
+* `ID`
+* `Key`
+* `LifecycleConfiguration`
+* `NewerNoncurrentVersions`
+* `NoncurrentDays`
+* `NoncurrentVersionExpiration`
+* `Prefix`
+* `Rule`
+* `Status`
+* `Tag`
+* `Value`
+
+
+.StorageGRID文檔
+* link:operations-on-buckets.html["對 bucket 的操作"]
+* link:create-s3-lifecycle-configuration.html["建立 S3 生命週期配置"]
+
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html["PutBucketNotification配置"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求主體 XML 標籤
+StorageGRID支援以下請求正文 XML 標籤：
+
+* `Event`
+* `Filter`
+* `FilterRule`
+* `Id`
+* `Name`
+* `NotificationConfiguration`
+* `Prefix`
+* `S3Key`
+* `Suffix`
+* `Topic`
+* `TopicConfiguration`
+* `Value`
+
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketPolicy.html["PutBucketPolicy"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+有關支援的 JSON 主體欄位的詳細信息，請參閱link:bucket-and-group-access-policies.html["使用儲存桶和群組存取策略"]。
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html["PutBucket複製"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求主體 XML 標籤
+* `Bucket`
+* `Destination`
+* `Prefix`
+* `ReplicationConfiguration`
+* `Rule`
+* `Status`
+* `StorageClass`
+
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html["PutBucketTagging"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html["PutBucket版本控制"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求主體參數
+StorageGRID支援以下請求正文參數：
+
+* `VersioningConfiguration`
+* `Status`
+
+
+.StorageGRID文檔
+link:operations-on-buckets.html["對 bucket 的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html["放置對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加標頭：
+
+* `Cache-Control`
+* `Content-Disposition`
+* `Content-Encoding`
+* `Content-Language`
+* `Expires`
+* `x-amz-checksum-sha256`
+* `x-amz-server-side-encryption`
+* `x-amz-storage-class`
+* `x-amz-server-side-encryption-customer-algorithm`
+* `x-amz-server-side-encryption-customer-key`
+* `x-amz-server-side-encryption-customer-key-MD5`
+* `x-amz-tagging`
+* `x-amz-object-lock-mode`
+* `x-amz-object-lock-retain-until-date`
+* `x-amz-object-lock-legal-hold`
+* `x-amz-meta-<metadata-name>`
+
+
+.請求正文
+* 物件的二進位數據
+
+
+.StorageGRID文檔
+link:put-object.html["放置對象"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectLegalHold.html["放置對象合法保留"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectLockConfiguration.html["PutObjectLock配置"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectRetention.html["PutObjectRetention"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加標頭：
+
+* `x-amz-bypass-governance-retention`
+
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:use-s3-api-for-s3-object-lock.html["使用 S3 REST API 設定 S3 物件鎖"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html["PutObjectTagging"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+StorageGRID支援實作時由 Amazon S3 REST API 定義的所有請求正文參數。
+
+.StorageGRID文檔
+link:operations-on-objects.html["對物件的操作"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html["復原對象"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+有關支援的主體欄位的詳細信息，請參閱link:post-object-restore.html["復原對象"]。
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_SelectObjectContent.html["選擇對象內容"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求。
+
+.請求正文
+有關支援的主體欄位的詳細信息，請參閱以下內容：
+
+* link:use-s3-select.html["使用 S3 Select"]
+* link:select-object-content.html["選擇對象內容"]
+
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html["上傳部分"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加 URI 查詢參數：
+
+* `partNumber`
+* `uploadId`
+
+
+以及這些額外的請求標頭：
+
+* `x-amz-checksum-sha256`
+* `x-amz-server-side-encryption-customer-algorithm`
+* `x-amz-server-side-encryption-customer-key`
+* `x-amz-server-side-encryption-customer-key-MD5`
+
+
+.請求正文
+* 該部分的二進位數據
+
+
+.StorageGRID文檔
+link:upload-part.html["上傳部分"]
+
+
+
+== https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html["上傳部分複製"^]
+
+.URI 查詢參數和請求標頭
+StorageGRID支援所有<<common-params,通用參數和標頭>>對於此請求，加上以下附加 URI 查詢參數：
+
+* `partNumber`
+* `uploadId`
+
+
+以及這些額外的請求標頭：
+
+* `x-amz-copy-source`
+* `x-amz-copy-source-if-match`
+* `x-amz-copy-source-if-modified-since`
+* `x-amz-copy-source-if-none-match`
+* `x-amz-copy-source-if-unmodified-since`
+* `x-amz-copy-source-range`
+* `x-amz-server-side-encryption-customer-algorithm`
+* `x-amz-server-side-encryption-customer-key`
+* `x-amz-server-side-encryption-customer-key-MD5`
+* `x-amz-copy-source-server-side-encryption-customer-algorithm`
+* `x-amz-copy-source-server-side-encryption-customer-key`
+* `x-amz-copy-source-server-side-encryption-customer-key-MD5`
+
+
+.請求正文
+沒有任何
+
+.StorageGRID文檔
+link:upload-part-copy.html["上傳部分複製"]

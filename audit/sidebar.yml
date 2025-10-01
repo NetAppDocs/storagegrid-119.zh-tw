@@ -1,0 +1,156 @@
+---
+section: audit
+title: 審查審計日誌
+entries:
+- title: 審計訊息和日誌
+  pdf-filename: 查看StorageGRID稽核日誌
+  url: "/audit/index.html"
+- title: 審計訊息流和保留
+  url: "/audit/audit-message-flow-and-retention.html"
+- title: 訪問審計日誌文件
+  url: "/audit/accessing-audit-log-file.html"
+- title: 審計日誌檔案輪換
+  url: "/audit/audit-log-file-rotation.html"
+- title: 審計日誌檔案格式
+  entries:
+  - title: 審計日誌格式範例
+    pdf-filename: 審計日誌檔案格式
+    url: "/audit/audit-log-file-format.html"
+  - title: 使用審計解釋工具
+    url: "/audit/using-audit-explain-tool.html"
+  - title: 使用審計總和工具
+    url: "/audit/using-audit-sum-tool.html"
+- title: 審計訊息格式
+  entries:
+  - title: 審計訊息範例
+    pdf-filename: 審計訊息格式
+    url: "/audit/audit-message-format.html"
+  - title: 資料類型
+    url: "/audit/data-types.html"
+  - title: 事件特定數據
+    url: "/audit/event-specific-data.html"
+  - title: 審計訊息中的常見元素
+    url: "/audit/common-elements-in-audit-messages.html"
+  - title: 審計訊息範例
+    url: "/audit/audit-message-examples.html"
+- title: 審計訊息和物件生命週期
+  entries:
+  - title: 審計訊息何時產生？
+    url: "/audit/audit-messages-and-object-lifecycle.html"
+  - title: 物件攝取交易
+    url: "/audit/object-ingest-transactions.html"
+  - title: 物件刪除事務
+    url: "/audit/object-delete-transactions.html"
+  - title: 物件檢索事務
+    url: "/audit/object-retrieve-transactions.html"
+  - title: 元資料更新訊息
+    url: "/audit/metadata-update-messages.html"
+- title: 審計訊息
+  entries:
+  - title: 訊息描述
+    pdf-filename: 審計訊息
+    url: "/audit/audit-messages-main.html"
+  - title: 審計訊息類別
+    entries:
+    - title: 系統審計訊息
+      url: "/audit/system-audit-messages.html"
+    - title: 物件儲存審計訊息
+      url: "/audit/object-storage-audit-messages.html"
+    - title: 客戶端讀取審計訊息
+      url: "/audit/client-read-audit-messages.html"
+    - title: 客戶端寫入審計訊息
+      url: "/audit/client-write-audit-messages.html"
+    - title: 管理審計訊息
+      url: "/audit/management-audit-message.html"
+    - title: ILM 審計訊息
+      url: "/audit/ilm-audit-messages.html"
+  - title: 審計訊息參考
+    entries:
+    - title: BROR：儲存桶只讀請求
+      url: "/audit/bror-bucket-read-only-request.html"
+    - title: CBRB：物件接收開始
+      url: "/audit/cbrb-object-receive-begin.html"
+    - title: CBRE：物件接收端
+      url: "/audit/cbre-object-receive-end.html"
+    - title: CBSB：物件傳送開始
+      url: "/audit/cbsb-object-send-begin.html"
+    - title: CBSE：物件發送結束
+      url: "/audit/cbse-object-send-end.html"
+    - title: CGRR：跨網格複製請求
+      url: "/audit/cgrr-cross-grid-replication-request.html"
+    - title: EBDL：空桶刪除
+      url: "/audit/ebdl-empty-bucket-delete.html"
+    - title: EBKR：空桶請求
+      url: "/audit/ebkr-empty-bucket-request.html"
+    - title: ECMC：缺失擦除編碼資料片段
+      url: "/audit/ecmc-missing-erasure-coded-data-fragment.html"
+    - title: ECOC：損壞的擦除編碼資料片段
+      url: "/audit/ecoc-corrupt-erasure-coded-data-fragment.html"
+    - title: ETAF：安全認證失敗
+      url: "/audit/etaf-security-authentication-failed.html"
+    - title: GNRG：GNDS 註冊
+      url: "/audit/gnrg-gnds-registration.html"
+    - title: GNUR：GNDS 註銷
+      url: "/audit/gnur-gnds-unregistration.html"
+    - title: GTED：網格任務結束
+      url: "/audit/gted-grid-task-ended.html"
+    - title: GTST：網格任務已啟動
+      url: "/audit/gtst-grid-task-started.html"
+    - title: GTSU：網格任務已提交
+      url: "/audit/gtsu-grid-task-submitted.html"
+    - title: IDEL：ILM 發起的刪除
+      url: "/audit/idel-ilm-initiated-delete.html"
+    - title: LKCU：覆蓋物件清理
+      url: "/audit/lkcu-overwritten-object-cleanup.html"
+    - title: LKDM：洩漏物件清理
+      url: "/audit/lkdm-leaked-object-cleanup.html"
+    - title: LLST：位置遺失
+      url: "/audit/llst-location-lost.html"
+    - title: MGAU：管理審計訊息
+      url: "/audit/mgau-management-audit-message.html"
+    - title: OLST：系統偵測到遺失的物體
+      url: "/audit/olst-system-detected-lost-object.html"
+    - title: ORLM：滿足物件規則
+      url: "/audit/orlm-object-rules-met.html"
+    - title: OVWR：物件覆蓋
+      url: "/audit/ovwr-object-overwrite.html"
+    - title: S3SL：S3 選擇請求
+      url: "/audit/s3-select-request.html"
+    - title: SADD：安全審計停用
+      url: "/audit/sadd-security-audit-disable.html"
+    - title: SADE：安全性稽核啟用
+      url: "/audit/sade-security-audit-enable.html"
+    - title: SCMT：對象儲存提交
+      url: "/audit/scmt-object-store-commit.html"
+    - title: SDEL：S3 刪除
+      url: "/audit/sdel-s3-delete.html"
+    - title: SGET：S3 獲取
+      url: "/audit/sget-s3-get.html"
+    - title: 乳木果：S3 頭
+      url: "/audit/shea-s3-head.html"
+    - title: SPOS：S3 POST
+      url: "/audit/spos-s3-post.html"
+    - title: 噴口：S3 放置
+      url: "/audit/sput-s3-put.html"
+    - title: SREM：物件儲存刪除
+      url: "/audit/srem-object-store-remove.html"
+    - title: SUPD：S3 元資料已更新
+      url: "/audit/supd-s3-metadata-updated.html"
+    - title: SVRF：物件儲存驗證失敗
+      url: "/audit/svrf-object-store-verify-fail.html"
+    - title: SVRU：物件儲存驗證未知
+      url: "/audit/svru-object-store-verify-unknown.html"
+    - title: SYSD：節點停止
+      url: "/audit/sysd-node-stop.html"
+    - title: SYST：節點停止
+      url: "/audit/syst-node-stopping.html"
+    - title: SYSU：節點啟動
+      url: "/audit/sysu-node-start.html"
+    - title: WDEL：快速刪除
+      url: "/audit/wdel-swift-delete.html"
+    - title: WGET：快速獲取
+      url: "/audit/wget-swift-get.html"
+    - title: WHEA：Swift HEAD
+      url: "/audit/whea-swift-head.html"
+    - title: WPUT：Swift PUT
+      url: "/audit/wput-swift-put.html"

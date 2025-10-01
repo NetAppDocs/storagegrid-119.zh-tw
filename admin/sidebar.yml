@@ -1,0 +1,295 @@
+---
+section: admin
+title: 管理StorageGRID
+entries:
+- title: 管理任務
+  pdf-filename: 管理StorageGRID系統
+  url: "/admin/index.html"
+- title: 開始使用網格管理器
+  entries:
+  - title: Web 瀏覽器需求
+    url: "/admin/web-browser-requirements.html"
+  - title: Sign in入網格管理器
+    url: "/admin/signing-in-to-grid-manager.html"
+  - title: 退出網格管理器
+    url: "/admin/signing-out-of-grid-manager.html"
+  - title: 更改密碼
+    url: "/admin/changing-your-password.html"
+  - title: 查看StorageGRID許可證信息
+    url: "/admin/viewing-storagegrid-license-information.html"
+  - title: 更新StorageGRID許可證信息
+    url: "/admin/updating-storagegrid-license-information.html"
+  - title: 使用 API
+    entries:
+    - title: 使用網格管理 API
+      pdf-filename: 電網管理API
+      url: "/admin/using-grid-management-api.html"
+    - title: 網格管理 API 操作
+      url: "/admin/grid-management-api-operations.html"
+    - title: 網格管理 API 版本控制
+      url: "/admin/grid-management-api-versioning.html"
+    - title: 防止跨站請求偽造（CSRF）
+      url: "/admin/protecting-against-cross-site-request-forgery-csrf.html"
+    - title: 如果啟用了單一登錄，請使用 API
+      entries:
+      - title: 活動目錄
+        url: "/admin/use-api-if-sso-is-enabled-adfs.html"
+      - title: Azure
+        url: "/admin/use-api-if-sso-is-enabled-azure.html"
+      - title: Ping聯邦
+        url: "/admin/use-api-if-sso-is-enabled-ping.html"
+    - title: 使用 API 停用功能
+      url: "/admin/deactivate-features-from-api.html"
+- title: 控制對StorageGRID 的存取
+  entries:
+  - title: StorageGRID訪問
+    pdf-filename: 控制對StorageGRID 的存取
+    url: "/admin/controlling-storagegrid-access.html"
+  - title: 更改配置密碼
+    url: "/admin/changing-provisioning-passphrase.html"
+  - title: 更改節點控制台密碼
+    url: "/admin/change-node-console-password.html"
+  - title: 更改 SSH 訪問密碼
+    url: "/admin/change-ssh-access-passwords.html"
+  - title: 使用身分聯合
+    url: "/admin/using-identity-federation.html"
+  - title: 管理管理員群組
+    url: "/admin/managing-admin-groups.html"
+  - title: 管理員群組權限
+    url: "/admin/admin-group-permissions.html"
+  - title: 管理用戶
+    url: "/admin/managing-users.html"
+  - title: 使用單一登入 (SSO)
+    entries:
+    - title: 配置單一登入
+      url: "/admin/configuring-sso.html"
+    - title: 單一登入的要求
+      url: "/admin/requirements-for-sso.html"
+    - title: 確認聯合用戶可以登入
+      url: "/admin/confirming-federated-users-can-sign-in.html"
+    - title: 使用沙盒模式
+      url: "/admin/using-sandbox-mode.html"
+    - title: 在 AD FS 中創造信賴方信任
+      url: "/admin/creating-relying-party-trusts-in-ad-fs.html"
+    - title: 在 Azure 中建立企業應用程式
+      url: "/admin/creating-enterprise-application-azure.html"
+    - title: 在 PingFederate 中建立SP連接
+      url: "/admin/creating-sp-connection-ping.html"
+    - title: 停用單一登入
+      url: "/admin/disabling-single-sign-on.html"
+    - title: 暫時停用並重新啟用一個管理節點的單一登入
+      url: "/admin/temporarily-disabling-and-reenabling-sso-for-admin-node.html"
+- title: 使用網格聯合
+  entries:
+  - title: 什麼是電網聯合
+    pdf-filename: 使用網格聯合
+    url: "/admin/grid-federation-overview.html"
+  - title: 什麼是帳戶克隆
+    url: "/admin/grid-federation-what-is-account-clone.html"
+  - title: 什麼是跨網格複製
+    url: "/admin/grid-federation-what-is-cross-grid-replication.html"
+  - title: 比較跨網格複製和 CloudMirror 複製
+    url: "/admin/grid-federation-compare-cgr-to-cloudmirror.html"
+  - title: 建立電網聯合連接
+    url: "/admin/grid-federation-create-connection.html"
+  - title: 管理電網聯合連接
+    url: "/admin/grid-federation-manage-connection.html"
+  - title: 管理獲準租戶
+    url: "/admin/grid-federation-manage-tenants.html"
+  - title: 解決網格聯合錯誤
+    url: "/admin/grid-federation-troubleshoot.html"
+  - title: 識別並重試失敗的複製操作
+    url: "/admin/grid-federation-retry-failed-replication.html"
+- title: 管理安全
+  entries:
+  - title: 安全組件
+    pdf-filename: 管理安全
+    url: "/admin/manage-security.html"
+  - title: 查看StorageGRID加密方法
+    url: "/admin/reviewing-storagegrid-encryption-methods.html"
+  - title: 管理證書
+    entries:
+    - title: 管理安全證書
+      pdf-filename: 管理安全證書
+      url: "/admin/using-storagegrid-security-certificates.html"
+    - title: 支援的伺服器憑證類型
+      url: "/admin/global-certificate-types.html"
+    - title: 設定管理介面證書
+      url: "/admin/configuring-custom-server-certificate-for-grid-manager-tenant-manager.html"
+    - title: 配置 S3 API 證書
+      url: "/admin/configuring-custom-server-certificate-for-storage-node.html"
+    - title: 複製或下載網格 CA 證書
+      url: "/admin/copying-storagegrid-system-ca-certificate.html"
+    - title: 為FabricPool配置StorageGRID證書
+      url: "/admin/configuring-storagegrid-certificates-for-fabricpool.html"
+    - title: 設定客戶端證書
+      url: "/admin/configuring-administrator-client-certificates.html"
+  - title: 配置安全設定
+    entries:
+    - title: 管理 TLS 和 SSH 策略
+      url: "/admin/manage-tls-ssh-policy.html"
+    - title: 設定網路和物件安全
+      url: "/admin/changing-network-options-object-encryption.html"
+    - title: 更改介面安全設定
+      url: "/admin/changing-browser-session-timeout-interface.html"
+  - title: 配置金鑰管理伺服器
+    entries:
+    - title: 什麼是密鑰管理伺服器
+      pdf-filename: 配置金鑰管理伺服器
+      url: "/admin/kms-configuring.html"
+    - title: KMS 和設備配置
+      url: "/admin/kms-overview-of-kms-and-appliance-configuration.html"
+    - title: 使用金鑰管理伺服器的注意事項和要求
+      url: "/admin/kms-considerations-and-requirements.html"
+    - title: 更改站點 KMS 的注意事項
+      url: "/admin/kms-considerations-for-changing-for-site.html"
+    - title: 在 KMS 中將StorageGRID配置為客戶端
+      url: "/admin/kms-configuring-storagegrid-as-client.html"
+    - title: 新增金鑰管理伺服器 (KMS)
+      url: "/admin/kms-adding.html"
+    - title: 管理 KMS
+      url: "/admin/kms-managing.html"
+  - title: 管理代理設定
+    entries:
+    - title: 配置儲存代理
+      url: "/admin/configuring-storage-proxy-settings.html"
+    - title: 配置管理代理
+      url: "/admin/configuring-admin-proxy-settings.html"
+  - title: 控制防火牆
+    entries:
+    - title: 控制外部防火牆的訪問
+      url: "/admin/controlling-access-through-firewalls.html"
+    - title: 管理內部防火牆
+      url: "/admin/manage-firewall-controls.html"
+    - title: 配置內部防火牆
+      url: "/admin/configure-firewall-controls.html"
+- title: 管理租戶
+  entries:
+  - title: 什麼是租戶帳戶
+    url: "/admin/managing-tenants.html"
+    pdf-filename: 管理租戶
+  - title: 建立租用戶帳戶
+    url: "/admin/creating-tenant-account.html"
+  - title: 編輯租戶帳戶
+    url: "/admin/editing-tenant-account.html"
+  - title: 更改租戶本地 root 使用者的密碼
+    url: "/admin/changing-password-for-tenant-local-root-user.html"
+  - title: 刪除租用戶帳戶
+    url: "/admin/deleting-tenant-account.html"
+  - title: 管理平台服務
+    entries:
+    - title: 什麼是平台服務
+      pdf-filename: 管理 S3 租戶帳戶的平台服務
+      url: "/admin/manage-platform-services-for-tenants.html"
+    - title: 平台服務的網路和端口
+      url: "/admin/networking-and-ports-for-platform-services.html"
+    - title: 按站點傳遞平台服務訊息
+      url: "/admin/per-site-delivery-of-platform-services-messages.html"
+    - title: 平台服務故障排除
+      url: "/admin/troubleshooting-platform-services.html"
+  - title: 管理租用戶帳戶的 S3 Select
+    url: "/admin/manage-s3-select-for-tenant-accounts.html"
+- title: 設定客戶端連接
+  entries:
+  - title: 配置任務
+    pdf-filename: 配置 S3 用戶端連接
+    url: "/admin/configuring-client-connections.html"
+  - title: S3 用戶端的安全性
+    url: "/admin/security-for-clients.html"
+  - title: 使用 S3 設定精靈
+    entries:
+    - title: S3 設定精靈注意事項與要求
+      url: "/admin/use-s3-setup-wizard.html"
+    - title: 存取並完成 S3 應用程式設定精靈
+      url: "/admin/use-s3-setup-wizard-steps.html"
+  - title: 管理 HA 組
+    entries:
+    - title: 什麼是 HA 組
+      pdf-filename: 管理高可用性 (HA) 組
+      url: "/admin/managing-high-availability-groups.html"
+    - title: 如何使用 HA 組
+      url: "/admin/how-ha-groups-are-used.html"
+    - title: HA 組的配置選項
+      url: "/admin/configuration-options-for-ha-groups.html"
+    - title: 配置 HA 組
+      url: "/admin/configure-high-availability-group.html"
+  - title: 管理負載平衡
+    entries:
+    - title: 負載平衡的注意事項
+      url: "/admin/managing-load-balancing.html"
+    - title: 配置負載平衡器端點
+      url: "/admin/configuring-load-balancer-endpoints.html"
+  - title: 配置 S3 端點域名
+    url: "/admin/configuring-s3-api-endpoint-domain-names.html"
+  - title: 摘要：客戶端連接的 IP 位址和連接埠
+    url: "/admin/summary-ip-addresses-and-ports-for-client-connections.html"
+- title: 管理網路和連接
+  entries:
+  - title: 設定網路設定
+    url: "/admin/configuring-network-settings.html"
+    pdf-filename: 管理網路和連接
+  - title: StorageGRID網路指南
+    url: "/admin/guidelines-for-storagegrid-networks.html"
+  - title: 查看 IP 位址
+    url: "/admin/viewing-ip-addresses.html"
+  - title: 配置VLAN介面
+    url: "/admin/configure-vlan-interfaces.html"
+  - title: 管理流量分類策略
+    entries:
+    - title: 什麼是流量分類策略
+      pdf-filename: 管理流量分類策略
+      url: "/admin/managing-traffic-classification-policies.html"
+    - title: 建立流量分類策略
+      url: "/admin/creating-traffic-classification-policies.html"
+    - title: 編輯流量分類策略
+      url: "/admin/editing-traffic-classification-policy.html"
+    - title: 刪除流分類策略
+      url: "/admin/deleting-traffic-classification-policy.html"
+    - title: 查看網路流量指標
+      url: "/admin/viewing-network-traffic-metrics.html"
+  - title: 傳出 TLS 連線支援的密碼
+    url: "/admin/supported-ciphers-for-outgoing-tls-connections.html"
+  - title: 活動、空閒和並發 HTTP 連線的優勢
+    url: "/admin/benefits-of-active-idle-and-concurrent-http-connections.html"
+  - title: 管理連結成本
+    url: "/admin/manage-link-costs.html"
+- title: 使用AutoSupport
+  entries:
+  - title: 什麼是AutoSupport
+    pdf-filename: 使用AutoSupport
+    url: "/admin/what-is-autosupport.html"
+  - title: 配置AutoSupport
+    url: "/admin/configure-autosupport-grid-manager.html"
+  - title: 手動觸發AutoSupport包
+    url: "/admin/manually-triggering-autosupport-message.html"
+  - title: 排除AutoSupport軟體套件故障
+    url: "/admin/troubleshooting-autosupport-messages.html"
+  - title: 透過StorageGRID發送 E 系列AutoSupport包
+    url: "/admin/sending-eseries-autosupport-messages-through-storagegrid.html"
+- title: 管理儲存節點
+  entries:
+  - title: 儲存節點管理
+    pdf-filename: 管理儲存節點
+    url: "/admin/managing-storage-nodes.html"
+  - title: 使用儲存選項
+    entries:
+    - title: 什麼是對象分割
+      url: "/admin/what-object-segmentation-is.html"
+    - title: 什麼是儲存卷水印
+      url: "/admin/what-storage-volume-watermarks-are.html"
+  - title: 管理對像元資料存儲
+    url: "/admin/managing-object-metadata-storage.html"
+  - title: 增加元資料保留空間設置
+    url: "/admin/increasing-metadata-reserved-space-setting.html"
+  - title: 壓縮儲存的對象
+    url: "/admin/configuring-stored-object-compression.html"
+  - title: 管理完整的儲存節點
+    url: "/admin/managing-full-storage-nodes.html"
+- title: 管理管理節點
+  entries:
+  - title: 使用多個管理節點
+    url: "/admin/using-multiple-admin-nodes.html"
+  - title: 識別主管理節點
+    url: "/admin/identifying-primary-admin-node.html"
+  - title: 查看通知狀態和佇列
+    url: "/admin/viewing-notification-status-and-queues.html"

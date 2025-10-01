@@ -1,0 +1,30 @@
+---
+permalink: audit/audit-log-file-rotation.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, log file, audit.log, audit.log file, rotation, save, autosave, auto save, auto-save 
+summary: 審計日誌檔案保存到管理節點的 /var/local/log 目錄。活動審計日誌檔名為 audit.log。 
+---
+= 審計日誌檔案輪換
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+審計日誌檔案保存到管理節點的 `/var/local/log`目錄。活動審計日誌檔案被命名為 `audit.log`。
+
+
+NOTE: 或者，您可以變更稽核日誌的目標並將稽核資訊傳送至外部系統日誌伺服器。當設定外部系統日誌伺服器時，將繼續產生和儲存稽核記錄的本機日誌。看link:../monitor/configure-audit-messages.html["配置審計訊息和日誌目標"] 。
+
+每天一次，活性 `audit.log`文件已儲存，並且 `audit.log`文件已啟動。儲存檔案的名稱表示儲存時間，格式為 `_yyyy-mm-dd.txt_`。如果一天內建立了多個稽核日誌，則檔案名稱使用檔案儲存的日期，並附加一個數字，格式為 `_yyyy-mm-dd.txt.n_`。例如， `2018-04-15.txt`和 `2018-04-15.txt.1`是2018年4月15日創建並保存的第一個和第二個日誌檔案。
+
+一天后，已儲存的檔案被壓縮並重新命名，格式為 `_yyyy-mm-dd.txt.gz_`，保留原始日期。隨著時間的推移，這會導致管理節點上分配給審計日誌的儲存空間被消耗。腳本監控稽核日誌空間消耗，並根據需要刪除日誌檔案以釋放空間 `/var/local/log`目錄。審計日誌將根據其建立日期進行刪除，最早的日誌將首先被刪除。您可以在以下文件中監視腳本的操作： `/var/local/log/manage-audit.log` 。
+
+此範例顯示活動 `audit.log`文件，前一天的文件(`2018-04-15.txt`) 以及前一天的壓縮文件(`2018-04-14.txt.gz`）。
+
+[listing]
+----
+audit.log
+2018-04-15.txt
+2018-04-14.txt.gz
+----

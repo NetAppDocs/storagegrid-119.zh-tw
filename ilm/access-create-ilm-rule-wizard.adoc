@@ -1,0 +1,47 @@
+---
+permalink: ilm/access-create-ilm-rule-wizard.html 
+sidebar: sidebar 
+keywords: create ILM rule, information lifecycle rule 
+summary: 您可以使用建立 ILM 規則精靈來建立 ILM 規則。 
+---
+= 存取建立 ILM 規則精靈
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ILM 規則可讓您隨時間管理物件資料的放置。若要建立 ILM 規則，請使用建立 ILM 規則精靈。
+
+
+NOTE: 如果要為策略建立預設 ILM 規則，請依照link:creating-default-ilm-rule.html["建立預設 ILM 規則的說明"]反而。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+* 如果您想指定此規則適用於哪些租用戶帳戶，您可以使用link:../admin/admin-group-permissions.html["租用戶帳號權限"]或您知道每個帳戶的帳戶 ID。
+* 如果您希望規則根據上次存取時間元資料過濾對象，則 S3 儲存桶必須啟用上次存取時間更新。
+* 您已配置所有計劃使用的雲端儲存池。看link:creating-cloud-storage-pool.html["建立雲端儲存池"] 。
+* 您熟悉link:data-protection-options-for-ingest.html["攝取選項"]。
+* 如果您需要建立與 S3 物件鎖定一起使用的合規規則，您熟悉link:requirements-for-s3-object-lock.html["S3 對象鎖的要求"]。
+* 或者，您已經觀看了影片： https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=9872d38f-80b3-4ad4-9f79-b1ff008760c7["影片：ILM 規則概述"^] 。
++
+[link=https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=9872d38f-80b3-4ad4-9f79-b1ff008760c7]
+image::../media/video-screenshot-ilm-rules-118.png[影片：ILM 規則概述]
+
+
+
+.關於此任務
+建立 ILM 規則時：
+
+* 考慮StorageGRID系統的拓樸和儲存配置。
+* 考慮您想要製作的物件副本類型（複製或擦除編碼）以及所需的每個物件的副本數量。
+* 確定連接到StorageGRID系統的應用程式中使用哪些類型的物件元資料。  ILM 規則根據元資料過濾物件。
+* 考慮一下隨著時間的推移，您希望將物件副本放置在哪裡。
+* 決定使用哪種攝取選項（平衡、嚴格或雙重提交）。
+
+
+.步驟
+. 選擇 *ILM* > *規則*。
+. 選擇“*創建*”。link:create-ilm-rule-enter-details.html["步驟 1（輸入詳細資料）"]出現建立 ILM 規則精靈。
+

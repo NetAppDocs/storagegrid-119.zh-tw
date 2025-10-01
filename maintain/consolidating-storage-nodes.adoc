@@ -1,0 +1,23 @@
+---
+permalink: maintain/consolidating-storage-nodes.html 
+sidebar: sidebar 
+keywords: storagegrid, storage node, consolidate storage node, consolidating storage node 
+summary: 您可以合併儲存節點以減少網站或部署的儲存節點數量，同時增加儲存容量。 
+---
+= 整合儲存節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以合併儲存節點以減少網站或部署的儲存節點數量，同時增加儲存容量。
+
+當你整合儲存節點時，你link:../expand/index.html["擴充StorageGRID系統"]透過新增的、容量更大的儲存節點，然後停用舊的、容量較小的儲存節點。在退役過程中，物件從舊儲存節點遷移到新儲存節點。
+
+
+NOTE: 如果您要將較舊和較小的電器與新或更大容量的電器合併，請考慮 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/how-appliance-node-cloning-works.html["克隆設備節點"^]（或者如果您不進行一對一替換，請使用裝置節點複製和退役程式）。
+
+例如，您可以新增兩個新的、容量更大的儲存節點來取代三個舊的儲存節點。您首先要使用擴充功能新增兩個新的、更大的儲存節點，然後使用退役程式刪除三個舊的、容量較小的儲存節點。
+
+透過在刪除現有儲存節點之前新增容量，您可以確保整個StorageGRID系統中的資料分佈更加均衡。您還可以降低現有儲存節點被推到儲存浮水印等級之外的可能性。

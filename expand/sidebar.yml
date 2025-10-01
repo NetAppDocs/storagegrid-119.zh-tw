@@ -1,0 +1,62 @@
+---
+section: expand
+title: 展開網格
+url: "/landing-expand/index.html"
+entries:
+- title: 擴充類型
+  pdf-filename: 擴充您的StorageGRID系統
+  url: "/expand/index.html"
+- title: 規劃StorageGRID擴展
+  entries:
+  - title: 新增儲存容量
+    entries:
+    - title: 指南：新增對象容量
+      url: "/expand/guidelines-for-adding-object-capacity.html"
+    - title: 為複製物件新增儲存容量
+      url: "/expand/adding-storage-capacity-for-replicated-objects.html"
+    - title: 增加擦除編碼物件的儲存容量
+      url: "/expand/adding-storage-capacity-for-erasure-coded-objects.html"
+    - title: 重新平衡糾刪碼資料的注意事項
+      url: "/expand/considerations-for-rebalancing-erasure-coded-data.html"
+  - title: 新增元資料容量
+    url: "/expand/adding-metadata-capacity.html"
+  - title: 新增冗餘或新功能
+    url: "/expand/adding-grid-nodes-to-add-capabilities.html"
+  - title: 新增站點
+    url: "/expand/adding-new-site.html"
+- title: 收集所需材料
+  url: "/expand/gather-required-materials.html"
+- title: 新增儲存卷
+  entries:
+  - title: 將儲存卷新增至儲存節點
+    url: "/expand/adding-storage-volumes-to-storage-nodes.html"
+  - title: VMware：將儲存磁碟區新增至儲存節點
+    url: "/expand/vmware-adding-storage-volumes-to-storage-node.html"
+  - title: Linux：為儲存節點新增直接連接磁碟區或 SAN 卷
+    url: "/expand/linux-adding-direct-attached-or-san-volumes-to-storage-node.html"
+- title: 新增網格節點或站點
+  entries:
+  - title: 將網格節點新增至現有站點或新增站點
+    url: "/expand/adding-grid-nodes-to-existing-site-or-adding-new-site.html"
+  - title: 更新網格網路的子網
+    url: "/expand/updating-subnets-for-grid-network.html"
+  - title: 部署新的網格節點
+    url: "/expand/deploying-new-grid-nodes.html"
+  - title: 執行擴充
+    url: "/expand/performing-expansion.html"
+- title: 配置擴充系統
+  entries:
+  - title: 設定步驟
+    url: "/expand/configuring-expanded-storagegrid-system.html"
+  - title: 驗證儲存節點是否處於活動狀態
+    url: "/expand/verifying-storage-node-is-active.html"
+  - title: 複製管理節點資料庫
+    url: "/expand/copying-admin-node-database.html"
+  - title: 複製 Prometheus 指標
+    url: "/expand/copying-prometheus-metrics.html"
+  - title: 複製審計日誌
+    url: "/expand/copying-audit-logs.html"
+  - title: 新增儲存節點後重新平衡擦除編碼數據
+    url: "/expand/rebalancing-erasure-coded-data-after-adding-storage-nodes.html"
+- title: 擴充故障排除
+  url: "/expand/contacting-technical-support.html"

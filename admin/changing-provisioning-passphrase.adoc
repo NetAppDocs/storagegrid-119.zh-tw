@@ -1,0 +1,44 @@
+---
+permalink: admin/changing-provisioning-passphrase.html 
+sidebar: sidebar 
+keywords: provisioning passphrase, change passphrase 
+summary: 使用此程序更改StorageGRID配置密碼。恢復、擴充和維護過程都需要密碼。下載恢復包備份也需要密碼，其中包括網格拓撲資訊、網格節點控制台密碼和StorageGRID系統的加密金鑰。 
+---
+= 更改配置密碼
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用此程序更改StorageGRID配置密碼。恢復、擴充和維護過程都需要密碼。下載恢復包備份也需要密碼，其中包括網格拓撲資訊、網格節點控制台密碼和StorageGRID系統的加密金鑰。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 您具有維護或 Root 存取權限。
+* 您擁有目前的設定密碼。
+
+
+.關於此任務
+許多安裝和維護過程都需要配置密碼，並且link:../maintain/downloading-recovery-package.html["下載恢復包"]。配置密碼未在 `Passwords.txt`文件。確保記錄配置密碼並將其保存在安全的地方。
+
+.步驟
+. 選擇*設定* > *存取控制* > *電網密碼*。
+. 在“更改配置密碼”下，選擇“進行更改”
+. 輸入您目前的設定密碼。
+. 輸入新密碼。密碼必須至少包含 8 個字符，但不能超過 32 個字符。密碼區分大小寫。
+. 將新的設定密碼儲存在安全的位置。它是安裝、擴充和維護過程所必需的。
+. 重新輸入新密碼，然後選擇*儲存*。
++
+當配置密碼變更完成後，系統將顯示綠色成功橫幅。
+
++
+image::../media/change_provisioning_passphrase_success.png[密碼配置成功訊息已更改]
+
+. 選擇*恢復包*。
+. 輸入新的設定密碼來下載新的復原包。
++
+
+CAUTION: 更改配置密碼後，您必須立即下載新的恢復包。如果發生故障，恢復包檔案可讓您恢復系統。
+
+

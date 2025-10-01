@@ -1,0 +1,105 @@
+---
+permalink: ilm/comparing-cloud-storage-pools-to-cloudmirror-replication.html 
+sidebar: sidebar 
+keywords: cloud storage pools, cloudmirror replication 
+summary: 當您開始使用雲端儲存池時，了解雲端儲存池和StorageGRID CloudMirror 複製服務之間的異同可能會有所幫助。 
+---
+= 比較雲端儲存池和 CloudMirror 複製
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您開始使用雲端儲存池時，了解雲端儲存池和StorageGRID CloudMirror 複製服務之間的異同可能會有所幫助。
+
+[cols="1a,3a,3a"]
+|===
+|  | 雲端儲存池 | CloudMirror複製服務 
+
+
+ a| 
+主要目的是什麼？
+ a| 
+充當存檔目標。雲端儲存池中的物件副本可以是該物件的唯一副本，也可以是額外的副本。也就是說，您不必在現場保留兩個副本，而是可以在StorageGRID中保留一個副本，並將一個副本傳送到雲端儲存池。
+ a| 
+使租用戶能夠自動將物件從StorageGRID （來源）中的儲存桶複製到外部 S3 儲存桶（目標）。在獨立的 S3 基礎架構中建立物件的獨立副本。
+
+
+
+ a| 
+如何設置？
+ a| 
+以與儲存池相同的方式定義，使用網格管理器或網格管理 API。可以選擇作為 ILM 規則中的放置位置。雖然儲存池由一組儲存節點組成，但雲端儲存池是使用遠端 S3 或 Azure 端點（IP 位址、憑證等）定義的。
+ a| 
+租戶用戶link:../tenant/configuring-cloudmirror-replication.html["配置 CloudMirror 複製"]透過使用租用戶管理器或 S3 API 定義 CloudMirror 端點（IP 位址、憑證等）。設定 CloudMirror 端點後，可以將該租用戶帳戶擁有的任何儲存桶配置為指向 CloudMirror 端點。
+
+
+
+ a| 
+誰負責設置它？
+ a| 
+通常，電網管理員
+ a| 
+通常，租戶用戶
+
+
+
+ a| 
+目的地是哪裡？
+ a| 
+* 任何相容的 S3 基礎設施（包括 Amazon S3）
+* Azure Blob 存檔層
+* 谷歌雲端平台（GCP）
+
+ a| 
+* 任何相容的 S3 基礎設施（包括 Amazon S3）
+* 谷歌雲端平台（GCP）
+
+
+
+
+ a| 
+什麼原因導致物體移動到目的地？
+ a| 
+活動 ILM 策略中的一個或多個 ILM 規則。  ILM 規則定義StorageGRID將哪些物件移至雲端儲存池以及何時移動這些物件。
+ a| 
+將新物件提取到已配置 CloudMirror 端點的來源儲存桶中的行為。在使用 CloudMirror 端點配置儲存桶之前，來源儲存桶中存在的物件不會被複製，除非它們被修改。
+
+
+
+ a| 
+如何檢索物件？
+ a| 
+應用程式必須向StorageGRID發出請求來檢索已移至雲端儲存池的物件。如果物件的唯一副本已轉換到檔案存儲， StorageGRID將管理復原該物件的過程，以便可以擷取它。
+ a| 
+由於目標儲存桶中的鏡像副本是獨立副本，因此應用程式可以透過向StorageGRID或 S3 目標發出請求來擷取物件。例如，假設您使用 CloudMirror 複製將物件映像到合作夥伴組織。合作夥伴可以使用自己的應用程式直接從 S3 目標讀取或更新物件。不需要使用StorageGRID 。
+
+
+
+ a| 
+您可以直接從目的地讀取嗎？
+ a| 
+否。移動到雲端儲存池的物件由StorageGRID管理。讀取請求必須定向到StorageGRID （並且StorageGRID將負責從雲端儲存池檢索）。
+ a| 
+是的，因為鏡像副本是獨立副本。
+
+
+
+ a| 
+如果從來源中刪除物件會發生什麼情況？
+ a| 
+該物件也將從雲端儲存池中刪除。
+ a| 
+刪除操作不會被複製。已刪除的物件不再存在於StorageGRID桶中，但它繼續存在於目標儲存桶中。同樣，可以刪除目標儲存桶中的對象，而不會影響來源。
+
+
+
+ a| 
+災難發生後（StorageGRID系統無法運作）如何存取物件？
+ a| 
+必須恢復發生故障的StorageGRID節點。在此過程中，可能會使用雲端儲存池中的副本來還原複製物件的副本。
+ a| 
+CloudMirror 目標中的物件副本獨立於StorageGRID，因此可以在復原StorageGRID節點之前直接存取它們。
+
+|===

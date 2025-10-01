@@ -1,0 +1,53 @@
+---
+permalink: maintain/selecting-start-recovery-to-configure-appliance-storage-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, appliance storage node 
+summary: 您必須在網格管理員中選擇“開始復原”來配置設備儲存節點作為故障節點的替代。 
+---
+= 選擇“開始復原”以配置設備儲存節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須在網格管理員中選擇“開始復原”來配置設備儲存節點作為故障節點的替代。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["維護或 Root 存取權限"]。
+* 您有配置密碼。
+* 您已部署復原設備儲存節點。
+* 您擁有針對擦除編碼資料的任何修復作業的開始日期。
+* 您已驗證儲存節點在過去 15 天內未重建。
+
+
+.步驟
+. 從網格管理員中，選擇 *維護* > *任務* > *恢復*。
+. 在待處理節點清單中選擇要還原的網格節點。
++
+節點發生故障後會出現在清單中，但您無法選擇該節點，直到它重新安裝並準備好恢復。
+
+. 輸入*配置密碼*。
+. 按一下“開始恢復”。
++
+image::../media/4b_select_recovery_node.png[顯示「維護」>「恢復」頁面的螢幕截圖]
+
+. 在恢復網格節點表中監視恢復進度。
++
+當網格節點到達「等待手動步驟」階段時，請轉到下一個主題並執行手動步驟以重新安裝和重新格式化裝置儲存磁碟區。
+
++
+image::../media/recovery_reset_button.gif[螢幕截圖顯示了等待手動步驟的階段]
+
++
+
+NOTE: 在恢復過程中的任何時候，您都可以點擊「*重置*」以開始新的恢復。出現一個對話框，表示如果重置該過程，該節點將處於不確定狀態。
+
++
+image::../media/recovery_reset_warning.gif[顯示重置恢復警告對話框的螢幕截圖]
+
++
+如果要在重置過程後重試恢復，則必須透過運行將設備節點恢復到預安裝狀態 `sgareinstall`在節點上。
+
+

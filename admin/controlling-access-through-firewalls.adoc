@@ -1,0 +1,66 @@
+---
+permalink: admin/controlling-access-through-firewalls.html 
+sidebar: sidebar 
+keywords: firewall access, firewall ports, external firewall 
+summary: 您可以在外部防火牆處開啟或關閉特定連接埠。 
+---
+= 控制外部防火牆的訪問
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以在外部防火牆處開啟或關閉特定連接埠。
+
+您可以透過開啟或關閉外部防火牆上的特定連接埠來控制對StorageGRID管理節點上的使用者介面和 API 的存取。例如，除了使用其他方法來控制系統存取之外，您可能還希望阻止租戶連接到防火牆處的網格管理器。
+
+如果要設定StorageGRID內部防火牆，請參閱link:../admin/configure-firewall-controls.html["配置內部防火牆"]。
+
+[cols="1a,1a,2a"]
+|===
+| 港口 | 描述 | 如果連接埠開放... 
+
+
+ a| 
+443
+ a| 
+管理節點的預設 HTTPS 連接埠
+ a| 
+Web 瀏覽器和管理 API 用戶端可以存取網格管理器、網格管理 API、租用戶管理器和租用戶管理 API。
+
+*注意：*連接埠 443 也用於一些內部流量。
+
+
+
+ a| 
+8443
+ a| 
+管理節點上的網格管理器連接埠受限
+ a| 
+* Web 瀏覽器和管理 API 用戶端可以使用 HTTPS 存取網格管理器和網格管理 API。
+* Web 瀏覽器和管理 API 用戶端無法存取租用戶管理器或租用戶管理 API。
+* 內部內容請求將被拒絕。
+
+
+
+
+ a| 
+9443
+ a| 
+管理節點上的限制租用戶管理器端口
+ a| 
+* Web 瀏覽器和管理 API 用戶端可以使用 HTTPS 存取租用戶管理器和租用戶管理 API。
+* Web 瀏覽器和管理 API 用戶端無法存取網格管理器或網格管理 API。
+* 內部內容請求將被拒絕。
+
+
+|===
+
+TIP: 受限的網格管理器或租戶管理器連接埠上不提供單一登入 (SSO)。如果您希望使用者透過單一登入進行驗證，則必須使用預設 HTTPS 連接埠 (443)。
+
+.相關資訊
+* link:signing-in-to-grid-manager.html["Sign in入網格管理器"]
+* link:creating-tenant-account.html["建立租用戶帳戶"]
+* link:../network/external-communications.html["外部溝通"]
+

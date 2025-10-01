@@ -1,0 +1,220 @@
+---
+permalink: maintain/restoring-existing-nodes.html 
+sidebar: sidebar 
+keywords: recover, restore node to host, node configuration file, start host service 
+summary: 若要將發生故障的網格節點還原到新的 Linux 主機，請執行下列步驟以還原節點設定檔。 
+---
+= 將網格節點還原到主機
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+若要將發生故障的網格節點還原到新的 Linux 主機，請執行下列步驟以還原節點設定檔。
+
+. <<restore-validate-grid-nodes,恢復並驗證節點>>透過恢復節點設定檔。對於新安裝，您需要為要安裝在主機上的每個網格節點建立一個節點設定檔。將網格節點還原到替換主機時，您可以還原或取代任何故障網格節點的節點設定檔。
+. <<start-storagegrid-host-service,啟動StorageGRID主機服務>> 。
+. 根據需要，<<recover-nodes-fail-start,恢復任何無法啟動的節點>> 。
+
+
+如果保留了來自先前主機的任何區塊儲存卷，則可能必須執行額外的復原程序。本節中的命令可協助您確定需要哪些附加步驟。
+
+
+
+== 恢復並驗證網格節點
+
+您必須恢復任何故障網格節點的網格配置文件，然後驗證網格配置檔案並解決任何錯誤。
+
+.關於此任務
+您可以匯入主機上應該存在的任何網格節點，只要其 `/var/local`由於前一個主機發生故障，磁碟區沒有遺失。例如， `/var/local`如果您使用共用儲存作為StorageGRID系統資料卷，則磁碟區可能仍然存在，如 Linux 作業系統的StorageGRID安裝說明中所述。導入節點會將其節點設定檔還原到主機。
+
+如果無法匯入缺少的節點，則必須重新建立其網格設定檔。
+
+然後，您必須驗證網格配置文件，並解決在繼續重新啟動StorageGRID之前可能出現的任何網路或儲存問題。重新建立節點的設定檔時，必須對替換節點使用與正在復原的節點相同的名稱。
+
+有關位置的更多信息，請參閱安裝說明 `/var/local`節點的捲。
+
+* link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]
+* link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]
+
+
+.步驟
+. 在復原的主機的命令列中，列出所有目前配置的StorageGRID節點：``sudo storagegrid node list``
++
+如果沒有配置網格節點，則不會有輸出。如果配置了一些網格節點，則期望輸出以下格式：
+
++
+[listing]
+----
+Name               Metadata-Volume
+================================================================
+dc1-adm1           /dev/mapper/sgws-adm1-var-local
+dc1-gw1            /dev/mapper/sgws-gw1-var-local
+dc1-sn1            /dev/mapper/sgws-sn1-var-local
+dc1-arc1           /dev/mapper/sgws-arc1-var-local
+----
++
+如果主機上應配置的部分或全部網格節點未列出，則需要還原缺少的網格節點。
+
+. 若要導入具有 `/var/local`體積：
++
+.. 對要導入的每個節點執行以下命令：``sudo storagegrid node import node-var-local-volume-path``
++
+這 `storagegrid node import`只有當目標節點在上次執行該命令的主機上乾淨地關閉時，該命令才會成功。如果不是這樣，您將看到類似以下的錯誤：
+
++
+`This node (_node-name_) appears to be owned by another host (UUID host-uuid).`
+
++
+`Use the --force flag if you are sure import is safe.`
+
+.. 如果您看到有關該節點由另一台主機擁有的錯誤，請使用 `--force`標誌以完成導入：``sudo storagegrid --force node import node-var-local-volume-path``
++
+
+NOTE: 使用 `--force`標誌將需要額外的恢復步驟才能重新加入電網，如link:whats-next-performing-additional-recovery-steps-if-required.html["下一步：如果需要，請執行其他恢復步驟"]。
+
+
+
+. 對於沒有 `/var/local`卷，重新建立節點的設定檔以將其恢復到主機。有關說明，請參閱：
++
+** link:../rhel/creating-node-configuration-files.html["為 Red Hat Enterprise Linux 建立節點設定檔"]
+** link:../ubuntu/creating-node-configuration-files.html["為 Ubuntu 或 Debian 建立節點配置文件"]
++
+
+NOTE: 重新建立節點的設定檔時，必須對替換節點使用與正在復原的節點相同的名稱。對於 Linux 部署，請確保設定檔名稱包含節點名稱。您應該盡可能使用相同的網路介面、區塊設備對映和 IP 位址。這種做法最大限度地減少了恢復期間需要複製到節點的資料量，從而可以使恢復速度顯著加快（在某些情況下，只需幾分鐘而不是幾週）。
+
++
+
+NOTE: 如果您使用任何新的區塊設備（ StorageGRID節點以前未使用的設備）作為以 開頭的任何配置變數的值 `BLOCK_DEVICE_`重新建立節點的設定檔時，請遵循<<fix-block-errors,修復缺少塊設備錯誤>>。
+
+
+
+. 在復原的主機上執行以下命令以列出所有StorageGRID節點。
++
+`sudo storagegrid node list`
+
+. 驗證在 storagegrid 節點清單輸出中顯示名稱的每個網格節點的節點設定檔：
++
+`sudo storagegrid node validate _node-name_`
+
++
+在啟動StorageGRID主機服務之前，您必須解決任何錯誤或警告。以下部分詳細介紹了恢復期間可能具有特殊意義的錯誤。
+
+
+
+
+
+=== 修復缺少網路介面錯誤
+
+如果主機網路設定不正確或名稱拼字錯誤，則StorageGRID檢查 `/etc/storagegrid/nodes/_node-name_.conf`文件。
+
+您可能會看到與此模式相符的錯誤或警告：
+
+[listing]
+----
+Checking configuration file /etc/storagegrid/nodes/<node-name>.conf for node <node-name>...
+ERROR: <node-name>: GRID_NETWORK_TARGET = <host-interface-name>
+       <node-name>: Interface <host-interface-name>' does not exist
+----
+此錯誤可能會報告給網格網路、管理網路或客戶端網路。此錯誤意味著 `/etc/storagegrid/nodes/_node-name_.conf`檔案將指示的StorageGRID網路對應到名為 `_host-interface-name_`，但目前主機上沒有該名稱的介面。
+
+如果收到此錯誤，請確認您是否完成了link:deploying-new-linux-hosts.html["部署新的 Linux 主機"]。對所有主機介面使用與原始主機上相同的名稱。
+
+如果您無法命名主機介面以符合節點設定文件，則可以編輯節點設定檔並變更 GRID_NETWORK_TARGET、ADMIN_NETWORK_TARGET 或 CLIENT_NETWORK_TARGET 的值以符合現有的主機介面。
+
+確保主機介面提供對適當實體網路連接埠或 VLAN 的訪問，且該介面不直接引用綁定或橋接設備。您必須在主機上的綁定裝置上設定 VLAN（或其他虛擬介面），或使用橋接器和虛擬乙太網路（veth）對。
+
+
+
+=== 修復缺少塊設備錯誤
+
+系統檢查每個復原的節點是否已對應到有效的區塊設備特殊檔案或區塊設備特殊檔案的有效軟連結。如果StorageGRID在 `/etc/storagegrid/nodes/_node-name_.conf`文件時，會顯示缺少塊設備的錯誤。
+
+如果您發現與此模式相符的錯誤：
+
+[listing]
+----
+Checking configuration file /etc/storagegrid/nodes/<node-name>.conf for node <node-name>...
+ERROR: <node-name>: BLOCK_DEVICE_PURPOSE = <path-name>
+       <node-name>: <path-name> does not exist
+----
+這意味著 `/etc/storagegrid/nodes/_node-name_.conf`映射 _node-name_ 使用的區塊設備 `PURPOSE`到 Linux 檔案系統中給定的路徑名，但該位置沒有有效的區塊裝置特殊檔案或到區塊裝置特殊檔案的軟連結。
+
+確認您已完成link:deploying-new-linux-hosts.html["部署新的 Linux 主機"]。對所有區塊設備使用與原始主機上相同的持久性設備名稱。
+
+如果您無法復原或重新建立遺失的區塊設備特殊文件，您可以指派一個適當大小和儲存類別的新區塊設備，並編輯節點設定檔以更改 `BLOCK_DEVICE_PURPOSE`指向新的區塊設備特殊檔案。
+
+使用 Linux 作業系統的表格確定適當的大小和儲存類別：
+
+* link:../rhel/storage-and-performance-requirements.html["Red Hat Enterprise Linux 的儲存與效能需求"]
+* link:../ubuntu/storage-and-performance-requirements.html["Ubuntu 或 Debian 的儲存和效能要求"]
+
+
+在繼續進行區塊設備替換之前，請查看配置主機儲存的建議：
+
+* link:../rhel/configuring-host-storage.html["為 Red Hat Enterprise Linux 設定主機存儲"]
+* link:../ubuntu/configuring-host-storage.html["為 Ubuntu 或 Debian 配置主機存儲"]
+
+
+
+NOTE: 如果您必須為任何以以下開頭的設定檔變數提供新的區塊儲存設備 `BLOCK_DEVICE_`由於原始區塊裝置隨故障主機遺失，請確保在嘗試進一步復原程式之前新的區塊裝置未格式化。如果您使用共用儲存並建立了新磁碟區，則新的區塊裝置將未被格式化。如果您不確定，請針對任何新的區塊儲存裝置特殊檔案執行以下命令。
+
+[CAUTION]
+====
+僅對新的區塊儲存設備執行以下命令。如果您認為區塊儲存仍然包含正在恢復的節點的有效數據，請不要執行此命令，因為裝置上的任何資料都會遺失。
+
+`sudo dd if=/dev/zero of=/dev/mapper/my-block-device-name bs=1G count=1`
+
+====
+
+
+== 啟動StorageGRID主機服務
+
+若要啟動StorageGRID節點，並確保它們在主機重新啟動後重新啟動，您必須啟用並啟動StorageGRID主機服務。
+
+.步驟
+. 在每台主機上執行以下命令：
++
+[listing]
+----
+sudo systemctl enable storagegrid
+sudo systemctl start storagegrid
+----
+. 執行以下命令以確保部署正在進行中：
++
+[listing]
+----
+sudo storagegrid node status node-name
+----
+. 如果任何節點返回“未運行”或“已停止”狀態，請執行以下命令：
++
+[listing]
+----
+sudo storagegrid node start node-name
+----
+. 如果您之前已啟用並啟動了StorageGRID主機服務（或您不確定該服務是否已啟用並啟動），請執行以下命令：
++
+[listing]
+----
+sudo systemctl reload-or-restart storagegrid
+----
+
+
+
+
+== 恢復無法正常啟動的節點
+
+如果StorageGRID節點無法正常重新加入網格且未顯示為可恢復，則它可能已損壞。您可以強制節點進入恢復模式。
+
+.步驟
+. 確認節點的網路配置正確。
++
+由於網路介面映射不正確或網格網路 IP 位址或網關不正確，節點可能無法重新加入網格。
+
+. 如果網路配置正確，則發出 `force-recovery`命令：
++
+`sudo storagegrid node force-recovery _node-name_`
+
+. 對節點執行額外的復原步驟。看link:whats-next-performing-additional-recovery-steps-if-required.html["下一步：如果需要，請執行其他恢復步驟"] 。
+

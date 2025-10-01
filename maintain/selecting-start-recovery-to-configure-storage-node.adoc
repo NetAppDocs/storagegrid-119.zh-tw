@@ -1,0 +1,63 @@
+---
+permalink: maintain/selecting-start-recovery-to-configure-storage-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, storage node 
+summary: 更換儲存節點後，必須在網格管理器中選擇「開始復原」以將新節點配置為故障節點的替代節點。 
+---
+= 選擇“開始復原”以配置儲存節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+更換儲存節點後，必須在網格管理器中選擇「開始復原」以將新節點配置為故障節點的替代節點。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["維護或 Root 存取權限"]。
+* 您有配置密碼。
+* 您已部署並配置了替換節點。
+* 您擁有針對擦除編碼資料的任何修復作業的開始日期。
+* 您已驗證儲存節點在過去 15 天內未重建。
+
+
+.關於此任務
+如果儲存節點作為容器安裝在 Linux 主機上，則僅當下列之一成立時才必須執行此步驟：
+
+* 你必須使用 `--force`標誌來導入節點，或您發出 `storagegrid node force-recovery _node-name_`
+* 您必須重新安裝整個節點，或需要還原 /var/local。
+
+
+.步驟
+. 從網格管理員中，選擇 *維護* > *任務* > *恢復*。
+. 在待處理節點清單中選擇要還原的網格節點。
++
+節點發生故障後會出現在清單中，但您無法選擇該節點，直到它重新安裝並準備好恢復。
+
+. 輸入*配置密碼*。
+. 按一下“開始恢復”。
++
+image::../media/4b_select_recovery_node.png[顯示「維護」>「恢復」頁面的螢幕截圖]
+
+. 在恢復網格節點表中監視恢復進度。
++
+
+NOTE: 在恢復過程運行時，您可以按一下「*重置*」以開始新的恢復。出現一個對話框，表示如果重置該過程，該節點將處於不確定狀態。
+
++
+image::../media/recovery_reset_warning.gif[顯示重置恢復警告對話框的螢幕截圖]
+
++
+如果要在重置過程後重試恢復，則必須將節點恢復到預安裝狀態，如下所示：
+
++
+** *VMware*：刪除已部署的虛擬網格節點。然後，當您準備重新開始復原時，請重新部署該節點。
+** *Linux*：透過在 Linux 主機上執行以下命令重新啟動節點： `storagegrid node force-recovery _node-name_`
+
+
+. 當儲存節點到達「等待手動步驟」階段時，請轉到link:remounting-and-reformatting-storage-volumes-manual-steps.html["重新掛載並重新格式化儲存磁碟區（手動步驟）"]。
++
+image::../media/recovery_reset_button.gif[顯示「等待手動步驟」階段的螢幕截圖]
+
+

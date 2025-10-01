@@ -1,0 +1,132 @@
+---
+permalink: tenant/grid-federation-account-clone.html 
+sidebar: sidebar 
+keywords: account clone, cloning tenant, grid federation, cross-grid replication 
+summary: 如果建立或編輯租用戶以使用網格聯合連接，則該租用戶將從一個StorageGRID系統（來源租用戶）複製到另一個StorageGRID系統（副本租用戶）。複製租用戶後，新增至來源租用戶的任何群組和使用者都會複製到副本租用戶。 
+---
+= 克隆租戶群組和用戶
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果建立或編輯租用戶以使用網格聯合連接，則該租用戶將從一個StorageGRID系統（來源租用戶）複製到另一個StorageGRID系統（副本租用戶）。複製租用戶後，新增至來源租用戶的任何群組和使用者都會複製到副本租用戶。
+
+最初建立租戶的StorageGRID系統是租戶的_來源網格_。複製租戶的StorageGRID系統是租戶的_目標網格_。兩個租用戶帳戶具有相同的帳戶 ID、名稱、描述、儲存配額和分配的權限，但目標租用戶最初沒有 root 使用者密碼。有關詳細信息，請參閱link:../admin/grid-federation-what-is-account-clone.html["什麼是帳戶克隆"]和link:../admin/grid-federation-manage-tenants.html["管理獲準租戶"]。
+
+需要克隆租戶帳戶資訊link:../admin/grid-federation-what-is-cross-grid-replication.html["跨網格複製"]存儲桶對象。兩個網格上具有相同的租戶群組和使用者可確保您可以存取任一網格上的相應儲存桶和物件。
+
+
+
+== 帳戶克隆的租用戶工作流程
+
+如果您的租用戶帳戶具有*使用網格聯合連線*權限，請查看工作流程圖以了解複製群組、使用者和 S3 存取金鑰將執行的步驟。
+
+image::../media/grid-federation-account-clone-workflow-tm.png[租用戶帳戶克隆的工作流程。步驟如下所述。]
+
+這些是工作流程中的主要步驟：
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一"]Sign in租戶
+[role="quick-margin-para"]
+Sign in來源網格（最初建立租戶的網格）上的租戶帳戶。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["二"]（可選）配置身份聯合
+[role="quick-margin-para"]
+如果您的租用戶帳戶具有使用聯合群組和使用者的「使用自己的身分來源」權限，請為來源租用戶帳戶和目標租用戶帳戶配置相同的身分來源（具有相同的設定）。除非兩個網格使用相同的身份來源，否則無法複製聯合群組和使用者。有關說明，請參閱link:using-identity-federation.html["使用身分聯合"]。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]建立群組和用戶
+[role="quick-margin-para"]
+建立群組和使用者時，請始終從租戶的來源網格開始。當您新增群組時， StorageGRID會自動將其複製到目標網格。
+
+[role="quick-margin-list"]
+* 如果為整個StorageGRID系統或您的租用戶帳戶配置了身分聯合，link:creating-groups-for-s3-tenant.html["建立新的租戶群組"]透過從身分來源匯入聯合群組。
+
+
+[role="quick-margin-list"]
+* 如果您不使用身份聯合，link:creating-groups-for-s3-tenant.html["建立新的本機群組"]進而link:managing-local-users.html["建立本地用戶"]。
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四"]建立 S3 存取密鑰
+[role="quick-margin-para"]
+你可以link:creating-your-own-s3-access-keys.html["建立您自己的存取金鑰"]或link:creating-another-users-s3-access-keys.html["建立另一個使用者的存取金鑰"]在來源網格或目標網格上存取該網格上的儲存桶。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五"]（可選）克隆 S3 存取密鑰
+[role="quick-margin-para"]
+如果您需要在兩個網格上使用相同的存取金鑰存取儲存桶，請在來源網格上建立存取金鑰，然後使用租用戶管理員 API 手動將它們複製到目標網格。有關說明，請參閱link:../tenant/grid-federation-clone-keys-with-api.html["使用 API 克隆 S3 存取金鑰"]。
+
+
+
+== 如何複製群組、使用者和 S3 存取金鑰？
+
+請參閱本節以了解如何在租戶來源網格和租戶目標網格之間複製群組、使用者和 S3 存取金鑰。
+
+
+
+=== 克隆在來源網格上建立的本機群組
+
+建立租用戶帳戶並將其複製到目標網格後， StorageGRID會自動將您新增至租用戶來源網格的任何本機群組複製到租用戶的目標網格。
+
+原始群組及其複製都具有相同的存取模式、群組權限和 S3 群組原則。有關說明，請參閱link:creating-groups-for-s3-tenant.html["為 S3 租用戶建立群組"]。
+
+image::../media/grid-federation-account-clone.png[該圖顯示了本地群組從來源網格克隆到目標網格]
+
+
+NOTE: 將群組複製到目標網格時，不會包括在來源網格上建立本機群組時選擇的任何使用者。因此，在創建群組時不要選擇使用者。相反，在建立使用者時選擇群組。
+
+
+
+=== 克隆在來源網格上建立的本機用戶
+
+當您在來源網格上建立新的本機使用者時， StorageGRID會自動將該使用者複製到目標網格。原始使用者及其複製使用者俱有相同的全名、使用者名稱和*拒絕存取*設定。兩個用戶也屬於同一組。有關說明，請參閱link:managing-local-users.html["管理本地用戶"]。
+
+出於安全原因，本機使用者密碼不會被複製到目標網格。如果本機使用者需要存取目標網格上的租用戶管理器，則租用戶帳戶的根用戶必須在目標網格上為該用戶新增密碼。有關說明，請參閱link:managing-local-users.html["管理本地用戶"]。
+
+image::../media/grid-federation-local-user-clone.png[該圖顯示了本地用戶從來源網格克隆到目標網格]
+
+
+
+=== 克隆在來源網格上建立的聯合組
+
+假設使用帳戶克隆的要求link:../admin/grid-federation-what-is-account-clone.html#account-clone-sso["單一登入"]和link:../admin/grid-federation-what-is-account-clone.html#account-clone-identity-federation["身分聯合"]已滿足，您為來源網格上的租戶建立（匯入）的聯合群組將自動複製到目標網格上的租戶。
+
+兩個群組具有相同的存取模式、群組權限和 S3 群組原則。
+
+為來源租戶建立聯合群組並將其複製到目標租戶後，聯合使用者可以在任一網格上登入該租戶。
+
+image::../media/grid-federation-federated-group-clone.png[該圖顯示了聯邦組從來源網格克隆到目標網格]
+
+
+
+=== S3 存取密鑰可以手動克隆
+
+StorageGRID不會自動複製 S3 存取金鑰，因為每個網格上都有不同的金鑰可以提高安全性。
+
+若要管理兩個網格上的存取金鑰，您可以執行下列其中一項操作：
+
+* 如果你不需要對每個網格使用相同的鍵，你可以link:creating-your-own-s3-access-keys.html["建立您自己的存取金鑰"]或者link:creating-another-users-s3-access-keys.html["建立另一個使用者的存取金鑰"]在每個網格上。
+* 如果需要在兩個網格上使用相同的金鑰，則可以在來源網格上建立金鑰，然後使用租用戶管理員 API 手動link:../tenant/grid-federation-clone-keys-with-api.html["克隆密鑰"]到目的地格。
+
+
+image::../media/grid-federation-s3-access-key.png[此圖顯示，可以選擇將 S3 存取金鑰從來源網格複製到目標網格]
+
+
+NOTE: 當您為聯合用戶複製 S3 存取金鑰時，使用者和 S3 存取金鑰都會複製到目標租用戶。
+
+
+
+=== 新增到目標網格的群組和使用者未被克隆
+
+克隆僅從租戶的來源網格發生到租戶的目標網格。如果您在租用戶的目標網格上建立或匯入群組和用戶， StorageGRID將不會將這些項目複製回租戶的來源網格。
+
+image::../media/grid-federation-account-not-cloned.png[此圖顯示目標網格上的詳細資訊未複製到來源網格]
+
+
+
+=== 已編輯或刪除的群組、使用者和存取金鑰不會被克隆
+
+僅當您建立新的群組和使用者時才會發生複製。
+
+如果您在任一網格上編輯或刪除群組、使用者或存取金鑰，您的變更將不會被複製到另一個網格。
+
+image::../media/grid-federation-account-clone-edit-delete.png[圖像顯示已編輯或刪除的詳細資訊未被克隆]

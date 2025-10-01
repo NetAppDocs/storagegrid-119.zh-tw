@@ -1,0 +1,127 @@
+---
+permalink: maintain/stopping-services-and-shutting-down-grid-nodes.html 
+sidebar: sidebar 
+keywords: recover, stop services, shut down nodes, node shutdown 
+summary: 在關閉StorageGRID系統之前，您必須停止每個網格節點上執行的所有服務，然後關閉所有 VMware 虛擬機器、容器引擎和StorageGRID設備。 
+---
+= 停止服務並關閉網格節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在關閉StorageGRID系統之前，您必須停止每個網格節點上執行的所有服務，然後關閉所有 VMware 虛擬機器、容器引擎和StorageGRID設備。
+
+.關於此任務
+首先停止管理節點和網關節點上的服務，然後停止儲存節點上的服務。
+
+這種方法可讓您使用主管理節點盡可能長時間地監視其他網格節點的狀態。
+
+
+NOTE: 如果單一主機包含多個網格節點，請不要關閉該主機，直到停止該主機上的所有節點。如果主機包含主管理節點，則最後關閉該主機。
+
+
+NOTE: 如果需要，您可以link:linux-migrating-grid-node-to-new-host.html["將節點從一個 Linux 主機遷移到另一個 Linux 主機"]執行主機維護而不影響網格的功能或可用性。
+
+.步驟
+. 停止所有客戶端應用程式存取網格。
+. [[log_in_to_gn]]登入每個網關節點：
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+
+
+. [[stop_all_services]]停止節點上執行的所有服務： `service servermanager stop`
++
+服務可能需要長達 15 分鐘才能關閉，您可能需要遠端登入系統來監控關閉過程。
+
+
+
+. 重複前兩個步驟，停止所有儲存節點和非主管理節點上的服務。
++
+您可以以任意順序停止這些節點上的服務。
+
++
+
+NOTE: 如果你發出 `service servermanager stop`命令停止設備儲存節點上的服務，您必須關閉設備電源並重新啟動該節點。
+
+. 對於主管理節點，重複下列步驟<<log_in_to_gn,登入節點>>和<<stop_all_services,停止節點上的所有服務>>。
+. 對於在 Linux 主機上運行的節點：
++
+.. 登入主機作業系統。
+.. 停止節點： `storagegrid node stop`
+.. 關閉主機作業系統。
+
+
+. 對於在 VMware 虛擬機器上執行的節點和設備儲存節點，發出關機命令： `shutdown -h now`
++
+無論結果如何，都執行此步驟 `service servermanager stop`命令。
+
++
+對於設備，此命令關閉計算控制器，但設備仍處於開啟狀態。您必須完成下一步。
+
+. 如果您有設備節點：
++
+** 適用於服務設備或 SGF6112 設備
++
+... 關閉設備電源。
+... 等待藍色電源 LED 熄滅。
+
+
+** 對於 SG6160 設備
++
+... 關閉 SG6100-CN 儲存控制器的電源。
+... 等待 SG6100-CN 儲存控制器上的藍色電源 LED 熄滅。
+
+
+** 對於 SG6000 設備
++
+... 等待儲存控制器背面的綠色快取活動 LED 熄滅。
++
+當需要將快取資料寫入磁碟機時，此 LED 亮起。您必須等待此 LED 熄滅後才能關閉電源。
+
+... 關閉設備電源，等待藍色電源 LED 熄滅。
+
+
+** 對於 SG5800 設備
++
+... 等待儲存控制器背面的綠色快取活動 LED 熄滅。
++
+當需要將快取資料寫入磁碟機時，此 LED 亮起。您必須等待此 LED 熄滅後才能關閉電源。
+
+... 從SANtricity System Manager 主頁中，選擇 *查看正在進行的操作*。
+... 確認所有操作均已完成，然後再繼續下一步。
+... 關閉控制器架上的兩個電源開關，並等待控制器架上的所有 LED 熄滅。
+
+
+** 對於 SG5700 設備
++
+... 等待儲存控制器背面的綠色快取活動 LED 熄滅。
++
+當需要將快取資料寫入磁碟機時，此 LED 亮起。您必須等待此 LED 熄滅後才能關閉電源。
+
+... 關閉設備電源，等待所有 LED 和七段顯示活動停止。
+
+
+
+
+. 如果需要，請退出命令 shell： `exit`
++
+StorageGRID網格現已關閉。
+
+
+
+.相關資訊
+* link:https://docs.netapp.com/us-en/storagegrid-appliances/sg6100/index.html["SGF6112和SG6160儲存設備"^]
+* link:https://docs.netapp.com/us-en/storagegrid-appliances/sg6000/index.html["SG6000儲存設備"^]
+* link:https://docs.netapp.com/us-en/storagegrid-appliances/sg5800/index.html["SG5800儲存設備"^]
+* link:https://docs.netapp.com/us-en/storagegrid-appliances/sg5700/index.html["SG5700儲存設備"^]
+* link:https://docs.netapp.com/us-en/storagegrid-appliances/sg110-1100/index.html["SG110 和 SG1100 服務設備"^]
+* link:https://docs.netapp.com/us-en/storagegrid-appliances/sg100-1000/index.html["SG100 和 SG1000 服務設備"^]
+

@@ -1,0 +1,26 @@
+---
+permalink: ubuntu/adding-sites.html 
+sidebar: sidebar 
+keywords: how to create a site 
+summary: 安裝StorageGRID時，必須建立至少一個網站。您可以建立額外的網站來提高StorageGRID系統的可靠性和儲存容量。 
+---
+= 新增站點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+安裝StorageGRID時，必須建立至少一個網站。您可以建立額外的網站來提高StorageGRID系統的可靠性和儲存容量。
+
+.步驟
+. 在網站頁面上，輸入*網站名稱*。
+. 若要新增其他站點，請按一下最後一個站點條目旁邊的加號，然後在新的*站點名稱*文字方塊中輸入名稱。
++
+根據電網拓撲的需要添加盡可能多的附加站點。您最多可以新增 16 個站點。
+
++
+image::../media/3_gmi_installer_sites_page.gif[該圖像由周圍的文字解釋。]
+
+. 按一下“下一步”。
+

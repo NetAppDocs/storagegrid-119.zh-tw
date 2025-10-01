@@ -1,0 +1,78 @@
+---
+permalink: audit/object-delete-transactions.html 
+sidebar: sidebar 
+keywords: object delete transaction, S3 delete, SDEL, WDEL 
+summary: 您可以透過定位 S3 API 特定的稽核訊息來識別稽核日誌中的物件刪除交易。 
+---
+= 物件刪除事務
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以透過定位 S3 API 特定的稽核訊息來識別稽核日誌中的物件刪除交易。
+
+下表並未列出刪除交易期間產生的所有稽核訊息。僅包含追蹤刪除交易所需的訊息。
+
+
+
+== S3 刪除審計訊息
+
+[cols="1a,1a,2a,1a,2a"]
+|===
+| 程式碼 | Name | 描述 | 痕跡 | 看 
+
+
+ a| 
+斯德勒
+ a| 
+S3 刪除
+ a| 
+請求從儲存桶中刪除物件。
+ a| 
+CBID，S3KY
+ a| 
+link:sdel-s3-delete.html["SDEL：S3 刪除"]
+
+|===
+
+
+== Swift 刪除審核訊息
+
+[cols="1a,1a,2a,1a,2a"]
+|===
+| 程式碼 | Name | 描述 | 痕跡 | 看 
+
+
+ a| 
+WDEL
+ a| 
+快速刪除
+ a| 
+請求從容器中刪除對象，或刪除容器。
+ a| 
+CBID，WOBJ
+ a| 
+link:wdel-swift-delete.html["WDEL：快速刪除"]
+
+|===
+
+
+== 範例：S3 物件刪除
+
+當 S3 用戶端從儲存節點（LDR 服務）刪除物件時，會產生一則稽核訊息並儲存到稽核日誌中。
+
+
+NOTE: 以下範例中並未列出刪除交易期間產生的所有稽核訊息。僅列出與 S3 刪除事務 (SDEL) 相關的那些。
+
+
+
+=== SDEL：S3 刪除
+
+當客戶端向 LDR 服務發送 DeleteObject 請求時，物件刪除就開始了。此訊息包含要從中刪除物件的儲存桶以及用於識別物件的物件的 S3 Key。
+
+[listing, subs="specialcharacters,quotes"]
+----
+2017-07-17T21:17:58.959669[AUDT:[RSLT(FC32):SUCS][TIME(UI64):14316][SAIP(IPAD):"10.96.112.29"][S3AI(CSTR):"70899244468554783528"][SACC(CSTR):"test"][S3AK(CSTR):"SGKHyalRU_5cLflqajtaFmxJn946lAWRJfBF33gAOg=="][SUSR(CSTR):"urn:sgws:identity::70899244468554783528:root"][SBAI(CSTR):"70899244468554783528"][SBAC(CSTR):"test"]\[S3BK\(CSTR\):"example"\]\[S3KY\(CSTR\):"testobject-0-7"\][CBID\(UI64\):0x339F21C5A6964D89][CSIZ(UI64):30720][AVER(UI32):10][ATIM(UI64):150032627859669][ATYP\(FC32\):SDEL][ANID(UI32):12086324][AMID(FC32):S3RQ][ATID(UI64):4727861330952970593]]
+----

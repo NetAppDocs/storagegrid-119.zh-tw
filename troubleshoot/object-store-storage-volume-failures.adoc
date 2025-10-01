@@ -1,0 +1,28 @@
+---
+permalink: troubleshoot/object-store-storage-volume-failures.html 
+sidebar: sidebar 
+keywords: how to confirm object location, object metadata lookup 
+summary: 儲存節點上的底層儲存分為物件儲存。物件儲存也稱為儲存磁碟區。 
+---
+= 物件儲存（儲存磁碟區）故障
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+儲存節點上的底層儲存分為物件儲存。物件儲存也稱為儲存磁碟區。
+
+您可以查看每個儲存節點的物件儲存資訊。物件儲存顯示在 *NODES* > *_Storage Node_* > *Storage* 頁面的底部。
+
+image::../media/nodes_page_storage_nodes_storage_tables.png[節點頁面儲存節點儲存表]
+
+看更多link:../monitor/viewing-grid-topology-tree.html["有關每個存儲節點的詳細信息"]，請依照下列步驟操作：
+
+. 選擇*支援* > *工具* > *網格拓撲*。
+. 選擇 *_site_* > *_Storage Node_* > *LDR* > *Storage* > *Overview* > *Main*。
+
+
+image::../media/storage_node_object_stores.png[儲存節點物件存儲]
+
+根據故障的性質，儲存卷的故障可能反映在link:../monitor/alerts-reference.html["存儲量警報"]。如果儲存卷發生故障，您應該修復故障的儲存卷，以盡快恢復儲存節點的全部功能。如果需要，您可以轉到*配置*選項卡並link:../maintain/checking-storage-state-after-recovering-storage-volumes.html["將儲存節點置於唯讀狀態"]以便StorageGRID系統可以在您準備完全恢復伺服器時使用它進行資料檢索。

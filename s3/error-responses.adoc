@@ -1,0 +1,378 @@
+---
+permalink: s3/error-responses.html 
+sidebar: sidebar 
+keywords: error, error responses 
+summary: StorageGRID系統支援所有適用的標準 S3 REST API 錯誤回應。此外， StorageGRID實作還新增了幾個自訂回應。 
+---
+= 錯誤回應
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID系統支援所有適用的標準 S3 REST API 錯誤回應。此外， StorageGRID實作還新增了幾個自訂回應。
+
+
+
+== 支援的 S3 API 錯誤代碼
+
+[cols="1a,1a"]
+|===
+| Name | HTTP 狀態 
+
+
+ a| 
+拒絕訪問
+ a| 
+403 禁止
+
+
+
+ a| 
+壞文摘
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+BucketAlreadyExists
+ a| 
+409衝突
+
+
+
+ a| 
+BucketNotEmpty
+ a| 
+409衝突
+
+
+
+ a| 
+不完整的身體
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+內部錯誤
+ a| 
+500 內部伺服器錯誤
+
+
+
+ a| 
+無效存取金鑰
+ a| 
+403 禁止
+
+
+
+ a| 
+無效參數
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效的儲存桶名稱
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效的BucketState
+ a| 
+409衝突
+
+
+
+ a| 
+無效摘要
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效加密演算法錯誤
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效部分
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效零件訂單
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效範圍
+ a| 
+416 請求範圍不滿足
+
+
+
+ a| 
+無效請求
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效的儲存類
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效標籤
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+無效URI
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+鍵太長
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+格式錯誤的XML
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+元數據太大
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+方法不允許
+ a| 
+405 方法不允許
+
+
+
+ a| 
+缺失內容長度
+ a| 
+411 長度要求
+
+
+
+ a| 
+MissingRequestBody錯誤
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+缺少安全標頭
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+沒有這樣的桶
+ a| 
+404 未找到
+
+
+
+ a| 
+NoSuchKey
+ a| 
+404 未找到
+
+
+
+ a| 
+NoSuchUpload
+ a| 
+404 未找到
+
+
+
+ a| 
+未實施
+ a| 
+501 未實現
+
+
+
+ a| 
+NoSuchBucketPolicy
+ a| 
+404 未找到
+
+
+
+ a| 
+ObjectLockConfigurationNotFoundError
+ a| 
+404 未找到
+
+
+
+ a| 
+前提條件不成立
+ a| 
+412 先決條件失敗
+
+
+
+ a| 
+請求時間偏差過大
+ a| 
+403 禁止
+
+
+
+ a| 
+暫停服務
+ a| 
+503 服務不可用
+
+
+
+ a| 
+簽名不匹配
+ a| 
+403 禁止
+
+
+
+ a| 
+桶太多
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+必須指定使用者金鑰
+ a| 
+400 錯誤請求
+
+|===
+
+
+== StorageGRID自訂錯誤代碼
+
+[cols="2a,2a,1a"]
+|===
+| Name | 描述 | HTTP 狀態 
+
+
+ a| 
+XBucketLifecycleNotAllowed
+ a| 
+舊版相容儲存桶中不允許配置儲存桶生命週期
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+XBucketPolicyParseException
+ a| 
+無法解析收到的儲存桶策略 JSON。
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+XComplianceConflict
+ a| 
+由於舊版合規性設置，操作被拒絕。
+ a| 
+403 禁止
+
+
+
+ a| 
+XComplianceReducedRedundancyForbidden
+ a| 
+舊版相容存儲桶中不允許減少冗餘
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+XMaxBucketPolicyLengthExceeded
+ a| 
+您的策略超出了允許的最大儲存桶策略長度。
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+XMissingInternalRequestHeader
+ a| 
+缺少內部請求的標頭。
+ a| 
+400 錯誤請求
+
+
+
+ a| 
+XNoSuchBucketCompliance
+ a| 
+指定的儲存桶未啟用舊版合規性。
+ a| 
+404 未找到
+
+
+
+ a| 
+X不可接受
+ a| 
+此請求包含一個或多個無法滿足的接受標頭。
+ a| 
+406 不可接受
+
+
+
+ a| 
+XNotImplemented
+ a| 
+您提供的請求暗示了尚未實現的功能。
+ a| 
+501 未實現
+
+|===

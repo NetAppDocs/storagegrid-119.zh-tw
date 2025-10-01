@@ -1,0 +1,64 @@
+---
+permalink: audit/ebdl-empty-bucket-delete.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, EBDL, Empty Bucket Delete 
+summary: ILM 掃描器刪除了正在刪除所有物件的儲存桶中的一個物件（執行清空儲存桶操作）。 
+---
+= EBDL：空桶刪除
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ILM 掃描器刪除了正在刪除所有物件的儲存桶中的一個物件（執行清空儲存桶操作）。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+CSIZ
+ a| 
+物件大小
+ a| 
+物件的大小（以位元組為單位）。
+
+
+
+ a| 
+小路
+ a| 
+S3 儲存桶/金鑰
+ a| 
+S3 儲存桶名稱和 S3 金鑰名稱。
+
+
+
+ a| 
+新加坡電氣公司
+ a| 
+容器 UUID
+ a| 
+分段物件的容器的 UUID。僅當物件被分割時，此值才可用。
+
+
+
+ a| 
+唯一識別符
+ a| 
+通用唯一識別符
+ a| 
+StorageGRID系統內物件的識別碼。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+刪除操作的結果
+ a| 
+事件、過程或交易的結果。如果與訊息無關，則使用 NONE 而不是 SUCS，以免意外過濾訊息。
+
+|===

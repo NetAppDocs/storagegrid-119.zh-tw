@@ -1,0 +1,47 @@
+---
+permalink: admin/signing-out-of-grid-manager.html 
+sidebar: sidebar 
+keywords: grid manager, sign on, log out 
+summary: 當您完成網格管理員的工作後，您必須登出以確保未經授權的使用者無法存取StorageGRID系統。根據瀏覽器 cookie 設定，關閉瀏覽器可能不會使您退出系統。 
+---
+= 退出網格管理器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您完成網格管理員的工作後，您必須登出以確保未經授權的使用者無法存取StorageGRID系統。根據瀏覽器 cookie 設定，關閉瀏覽器可能不會使您退出系統。
+
+.步驟
+. 在右上角選擇您的使用者名稱。
++
+image::../media/sign_out.png[退出連結]
+
+. 選擇“*退出*”。
++
+[cols="1a,2a"]
+|===
+| 選項 | 描述 
+
+
+ a| 
+SSO 未使用
+ a| 
+您已退出管理節點。
+
+顯示網格管理器登入頁面。
+
+*注意：*如果您登入了多個管理節點，則必須登出每個節點。
+
+
+
+ a| 
+已啟用 SSO
+ a| 
+您已退出正在存取的所有管理節點。顯示StorageGRID登入頁面。  *網格管理器*在*最近的帳戶*下拉選單中列為預設值，並且*帳戶 ID*欄位顯示 0。
+
+*注意：*如果啟用了 SSO 並且您也登入了租戶管理器，您也必須link:../tenant/signing-out-of-tenant-manager.html["登出租用戶帳戶"]到link:configuring-sso.html["退出 SSO"]。
+
+|===
+

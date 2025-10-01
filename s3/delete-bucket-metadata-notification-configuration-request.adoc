@@ -1,0 +1,30 @@
+---
+permalink: s3/delete-bucket-metadata-notification-configuration-request.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, DELETE Bucket metadata notification configuration request 
+summary: DELETE Bucket 元資料通知設定請求可讓您透過刪除配置 XML 來停用單一儲存桶的搜尋整合服務。 
+---
+= 刪除儲存桶元資料通知配置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+DELETE Bucket 元資料通知設定請求可讓您透過刪除配置 XML 來停用單一儲存桶的搜尋整合服務。
+
+您必須擁有儲存桶的 s3:DeleteBucketMetadataNotification 權限，或成為帳戶根，才能完成此操作。
+
+
+
+== 請求範例
+
+此範例顯示停用儲存桶的搜尋整合服務。
+
+[listing, subs="specialcharacters,quotes"]
+----
+DELETE /test1?x-ntap-sg-metadata-notification HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----

@@ -1,0 +1,39 @@
+---
+permalink: audit/svru-object-store-verify-unknown.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SVRU, Object Store Verify Unknown 
+summary: LDR 服務的儲存元件會持續掃描物件儲存中複製的物件資料的所有副本。當在物件儲存中偵測到複製物件資料的未知或意外副本並將其移至隔離目錄時，會發出此訊息。 
+---
+= SVRU：物件儲存驗證未知
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+LDR 服務的儲存元件會持續掃描物件儲存中複製的物件資料的所有副本。當在物件儲存中偵測到複製物件資料的未知或意外副本並將其移至隔離目錄時，會發出此訊息。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+光纖到戶
+ a| 
+文件路徑
+ a| 
+意外物件副本的檔案路徑。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果
+ a| 
+該欄位的值為“NONE”。 RSLT 是必填訊息字段，但與此訊息無關。使用“NONE”而不是“SUCS”，以便不過濾該訊息。
+
+|===
+
+NOTE: 應密切監控 SVRU：物件儲存驗證未知稽核訊息。這意味著在物件儲存中偵測到了物件資料的意外副本。應立即調查這種情況以確定這些副本是如何創建的，因為它可能預示即將發生硬體故障。

@@ -1,0 +1,52 @@
+---
+permalink: upgrade/changes-to-grid-management-api.html 
+sidebar: sidebar 
+keywords: grid management api, api, api version, swagger, rest api, usageCacheDuration 
+summary: StorageGRID 11.9 使用網格管理 API 的第 4 版。版本 4 棄用了版本 3；但是，版本 1、2 和 3 仍然受支援。 
+---
+= 網格管理 API 的變更
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID 11.9 使用網格管理 API 的第 4 版。版本 4 棄用了版本 3；但是，版本 1、2 和 3 仍然受支援。
+
+
+NOTE: 您可以繼續使用StorageGRID 11.9 中已棄用的管理 API 版本；但是， StorageGRID的未來版本將不再支援這些版本的 API。升級到StorageGRID 11.9 後，您可以使用 `PUT /grid/config/management`API。
+
+要了解更多信息，請訪問link:../admin/using-grid-management-api.html["使用網格管理 API"]。
+
+
+
+== 啟用全域 S3 物件鎖定後檢查合規性設置
+
+啟用全域 S3 物件鎖定設定後，檢查現有租用戶的合規性設定。啟用此設定時，每個租用戶的 S3 物件鎖定設定取決於建立租用戶時的StorageGRID版本。
+
+
+
+== 刪除了舊版 mgmt-api 請求
+
+這些遺留請求已被刪除：
+
+`/grid/server-types`
+
+`/grid/ntp-roles`
+
+
+
+== 變更 `GET /private/storage-usage`API
+
+* 一處新房產， `usageCacheDuration` ，已新增至響應主體。此屬性指定使用情況查找快取保持有效的持續時間（以秒為單位）。當檢查租戶儲存配額和儲存桶容量限制的使用情況時，適用此值。
+* 這 `GET /api/v4/private/storage-usage`行為已被修正以匹配架構中的嵌套。
+* 這些變更僅適用於私有 API。
+
+
+
+
+== 變更 `GET cross-grid-replication`API
+
+*/org/containers/:name/cross-grid-replication* GET API 不再需要 Root 存取權限(`rootAccess`) 權限；但是，您必須屬於擁有「管理所有儲存桶」權限的使用者群組(`manageAllContainers`）或查看所有儲存桶(`viewAllContainers`） 允許。
+
+*/org/containers/:name/cross-grid-replication* PUT API 保持不變，仍然需要 Root 存取權限(`rootAccess`） 允許。

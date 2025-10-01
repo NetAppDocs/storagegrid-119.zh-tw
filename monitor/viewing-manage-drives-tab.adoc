@@ -1,0 +1,25 @@
+---
+permalink: monitor/viewing-manage-drives-tab.html 
+sidebar: sidebar 
+keywords: Manage drives tab, hardware diagnostics, fail drive, logically replace drive 
+summary: 透過「管理磁碟機」標籤，您可以存取詳細資訊並對支援此功能的裝置中的磁碟機執行故障排除和維護任務。 
+---
+= 查看“管理磁碟機”標籤
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+透過「管理磁碟機」標籤，您可以存取詳細資訊並對支援此功能的裝置中的磁碟機執行故障排除和維護任務。
+
+使用“管理驅動器”選項卡，您可以執行以下操作：
+
+* 查看裝置中資料儲存磁碟機的佈局
+* 查看列出每個磁碟機位置、類型、狀態、韌體版本和序號的表格
+* 對每個驅動器執行故障排除和維護功能
+
+
+要存取“管理磁碟機”選項卡，您必須擁有link:../admin/admin-group-permissions.html["儲存設備管理員或 Root 存取權限"]。
+
+有關使用「管理磁碟機」標籤的信息，請參閱 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/manage-drives-tab.html["使用“管理磁碟機”選項卡"^]。

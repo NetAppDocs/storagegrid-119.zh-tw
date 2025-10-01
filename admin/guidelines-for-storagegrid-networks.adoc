@@ -1,0 +1,99 @@
+---
+permalink: admin/guidelines-for-storagegrid-networks.html 
+sidebar: sidebar 
+keywords: admin network, client network, grid network, access interface, trunk interface 
+summary: StorageGRID每個網格節點最多支援三個網路接口，可讓您為每個單獨的網格節點配置網路以滿足您的安全性和存取要求。 
+---
+= StorageGRID網路指南
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用網格管理器來設定和管理StorageGRID網路和連接。
+
+看link:configuring-client-connections.html["配置 S3 用戶端連接"]了解如何連接 S3 用戶端。
+
+
+
+== 預設StorageGRID網絡
+
+預設情況下， StorageGRID支援每個網格節點三個網路接口，可讓您為每個單獨的網格節點配置網路以滿足您的安全性和存取要求。
+
+有關網路拓撲的詳細信息，請參閱link:../network/index.html["網路指南"]。
+
+
+
+=== 網格網絡
+
+必需的。網格網路用於所有內部StorageGRID流量。它提供網格中所有節點、所有站點和子網路之間的連接。
+
+
+
+=== 管理網路
+
+選修的。管理網路通常用於系統管理和維護。它還可以用於客戶端協定存取。管理網路通常是私人網絡，不需要在站點之間路由。
+
+
+
+=== 客戶網路
+
+選修的。客戶端網路是一個開放網絡，通常用於提供對 S3 客戶端應用程式的訪問，因此網格網路可以被隔離和保護。用戶端網路可以與透過本地網關可達的任何子網路進行通訊。
+
+
+
+== 指南
+
+* 每個StorageGRID節點都需要為其分配到的每個網路配備專用的網路介面、IP 位址、子網路遮罩和網關。
+* 網格節點在網路上不能擁有多個介面。
+* 每個網路、每個網格節點支援一個網關，而且它必須與節點位於同一子網路。如果需要，您可以在網關中實現更複雜的路由。
+* 在每個節點上，每個網路都會對應到特定的網路介面。
++
+[cols="1a,1a"]
+|===
+| 網路 | 介面名稱 
+
+
+ a| 
+網格
+ a| 
+eth0
+
+
+
+ a| 
+管理員（可選）
+ a| 
+eth1
+
+
+
+ a| 
+客戶端（可選）
+ a| 
+eth2
+
+|===
+* 如果節點連接到StorageGRID設備，則每個網路都會使用特定的連接埠。有關詳細信息，請參閱設備的安裝說明。
+* 每個節點都會自動產生預設路由。如果啟用了 eth2，則 0.0.0.0/0 使用 eth2 上的用戶端網路。如果未啟用 eth2，則 0.0.0.0/0 使用 eth0 上的網格網路。
+* 客戶端網路在網格節點加入網格之前無法運行
+* 可以在網格節點部署期間配置管理網絡，以允許在網格完全安裝之前存取安裝使用者介面。
+
+
+
+
+== 可選接口
+
+您可以選擇向節點新增額外的介面。例如，您可能想要在管理節點或網關節點新增中繼接口，以便可以使用link:../admin/configure-vlan-interfaces.html["VLAN 介面"]隔離屬於不同應用程式或租戶的流量。或者，您可能想要新增一個存取介面以在link:../admin/configure-high-availability-group.html["高可用性 (HA) 組"]。
+
+若要新增中繼或存取接口，請參閱以下內容：
+
+* *VMware（安裝節點後）*：link:../maintain/vmware-adding-trunk-or-access-interfaces-to-node.html["VMware：向節點新增中繼或存取介面"]
++
+** *Red Hat Enterprise Linux（安裝節點前）*：link:../rhel/creating-node-configuration-files.html["建立節點設定檔"]
+** *Ubuntu 或 Debian（安裝節點之前）*：link:../ubuntu/creating-node-configuration-files.html["建立節點設定檔"]
+** *RHEL、Ubuntu 或 Debian（安裝節點後）*：link:../maintain/linux-adding-trunk-or-access-interfaces-to-node.html["Linux：為節點新增主幹或存取介面"]
+
+
+

@@ -1,0 +1,48 @@
+---
+permalink: maintain/monitoring-storagegrid-appliance-installation-sn.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, appliance 
+summary: StorageGRID Appliance Installer 提供狀態直到安裝完成。軟體安裝完成後，設備將重新啟動。 
+---
+= 監控StorageGRID設備安裝
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID Appliance Installer 提供狀態直到安裝完成。軟體安裝完成後，設備將重新啟動。
+
+.步驟
+. 若要監控安裝進度，請點選功能表列中的「監控安裝」*。
++
+監控安裝頁面顯示安裝進度。
+
++
+image::../media/monitor_installation_configure_storage.gif[該圖像由周圍的文字解釋。]
+
++
+藍色狀態列指示目前正在進行的任務。綠色狀態條表示任務已成功完成。
+
++
+
+NOTE: 安裝程式確保不會重新執行先前安裝中完成的任務。如果您重新執行安裝，任何不需要重新執行的任務都會顯示綠色狀態列和「已跳過」狀態。
+
+. 回顧前兩個安裝階段的進度。
++
+** *1.配置儲存*
++
+在此階段，安裝程式連接到儲存控制器、清除任​​何現有配置、與SANtricity OS 通訊以配置磁碟區並配置主機設定。
+
+** *2.安裝作業系統*
++
+在此階段，安裝程式將StorageGRID的基本作業系統映像複製到裝置。
+
+
+
+. 繼續監控安裝進度，直到*安裝StorageGRID*階段暫停，並且在嵌入式控制台上出現一則訊息，提示您使用網格管理器在管理節點上批准此節點。
++
+image::../media/monitor_installation_install_sgws.gif[該圖像由周圍的文字解釋。]
+
+. 前往link:selecting-start-recovery-to-configure-appliance-storage-node.html["選擇“開始復原”以配置設備儲存節點"]。
+

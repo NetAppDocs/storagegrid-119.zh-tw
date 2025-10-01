@@ -1,0 +1,35 @@
+---
+permalink: admin/disabling-single-sign-on.html 
+sidebar: sidebar 
+keywords: disable sso, disable single sign on 
+summary: 如果您不再想使用此功能，可以停用單一登入（SSO）。您必須先停用單一登錄，然後才能停用身份聯合。 
+---
+= 停用單一登入
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您不再想使用此功能，可以停用單一登入 (SSO)。您必須先停用單一登錄，然後才能停用身份聯合。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:admin-group-permissions.html["特定存取權限"]。
+
+
+.步驟
+. 選擇*設定* > *存取控制* > *單一登入*。
++
+出現「單一登入」頁面。
+
+. 選擇“*已停用*”選項。
+. 選擇*儲存*。
++
+出現警告訊息，表示本地用戶現在可以登入。
+
+. 選擇“確定”。
++
+下次登入StorageGRID時，將出現StorageGRIDSign in頁面，您必須輸入本機或聯合StorageGRID使用者的使用者名稱和密碼。
+
+

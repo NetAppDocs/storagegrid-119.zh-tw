@@ -1,0 +1,186 @@
+---
+permalink: expand/linux-adding-direct-attached-or-san-volumes-to-storage-node.html 
+sidebar: sidebar 
+keywords: expansion, Linux, add storage volumes 
+summary: 如果儲存節點包含的儲存磁碟區少於 48 個，則可以透過新增新的區塊儲存裝置、使其對 Linux 主機可見以及將新的區塊裝置對應新增至用於儲存節點的StorageGRID設定檔來增加其容量。 
+---
+= Linux：為儲存節點新增直接連接磁碟區或 SAN 卷
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果儲存節點包含的儲存磁碟區少於 48 個，則可以透過新增新的區塊儲存裝置、使其對 Linux 主機可見以及將新的區塊裝置對應新增至用於儲存節點的StorageGRID設定檔來增加其容量。
+
+.開始之前
+* 您可以存取為您的 Linux 平台安裝StorageGRID的說明。
++
+** link:../rhel/index.html["在 Red Hat Enterprise Linux 上安裝StorageGRID"]
+** link:../ubuntu/index.html["在 Ubuntu 或 Debian 上安裝StorageGRID"]
+
+
+* 你有 `Passwords.txt`文件。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+
+
+
+CAUTION: 當軟體升級、復原流程或其他擴充程序處於活動狀態時，請勿嘗試將記憶體磁碟區新增至儲存節點。
+
+.關於此任務
+新增儲存卷時，儲存節點短時間內不可用。您應該一次在一個儲存節點上執行此流程，以避免影響面向客戶端的網格服務。
+
+.步驟
+. 安裝新的儲存硬體。
++
+有關詳細信息，請參閱硬體供應商提供的文件。
+
+. 建立所需大小的新區塊儲存磁碟區。
++
+** 根據需要連接新磁碟機並更新 RAID 控制器配置，或在共用儲存陣列上分配新的 SAN LUN 並允許 Linux 主機存取它們。
+** 使用與現有儲存節點上的儲存磁碟區相同的持久命名方案。
+** 如果您使用StorageGRID節點遷移功能，請使新磁碟區對其他作為此儲存節點的遷移目標的 Linux 主機可見。有關更多信息，請參閱為您的 Linux 平台安裝StorageGRID的說明。
+
+
+. 以 root 身分或具有 sudo 權限的帳戶登入支援儲存節點的 Linux 主機。
+. 確認新的儲存磁碟區在 Linux 主機上可見。
++
+您可能需要重新掃描設備。
+
+. 執行以下命令暫時禁用儲存節點：
++
+`sudo storagegrid node stop <node-name>`
+
+. 使用 vim 或 pico 等文字編輯器，編輯儲存節點的節點配置文件，該文件可在以下位置找到 `/etc/storagegrid/nodes/<node-name>.conf`。
+. 找到包含現有物件儲存區塊設備映射的節點設定檔部分。
++
+在範例中， `BLOCK_DEVICE_RANGEDB_00`到 `BLOCK_DEVICE_RANGEDB_03`是現有的物件儲存區塊設備映射。
+
++
+[listing, subs="specialcharacters,quotes"]
+----
+NODE_TYPE = VM_Storage_Node
+ADMIN_IP = 10.1.0.2
+BLOCK_DEVICE_VAR_LOCAL = /dev/mapper/sgws-sn1-var-local
+*BLOCK_DEVICE_RANGEDB_00 = /dev/mapper/sgws-sn1-rangedb-0*
+*BLOCK_DEVICE_RANGEDB_01 = /dev/mapper/sgws-sn1-rangedb-1*
+*BLOCK_DEVICE_RANGEDB_02 = /dev/mapper/sgws-sn1-rangedb-2*
+*BLOCK_DEVICE_RANGEDB_03 = /dev/mapper/sgws-sn1-rangedb-3*
+GRID_NETWORK_TARGET = bond0.1001
+ADMIN_NETWORK_TARGET = bond0.1002
+CLIENT_NETWORK_TARGET = bond0.1003
+GRID_NETWORK_IP = 10.1.0.3
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.1.0.1
+----
+. 新增與您為此儲存節點新增的區塊儲存磁碟區相對應的新物件儲存區塊裝置對應。
++
+確保從下一個 `BLOCK_DEVICE_RANGEDB_nn`。不要留下空隙。
+
++
+** 根據上面的例子，從 `BLOCK_DEVICE_RANGEDB_04`。
+** 在下面的範例中，四個新的區塊儲存卷已新增至節點： `BLOCK_DEVICE_RANGEDB_04`到 `BLOCK_DEVICE_RANGEDB_07`。
+
+
++
+[listing, subs="specialcharacters,quotes"]
+----
+NODE_TYPE = VM_Storage_Node
+ADMIN_IP = 10.1.0.2
+BLOCK_DEVICE_VAR_LOCAL = /dev/mapper/sgws-sn1-var-local
+BLOCK_DEVICE_RANGEDB_00 = /dev/mapper/sgws-sn1-rangedb-0
+BLOCK_DEVICE_RANGEDB_01 = /dev/mapper/sgws-sn1-rangedb-1
+BLOCK_DEVICE_RANGEDB_02 = /dev/mapper/sgws-sn1-rangedb-2
+BLOCK_DEVICE_RANGEDB_03 = /dev/mapper/sgws-sn1-rangedb-3
+*BLOCK_DEVICE_RANGEDB_04 = /dev/mapper/sgws-sn1-rangedb-4*
+*BLOCK_DEVICE_RANGEDB_05 = /dev/mapper/sgws-sn1-rangedb-5*
+*BLOCK_DEVICE_RANGEDB_06 = /dev/mapper/sgws-sn1-rangedb-6*
+*BLOCK_DEVICE_RANGEDB_07 = /dev/mapper/sgws-sn1-rangedb-7*
+GRID_NETWORK_TARGET = bond0.1001
+ADMIN_NETWORK_TARGET = bond0.1002
+CLIENT_NETWORK_TARGET = bond0.1003
+GRID_NETWORK_IP = 10.1.0.3
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.1.0.1
+----
+. 執行以下命令來驗證對儲存節點的節點設定檔的變更：
++
+`sudo storagegrid node validate <node-name>`
+
++
+在繼續下一步之前，請解決所有錯誤或警告。
+
++
+[NOTE]
+====
+如果您觀察到類似以下的錯誤，則表示節點設定檔正在嘗試對應所使用的區塊設備 `<node-name>`為了 `<PURPOSE>`給定 `<path-name>`在 Linux 檔案系統中，但該位置沒有有效的區塊裝置特殊檔案（或指向區塊裝置特殊檔案的軟連結）。
+
+[listing]
+----
+Checking configuration file for node <node-name>…
+ERROR: BLOCK_DEVICE_<PURPOSE> = <path-name>
+<path-name> is not a valid block device
+----
+確認您輸入了正確的 `<path-name>`。
+
+====
+. 執行以下命令以使用新的區塊設備映射重新啟動節點：
++
+`sudo storagegrid node start <node-name>`
+
+. 使用列出的密碼以管理員身分登入儲存節點 `Passwords.txt`文件。
+. 檢查服務是否正確啟動：
++
+.. 查看伺服器上所有服務的狀態清單：+
+`sudo storagegrid-status`
++
+狀態會自動更新。
+
+.. 等到所有服務都正在運行或已驗證。
+.. 退出狀態畫面：
++
+`Ctrl+C`
+
+
+
+. 配置新儲存以供儲存節點使用：
++
+.. 配置新的儲存卷：
++
+`sudo add_rangedbs.rb`
+
++
+該腳本會尋找任何新的儲存磁碟區並提示您對其進行格式化。
+
+.. 輸入 *y* 格式化儲存磁碟區。
+.. 如果任何磁碟區之前已被格式化，請決定是否要重新格式化它們。
++
+*** 輸入 *y* 重新格式化。
+*** 輸入 *n* 跳過重新格式化。
+
+
+
+
++
+這 `setup_rangedbs.sh`腳本自動運行。
+
+. 驗證儲存節點的儲存狀態是否為線上：
++
+.. Sign inlink:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+.. 選擇*支援* > *工具* > *網格拓撲*。
+.. 選擇 *_site_* > *_Storage Node_* > *LDR* > *Storage*。
+.. 選擇“*配置*”選項卡，然後選擇“*主要*”選項卡。
+.. 如果“*儲存狀態 - 所需*”下拉清單設定為“唯讀”或“離線”，請選擇“*線上*”。
+.. 按一下“應用變更”。
+
+
+. 若要查看新的物件儲存：
++
+.. 選擇 *NODES* > *_site_* > *_Storage Node_* > *Storage*。
+.. 查看*物件儲存*表中的詳細資訊。
+
+
+
+
+.結果
+現在您可以使用儲存節點的擴充容量來儲存物件資料。

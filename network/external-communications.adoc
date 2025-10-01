@@ -1,0 +1,581 @@
+---
+permalink: network/external-communications.html 
+sidebar: sidebar 
+keywords: storagegrid, network port, external communications, ports, TCP, UDP, client communications 
+summary: 客戶端需要與網格節點通訊以取得和檢索內容。使用的連接埠取決於所選的物件儲存協定。客戶端需要可以存取這些連接埠。 
+---
+= 外部溝通
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+客戶端需要與網格節點通訊以取得和檢索內容。使用的連接埠取決於所選的物件儲存協定。客戶端需要可以存取這些連接埠。
+
+
+
+== 限制存取連接埠
+
+如果企業網路策略限制對任何連接埠的訪問，您可以執行以下操作之一：
+
+* 使用link:../admin/configuring-load-balancer-endpoints.html["負載平衡器端點"]允許在使用者定義的連接埠上進行存取。
+* 部署節點時重新映射連接埠。但是，您不應該重新映射負載平衡器端點。查看有關StorageGRID節點的連接埠重新映射的資訊：
++
+** link:../rhel/creating-node-configuration-files.html#port-remap-keys["Red Hat Enterprise Linux 上StorageGRID的連接埠重新映射鍵"]
+** link:../ubuntu/creating-node-configuration-files.html#port-remap-keys["Ubuntu 或 Debian 上StorageGRID的連接埠重映射鍵"]
+** link:../vmware/deploying-storagegrid-node-as-virtual-machine.html#vmware-remap-ports["重新映射 VMware 上的StorageGRID連接埠"]
+** https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-remapping-network-ports-for-appliance.html["可選：重新映射設備的網路端口"^]
+
+
+
+
+
+
+== 用於外部通訊的端口
+
+下表顯示了用於進入節點的流量的連接埠。
+
+
+NOTE: 此清單不包括可能配置為link:../admin/configuring-load-balancer-endpoints.html["負載平衡器端點"]。
+
+[cols="1a,1a,1a,1a,1a,4a"]
+|===
+| 港口 | TCP 或 UDP | 協定 | 從 | 到 | 細節 
+
+
+ a| 
+22
+ a| 
+TCP
+ a| 
+SSH
+ a| 
+維修筆記型電腦
+ a| 
+所有節點
+ a| 
+包含控制台步驟的過程需要 SSH 或控制台存取。或者，您可以使用連接埠 2022 而不是 22。
+
+
+
+ a| 
+25
+ a| 
+TCP
+ a| 
+SMTP
+ a| 
+管理節點
+ a| 
+電子郵件伺服器
+ a| 
+用於警報和基於電子郵件的AutoSupport。您可以使用電子郵件伺服器頁面覆蓋預設連接埠設定 25。
+
+
+
+ a| 
+53
+ a| 
+TCP/UDP
+ a| 
+DNS
+ a| 
+所有節點
+ a| 
+DNS 伺服器
+ a| 
+用於 DNS。
+
+
+
+ a| 
+67
+ a| 
+UDP
+ a| 
+DHCP
+ a| 
+所有節點
+ a| 
+DHCP 服務
+ a| 
+可選地用於支援基於 DHCP 的網路配置。  dhclient 服務不會針對靜態配置的網格執行。
+
+
+
+ a| 
+68
+ a| 
+UDP
+ a| 
+DHCP
+ a| 
+DHCP 服務
+ a| 
+所有節點
+ a| 
+可選地用於支援基於 DHCP 的網路配置。對於使用靜態 IP 位址的網格，dhclient 服務不會運作。
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+瀏覽器
+ a| 
+管理節點
+ a| 
+連接埠 80 重定向到管理節點使用者介面的連接埠 443。
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+瀏覽器
+ a| 
+家電
+ a| 
+連接埠 80 重定向到StorageGRID設備安裝程式的連接埠 8443。
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+具有 ADC 的儲存節點
+ a| 
+AWS
+ a| 
+用於傳送到 AWS 或其他使用 HTTP 的外部服務的平台服務訊息。租用戶可以在建立端點時覆蓋預設的 HTTP 連接埠設定 80。
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+儲存節點
+ a| 
+AWS
+ a| 
+傳送到使用 HTTP 的 AWS 目標的雲端儲存池請求。網格管理員在配置雲端儲存池時可以覆蓋預設的 HTTP 連接埠設定 80。
+
+
+
+ a| 
+111
+ a| 
+TCP/UDP
+ a| 
+RPCBind
+ a| 
+NFS 用戶端
+ a| 
+管理節點
+ a| 
+由基於 NFS 的稽核導出（連接埠對映）使用。
+
+*注意：*僅當啟用基於 NFS 的稽核匯出時才需要此連接埠。
+
+*注意：*對 NFS 的支援已被棄用，並將在未來的版本中刪除。
+
+
+
+ a| 
+123
+ a| 
+UDP
+ a| 
+NTP
+ a| 
+主 NTP 節點
+ a| 
+外部NTP
+ a| 
+網路時間協定服務。選定為主 NTP 來源的節點也會與外部 NTP 時間源同步時鐘時間。
+
+
+
+ a| 
+161
+ a| 
+TCP/UDP
+ a| 
+SNMP
+ a| 
+SNMP客戶端
+ a| 
+所有節點
+ a| 
+用於 SNMP 輪詢。所有節點都提供基本資訊；管理節點也提供警報資料。配置時預設為 UDP 連接埠 161。
+
+*注意：*此連接埠是必需的，並且僅在配置了 SNMP 時在節點防火牆上開啟。如果您打算使用 SNMP，則可以設定備用連接埠。
+
+*注意：*有關將 SNMP 與StorageGRID結合使用的信息，請聯絡您的NetApp客戶代表。
+
+
+
+ a| 
+162
+ a| 
+TCP/UDP
+ a| 
+SNMP通知
+ a| 
+所有節點
+ a| 
+通知目的地
+ a| 
+出站 SNMP 通知和陷阱預設為 UDP 連接埠 162。
+
+*注意：*僅當啟用 SNMP 並配置通知目標時才需要此連接埠。如果您打算使用 SNMP，則可以設定備用連接埠。
+
+*注意：*有關將 SNMP 與StorageGRID結合使用的信息，請聯絡您的NetApp客戶代表。
+
+
+
+ a| 
+389
+ a| 
+TCP/UDP
+ a| 
+LDAP
+ a| 
+具有 ADC 的儲存節點
+ a| 
+活動目錄/LDAP
+ a| 
+用於連接到 Active Directory 或 LDAP 伺服器以進行身份聯合。
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+瀏覽器
+ a| 
+管理節點
+ a| 
+由 Web 瀏覽器和管理 API 用戶端用於存取網格管理器和租用戶管理器。
+
+*注意*：如果您關閉網格管理器連接埠 443 或 8443，則目前連接到被封鎖連接埠的任何使用者（包括您）都將失去對網格管理員的存取權限，除非他們的 IP 位址已新增至特權位址清單中。看link:../admin/configure-firewall-controls.html["配置防火牆控制"]配置特權IP位址。
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+管理節點
+ a| 
+活動目錄
+ a| 
+如果啟用了單一登入 (SSO)，則由連接到 Active Directory 的管理節點使用。
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+具有 ADC 的儲存節點
+ a| 
+AWS
+ a| 
+用於傳送至 AWS 或其他使用 HTTPS 的外部服務的平台服務訊息。租用戶可以在建立端點時覆蓋預設的 HTTP 連接埠設定 443。
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+儲存節點
+ a| 
+AWS
+ a| 
+傳送到使用 HTTPS 的 AWS 目標的雲端儲存池請求。網格管理員在配置雲端儲存池時可以覆蓋預設的 HTTPS 連接埠設定 443。
+
+
+
+ a| 
+903
+ a| 
+TCP
+ a| 
+NFS
+ a| 
+NFS 用戶端
+ a| 
+管理節點
+ a| 
+由基於 NFS 的審計導出使用(`rpc.mountd`）。
+
+*注意：*僅當啟用基於 NFS 的稽核匯出時才需要此連接埠。
+
+*注意：*對 NFS 的支援已被棄用，並將在未來的版本中刪除。
+
+
+
+ a| 
+2022
+ a| 
+TCP
+ a| 
+SSH
+ a| 
+維修筆記型電腦
+ a| 
+所有節點
+ a| 
+包含控制台步驟的過程需要 SSH 或控制台存取。或者，您可以使用連接埠 22 而不是 2022。
+
+
+
+ a| 
+2049
+ a| 
+TCP
+ a| 
+NFS
+ a| 
+NFS 用戶端
+ a| 
+管理節點
+ a| 
+由基於 NFS 的審計導出 (nfs) 使用。
+
+*注意：*僅當啟用基於 NFS 的稽核匯出時才需要此連接埠。
+
+*注意：*對 NFS 的支援已被棄用，並將在未來的版本中刪除。
+
+
+
+ a| 
+5353
+ a| 
+UDP
+ a| 
+行動DNS
+ a| 
+所有節點
+ a| 
+所有節點
+ a| 
+提供多播 DNS (mDNS) 服務，用於全網格 IP 變更以及安裝、擴充和復原期間的主要管理節點發現。
+
+
+
+ a| 
+5696
+ a| 
+TCP
+ a| 
+知識管理計劃
+ a| 
+器皿
+ a| 
+知識管理系統
+ a| 
+金鑰管理互通性協定 (KMIP) 從配置為節點加密的裝置到金鑰管理伺服器 (KMS) 的外部流量，除非在StorageGRID裝置安裝程式的 KMS 設定頁面上指定了不同的連接埠。
+
+
+
+ a| 
+8022
+ a| 
+TCP
+ a| 
+SSH
+ a| 
+維修筆記型電腦
+ a| 
+所有節點
+ a| 
+連接埠 8022 上的 SSH 授予對設備和虛擬節點平台上的基本作業系統的存取權限，以提供支援和故障排除。此連接埠不用於基於 Linux（裸機）的節點，並且不需要在網格節點之間或正常操作期間存取。
+
+
+
+ a| 
+8443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+瀏覽器
+ a| 
+管理節點
+ a| 
+選修的。由 Web 瀏覽器和管理 API 用戶端用於存取網格管理器。可用於分離網格管理器和租戶管理器通訊。
+
+*注意*：如果您關閉網格管理器連接埠 443 或 8443，則目前連接到被封鎖連接埠的任何使用者（包括您）都將失去對網格管理員的存取權限，除非他們的 IP 位址已新增至特權位址清單中。看link:../admin/configure-firewall-controls.html["配置防火牆控制"]配置特權IP位址。
+
+
+
+ a| 
+9022
+ a| 
+TCP
+ a| 
+SSH
+ a| 
+維修筆記型電腦
+ a| 
+家電
+ a| 
+授予對預先配置模式下的StorageGRID設備的存取權限，以獲得支援和故障排除。網格節點之間或正常操作期間不需要存取此連接埠。
+
+
+
+ a| 
+9091
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+外部 Grafana 服務
+ a| 
+管理節點
+ a| 
+外部 Grafana 服務使用它來安全地存取StorageGRID Prometheus 服務。
+
+*注意：*僅當啟用基於憑證的 Prometheus 存取時才需要此連接埠。
+
+
+
+ a| 
+9092
+ a| 
+TCP
+ a| 
+卡夫卡
+ a| 
+具有 ADC 的儲存節點
+ a| 
+Kafka 集群
+ a| 
+用於向 Kafka 叢集發送平台服務訊息。租用戶可以在建立端點時覆蓋預設的 Kafka 連接埠設定 9092。
+
+
+
+ a| 
+9443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+瀏覽器
+ a| 
+管理節點
+ a| 
+選修的。由 Web 瀏覽器和管理 API 用戶端用於存取租用戶管理器。可用於分離網格管理器和租戶管理器通訊。
+
+
+
+ a| 
+18082
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+S3 用戶端
+ a| 
+儲存節點
+ a| 
+S3 用戶端流量直接到儲存節點（HTTPS）。
+
+
+
+ a| 
+18083
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Swift 用戶端
+ a| 
+儲存節點
+ a| 
+Swift 用戶端流量直接傳輸到儲存節點（HTTPS）。
+
+
+
+ a| 
+18084
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+S3 用戶端
+ a| 
+儲存節點
+ a| 
+S3 用戶端流量直接到儲存節點（HTTP）。
+
+
+
+ a| 
+18085
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+Swift 用戶端
+ a| 
+儲存節點
+ a| 
+Swift 用戶端流量直接傳輸到儲存節點（HTTP）。
+
+
+
+ a| 
+23000-23999
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+來源網格上用於跨網格複製的所有節點
+ a| 
+目標網格上用於跨網格複製的管理節點和網關節點
+ a| 
+此範圍的連接埠保留用於電網聯合連接。給定連接中的兩個網格使用相同的連接埠。
+
+|===

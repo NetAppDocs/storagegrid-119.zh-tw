@@ -1,0 +1,29 @@
+---
+permalink: maintain/recovering-storagegrid-appliance-storage-node.html 
+sidebar: sidebar 
+keywords: recover, appliance storage node failure, workflow 
+summary: 無論是從系統磁碟機遺失中恢復或僅從儲存磁碟區遺失中恢復，恢復故障的StorageGRID設備儲存節點的過程都是相同的。 
+---
+= 恢復設備儲存節點的警告
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+無論是從系統磁碟機遺失中恢復或僅從儲存磁碟區遺失中恢復，恢復故障的StorageGRID設備儲存節點的過程都是相同的。
+
+
+CAUTION: 如果多個儲存節點發生故障（或離線），請聯絡技術支援。不要執行以下恢復程序。可能會發生資料遺失。
+
+
+CAUTION: 如果這是儲存節點故障或恢復後 15 天內第二次發生儲存節點故障，請聯絡技術支援。在 15 天內在兩個或更多儲存節點上重建 Cassandra 可能會導致資料遺失。
+
+
+NOTE: 如果站點上的多個儲存節點發生故障，則可能需要站點復原程序。看link:how-site-recovery-is-performed-by-technical-support.html["技術支援如何恢復站點"] 。
+
+
+CAUTION: 如果 ILM 規則配置為僅儲存複製副本，且該副本存在於發生故障的儲存磁碟區上，則您將無法復原該物件。
+
+
+NOTE: 有關硬體維護程序（例如更換控制器或重新安裝SANtricity OS 的說明），請參閱 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/index.html["儲存設備的維護說明"^]。

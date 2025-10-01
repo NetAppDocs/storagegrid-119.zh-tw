@@ -1,0 +1,24 @@
+---
+permalink: expand/adding-storage-capacity-for-replicated-objects.html 
+sidebar: sidebar 
+keywords: replication, replicated, copies, capacity, storage nodes, expand, expansion 
+summary: '如果您部署的資訊生命週期管理 (ILM) 策略包含建立物件副本的規則，則必須考慮要新增多少儲存體以及在何處新增新的儲存磁碟區或儲存節點。' 
+---
+= 為複製物件新增儲存容量
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您部署的資訊生命週期管理 (ILM) 策略包含建立物件副本的規則，則必須考慮要新增多少儲存體以及在何處新增新的儲存磁碟區或儲存節點。
+
+有關在何處添加額外儲存的指導，請檢查建立複製副本的 ILM 規則。如果 ILM 規則建立兩個或更多物件副本，請規劃在建立物件副本的每個位置新增儲存。舉一個簡單的例子，如果您有一個雙站點網格和一個在每個站點建立一個物件副本的 ILM 規則，則必須link:../expand/adding-storage-volumes-to-storage-nodes.html["新增儲存"]到每個站點以增加電網的整體物件容量。有關對象複製的信息，請參閱link:../ilm/what-replication-is.html["什麼是複製"]。
+
+出於效能原因，您應該嘗試保持網站之間的儲存容量和運算能力平衡。因此，對於此範例，您應該向每個網站添加相同數量的儲存節點或在每個網站上新增額外的儲存磁碟區。
+
+如果您有一個更複雜的 ILM 策略，其中包括根據存儲桶名稱等標準將物件放置在不同位置的規則，或者隨時間改變物件位置的規則，那麼您對擴展所需儲存位置的分析將會類似，但更加複雜。
+
+繪製總體儲存容量消耗速度的圖表可以幫助您了解擴充時需要添加多少儲存空間，以及何時需要額外的儲存空間。您可以使用網格管理器來link:../monitor/monitoring-storage-capacity.html["監視器和圖表儲存容量"]。
+
+在規劃擴充時間時，請記住考慮採購和安裝額外儲存可能需要多長時間。

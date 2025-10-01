@@ -1,0 +1,60 @@
+---
+permalink: s3/upload-part.html 
+sidebar: sidebar 
+keywords: s3 UploadPart operation 
+summary: UploadPart 作業用於在物件的分段上傳中上傳某個部分。 
+---
+= 上傳部分
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+UploadPart 作業用於在物件的分段上傳中上傳某個部分。
+
+
+
+== 支援的請求標頭
+
+支援以下請求標頭：
+
+* `x-amz-checksum-sha256`
+* `Content-Length`
+* `Content-MD5`
+
+
+
+
+== 伺服器端加密的請求標頭
+
+如果您為 CreateMultipartUpload 要求指定了 SSE-C 加密，則也必須在每個 UploadPart 請求中包含下列請求標頭：
+
+* `x-amz-server-side-encryption-customer-algorithm`： 指定 `AES256`。
+* `x-amz-server-side-encryption-customer-key`：指定您在 CreateMultipartUpload 請求中提供的相同加密金鑰。
+* `x-amz-server-side-encryption-customer-key-MD5`：指定您在 CreateMultipartUpload 請求中提供的相同 MD5 摘要。
+
+
+
+CAUTION: 您提供的加密金鑰永遠不會被儲存。如果遺失了加密金鑰，您就會遺失對應的物件。在使用客戶提供的金鑰保護物件資料之前，請先查看link:using-server-side-encryption.html["使用伺服器端加密"]。
+
+如果您在 CreateMultipartUpload 請求期間指定了 SHA-256 校驗和，則還必須在每個 UploadPart 請求中包含下列請求標頭：
+
+* `x-amz-checksum-sha256`：指定此部分的 SHA-256 校驗和。
+
+
+
+
+== 不支援的請求標頭
+
+不支援以下請求標頭：
+
+* `x-amz-sdk-checksum-algorithm`
+* `x-amz-trailer`
+
+
+
+
+== 版本控制
+
+分段上傳包括啟動上傳、列出上傳、上傳部分、組裝上傳部分和完成上傳的單獨操作。執行 CompleteMultipartUpload 作業時會建立物件（如果適用，也會進行版本控制）。

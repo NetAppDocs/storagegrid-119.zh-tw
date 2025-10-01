@@ -1,0 +1,65 @@
+---
+permalink: expand/guidelines-for-adding-object-capacity.html 
+sidebar: sidebar 
+keywords: adding storage capacity, guidelines, storage volumes, expansion 
+summary: '您可以透過新增儲存磁碟區或為現有網站新增儲存節點來擴充StorageGRID系統的物件儲存容量。您必須以滿足資訊生命週期管理 (ILM) 策略的要求的方式新增儲存容量。' 
+---
+= 新增對象容量的指南
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以透過新增儲存磁碟區或為現有網站新增的儲存節點來擴充StorageGRID系統的物件儲存容量。您必須以滿足資訊生命週期管理 (ILM) 策略的要求的方式新增儲存容量。
+
+
+
+== 新增儲存卷的指南
+
+在將儲存磁碟區新增至現有儲存節點之前，請先查看下列準則和限制：
+
+* 您必須檢查目前的 ILM 規則來確定何時何地link:../expand/adding-storage-volumes-to-storage-nodes.html["新增儲存卷"]增加可用儲存空間link:../ilm/what-replication-is.html["複製對象"]或者link:../ilm/what-erasure-coding-schemes-are.html["擦除編碼對象"]。
+* 您無法透過新增儲存磁碟區來增加系統的元資料容量，因為物件元資料僅儲存在磁碟區 0 上。
+* 每個基於軟體的儲存節點最多可支援 48 個儲存卷。如果需要增加更多容量，則必須新增新的儲存節點。
+* 您可以為每個 SG6060 設備新增一個或兩個擴充架。每個擴充架可新增 16 個儲存磁碟區。安裝兩個擴充架後，SG6060 總共可以支援 48 個儲存磁碟區。
+* 您可以為每個 SG6160 設備新增一個或兩個擴充架。每個擴充架可增加 60 個儲存磁碟區。安裝兩個擴充架後，SG6160 總共可以支援 180 個儲存磁碟區。
+* 您無法將儲存磁碟區新增至任何其他儲存裝置。
+* 您無法增加現有儲存磁碟區的大小。
+* 在執行系統升級、復原作業或其他擴充功能的同時，您無法將儲存磁碟區新增至儲存節點。
+
+
+在您決定新增儲存磁碟區並確定必須擴充哪些儲存節點以滿足 ILM 策略後，請按照適合您的儲存節點類型的說明進行操作：
+
+* 若要為 SG6060 儲存裝置新增一個或兩個擴充架，請前往 https://docs.netapp.com/us-en/storagegrid-appliances/sg6000/adding-expansion-shelf-to-deployed-sg6060.html["為已部署的 SG6060 新增擴充架"^]。
+* 若要為 SG6160 儲存裝置新增一個或兩個擴充架，請前往 https://docs.netapp.com/us-en/storagegrid-appliances/sg6100/adding-expansion-shelf-to-deployed-sg6160.html["為已部署的 SG6160 新增擴充架"^]
+* 對於基於軟體的節點，請按照link:adding-storage-volumes-to-storage-nodes.html["將儲存卷新增至儲存節點"]。
+
+
+
+
+== 新增儲存節點的指南
+
+在將儲存節點新增至現有網站之前，請查看以下準則和限制：
+
+* 您必須檢查目前的 ILM 規則，以確定在何處以及何時新增儲存節點，以增加可用的儲存空間link:../ilm/what-replication-is.html["複製對象"]或者link:../ilm/what-erasure-coding-schemes-are.html["擦除編碼對象"]。
+* 在一次擴充過程中，您不應新增超過 10 個儲存節點。
+* 您可以在單一擴充過程中將儲存節點新增至多個網站。
+* 您可以在單一擴充過程中新增儲存節點和其他類型的節點。
+* 在開始擴展程序之前，您必須確認作為復原的一部分執行的所有資料修復操作都已完成。看link:../maintain/checking-data-repair-jobs.html["檢查資料修復作業"] 。
+* 如果您需要在執行擴充功能之前或之後刪除儲存節點，則不應在單一退役節點程序中退役超過 10 個儲存節點。
+
+
+
+
+== 儲存節點上的 ADC 服務指南
+
+配置擴充時，您必須選擇是否在每個新儲存節點上包含管理網域控制器 (ADC) 服務。ADC 服務追蹤電網服務的位置和可用性。
+
+* StorageGRID系統需要link:../maintain/understanding-adc-service-quorum.html["ADC 服務的法定人數"]在每個站點隨時可用。
+* 每個站點至少有三個儲存節點必須包含 ADC 服務。
+* 不建議將 ADC 服務新增至每個儲存節點。包含太多 ADC 服務可能會因節點之間通訊量增加而導致速度變慢。
+* 單一網格不應擁有超過 48 個具有 ADC 服務的儲存節點。這相當於 16 個站點，每個站點有 3 個 ADC 服務。
+* 一般來說，當您為新節點選擇*ADC 服務*設定時，您應該選擇*自動*。僅當新節點將取代包含 ADC 服務的另一個儲存節點時才選擇*是*。因為如果剩餘的 ADC 服務太少，您就無法停用儲存節點，所以這可確保在刪除舊服務之前有新的 ADC 服務可用。
+* 部署 ADC 服務後，您無法將其新增至節點。
+

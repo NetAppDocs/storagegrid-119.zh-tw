@@ -1,0 +1,36 @@
+---
+permalink: maintain/downloading-recovery-package.html 
+sidebar: sidebar 
+keywords: storagegrid, recovery package 
+summary: 如果發生故障，恢復包檔案可讓您恢復StorageGRID系統。 
+---
+= 下載恢復包
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果發生故障，恢復包檔案可讓您恢復StorageGRID系統。
+
+.開始之前
+* 從主管理節點，您可以使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 您有配置密碼。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+
+
+在對StorageGRID系統進行網格拓撲變更或升級軟體之前，請下載目前的復原套件檔案。然後，在更改電網拓撲或升級軟體後下載恢復包的新副本。
+
+.步驟
+. 選擇*維護* > *系統* > *恢復包*。
+. 輸入設定密碼，然後選擇*開始下載*。
++
+下載立即開始。
+
+. 下載完成後，打開 `.zip`文件並確認您可以存取其內容，包括 `Passwords.txt`文件。
+. 複製下載的復原包文件(`.zip`）到兩個安全、可靠且獨立的位置。
++
+
+CAUTION: 復原包檔案必須是安全的，因為它包含可用於從StorageGRID系統取得資料的加密金鑰和密碼。
+
+

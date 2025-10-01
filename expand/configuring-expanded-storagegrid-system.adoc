@@ -1,0 +1,65 @@
+---
+permalink: expand/configuring-expanded-storagegrid-system.html 
+sidebar: sidebar 
+keywords: expansion, configuration 
+summary: 完成擴充後，您必須執行額外的整合和設定步驟。 
+---
+= 擴容後設定步驟
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+完成擴充後，您必須執行額外的整合和設定步驟。
+
+.關於此任務
+您必須完成下面列出的在擴充功能中新增的網格節點或網站的配置任務。某些任務可能是可選的，具體取決於安裝和管理系統時選擇的選項，以及您希望如何配置擴充期間新增的節點和網站。
+
+.步驟
+. 如果您新增了網站：
++
+** link:../ilm/creating-storage-pool.html["建立儲存池"]針對站點和為新儲存節點選擇的每個儲存等級。
+** 確認 ILM 策略符合新的要求。如果需要改變規則，link:../ilm/access-create-ilm-rule-wizard.html["建立新規則"]和link:../ilm/creating-ilm-policy.html["更新 ILM 策略"]。如果規則已經正確，link:../ilm/creating-ilm-policy.html#activate-ilm-policy["啟動新政策"]無需更改規則即可確保StorageGRID使用新節點。
+** 確認可以從該網站存取網路時間協定 (NTP) 伺服器。看link:../maintain/configuring-ntp-servers.html["管理 NTP 伺服器"] 。
++
+
+CAUTION: 確保每個站點至少有兩個節點可以存取至少四個外部 NTP 來源。如果網站中只有一個節點可以存取 NTP 來源，則當節點發生故障時就會出現計時問題。此外，如果站點與電網的其餘部分隔離，則為每個站點指定兩個節點為主要 NTP 來源可確保準確的計時。
+
+
+
+. 如果您為現有網站新增了一個或多個儲存節點：
++
+** link:../ilm/viewing-storage-pool-details.html["查看儲存池詳細信息"]確認您新增的每個節點都包含在預期的儲存池中並在預期的 ILM 規則中使用。
+** 確認 ILM 策略符合新的要求。如果需要改變規則，link:../ilm/access-create-ilm-rule-wizard.html["建立新規則"]和link:../ilm/creating-ilm-policy.html["更新 ILM 策略"]。如果規則已經正確，link:../ilm/creating-ilm-policy.html#activate-ilm-policy["啟動新政策"]無需更改規則即可確保StorageGRID使用新節點。
+** link:verifying-storage-node-is-active.html["驗證儲存節點是否處於活動狀態"]並能吞食物體。
+** 如果您無法新增建議數量的儲存節點，請重新平衡擦除編碼資料。看link:rebalancing-erasure-coded-data-after-adding-storage-nodes.html["新增儲存節點後重新平衡擦除編碼數據"] 。
+
+
+. 如果您新增了網關節點：
++
+** 如果用戶端連線使用高可用性 (HA) 群組，則可以選擇將網關節點新增至 HA 群組。選擇 *設定* > *網路* > *高可用性群組* 來查看現有 HA 群組的清單並新增節點。看link:../admin/configure-high-availability-group.html["配置高可用性組"] 。
+
+
+. 如果您新增了管理節點：
++
+.. 如果您的StorageGRID系統啟用了單一登入 (SSO)，請為新的管理節點建立依賴方信任。在建立此依賴方信任之前，您無法登入該節點。看link:../admin/configuring-sso.html["配置單一登入"] 。
+.. 如果您打算在管理節點上使用負載平衡器服務，則可以選擇將新的管理節點新增至 HA 群組。選擇 *設定* > *網路* > *高可用性群組* 來查看現有 HA 群組的清單並新增節點。看link:../admin/configure-high-availability-group.html["配置高可用性組"] 。
+.. 或者，如果您希望保持每個管理節點上的屬性和稽核資訊一致，則可以將管理節點資料庫從主管理節點複製到擴充管理節點。看link:copying-admin-node-database.html["複製管理節點資料庫"] 。
+.. 或者，如果您希望保持每個管理節點上的歷史指標一致，則可以將 Prometheus 資料庫從主管理節點複製到擴充管理節點。看link:copying-prometheus-metrics.html["複製 Prometheus 指標"] 。
+.. 或者，如果您希望保持每個管理節點上的歷史日誌資訊一致，則可以將現有稽核日誌從主管理節點複製到擴充管理節點。看link:copying-audit-logs.html["複製審計日誌"] 。
+
+
+. 要檢查擴展節點是否添加了不受信任的客戶端網絡，或者要更改節點的客戶端網路是否不受信任或受信任，請前往*配置*>*安全*>*防火牆控制*。
++
+如果擴充節點上的用戶端網路不受信任，則必須使用負載平衡器端點建立與用戶端網路上的節點的連線。看link:../admin/configuring-load-balancer-endpoints.html["配置負載平衡器端點"]和link:../admin/manage-firewall-controls.html["管理防火牆控制"]。
+
+. 配置DNS。
++
+如果您已經為每個網格節點單獨指定 DNS 設定，則必須為新節點新增自訂的每個節點 DNS 設定。看link:../maintain/modifying-dns-configuration-for-single-grid-node.html["修改單一網格節點的DNS配置"] 。
+
+
+
+為確保正常運行，請指定兩個或三個 DNS 伺服器。如果您指定三個以上，則可能只會使用三個，因為某些平台上有已知的作業系統限制。如果您的環境中存在路由限制，您可以link:../maintain/modifying-dns-configuration-for-single-grid-node.html["自訂DNS伺服器列表"]為各個節點（通常是網站上的所有節點）使用一組不同的最多三個 DNS 伺服器。
+
+如果可能，請使用每個網站都可以在本機存取的 DNS 伺服器，以確保孤立網站可以解析外部目標的 FQDN。

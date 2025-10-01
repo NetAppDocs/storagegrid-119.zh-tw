@@ -1,0 +1,671 @@
+---
+permalink: vmware/automating-grid-node-deployment-in-vmware-vsphere.html 
+sidebar: sidebar 
+keywords: how to automate installation 
+summary: 您可以使用 VMware OVF Tool 來自動部署網格節點。您也可以自動設定StorageGRID。 
+---
+= 自動化安裝（VMware）
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 VMware OVF Tool 來自動部署網格節點。您也可以自動設定StorageGRID。
+
+
+
+== 自動化網格節點部署
+
+使用 VMware OVF Tool 自動部署網格節點。
+
+.開始之前
+* 您可以存取具有 Bash 3.2 或更高版本的 Linux/Unix 系統。
+* 您擁有帶有 vCenter 的 VMware vSphere
+* 您已安裝並正確設定 VMware OVF Tool 4.1。
+* 您知道使用 OVF Tool 存取 VMware vSphere 的使用者名稱和密碼
+* 您擁有足夠的權限從 OVF 檔案部署虛擬機器並啟動它們，以及建立附加到虛擬機器的附加磁碟區的權限。查看 `ovftool`文件以了解詳細資訊。
+* 您知道 vSphere 中要部署StorageGRID虛擬機器的位置的虛擬基礎架構 (VI) URL。此 URL 通常是一個 vApp 或資源池。例如：  `vi://vcenter.example.com/vi/sgws`
++
+
+NOTE: 您可以使用 VMware `ovftool`實用程式來確定該值（參見 `ovftool`文件了解詳情）。
+
++
+
+NOTE: 如果您正在部署到 vApp，虛擬機器將不會第一次自動啟動，您必須手動啟動它們。
+
+* 您已收集部署設定檔所需的所有資訊。看link:collecting-information-about-your-deployment-environment.html["收集有關部署環境的信息"]了解詳情。
+* 您可以從StorageGRID的 VMware 安裝檔案存取以下檔案：
+
+
+[cols="1a,1a"]
+|===
+| 檔案名稱 | 描述 
+
+
+| NetApp-SG-版本-SHA.vmdk  a| 
+用作建立網格節點虛擬機器的範本的虛擬機器磁碟檔案。
+
+*注意：*此文件必須與 `.ovf`和 `.mf`文件。
+
+
+
+| vsphere-primary-admin.ovf vsphere-primary-admin.mf  a| 
+開放虛擬化格式範本文件(`.ovf`) 和清單文件(`.mf`) 用於部署主管理節點。
+
+
+
+| vsphere-非主管理員.ovf vsphere-非主管理員.mf  a| 
+範本文件(`.ovf`) 和清單文件(`.mf`) 用於部署非主管理節點。
+
+
+
+| vsphere-gateway.ovf vsphere-gateway.mf  a| 
+範本文件(`.ovf`) 和清單文件(`.mf`) 用於部署網關節點。
+
+
+
+| vsphere-storage.ovf vsphere-storage.mf  a| 
+範本文件(`.ovf`) 和清單文件(`.mf`) 用於部署基於虛擬機器的儲存節點。
+
+
+
+| 部署-vsphere-ovftool.sh  a| 
+用於自動部署虛擬網格節點的 Bash shell 腳本。
+
+
+
+| 部署-vsphere-ovftool-sample.ini  a| 
+與 `deploy-vsphere-ovftool.sh`腳本。
+
+|===
+
+
+=== 定義部署的設定檔
+
+您可以在設定檔中指定部署StorageGRID虛擬網格節點所需的信息，該檔由 `deploy-vsphere-ovftool.sh`Bash 腳本。您可以修改範例設定文件，這樣就不必從頭開始建立文件。
+
+.步驟
+. 複製範例設定檔(`deploy-vsphere-ovftool.sample.ini`）。將新文件另存為 `deploy-vsphere-ovftool.ini`在同一目錄中 `deploy-vsphere-ovftool.sh`。
+. 打開 `deploy-vsphere-ovftool.ini`。
+. 輸入部署 VMware 虛擬網格節點所需的所有資訊。
++
+看<<configuration-file-settings,設定檔設定>>了解詳情。
+
+. 輸入並驗證所有必要資訊後，請儲存並關閉文件。
+
+
+
+
+=== 設定檔設定
+
+這 `deploy-vsphere-ovftool.ini`設定檔包含部署虛擬網格節點所需的設定。
+
+設定檔首先列出全域參數，然後在節點名稱定義的部分中列出特定於節點的參數。使用該文件時：
+
+* _全域參數_適用於所有網格節點。
+* _節點特定參數_覆蓋全域參數。
+
+
+
+
+==== 全域參數
+
+全域參數適用於所有網格節點，除非它們被各個部分的設定覆蓋。將適用於多個節點的參數放在全域參數部分中，然後根據需要在各個節點的部分中覆寫這些設定。
+
+* *OVFTOOL_ARGUMENTS*：您可以將 OVFTOOL_ARGUMENTS 指定為全域設置，也可以將參數單獨套用至特定節點。例如：
++
+[listing, subs="specialcharacters,quotes"]
+----
+OVFTOOL_ARGUMENTS = --powerOn --noSSLVerify --diskMode=eagerZeroedThick --datastore='_datastore_name_'
+----
++
+您可以使用 `--powerOffTarget`和 `--overwrite`關閉和替換現有虛擬機器的選項。
+
++
+
+CAUTION: 您應該將節點部署到不同的資料儲存區並為每個節點指定 OVFTOOL_ARGUMENTS，而不是全域指定。
+
+* *來源*： StorageGRID虛擬機器範本的路徑(`.vmdk`) 文件和 `.ovf`和 `.mf`單一網格節點的檔案。預設為當前目錄。
++
+[listing, subs="specialcharacters,quotes"]
+----
+SOURCE = /downloads/StorageGRID-Webscale-_version_/vsphere
+----
+* *TARGET*：將部署StorageGRID 的位置的 VMware vSphere 虛擬基礎架構 (vi) URL。例如：
++
+[listing]
+----
+TARGET = vi://vcenter.example.com/vm/sgws
+----
+* *GRID_NETWORK_CONFIG*：取得 IP 位址的方法，STATIC 或 DHCP。預設值為 STATIC。如果所有或大多數節點使用相同的方法來取得 IP 位址，您可以在此處指定該方法。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+GRID_NETWORK_CONFIG = STATIC
+----
+* *GRID_NETWORK_TARGET*：用於網格網路的現有 VMware 網路的名稱。如果所有或大多數節點使用相同的網路名稱，您可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+GRID_NETWORK_TARGET = SG Admin Network
+----
+* *GRID_NETWORK_MASK*：網格網路的網路遮罩。如果所有或大多數節點使用相同的網路掩碼，您可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+GRID_NETWORK_MASK = 255.255.255.0
+----
+* *GRID_NETWORK_GATEWAY*：網格網路的網路閘道。如果所有或大多數節點使用相同的網路網關，您可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+GRID_NETWORK_GATEWAY = 10.1.0.1
+----
+* *GRID_NETWORK_MTU*：可選。網格網路上的最大傳輸單元（MTU）。如果指定，則值必須介於 1280 和 9216 之間。例如：
++
+[listing]
+----
+GRID_NETWORK_MTU = 9000
+----
++
+如果省略，則使用 1400。
+
++
+如果要使用巨型幀，請將 MTU 設定為適合巨型幀的值，例如 9000。否則，保留預設值。
+
++
+
+NOTE: 網路的 MTU 值必須與節點連接到的 vSphere 中的虛擬交換器連接埠上配置的值相符。否則，可能會出現網路效能問題或資料包遺失。
+
++
+
+NOTE: 為了獲得最佳網路效能，所有節點都應在其網格網路介面上配置相似的 MTU 值。如果各節點上的網格網路的 MTU 設定有顯著差異，則會觸發*網格網路 MTU 不符*警報。所有網路類型的 MTU 值不必相同。
+
+* *ADMIN_NETWORK_CONFIG*：用來取得 IP 位址的方法，可以是 DISABLED、STATIC 或 DHCP。預設為 DISABLED。如果所有或大多數節點使用相同的方法來取得 IP 位址，您可以在此處指定該方法。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+ADMIN_NETWORK_CONFIG = STATIC
+----
+* *ADMIN_NETWORK_TARGET*：用於管理網路的現有 VMware 網路的名稱。除非管理網路已停用，否則此設定是必需的。如果所有或大多數節點使用相同的網路名稱，您可以在此處指定。與網格網路不同，所有節點不需要連接到同一個管理網路。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+ADMIN_NETWORK_TARGET = SG Admin Network
+----
+* *ADMIN_NETWORK_MASK*：管理網路的網路遮罩。如果您使用靜態 IP 位址，則需要此設定。如果所有或大多數節點使用相同的網路掩碼，您可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+ADMIN_NETWORK_MASK = 255.255.255.0
+----
+* *ADMIN_NETWORK_GATEWAY*：管理網路的網路閘道。如果您使用靜態 IP 位址並且在 ADMIN_NETWORK_ESL 設定中指定外部子網，則需要此設定。 （也就是說，如果 ADMIN_NETWORK_ESL 為空，則不需要。）如果所有或大多數節點使用相同的網路網關，您可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+ADMIN_NETWORK_GATEWAY = 10.3.0.1
+----
+* *ADMIN_NETWORK_ESL*：管理網路的外部子網路清單（路由），以逗號分隔的 CIDR 路由目的地清單形式指定。如果所有或大多數節點使用相同的外部子網路列表，則可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+ADMIN_NETWORK_ESL = 172.16.0.0/21,172.17.0.0/21
+----
+* *ADMIN_NETWORK_MTU*：可選。管理網路上的最大傳輸單元 (MTU)。如果 ADMIN_NETWORK_CONFIG = DHCP，則不要指定。如果指定，則值必須介於 1280 和 9216 之間。如果省略，則使用 1400。如果要使用巨型幀，請將 MTU 設定為適合巨型幀的值，例如 9000。否則，保留預設值。如果所有或大多數節點對管理網路使用相同的 MTU，您可以在此指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+ADMIN_NETWORK_MTU = 8192
+----
+* *CLIENT_NETWORK_CONFIG*：用來取得 IP 位址的方法，可以是 DISABLED、STATIC 或 DHCP。預設為 DISABLED。如果所有或大多數節點使用相同的方法來取得 IP 位址，您可以在此處指定該方法。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+CLIENT_NETWORK_CONFIG = STATIC
+----
+* *CLIENT_NETWORK_TARGET*：用於客戶端網路的現有 VMware 網路的名稱。除非客戶端網路已停用，否則需要此設定。如果所有或大多數節點使用相同的網路名稱，您可以在此處指定。與網格網路不同，所有節點不需要連接到同一個客戶端網路。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+CLIENT_NETWORK_TARGET = SG Client Network
+----
+* *CLIENT_NETWORK_MASK*：客戶端網路的網路遮罩。如果您使用靜態 IP 位址，則需要此設定。如果所有或大多數節點使用相同的網路掩碼，您可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+CLIENT_NETWORK_MASK = 255.255.255.0
+----
+* *CLIENT_NETWORK_GATEWAY*：客戶端網路的網路閘道。如果您使用靜態 IP 位址，則需要此設定。如果所有或大多數節點使用相同的網路網關，您可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+CLIENT_NETWORK_GATEWAY = 10.4.0.1
+----
+* *CLIENT_NETWORK_MTU*：可選。客戶端網路上的最大傳輸單元 (MTU)。如果 CLIENT_NETWORK_CONFIG = DHCP，則不要指定。如果指定，則值必須介於 1280 和 9216 之間。如果省略，則使用 1400。如果要使用巨型幀，請將 MTU 設定為適合巨型幀的值，例如 9000。否則，保留預設值。如果所有或大多數節點對用戶端網路使用相同的 MTU，則可以在此處指定。然後，您可以透過為一個或多個單獨的節點指定不同的設定來覆寫全域設定。例如：
++
+[listing]
+----
+CLIENT_NETWORK_MTU = 8192
+----
+* *PORT_REMAP*：重新映射節點用於內部網格節點通訊或外部通訊的任何連接埠。如果企業網路政策限制StorageGRID使用的一個或多個端口，則需要重新映射端口。有關StorageGRID使用的連接埠列表，請參閱內部網格節點通訊和外部通信link:../network/index.html["網路指南"]。
++
+
+NOTE: 不要重新映射您計劃用於配置負載平衡器端點的連接埠。
+
++
+
+NOTE: 如果僅設定了 PORT_REMAP，則您指定的對應將用於入站和出站通訊。如果也指定了 PORT_REMAP_INBOUND，則 PORT_REMAP 僅適用於出站通訊。
+
++
+使用的格式為： `_network type/protocol/default port used by grid node/new port_` ，其中網路類型為 grid、admin 或 client，協定為 tcp 或 udp。
+
++
+例如：
+
++
+[listing]
+----
+PORT_REMAP = client/tcp/18082/443
+----
++
+如果單獨使用，此範例設定會將網格節點的入站和出站通訊從連接埠 18082 對稱地對應到連接埠 443。如果與 PORT_REMAP_INBOUND 結合使用，此範例設定會將出站通訊從連接埠 18082 對應到連接埠 443。
+
++
+您也可以使用逗號分隔的清單重新對應多個連接埠。
+
++
+例如：
+
++
+[listing]
+----
+PORT_REMAP = client/tcp/18082/443, client/tcp/18083/80
+----
+* *PORT_REMAP_INBOUND*：重新對應指定連接埠的入站通訊。如果您指定了 PORT_REMAP_INBOUND 但沒有指定 PORT_REMAP 的值，則該連接埠的出站通訊將保持不變。
++
+
+NOTE: 不要重新映射您計劃用於配置負載平衡器端點的連接埠。
+
++
+使用的格式為： `_network type_/_protocol/_default port used by grid node_/_new port_` ，其中網路類型為 grid、admin 或 client，協定為 tcp 或 udp。
+
++
+例如：
+
++
+[listing]
+----
+PORT_REMAP_INBOUND = client/tcp/443/18082
+----
++
+此範例將傳送至連接埠 443 的流量通過內部防火牆並將其定向至連接埠 18082，網格節點在該連接埠監聽 S3 請求。
+
++
+您也可以使用逗號分隔的清單重新對應多個入站連接埠。
+
++
+例如：
+
++
+[listing]
+----
+PORT_REMAP_INBOUND = grid/tcp/3022/22, admin/tcp/3022/22
+----
+* *TEMPORARY_PASSWORD_TYPE*​​：節點加入網格之前訪問 VM 控制台或StorageGRID安裝 API 或使用 SSH 時使用的臨時安裝密碼類型。
++
+
+TIP: 如果所有或大多數節點使用相同類型的暫時安裝密碼，請在全域參數部分指定類型。然後，可選擇對單一節點使用不同的設定。例如，如果您全域選擇*使用自訂密碼*，則可以使用*CUSTOM_TEMPORARY_PASSWORD=<password>* 為每個節點設定密碼。
+
++
+*TEMPORARY_PASSWORD_TYPE*​​ 可以是以下之一：
+
++
+** *使用節點名稱*：節點名稱用作臨時安裝密碼，並提供對 VM 控制台、 StorageGRID安裝 API 和 SSH 的存取。
+** *停用密碼*：將不使用臨時安裝密碼。如果您需要存取虛擬機器來調試安裝問題，請參閱link:troubleshooting-installation-issues.html["解決安裝問題"]。
+** *使用自訂密碼*：*CUSTOM_TEMPORARY_PASSWORD=<password>* 提供的值用作臨時安裝密碼，並提供對 VM 控制台、 StorageGRID安裝 API 和 SSH 的存取權限。
++
+
+TIP: 或者，您可以省略 *TEMPORARY_PASSWORD_TYPE*​​ 參數並僅指定 *CUSTOM_TEMPORARY_PASSWORD=<password>*。
+
+
+
+* *CUSTOM_TEMPORARY_PASSWORD=<密碼>* 可選。安裝期間存取 VM 控制台、 StorageGRID安裝 API 和 SSH 時所使用的臨時密碼。如果 *TEMPORARY_PASSWORD_TYPE*​​ 設定為 *使用節點名稱* 或 *停用密碼*，則忽略。
+
+
+
+
+==== 節點特定參數
+
+每個節點都位於設定檔的自己的部分中。每個節點都需要以下設定：
+
+* 節頭定義將在網格管理器中顯示的節點名稱。您可以透過為節點指定可選的 NODE_NAME 參數來覆寫該值。
+* *NODE_TYPE*​​：VM_Admin_Node、VM_Storage_Node 或 VM_API_Gateway_Node
+* *STORAGE_TYPE*​​：組合、資料或元資料。如果未指定，則儲存節點的此可選參數預設為組合（資料和元資料）。有關更多信息，請參閱link:../primer/what-storage-node-is.html#types-of-storage-nodes["儲存節點的類型"] 。
+* *GRID_NETWORK_IP*：網格網路上節點的 IP 位址。
+* *ADMIN_NETWORK_IP*：管理網路上節點的 IP 位址。僅當節點連接到管理網路且 ADMIN_NETWORK_CONFIG 設定為 STATIC 時才需要。
+* *CLIENT_NETWORK_IP*：客戶端網路上節點的 IP 位址。僅當節點連接到客戶端網路且該節點的 CLIENT_NETWORK_CONFIG 設定為 STATIC 時才需要。
+* *ADMIN_IP*：網格網路上主管理節點的 IP 位址。使用您指定的主管理節點的 GRID_NETWORK_IP 值。如果省略此參數，節點將嘗試使用 mDNS 發現主管理節點 IP。有關更多信息，請參閱link:how-grid-nodes-discover-primary-admin-node.html["網格節點如何發現主管理節點"] 。
++
+
+NOTE: 主管理節點將忽略 ADMIN_IP 參數。
+
+* 任何未全域設定的參數。例如，如果一個節點連接到管理網絡，且您沒有全域指定 ADMIN_NETWORK 參數，則必須為該節點指定它們。
+
+
+.主管理節點
+主管理節點需要以下附加設定：
+
+* *NODE_TYPE*​​：VM_Admin_Node
+* *ADMIN_ROLE*：主要
+
+
+此範例條目適用於所有三個網路上的主要管理節點：
+
+[listing]
+----
+[DC1-ADM1]
+  ADMIN_ROLE = Primary
+  NODE_TYPE = VM_Admin_Node
+  TEMPORARY_PASSWORD_TYPE = Use custom password
+  CUSTOM_TEMPORARY_PASSWORD = Passw0rd
+
+  GRID_NETWORK_IP = 10.1.0.2
+  ADMIN_NETWORK_IP = 10.3.0.2
+  CLIENT_NETWORK_IP = 10.4.0.2
+----
+對於主管理節點，以下附加設定是可選的：
+
+* *磁碟*：預設情況下，管理節點分配兩個額外的 200 GB 硬碟用於審計和資料庫使用。您可以使用 DISK 參數增加這些設定。例如：
++
+[listing]
+----
+DISK = INSTANCES=2, CAPACITY=300
+----
+
+
+
+NOTE: 對於管理節點，INSTANCES 必須始終等於 2。
+
+.儲存節點
+儲存節點需要以下附加設定：
+
+* *NODE_TYPE*​​：VM_Storage_Node
++
+此範例條目適用於位於網格和管理網路上但不位於用戶端網路上的儲存節點。此節點使用 ADMIN_IP 設定來指定網格網路上主管理節點的 IP 位址。
+
++
+[listing]
+----
+[DC1-S1]
+  NODE_TYPE = VM_Storage_Node
+
+  GRID_NETWORK_IP = 10.1.0.3
+  ADMIN_NETWORK_IP = 10.3.0.3
+
+  ADMIN_IP = 10.1.0.2
+----
++
+第二個範例條目適用於客戶端網路上的儲存節點，其中客戶的企業網路策略規定 S3 用戶端應用程式只允許使用連接埠 80 或 443 存取儲存節點。範例設定檔使用 PORT_REMAP 可讓儲存節點在連接埠 443 上傳送和接收 S3 訊息。
+
++
+[listing]
+----
+[DC2-S1]
+  NODE_TYPE = VM_Storage_Node
+
+  GRID_NETWORK_IP = 10.1.1.3
+  CLIENT_NETWORK_IP = 10.4.1.3
+  PORT_REMAP = client/tcp/18082/443
+
+  ADMIN_IP = 10.1.0.2
+----
++
+最後一個範例為從連接埠 22 到連接埠 3022 的 ssh 流量建立了對稱重映射，但明確設定了入站和出站流量的值。
+
++
+[listing]
+----
+[DC1-S3]
+  NODE_TYPE = VM_Storage_Node
+
+  GRID_NETWORK_IP = 10.1.1.3
+
+  PORT_REMAP = grid/tcp/22/3022
+  PORT_REMAP_INBOUND = grid/tcp/3022/22
+
+  ADMIN_IP = 10.1.0.2
+----
+
+
+對於儲存節點，以下附加設定是可選的：
+
+* *磁碟*：預設情況下，儲存節點分配三個 4 TB 磁碟供 RangeDB 使用。您可以使用 DISK 參數增加這些設定。例如：
++
+[listing]
+----
+DISK = INSTANCES=16, CAPACITY=4096
+----
+* *STORAGE_TYPE*​​：預設情況下，所有新的儲存節點都配置為儲存物件資料和元數據，稱為組合儲存節點。您可以使用 STORAGE_TYPE 參數將儲存節點類型變更為僅儲存資料或元資料。例如：
++
+[listing]
+----
+STORAGE_TYPE = data
+----
+
+
+.閘道
+網關節點需要以下附加設定：
+
+* *節點類型*: VM_API_網關
+
+
+此範例條目針對所有三個網路上的網關節點範例。在此範例中，設定檔的全域部分未指定任何客戶端網路參數，因此必須為節點指定這些參數：
+
+[listing]
+----
+[DC1-G1]
+  NODE_TYPE = VM_API_Gateway
+
+  GRID_NETWORK_IP = 10.1.0.5
+  ADMIN_NETWORK_IP = 10.3.0.5
+
+  CLIENT_NETWORK_CONFIG = STATIC
+  CLIENT_NETWORK_TARGET = SG Client Network
+  CLIENT_NETWORK_MASK = 255.255.255.0
+  CLIENT_NETWORK_GATEWAY = 10.4.0.1
+  CLIENT_NETWORK_IP = 10.4.0.5
+
+  ADMIN_IP = 10.1.0.2
+----
+.非主管理節點
+非主管理節點需要以下附加設定：
+
+* *NODE_TYPE*​​：VM_Admin_Node
+* *ADMIN_ROLE*：非主要
+
+
+此範例條目適用於不在客戶端網路上的非主要管理節點：
+
+[listing]
+----
+[DC2-ADM1]
+  ADMIN_ROLE = Non-Primary
+  NODE_TYPE = VM_Admin_Node
+
+  GRID_NETWORK_TARGET = SG Grid Network
+  GRID_NETWORK_IP = 10.1.0.6
+  ADMIN_NETWORK_IP = 10.3.0.6
+
+  ADMIN_IP = 10.1.0.2
+----
+對於非主管理節點，以下附加設定是可選的：
+
+* *磁碟*：預設情況下，管理節點分配兩個額外的 200 GB 硬碟用於審計和資料庫使用。您可以使用 DISK 參數增加這些設定。例如：
++
+[listing]
+----
+DISK = INSTANCES=2, CAPACITY=300
+----
+
+
+
+NOTE: 對於管理節點，INSTANCES 必須始終等於 2。
+
+
+
+== 運行 Bash 腳本
+
+您可以使用 `deploy-vsphere-ovftool.sh`您修改的 Bash 腳本和 deploy-vsphere-ovftool.ini 設定文件，用於自動部署 VMware vSphere 中的StorageGRID節點。
+
+.開始之前
+您已為您的環境建立了 deploy-vsphere-ovftool.ini 設定檔。
+
+您可以透過輸入幫助命令來使用 Bash 腳本提供的幫助(`-h/--help`）。例如：
+
+[listing]
+----
+./deploy-vsphere-ovftool.sh -h
+----
+或者
+
+[listing]
+----
+./deploy-vsphere-ovftool.sh --help
+----
+.步驟
+. 登入您用來執行 Bash 腳本的 Linux 機器。
+. 前往解壓縮安裝檔案的目錄。
++
+例如：
+
++
+[listing]
+----
+cd StorageGRID-Webscale-version/vsphere
+----
+. 若要部署所有網格節點，請使用適合您環境的選項執行 Bash 腳本。
++
+例如：
+
++
+[listing]
+----
+./deploy-vsphere-ovftool.sh --username=user --password=pwd ./deploy-vsphere-ovftool.ini
+----
+. 如果網格節點因錯誤而部署失敗，請解決錯誤並僅為該節點重新執行 Bash 腳本。
++
+例如：
+
++
+[listing]
+----
+./deploy-vsphere-ovftool.sh --username=user --password=pwd --single-node="DC1-S3" ./deploy-vsphere-ovftool.ini
+----
+
+
+當每個節點的狀態為「通過」時，部署完成。
+
+[listing]
+----
+Deployment Summary
++-----------------------------+----------+----------------------+
+| node                        | attempts | status               |
++-----------------------------+----------+----------------------+
+| DC1-ADM1                    |        1 | Passed               |
+| DC1-G1                      |        1 | Passed               |
+| DC1-S1                      |        1 | Passed               |
+| DC1-S2                      |        1 | Passed               |
+| DC1-S3                      |        1 | Passed               |
++-----------------------------+----------+----------------------+
+----
+
+
+== 自動配置StorageGRID
+
+部署網格節點後，您可以自動化StorageGRID系統的配置。
+
+.開始之前
+* 您從安裝檔案中知道以下文件的位置。
++
+[cols="1a,1a"]
+|===
+| 檔案名稱 | 描述 
+
+
+| 配置儲存網格.py  a| 
+用於自動化配置的 Python 腳本
+
+
+
+| 配置儲存網格.sample.json  a| 
+與腳本一起使用的範例設定文件
+
+
+
+| 配置儲存網格.blank.json  a| 
+與腳本一起使用的空白配置文件
+
+|===
+* 您已建立 `configure-storagegrid.json`設定檔。若要建立此文件，您可以修改範例設定檔(`configure-storagegrid.sample.json`）或空白設定檔(`configure-storagegrid.blank.json`）。
++
+您可以使用 `configure-storagegrid.py`Python 腳本和 `configure-storagegrid.json`網格設定檔來自動化StorageGRID系統的設定。
+
++
+
+NOTE: 您也可以使用網格管理器或安裝 API 設定係統。
+
+
+
+.步驟
+. 登入您用來執行 Python 腳本的 Linux 機器。
+. 前往解壓縮安裝檔案的目錄。
++
+例如：
+
++
+[listing]
+----
+cd StorageGRID-Webscale-version/platform
+----
++
+在哪裡 `platform`是 debs、rpms 或 vsphere。
+
+. 運行 Python 腳本並使用您建立的設定檔。
++
+例如：
+
++
+[listing]
+----
+./configure-storagegrid.py ./configure-storagegrid.json --start-install
+----
+
+
+.結果
+恢復計劃 `.zip`檔案是在設定過程中產生的，它會被下載到您執行安裝和設定過程的目錄中。您必須備份復原套件文件，以便在一個或多個網格節點發生故障時可以還原StorageGRID系統。例如，將其複製到安全的備份網路位置和安全的雲端儲存位置。
+
+
+CAUTION: 復原包檔案必須是安全的，因為它包含可用於從StorageGRID系統取得資料的加密金鑰和密碼。
+
+如果您指定產生隨機密碼，請開啟 `Passwords.txt`檔案並尋找存取StorageGRID系統所需的密碼。
+
+[listing]
+----
+######################################################################
+##### The StorageGRID "Recovery Package" has been downloaded as: #####
+#####           ./sgws-recovery-package-994078-rev1.zip          #####
+#####   Safeguard this file as it will be needed in case of a    #####
+#####                 StorageGRID node recovery.                 #####
+######################################################################
+----
+當顯示確認訊息時，您的StorageGRID系統已安裝並設定。
+
+[listing]
+----
+StorageGRID has been configured and installed.
+----
+.相關資訊
+* link:navigating-to-grid-manager.html["導航至網格管理器"]
+* link:overview-of-installation-rest-api.html["安裝 REST API"]
+

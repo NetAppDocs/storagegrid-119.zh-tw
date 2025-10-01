@@ -1,0 +1,53 @@
+---
+permalink: harden/hardening-guideline-for-server-certificates.html 
+sidebar: sidebar 
+keywords: Hardening guidelines, certificates 
+summary: 您應該替換安裝期間建立的預設證書，並為 TLS 和 SSH 連線選擇適當的安全性原則。 
+---
+= TLS 和 SSH 強化指南
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該替換安裝期間建立的預設證書，並為 TLS 和 SSH 連線選擇適當的安全性原則。
+
+
+
+== 證書強化指南
+
+您應該用自己的自訂憑證取代安裝期間建立的預設憑證。
+
+對於許多組織來說， StorageGRID網路存取的自簽名數位憑證不符合其資訊安全政策。在生產系統上，您應該安裝 CA 簽署的數位憑證以用於驗證StorageGRID。
+
+具體來說，您應該使用自訂伺服器憑證而不是這些預設憑證：
+
+* *管理介面憑證*：用於安全存取網格管理員、租用戶管理員、網格管理 API 和租用戶管理 API。
+* *S3 API 憑證*：用於保護對儲存節點和網關節點的訪問，S3 用戶端應用程式使用這些憑證來上傳和下載物件資料。
+
+
+看link:../admin/using-storagegrid-security-certificates.html["管理安全證書"]了解詳細資訊和說明。
+
+
+NOTE: StorageGRID單獨管理用於負載平衡器端點的憑證。若要設定負載平衡器證書，請參閱link:../admin/configuring-load-balancer-endpoints.html["配置負載平衡器端點"]。
+
+使用自訂伺服器憑證時，請遵循下列準則：
+
+* 證書應該有 `_subjectAltName_`與StorageGRID 的DNS 條目相符。有關詳細信息，請參閱第 4.2.1.6 節“主題備用名稱” https://tools.ietf.org/html/rfc5280#section-4.2.1.6["RFC 5280：PKIX 憑證和 CRL 設定檔"^] 。
+* 盡可能避免使用通配符憑證。此指南的例外是 S3 虛擬託管樣式端點的證書，如果事先不知道儲存桶名稱，則需要使用萬用字元。
+* 當您必須在憑證中使用通配符時，您應該採取額外措施來降低風險。使用通配符模式，例如 `*.s3.example.com`，並且不要使用 `s3.example.com`其他應用程式的後綴。此模式也適用於路徑式 S3 訪問，例如 `dc1-s1.s3.example.com/mybucket`。
+* 將憑證到期時間設定為較短（例如 2 個月），並使用網格管理 API 自動進行憑證輪替。這對於通配符證書尤其重要。
+
+
+此外，客戶端在與StorageGRID通訊時應使用嚴格的主機名稱檢查。
+
+
+
+== TLS 和 SSH 策略強化指南
+
+您可以選擇安全性原則來決定使用哪些協定和密碼與用戶端應用程式建立安全的 TLS 連線以及與內部StorageGRID服務建立安全的 SSH 連線。
+
+安全性策略控制 TLS 和 SSH 如何加密傳輸中的資料。作為最佳實踐，您應該停用應用程式相容性不需要的加密選項。使用預設的現代策略，除非您的系統需要符合通用標準或您需要使用其他密碼。
+
+看link:../admin/manage-tls-ssh-policy.html["管理 TLS 和 SSH 策略"]了解詳細資訊和說明。

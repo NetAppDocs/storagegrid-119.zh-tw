@@ -1,0 +1,409 @@
+---
+permalink: troubleshoot/troubleshooting-network-hardware-and-platform-issues.html 
+sidebar: sidebar 
+keywords: how to troubleshoot network, how to troubleshoot hardware, how to troubleshoot platform 
+summary: 您可以執行多項任務來協助確定與StorageGRID網路、硬體和平台問題相關的問題的根源。 
+---
+= 解決網路、硬體和平台問題
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以執行多項任務來協助確定與StorageGRID網路、硬體和平台問題相關的問題的根源。
+
+
+
+== “422：無法處理的實體”錯誤
+
+錯誤 422：無法處理的實體可能由於多種原因而發生。檢查錯誤訊息以確定導致問題的原因。
+
+如果您看到列出的其中一條錯誤訊息，請採取建議的操作。
+
+[cols="2a,3a"]
+|===
+| 錯誤訊息 | 根本原因和糾正措施 
+
+
+ a| 
+[listing]
+----
+422: Unprocessable Entity
+
+Validation failed. Please check
+the values you entered for
+errors. Test connection failed.
+Please verify your
+configuration. Unable to
+authenticate, please verify
+your username and password:
+LDAP Result Code 8 "Strong
+Auth Required": 00002028:
+LdapErr: DSID-0C090256,
+comment: The server requires
+binds to turn on integrity
+checking if SSL\TLS are not
+already active on the
+connection, data 0, v3839
+---- a| 
+如果在使用 Windows Active Directory (AD) 設定身份聯合時為傳輸層安全性 (TLS) 選擇「*不使用 TLS*」選項，則可能會出現此訊息。
+
+強制使用 LDAP 簽署的 AD 伺服器不支援使用「不使用 TLS」選項。您必須為 TLS 選擇 *使用 STARTTLS* 選項或 *使用 LDAPS* 選項。
+
+
+
+ a| 
+[listing]
+----
+422: Unprocessable Entity
+
+Validation failed. Please check
+the values you entered for
+errors. Test connection failed.
+Please verify your
+configuration.Unable to
+begin TLS, verify your
+certificate and TLS
+configuration: LDAP Result
+Code 200 "Network Error":
+TLS handshake failed
+    (EOF)
+---- a| 
+如果您嘗試使用不支援的密碼從StorageGRID到用於身分聯合或雲端儲存池的外部系統建立傳輸層安全性 (TLS) 連接，則會出現此訊息。
+
+檢查外部系統提供的密碼。系統必須使用link:../admin/supported-ciphers-for-outgoing-tls-connections.html["StorageGRID支援的密碼"]用於傳出 TLS 連接，如管理StorageGRID 的說明所示。
+
+|===
+
+
+== [[troubleshoot_MTU_alert]]網格網路 MTU 不符警報
+
+當網格網路介面 (eth0) 的最大傳輸單元 (MTU) 設定在網格中的節點之間存在顯著差異時，會觸發 *網格網路 MTU 不符* 警報。
+
+.關於此任務
+MTU 設定的差異可能表示部分（但不是全部）eth0 網路配置了巨型幀。  MTU 大小不符（大於 1000）可能會導致網路效能問題。
+
+.步驟
+. 列出所有節點上 eth0 的 MTU 設定。
++
+** 使用網格管理器中提供的查詢。
+** 導航至 `_primary Admin Node IP address_/metrics/graph`並輸入以下查詢： `node_network_mtu_bytes{device="eth0"}`
+
+
+. https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/changing-mtu-setting.html["修改 MTU 設定"^]確保所有節點上的網格網路介面（eth0）都是相同的。
++
+** 對於基於 Linux 和 VMware 的節點，請使用下列命令： `+/usr/sbin/change-ip.py [-h] [-n node] mtu network [network...]+`
++
+*例子*： `change-ip.py -n node 1500 grid admin`
+
++
+*注意*：在基於 Linux 的節點上，如果容器中網路所需的 MTU 值超過主機介面上已配置的值，則必須先將主機介面配置為具有所需的 MTU 值，然後使用 `change-ip.py`腳本來改變容器中網路的MTU值。
+
++
+使用下列參數修改基於 Linux 或 VMware 的節點上的 MTU。
+
++
+[cols="1a,2a"]
+|===
+| 位置參數 | 描述 
+
+
+ a| 
+`mtu`
+ a| 
+要設定的 MTU。必須在 1280 到 9216 範圍內。
+
+
+
+ a| 
+`network`
+ a| 
+應用 MTU 的網路。包括以下一種或多種網路類型：
+
+*** 網格
+*** 行政
+*** 客戶
+
+
+|===
++
+[cols="2a,2a"]
+|===
+| 可選參數 | 描述 
+
+
+ a| 
+`-h, – help`
+ a| 
+顯示幫助資訊並退出。
+
+
+
+ a| 
+`-n node, --node node`
+ a| 
+節點。預設是本地節點。
+
+|===
+
+
+
+
+
+
+== 節點網路接收訊框錯誤警報
+
+*節點網路接收訊框錯誤*警報可能是由StorageGRID和網路硬體之間的連接問題引起的。解決根本問題後，此警報將自行消失。
+
+.關於此任務
+*節點網路接收訊框錯誤*警報可能是由連接到StorageGRID 的網路硬體的以下問題引起的：
+
+* 需要前向糾錯 (FEC) 但尚未使用
+* 交換器連接埠和 NIC MTU 不匹配
+* 高鏈路錯誤率
+* NIC 環形緩衝區溢出
+
+
+.步驟
+. 根據您的網路配置，請按照故障排除步驟查找導致此警報的所有潛在原因。
+. 根據錯誤原因執行以下步驟：
++
+[role="tabbed-block"]
+====
+.FEC 不匹配
+--
+
+NOTE: 這些步驟僅適用於StorageGRID設備上的 FEC 不匹配所引起的 *節點網路接收訊框錯誤* 警報。
+
+.. 檢查連接到StorageGRID設備的交換器中連接埠的 FEC 狀態。
+.. 檢查從設備到交換器的電纜的物理完整性。
+.. 如果您想要變更 FEC 設定以嘗試解決警報，請先確保在StorageGRID裝置安裝程式的「連結設定」頁面上將裝置配置為 *自動* 模式（請參閱裝置的說明：
++
+*** https://docs.netapp.com/us-en/storagegrid-appliances/sg6100/changing-link-configuration-of-sgf6112-appliance.html["SG6160"^]
+*** https://docs.netapp.com/us-en/storagegrid-appliances/sg6100/changing-link-configuration-of-sgf6112-appliance.html["SGF6112"^]
+*** https://docs.netapp.com/us-en/storagegrid-appliances/sg6000/changing-link-configuration-of-sg6000-cn-controller.html["SG6000"^]
+*** https://docs.netapp.com/us-en/storagegrid-appliances/sg5800/changing-link-configuration-of-sg5800-controller.html["SG5800"^]
+*** https://docs.netapp.com/us-en/storagegrid-appliances/sg5700/changing-link-configuration-of-e5700sg-controller.html["SG5700"^]
+*** https://docs.netapp.com/us-en/storagegrid-appliances/sg110-1100/changing-link-configuration-of-sg110-and-sg1100-appliance.html["SG110 和 SG1100"^]
+*** https://docs.netapp.com/us-en/storagegrid-appliances/sg100-1000/changing-link-configuration-of-services-appliance.html["SG100 和 SG1000"^]
+
+
+.. 變更交換器連接埠上的 FEC 設定。如果可能， StorageGRID設備連接埠將調整其 FEC 設定以進行匹配。
++
+您無法在StorageGRID設備上設定 FEC 設定。相反，設備會嘗試發現並鏡像它們所連接的交換器連接埠上的 FEC 設定。如果強制連結達到 25 GbE 或 100 GbE 網路速度，交換器和 NIC 可能無法協商通用 FEC 設定。如果沒有通用的 FEC 設置，網路將恢復到「無 FEC」模式。當未啟用 FEC 時，連接更容易受到電噪聲引起的錯誤的影響。
+
++
+
+NOTE: StorageGRID設備支援 Firecode (FC) 和 Reed Solomon (RS) FEC，以及不支援 FEC。
+
+
+
+--
+.交換器連接埠和 NIC MTU 不匹配
+--
+如果警報是由交換器連接埠和 NIC MTU 不符引起的，請檢查節點上配置的 MTU 大小是否與交換器連接埠的 MTU 設定相同。
+
+節點上配置的 MTU 大小可能小於節點連接到的交換器連接埠上的設定。如果StorageGRID節點接收到大於其 MTU 的乙太網路訊框（此配置下可能發生這種情況），則可能會報告 *節點網路接收訊框錯誤* 警報。如果您認為發生了這種情況，請變更交換器連接埠的 MTU 以符合StorageGRID網路介面 MTU，或變更StorageGRID網路介面的 MTU 以符合交換器端口，具體取決於您的端對端 MTU 目標或要求。
+
+
+NOTE: 為了獲得最佳網路效能，所有節點都應在其網格網路介面上配置相似的 MTU 值。如果各節點上的網格網路的 MTU 設定有顯著差異，則會觸發*網格網路 MTU 不符*警報。所有網路類型的 MTU 值不必相同。看<<troubleshoot_MTU_alert,解決網格網路 MTU 不符合警報問題>>了解更多。
+
+
+NOTE: 另請參閱 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/changing-mtu-setting.html["更改 MTU 設定"^]。
+
+--
+.高鏈路錯誤率
+--
+.. 如果尚未啟用，請啟用 FEC。
+.. 驗證您的網路電纜品質良好且沒有損壞或連接不正確。
+.. 如果問題似乎不是電纜問題，請聯絡技術支援。
++
+
+NOTE: 您可能會注意到，在電氣噪音較高的環境中，錯誤率較高。
+
+
+
+--
+.NIC 環形緩衝區溢出
+--
+如果錯誤是 NIC 環形緩衝區溢出，請聯絡技術支援。
+
+當StorageGRID系統過載且無法及時處理網路事件時，環形緩衝區可能會溢位。
+
+--
+====
+. 監控問題，如果警報沒有解決，請聯絡技術支援。
+
+
+
+
+== 時間同步錯誤
+
+您可能會看到網格中的時間同步問題。
+
+如果遇到時間同步問題，請驗證您已指定至少四個外部 NTP 來源，每個來源都提供 Stratum 3 或更好的參考，並且所有外部 NTP 來源都正常運作且可由您的StorageGRID節點存取。
+
+
+NOTE: 什麼時候link:../maintain/configuring-ntp-servers.html["指定外部 NTP 來源"]對於生產級StorageGRID安裝，請勿在早於 Windows Server 2016 的 Windows 版本上使用 Windows Time (W32Time) 服務。早期版本的 Windows 上的時間服務不夠準確，且 Microsoft 不支援在高精確度環境（例如StorageGRID）中使用。
+
+
+
+== Linux：網路連線問題
+
+您可能會看到 Linux 主機上託管的StorageGRID節點的網路連線問題。
+
+
+
+=== MAC位址克隆
+
+在某些情況下，可以透過使用 MAC 位址克隆來解決網路問題。如果您使用虛擬主機，請在節點設定檔中將每個網路的 MAC 位址複製鍵的值設為「true」。此設定會導致StorageGRID容器的 MAC 位址使用主機的 MAC 位址。若要建立節點設定文件，請參閱link:../rhel/creating-node-configuration-files.html["紅帽企業 Linux"]或者link:../ubuntu/creating-node-configuration-files.html["Ubuntu 或 Debian"]。
+
+
+NOTE: 建立單獨的虛擬網路介面供 Linux 主機作業系統使用。如果虛擬機器管理程式上未啟用混雜模式，則對 Linux 主機作業系統和StorageGRID容器使用相同的網路介面可能會導致主機作業系統無法存取。
+
+有關啟用 MAC 克隆的更多信息，請參閱link:../rhel/configuring-host-network.html["紅帽企業 Linux"]或者link:../ubuntu/configuring-host-network.html["Ubuntu 或 Debian"]。
+
+
+
+=== 混雜模式
+
+如果您不想使用 MAC 位址克隆，而是允許所有介面接收和傳輸除虛擬機器管理程式指派的 MAC 位址之外的 MAC 位址的數據，請確保虛擬交換器和連接埠群組層級的安全屬性設定為混雜模式、MAC 位址變更和偽造傳輸的 *接受*。虛擬交換器上設定的值可能會被連接埠群組層級的值覆蓋，因此請確保兩個地方的設定相同。
+
+有關使用混雜模式的更多信息，請參閱link:../rhel/configuring-host-network.html["紅帽企業 Linux"]或者link:../ubuntu/configuring-host-network.html["Ubuntu 或 Debian"]。
+
+
+
+== Linux：節點狀態為“孤立”
+
+處於孤立狀態的 Linux 節點通常表示控制節點容器的 StorageGrid 服務或StorageGRID節點守護程式會意外死亡。
+
+.關於此任務
+如果 Linux 節點報告其處於孤立狀態，您應該：
+
+* 檢查日誌中的錯誤和訊息。
+* 嘗試再次啟動該節點。
+* 如果需要，使用容器引擎命令停止現有的節點容器。
+* 重新啟動節點。
+
+
+.步驟
+. 檢查服務守護程式和孤立節點的日誌，尋找明顯的錯誤或有關意外退出的訊息。
+. 以 root 身分或使用具有 sudo 權限的帳戶登入主機。
+. 嘗試透過執行以下命令再次啟動節點： `$ sudo storagegrid node start node-name`
++
+ $ sudo storagegrid node start DC1-S1-172-16-1-172
++
+如果節點是孤立節點，則響應為
+
++
+[listing]
+----
+Not starting ORPHANED node DC1-S1-172-16-1-172
+----
+. 從 Linux 停止容器引擎和任何控制儲存網格節點進程。例如： ``sudo docker stop --time secondscontainer-name``
++
+為了 `seconds`，輸入您希望等待容器停止的秒數（通常為 15 分鐘或更短）。例如：
+
++
+[listing]
+----
+sudo docker stop --time 900 storagegrid-DC1-S1-172-16-1-172
+----
+. 重啟節點： `storagegrid node start node-name`
++
+[listing]
+----
+storagegrid node start DC1-S1-172-16-1-172
+----
+
+
+
+
+== Linux：排除 IPv6 支援故障
+
+如果您在 Linux 主機上安裝了StorageGRID節點，並且注意到 IPv6 位址未按預期指派給節點容器，則可能需要在核心中啟用 IPv6 支援。
+
+.關於此任務
+若要查看已指派給網格節點的 IPv6 位址：
+
+. 選擇*NODES*並選擇節點。
+. 在概覽標籤上，選擇「IP 位址」旁的「顯示其他 IP 位址」。
+
+
+如果未顯示 IPv6 位址且節點安裝在 Linux 主機上，請依照下列步驟在核心中啟用 IPv6 支援。
+
+.步驟
+. 以 root 身分或使用具有 sudo 權限的帳戶登入主機。
+. 運行以下命令： `sysctl net.ipv6.conf.all.disable_ipv6`
++
+[listing]
+----
+root@SG:~ # sysctl net.ipv6.conf.all.disable_ipv6
+----
++
+結果應為 0。
+
++
+[listing]
+----
+net.ipv6.conf.all.disable_ipv6 = 0
+----
++
+
+NOTE: 如果結果不為 0，請參閱作業系統的文件以了解如何變更 `sysctl`設定.然後，將值變更為 0 再繼續。
+
+. 進入StorageGRID節點容器： `storagegrid node enter node-name`
+. 運行以下命令： `sysctl net.ipv6.conf.all.disable_ipv6`
++
+[listing]
+----
+root@DC1-S1:~ # sysctl net.ipv6.conf.all.disable_ipv6
+----
++
+結果應該是 1。
+
++
+[listing]
+----
+net.ipv6.conf.all.disable_ipv6 = 1
+----
++
+
+NOTE: 如果結果不是 1，則此過程不適用。聯繫技術支援。
+
+. 退出容器： `exit`
++
+[listing]
+----
+root@DC1-S1:~ # exit
+----
+. 以 root 身分編輯以下文件： `/var/lib/storagegrid/settings/sysctl.d/net.conf` 。
++
+[listing]
+----
+sudo vi /var/lib/storagegrid/settings/sysctl.d/net.conf
+----
+. 找到以下兩行並刪除註解標籤。然後，儲存並關閉文件。
++
+[listing]
+----
+net.ipv6.conf.all.disable_ipv6 = 0
+----
++
+[listing]
+----
+net.ipv6.conf.default.disable_ipv6 = 0
+----
+. 執行以下命令重新啟動StorageGRID容器：
++
+[listing]
+----
+storagegrid node stop node-name
+----
++
+[listing]
+----
+storagegrid node start node-name
+----
+

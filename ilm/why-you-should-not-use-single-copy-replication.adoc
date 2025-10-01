@@ -1,0 +1,29 @@
+---
+permalink: ilm/why-you-should-not-use-single-copy-replication.html 
+sidebar: sidebar 
+keywords: dual commit, single commit, number of copies for replication 
+summary: 建立 ILM 規則以建立複製副本時，應始終在放置說明中為任何時間段指定至少兩個副本。 
+---
+= 為什麼不應該使用單一副本複製
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+建立 ILM 規則以建立複製副本時，應始終在放置說明中為任何時間段指定至少兩個副本。
+
+
+NOTE: 不要使用在任何時間段內僅建立一個複製副本的 ILM 規則。如果某個物件的副本只有一個，則當儲存節點發生故障或發生重大錯誤時，該物件將會遺失。在升級等維護過程中，您也會暫時失去對該物件的存取權限。
+
+在下列範例中，「製作 1 個副本」ILM 規則指定將物件的一個複製副本放置在包含三個儲存節點的儲存池中。當接收符合此規則的物件時， StorageGRID只會在一個儲存節點上放置一個副本。
+
+image::../media/ilm_replication_make_1_copy.png[ILM 複製製作 1 個副本]
+
+當 ILM 規則僅建立物件的複製副本時，當儲存節點不可用時，該物件將變得無法存取。在此範例中，每當儲存節點 2 離線時（例如在升級或其他維護過程中），您將暫時失去對物件 AAA 的存取權限。如果儲存節點 2 發生故障，您將完全遺失物件 AAA。
+
+image::../media/ilm_replication_make_1_copy_sn_fails.png[ILM 複製製作 1 個副本 SN 失敗]
+
+為了避免遺失物件數據，您應該始終對要透過複製保護的所有物件製作至少兩個副本。如果存在兩個或多個副本，則當一個儲存節點發生故障或離線時，您仍然可以存取該物件。
+
+image::../media/ilm_replication_make_2_copies_sn_fails.png[ILM 複製製作 2 個副本 SN 失敗]

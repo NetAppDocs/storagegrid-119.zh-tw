@@ -1,0 +1,16 @@
+---
+permalink: release-notes/index.html 
+sidebar: sidebar 
+keywords: release notes 
+summary: 取得已修復問題和已知問題的特定版本資訊。 
+---
+= 發行說明
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+取得已修復問題和已知問題的特定版本資訊。
+
+登入NetApp支援站點 https://library.netapp.com/ecm/ecm_download_file/ECMLP3330064["查看或下載 PDF 文件"^]包含StorageGRID 11.9 發行說明。

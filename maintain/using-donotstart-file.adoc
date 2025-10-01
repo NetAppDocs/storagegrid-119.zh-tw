@@ -1,0 +1,94 @@
+---
+permalink: maintain/using-donotstart-file.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, donotstart, do not start, donotstart file, do not start file 
+summary: 如果您在技術支援的指導下執行各種維護或設定流程，您可能會被要求使用 DoNotStart 檔案來阻止在伺服器管理員啟動或重新啟動時啟動服務。 
+---
+= 使用 DoNotStart 文件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您在技術支援的指導下執行各種維護或設定流程，您可能會被要求使用 DoNotStart 檔案來阻止在伺服器管理員啟動或重新啟動時啟動服務。
+
+
+CAUTION: 只有當技術支援指示您這樣做時，您才應該新增或刪除 DoNotStart 檔案。
+
+若要阻止服務啟動，請將 DoNotStart 檔案放在要封鎖啟動的服務的目錄中。啟動時，伺服器管理員會尋找 DoNotStart 檔案。如果該檔案存在，則該服務（以及任何依賴它的服務）將無法啟動。刪除 DoNotStart 檔案後，先前停止的服務將在伺服器管理員下次啟動或重新啟動時啟動。刪除 DoNotStart 檔案後，服務不會自動啟動。
+
+阻止所有服務重新啟動最有效的方法是阻止 NTP 服務啟動。所有服務都依賴 NTP 服務，如果 NTP 服務未運行，則所有服務都無法運行。
+
+
+
+== 為服務新增 DoNotStart 文件
+
+您可以透過將 DoNotStart 檔案新增至網格節點上該服務的目錄來阻止單一服務啟動。
+
+.開始之前
+你有 `Passwords.txt`文件。
+
+.步驟
+. 登入網格節點：
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
+
+
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+. 新增 DoNotStart 檔案： `touch /etc/sv/_service_/DoNotStart`
++
+在哪裡 `service`是要阻止啟動的服務的名稱。例如，
+
++
+[listing]
+----
+touch /etc/sv/ldr/DoNotStart
+----
++
+建立 DoNotStart 檔案。不需要文件內容。
+
++
+當伺服器管理員或網格節點重新啟動時，伺服器管理員會重新啟動，但服務不會重新啟動。
+
+. 退出命令外殼： `exit`
+
+
+
+
+== 刪除服務的 DoNotStart 文件
+
+當您刪除阻止服務啟動的 DoNotStart 檔案時，您必須啟動該服務。
+
+.開始之前
+你有 `Passwords.txt`文件。
+
+.步驟
+. 登入網格節點：
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
+
+
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+. 從服務目錄中刪除 DoNotStart 檔案： `rm /etc/sv/_service_/DoNotStart`
++
+在哪裡 `service`是服務的名稱。例如，
+
++
+[listing]
+----
+rm /etc/sv/ldr/DoNotStart
+----
+. 啟動服務： `service _servicename_ start`
+. 退出命令外殼： `exit`
+

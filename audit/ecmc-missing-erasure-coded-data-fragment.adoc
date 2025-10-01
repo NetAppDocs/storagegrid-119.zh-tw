@@ -1,0 +1,46 @@
+---
+permalink: audit/ecmc-missing-erasure-coded-data-fragment.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, ECMC, Missing Erasure-Coded Data Fragment 
+summary: 此審計訊息顯示系統偵測到缺失的擦除編碼資料片段。 
+---
+= ECMC：缺失擦除編碼資料片段
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+此審計訊息顯示系統偵測到缺失的擦除編碼資料片段。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+VCMC
+ a| 
+創投公司識別號
+ a| 
+包含缺失塊的 VCS 的名稱。
+
+
+
+ a| 
+MCID
+ a| 
+區塊 ID
+ a| 
+缺失的擦除編碼片段的標識符。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果
+ a| 
+該欄位的值為“NONE”。 RSLT 是必填訊息字段，但與此特定訊息無關。使用“NONE”而不是“SUCS”，以便不過濾該訊息。
+
+|===

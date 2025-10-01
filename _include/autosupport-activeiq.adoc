@@ -1,0 +1,9 @@
+= 
+:allow-uri-read: 
+
+
+Active IQ是一個基於雲端的數位顧問，它利用 NetApp 安裝基礎的預測分析和社群智慧。其持續的風險評估、預測警報、規範指導和自動化操作可幫助您預防問題的發生，從而改善系統健康並提高系統可用性。
+
+如果您想使用NetApp支援網站上的Active IQ儀表板和功能，則必須啟用AutoSupport。
+
+https://docs.netapp.com/us-en/active-iq/index.html["Active IQDigital Advisor文檔"^]

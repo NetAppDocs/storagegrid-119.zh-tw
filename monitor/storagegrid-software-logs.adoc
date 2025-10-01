@@ -1,0 +1,416 @@
+---
+permalink: monitor/storagegrid-software-logs.html 
+sidebar: sidebar 
+keywords: logs 
+summary: 您可以使用StorageGRID日誌來解決問題。 
+---
+= StorageGRID軟體日誌
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用StorageGRID日誌來解決問題。
+
+
+NOTE: 如果您想要將日誌傳送到外部系統日誌伺服器或變更稽核資訊的目的地，例如 `bycast.log`和 `nms.log`， 看link:../monitor/configure-audit-messages.html#["配置審計訊息和日誌目標"]。
+
+
+
+== 常規StorageGRID日誌
+
+[cols="3a,3a,2a"]
+|===
+| 檔案名稱 | 筆記 | 發現於 
+
+
+| /var/local/log/bycast.log  a| 
+主要的StorageGRID故障排除檔。選擇*支援* > *工具* > *網格拓撲*。然後選擇 *_Site_* > *_Node_* > *SSM* > *Events*。
+ a| 
+所有節點
+
+
+
+| /var/local/log/bycast-err.log  a| 
+包含一個子集 `bycast.log`（嚴重性為 ERROR 和 CRITICAL 的訊息）。系統中也會顯示嚴重訊息。選擇*支援* > *工具* > *網格拓撲*。然後選擇 *_Site_* > *_Node_* > *SSM* > *Events*。
+ a| 
+所有節點
+
+
+
+| /var/本地/核心/  a| 
+包含程式異常終止時所建立的所有核心轉儲檔案。可能的原因包括斷言失敗、違規或線程逾時。
+
+*注意*：該文件 ``/var/local/core/kexec_cmd`通常存在於設備節點上，並不表示有錯誤。
+ a| 
+所有節點
+
+|===
+
+
+== 密碼相關日誌
+
+[cols="3a,3a,2a"]
+|===
+| 檔案名稱 | 筆記 | 發現於 
+
+
+| /var/local/log/ssh-config-generation.log  a| 
+包含與產生 SSH 設定和重新載入 SSH 服務相關的日誌。
+ a| 
+所有節點
+
+
+
+| /var/local/log/nginx/config-generation.log  a| 
+包含與產生 nginx 設定和重新載入 nginx 服務相關的日誌。
+ a| 
+所有節點
+
+
+
+| /var/local/log/nginx-gw/config-generation.log  a| 
+包含與產生 nginx-gw 設定（和重新載入 nginx-gw 服務）相關的日誌。
+ a| 
+管理和網關節點
+
+
+
+| /var/local/log/update-cipher-configurations.log  a| 
+包含與設定 TLS 和 SSH 策略相關的日誌。
+ a| 
+所有節點
+
+|===
+
+
+== 電網聯合日誌
+
+[cols="3a,3a,2a"]
+|===
+| 檔案名稱 | 筆記 | 發現於 
+
+
+| /var/local/log/update_grid_federation_config.log  a| 
+包含與產生用於網格聯合連接的 nginx 和 nginx-gw 配置相關的日誌。
+ a| 
+所有節點
+
+|===
+
+
+== NMS日誌
+
+[cols="3a,3a,2a"]
+|===
+| 檔案名稱 | 筆記 | 發現於 
+
+
+| /var/local/log/nms.log  a| 
+* 擷取來自網格管理器和租戶管理器的通知。
+* 擷取與 NMS 服務操作相關的事件。例如，電子郵件通知和配置變更。
+* 包含因係統配置變更而產生的 XML 套件更新。
+* 包含與每天進行一次的屬性下採樣相關的錯誤訊息。
+* 包含 Java Web 伺服器錯誤訊息，例如頁產生錯誤和 HTTP 狀態 500 錯誤。
+
+ a| 
+管理節點
+
+
+
+| /var/local/log/nms.errlog  a| 
+包含與 MySQL 資料庫升級相關的錯誤訊息。
+
+包含對應服務的標準錯誤（stderr）流。每個服務都有一個日誌檔。除非服務出現問題，否則這些文件通常是空的。
+ a| 
+管理節點
+
+
+
+| /var/local/log/nms.requestlog  a| 
+包含從管理 API 到內部StorageGRID服務的傳出連線的資訊。
+ a| 
+管理節點
+
+|===
+
+
+== 伺服器管理員日誌
+
+[cols="3a,3a,2a"]
+|===
+| 檔案名稱 | 筆記 | 發現於 
+
+
+| /var/local/log/servermanager.log  a| 
+伺服器上執行的伺服器管理員應用程式的日誌檔案。
+ a| 
+所有節點
+
+
+
+| /var/local/log/GridstatBackend.errlog  a| 
+伺服器管理器 GUI 後端應用程式的日誌檔案。
+ a| 
+所有節點
+
+
+
+| /var/local/log/gridstat.errlog  a| 
+伺服器管理器 GUI 的日誌檔案。
+ a| 
+所有節點
+
+|===
+
+
+== StorageGRID服務日誌
+
+[cols="3a,3a,2a"]
+|===
+| 檔案名稱 | 筆記 | 發現於 
+
+
+| /var/local/log/acct.errlog  a| 
+ a| 
+運行 ADC 服務的儲存節點
+
+
+
+| /var/本地/日誌/adc.errlog  a| 
+包含對應服務的標準錯誤（stderr）流。每個服務都有一個日誌檔。除非服務出現問題，否則這些文件通常是空的。
+ a| 
+運行 ADC 服務的儲存節點
+
+
+
+| /var/local/log/ams.errlog  a| 
+ a| 
+管理節點
+
+
+
+| /var/local/log/cassandra/system.log  a| 
+如果在新增新的儲存節點時出現問題，或 nodetool 修復任務停滯，則可以使用該元資料儲存（Cassandra 資料庫）的資訊。
+ a| 
+儲存節點
+
+
+
+| /var/local/log/cassandra-reaper.log  a| 
+有關 Cassandra Reaper 服務的信息，該服務負責修復 Cassandra 資料庫中的資料。
+ a| 
+儲存節點
+
+
+
+| /var/local/log/cassandra-reaper.errlog  a| 
+Cassandra Reaper 服務的錯誤訊息。
+ a| 
+儲存節點
+
+
+
+| /var/local/log/chunk.errlog  a| 
+ a| 
+儲存節點
+
+
+
+| /var/local/log/cmn.errlog  a| 
+ a| 
+管理節點
+
+
+
+| /var/local/log/cms.errlog  a| 
+此日誌檔案可能存在於從舊版StorageGRID升級的系統上。它包含遺留資訊。
+ a| 
+儲存節點
+
+
+
+| /var/local/log/dds.errlog  a| 
+ a| 
+儲存節點
+
+
+
+| /var/local/log/dmv.errlog  a| 
+ a| 
+儲存節點
+
+
+
+| /var/local/log/dynip*  a| 
+包含與 dynip 服務相關的日誌，該服務監視網格的動態 IP 變更並更新本機設定。
+ a| 
+所有節點
+
+
+
+| /var/local/log/grafana.log  a| 
+與 Grafana 服務相關的日誌，用於網格管理器中的指標視覺化。
+ a| 
+管理節點
+
+
+
+| /var/local/log/hagroups.log  a| 
+與高可用性群組相關的日誌。
+ a| 
+管理節點和網關節點
+
+
+
+| /var/local/log/hagroups_events.log  a| 
+追蹤狀態變化，例如從 BACKUP 到 MASTER 或 FAULT 的轉變。
+ a| 
+管理節點和網關節點
+
+
+
+| /var/local/log/idnt.errlog  a| 
+ a| 
+運行 ADC 服務的儲存節點
+
+
+
+| /var/local/log/jaeger.log  a| 
+與 jaeger 服務關聯的日誌，用於追蹤收集。
+ a| 
+所有節點
+
+
+
+| /var/local/log/kstn.errlog  a| 
+ a| 
+運行 ADC 服務的儲存節點
+
+
+
+| /var/local/log/lambda*  a| 
+包含 S3 Select 服務的日誌。
+ a| 
+管理和網關節點
+
+只有某些管理和網關節點包含此日誌。查看link:../admin/manage-s3-select-for-tenant-accounts.html["S3 Select 對管理員節點和網關節點的要求和限制"]。
+
+
+
+| /var/local/log/ldr.errlog  a| 
+ a| 
+儲存節點
+
+
+
+| /var/本機/日誌/miscd/*.log  a| 
+包含 MISCd 服務（資訊服務控制守護程序）的日誌，該服務提供查詢和管理其他節點上的服務以及管理節點上的環境配置（例如查詢其他節點上執行的服務的狀態）的介面。
+ a| 
+所有節點
+
+
+
+| /var/本地/日誌/nginx/*.log  a| 
+包含 nginx 服務的日誌，該服務充當各種網格服務（如 Prometheus 和 Dynip）的身份驗證和安全通訊機制，以便能夠透過 HTTPS API 與其他節點上的服務通訊。
+ a| 
+所有節點
+
+
+
+| /var/local/log/nginx-gw/*.log  a| 
+包含與 nginx-gw 服務相關的常規日誌，包括錯誤日誌以及管理節點上受限管理連接埠的日誌。
+ a| 
+管理節點和網關節點
+
+
+
+| /var/local/log/nginx-gw/cgr-access.log.gz  a| 
+包含與跨網格複製流量相關的訪問日誌。
+ a| 
+基於網格聯合配置的管理節點、網關節點或兩者。僅在跨網格複製的目標網格上找到。
+
+
+
+| /var/local/log/nginx-gw/endpoint-access.log.gz  a| 
+包含負載平衡器服務的存取日誌，該服務提供從用戶端到儲存節點的 S3 流量的負載平衡。
+ a| 
+管理節點和網關節點
+
+
+
+| /var/local/log/持久性*  a| 
+包含持久性服務的日誌，該服務管理根磁碟上需要在重新啟動後保留的檔案。
+ a| 
+所有節點
+
+
+
+| /var/local/log/prometheus.log  a| 
+對於所有節點，包含節點導出器服務日誌和 ade-exporter 指標服務日誌。
+
+對於管理節點，也包含 Prometheus 和 Alert Manager 服務的日誌。
+ a| 
+所有節點
+
+
+
+| /var/local/log/raft.log  a| 
+包含 RSM 服務用於 Raft 協定的函式庫的輸出。
+ a| 
+具有 RSM 服務的儲存節點
+
+
+
+| /var/local/log/rms.errlog  a| 
+包含用於 S3 平台服務的複製狀態機服務 (RSM) 服務的日誌。
+ a| 
+具有 RSM 服務的儲存節點
+
+
+
+| /var/local/log/ssm.errlog  a| 
+ a| 
+所有節點
+
+
+
+| /var/local/log/update-s3vs-domains.log  a| 
+包含與處理 S3 虛擬託管網域設定更新相關的日誌。請參閱實作 S3 用戶端應用程式的說明。
+ a| 
+管理和網關節點
+
+
+
+| /var/local/log/update-snmp-firewall。 *  a| 
+包含與 SNMP 管理的防火牆連接埠相關的日誌。
+ a| 
+所有節點
+
+
+
+| /var/local/log/update-sysl.log  a| 
+包含與系統 syslog 設定變更相關的日誌。
+ a| 
+所有節點
+
+
+
+| /var/local/log/update-traffic-classes.log  a| 
+包含與流量分類器配置變更相關的日誌。
+ a| 
+管理和網關節點
+
+
+
+| /var/local/log/update-utcn.log  a| 
+包含與此節點上的不受信任用戶端網路模式相關的日誌。
+ a| 
+所有節點
+
+|===
+.相關資訊
+* link:about-bycast-log.html["關於 bycast.log"]
+* link:../s3/index.html["使用 S3 REST API"]
+

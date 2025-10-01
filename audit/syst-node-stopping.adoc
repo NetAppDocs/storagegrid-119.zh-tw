@@ -1,0 +1,31 @@
+---
+permalink: audit/syst-node-stopping.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SYST, Node Stopping 
+summary: 當服務正常停止時，會產生此訊息以表示已要求關閉且服務已啟動其關閉序列。  SYST 可用於確定在服務重新啟動之前是否請求了關閉（與 SYSD 不同，SYSD 通常在服務重新啟動後發送。\） 
+---
+= SYST：節點停止
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當服務正常停止時，會產生此訊息以表示已要求關閉且服務已啟動其關閉序列。  SYST 可用於確定在服務重新啟動之前是否要求關閉（與 SYSD 不同，SYSD 通常在服務重新啟動後發送。）
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+放射學研究實驗室
+ a| 
+乾淨關機
+ a| 
+關閉的性質：
+
+SUCS：系統已完全關閉。
+
+|===
+該訊息並未表明主機伺服器是否已停止，僅表示報告服務已停止。  SYST 訊息的 RSLT 代碼不能指示「髒」關閉，因為該訊息僅由「乾淨」關閉產生。

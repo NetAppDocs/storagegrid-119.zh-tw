@@ -1,0 +1,232 @@
+---
+permalink: monitor/logs-files-reference.html 
+sidebar: sidebar 
+keywords: log, logs, log files 
+summary: StorageGRID提供用於擷取事件、診斷訊息和錯誤情況的日誌。您可能會被要求收集日誌檔案並將其轉發給技術支援以協助進行故障排除。 
+---
+= 日誌檔參考
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID提供用於擷取事件、診斷訊息和錯誤情況的日誌。您可能會被要求收集日誌檔案並將其轉發給技術支援以協助進行故障排除。
+
+日誌分類如下：
+
+* link:storagegrid-software-logs.html["StorageGRID軟體日誌"]
+* link:deployment-and-maintenance-logs.html["部署和維護日誌"]
+* link:about-bycast-log.html["關於 bycast.log"]
+
+
+
+NOTE: 每種日誌類型提供的詳細資訊僅供參考。這些日誌旨在供技術支援進行進階故障排除。涉及使用審計日誌和應用程式日誌檔案重建問題歷史的高級技術超出了這些說明的範圍。
+
+
+
+== 訪問日誌
+
+要存取日誌，您可以link:collecting-log-files-and-system-data.html["收集日誌檔案和系統數據"]來自一個或多個節點作為單一日誌檔案存檔。或者，如果主管理節點不可用或無法存取特定節點，您可以如下存取每個網格節點的單獨日誌檔案：
+
+. 輸入以下命令： `ssh admin@grid_node_IP`
+. 輸入 `Passwords.txt`文件。
+. 輸入以下命令切換到root： `su -`
+. 輸入 `Passwords.txt`文件。
+
+
+
+
+== 將日誌匯出到 syslog 伺服器
+
+將日誌匯出到 syslog 伺服器可提供以下功能：
+
+* 除了 S3 和 Swift 要求之外，還接收所有 Grid Manager 和 Tenant Manager 要求的清單。
+* 更了解傳回錯誤的 S3 請求，而不會受到稽核日誌記錄方法造成的效能影響。
+* 存取易於解析的 HTTP 層請求和錯誤代碼。
+* 更了解負載平衡器上被流量分類器阻止的請求。
+
+
+若要匯出日誌，請參閱link:../monitor/configure-audit-messages.html["配置審計訊息和日誌目標"]。
+
+
+
+== 日誌檔案類別
+
+StorageGRID日誌檔案存檔包含每個類別描述的日誌以及包含指標和偵錯命令輸出的附加檔案。
+
+[cols="1a,3a"]
+|===
+| 存檔位置 | 描述 
+
+
+| 審計  a| 
+系統正常運作期間產生的稽核訊息。
+
+
+
+| base-os-日誌  a| 
+基本作業系統訊息，包括StorageGRID映像版本。
+
+
+
+| 捆綁包  a| 
+全域設定資訊（捆綁包）。
+
+
+
+| 卡桑德拉  a| 
+Cassandra 資料庫資訊和 Reaper 修復日誌。
+
+
+
+| 歐共體  a| 
+透過設定檔 ID 取得有關目前節點的 VCS 資訊和 EC 群組資訊。
+
+
+
+| 網格  a| 
+常規網格日誌（包括調試）(`bycast.log` ） 和 `servermanager`紀錄.
+
+
+
+| grid.json  a| 
+所有節點共享的網格設定檔。此外， `node.json`特定於當前節點。
+
+
+
+| 哈格斯  a| 
+高可用性群組指標和日誌。
+
+
+
+| 安裝  a| 
+`Gdu-server`並安裝日誌。
+
+
+
+| Lambda仲裁器  a| 
+與 S3 Select 代理請求相關的日誌。
+
+
+
+| 伐木工人日誌  a| 
+與日誌收集相關的偵錯訊息。
+
+
+
+| 指標  a| 
+Grafana、Jaeger、節點導出器和 Prometheus 的服務日誌。
+
+
+
+| 雜項  a| 
+雜項訪問和錯誤日本。
+
+
+
+| mysql  a| 
+mariaDB資料庫配置和相關日誌。
+
+
+
+| 網  a| 
+網路相關腳本和 Dynip 服務產生的日誌。
+
+
+
+| nginx  a| 
+負載平衡器和網格聯合設定檔和日誌。還包括網格管理器和租戶管理器流量日誌。
+
+
+
+| nginx網關  a| 
+* `access.log`：網格管理器和租戶管理器請求日誌訊息。
++
+** 這些訊息的前綴是 `mgmt:`當使用 syslog 導出時。
+** 這些日誌訊息的格式是 `[$time_iso8601] $remote_addr $status $bytes_sent $request_length $request_time "$endpointId" "$request" "$http_host" "$http_user_agent" "$http_referer"`
+
+
+* `cgr-access.log.gz`：入站跨網格複製請求。
++
+** 這些訊息的前綴是 `cgr:`當使用 syslog 導出時。
+** 這些日誌訊息的格式是 `[$time_iso8601] $remote_addr $status $bytes_sent $request_length $request_time "$endpointId" "$upstream_addr" "$request" "$http_host"`
+
+
+* `endpoint-access.log.gz`：S3 和 Swift 請求負載平衡器端點。
++
+** 這些訊息的前綴是 `endpoint:`當使用 syslog 導出時。
+** 這些日誌訊息的格式是 `[$time_iso8601] $remote_addr $status $bytes_sent $request_length $request_time "$endpointId" "$upstream_addr" "$request" "$http_host"`
+
+
+* `nginx-gw-dns-check.log`：與新的 DNS 檢查警報相關。
+
+
+
+
+| NTTP  a| 
+NTP 設定檔和日誌。
+
+
+
+ a| 
+孤立對象
+ a| 
+與孤立物件有關的日誌。
+
+
+
+| 作業系統  a| 
+節點和網格狀態文件，包括服務 `pid`。
+
+
+
+| 其他  a| 
+日誌檔案位於 `/var/local/log`未收集在其他資料夾中。
+
+
+
+| 效能  a| 
+CPU、網路和磁碟 I/O 的效能資訊。
+
+
+
+| 普羅米修斯數據  a| 
+目前 Prometheus 指標（如果日誌收集包含 Prometheus 資料）。
+
+
+
+| 配置  a| 
+與電網配置過程相關的日誌。
+
+
+
+| 筏  a| 
+平台服務中使用的 Raft 叢集日誌。
+
+
+
+| SSH  a| 
+與 SSH 配置和服務相關的日誌。
+
+
+
+| SNMP  a| 
+用於傳送 SNMP 通知的 SNMP 代理程式設定。
+
+
+
+| 套接字數據  a| 
+用於網路調試的套接字資料。
+
+
+
+| 系統命令.txt  a| 
+StorageGRID容器指令的輸出。包含系統訊息，例如網路和磁碟使用情況。
+
+
+
+| 同步恢復包  a| 
+與維護託管 ADC 服務的所有管理節點和儲存節點上最新恢復包的一致性有關。
+
+|===

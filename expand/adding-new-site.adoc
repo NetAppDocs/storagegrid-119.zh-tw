@@ -1,0 +1,46 @@
+---
+permalink: expand/adding-new-site.html 
+sidebar: sidebar 
+keywords: expand, expansion, new site, add site, guidelines 
+summary: 您可以透過新增網站來擴展您的StorageGRID系統。 
+---
+= 新增站點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以透過新增網站來擴展您的StorageGRID系統。
+
+
+
+== 新增網站的指南
+
+在新增網站之前，請查看以下要求和限制：
+
+* 每次擴展操作只能新增一個站點。
+* 您無法將網格節點作為相同擴充的一部分新增至現有網站。
+* 所有站點必須至少包含三個儲存節點。
+* 新增網站並不會自動增加您可以儲存的物件數量。網格的總物件容量取決於可用儲存量、ILM 策略和每個站點的元資料容量。
+* 在決定新網站的規模時，您必須確保它包含足夠的元資料容量。
++
+StorageGRID在每個站點保留所有物件元資料的副本。新增網站時，必須確保它包含足夠的元資料容量來儲存現有物件元數據，以及足夠的元資料容量來滿足成長需求。
+
++
+有關詳細信息，請參閱以下內容：
+
++
+** link:../admin/managing-object-metadata-storage.html["管理對像元資料存儲"]
+** link:../monitor/monitoring-storage-capacity.html#monitor-object-metadata-capacity-for-each-storage-node["監控每個儲存節點的物件元資料容量"]
+
+
+* 您必須考慮網站之間的可用網路頻寬以及網路延遲等級。即使所有物件僅儲存在其被攝取的站點，元資料更新也會在站點之間不斷複製。
+* 由於您的StorageGRID系統在擴充期間仍保持運行，因此您必須在開始擴充程序之前查看 ILM 規則。您必須確保在擴充功能完成之前，物件副本不會儲存到新網站。
++
+例如，在開始擴充之前，確定是否有任何規則使用預設儲存池（所有儲存節點）。如果確實如此，您必須建立包含現有儲存節點的新儲存池，並更新 ILM 規則以使用新的儲存池。否則，一旦該站點的第一個節點變為活動狀態，物件就會被複製到新站點。
+
++
+有關在新增網站時更改 ILM 的詳細信息，請參閱link:../ilm/example-6-changing-ilm-policy.html["更改 ILM 策略的範例"]。
+
+

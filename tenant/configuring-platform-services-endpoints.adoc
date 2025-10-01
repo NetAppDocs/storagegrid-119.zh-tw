@@ -1,0 +1,53 @@
+---
+permalink: tenant/configuring-platform-services-endpoints.html 
+sidebar: sidebar 
+keywords: how to configure platform services endpoint 
+summary: 在為儲存桶配置平台服務之前，您必須設定至少一個端點作為平台服務的目標。 
+---
+= 配置平台服務端點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在為儲存桶配置平台服務之前，您必須設定至少一個端點作為平台服務的目標。
+
+StorageGRID管理員可以按租用戶啟用對平台服務的存取。若要建立或使用平台服務端點，您必須是具有管理端點或 Root 存取權限的租用戶用戶，且網格中的網路已設定為允許儲存節點存取外部端點資源。單一租用戶最多可以配置500個平台服務端點。請聯絡您的StorageGRID管理員以取得更多資訊。
+
+
+
+== 什麼是平台服務端點？
+
+平台服務端點指定StorageGRID存取外部目標所需的資訊。
+
+例如，如果您想要將物件從StorageGRID儲存桶複製到 Amazon S3 儲存桶，則可以建立一個平台服務端點，其中包含StorageGRID存取 Amazon 上的目標儲存桶所需的資訊和憑證。
+
+每種類型的平台服務都需要自己的端點，因此您必須為計劃使用的每個平台服務配置至少一個端點。定義平台服務端點後，您可以使用端點的 URN 作為啟用服務的設定 XML 中的目標。
+
+您可以將相同終端節點用作多個來源儲存桶的目標。例如，您可以設定多個來源儲存桶以將物件元資料傳送到同一個搜尋整合端點，以便您可以跨多個儲存桶執行搜尋。您還可以將來源儲存桶配置為使用多個終端節點作為目標，這使您能夠執行諸如將有關物件建立的通知傳送至一個 Amazon Simple Notification Service (Amazon SNS) 主題以及將有關物件刪除的通知傳送至第二個 Amazon SNS 主題等操作。
+
+
+
+== CloudMirror 複製的端點
+
+StorageGRID支援代表 S3 儲存桶的複製端點。這些儲存桶可能託管在 Amazon Web Services、相同或遠端StorageGRID部署或其他服務上。
+
+
+
+== 通知端點
+
+StorageGRID支援 Amazon SNS 和 Kafka 端點。不支援簡單佇列服務 (SQS) 或 AWS Lambda 端點。
+
+對於 Kafka 端點，不支援 Mutual TLS。因此，如果你有 `ssl.client.auth`設定為 `required`在您的 Kafka 代理配置中，它可能會導致 Kafka 端點配置問題。
+
+
+
+== 搜尋整合服務的端點
+
+StorageGRID支援代表 Elasticsearch 叢集的搜尋整合端點。這些 Elasticsearch 叢集可以位於本機資料中心，也可以託管在 AWS 雲端或其他地方。
+
+搜尋整合端點是指特定的 Elasticsearch 索引和類型。您必須先在 Elasticsearch 中建立索引，然後才能在StorageGRID中建立端點，否則端點建立將會失敗。您不需要在建立端點之前建立類型。如果需要， StorageGRID在將物件元資料傳送到端點時將建立該類型。
+
+.相關資訊
+link:../admin/index.html["管理StorageGRID"]

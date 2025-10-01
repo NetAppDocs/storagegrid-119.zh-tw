@@ -1,0 +1,31 @@
+---
+permalink: rhel/troubleshooting-installation-issues.html 
+sidebar: sidebar 
+keywords: how to troubleshoot red hat linux installation 
+summary: 如果在安裝StorageGRID系統時出現任何問題，您可以存取安裝日誌檔案。技術支援可能還需要使用安裝日誌檔案來解決問題。 
+---
+= 解決安裝問題
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果在安裝StorageGRID系統時出現任何問題，您可以存取安裝日誌檔案。技術支援可能還需要使用安裝日誌檔案來解決問題。
+
+運行每個節點的容器中提供了以下安裝日誌檔案：
+
+* `/var/local/log/install.log`（在所有網格節點上找到）
+* `/var/local/log/gdu-server.log`（位於主管理節點上）
+
+
+可以從主機取得以下安裝日誌檔案：
+
+* `/var/log/storagegrid/daemon.log`
+* `/var/log/storagegrid/nodes/node-name.log`
+
+
+若要了解如何存取日誌文件，請參閱link:../monitor/collecting-log-files-and-system-data.html["收集日誌檔案和系統數據"]。
+
+.相關資訊
+link:../troubleshoot/index.html["對StorageGRID系統進行故障排除"]

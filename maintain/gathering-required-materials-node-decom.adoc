@@ -1,0 +1,49 @@
+---
+permalink: maintain/gathering-required-materials-node-decom.html 
+sidebar: sidebar 
+keywords: storagegrid, node decommission, decommission 
+summary: 在執行網格節點退役之前，您必須取得以下資訊。 
+---
+= 收集所需材料
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在執行網格節點退役之前，您必須取得以下資訊。
+
+[cols="1a,2a"]
+|===
+| 物品 | 筆記 
+
+
+ a| 
+恢復包 `.zip`文件
+ a| 
+你必須link:downloading-recovery-package.html["下載最新的復原包"] `.zip`文件(`sgws-recovery-package-_id-revision_.zip`）。如果發生故障，您可以使用復原包檔案來復原系統。
+
+
+
+ a| 
+`Passwords.txt`文件
+ a| 
+該檔案包含在命令列上存取網格節點所需的密碼，並包含在復原套件中。
+
+
+
+ a| 
+設定密碼
+ a| 
+首次安裝StorageGRID系統時會建立並記錄密碼。配置密碼不在 `Passwords.txt`文件。
+
+
+
+ a| 
+退役前StorageGRID系統拓樸的描述
+ a| 
+如果可用，請取得描述系統目前拓撲的任何文件。
+
+|===
+.相關資訊
+link:../admin/web-browser-requirements.html["Web 瀏覽器需求"]

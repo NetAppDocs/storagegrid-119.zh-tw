@@ -1,0 +1,36 @@
+---
+permalink: maintain/starting-server-manager-and-all-services.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, server manager, start server manager, start services, start all services 
+summary: 您可能需要啟動伺服器管理員，它也會啟動網格節點上的所有服務。 
+---
+= 啟動伺服器管理員和所有服務
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可能需要啟動伺服器管理員，它也會啟動網格節點上的所有服務。
+
+.開始之前
+你有 `Passwords.txt`文件。
+
+.關於此任務
+在已執行伺服器管理員的網格節點上啟動伺服器管理員將導致伺服器管理員和網格節點上的所有服務重新啟動。
+
+.步驟
+. 登入網格節點：
++
+.. 輸入以下命令： `ssh admin@_grid_node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
+
+
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+. 啟動伺服器管理員： `service servermanager start`
+. 退出命令外殼： `exit`
+

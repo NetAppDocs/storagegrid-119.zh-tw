@@ -1,0 +1,39 @@
+---
+permalink: monitor/managing-alerts.html 
+sidebar: sidebar 
+keywords: alert rules, managing alerts, alerts, alert notifications. edit alert rules 
+summary: 警報系統提供了一個易於使用的介面，用於檢測、評估和解決StorageGRID操作期間可能出現的問題。 
+---
+= 管理警報
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+警報系統提供了一個易於使用的介面，用於檢測、評估和解決StorageGRID操作期間可能出現的問題。
+
+當警報規則條件評估為真時，會在特定嚴重程度等級觸發警報。當觸發警報時，將發生以下操作：
+
+* 網格管理器中的儀表板上會顯示警報嚴重性圖標，並且當前警報的數量會增加。
+* 警報顯示在 *NODES* 摘要頁面和 *NODES* > *_node_* > *Overview* 標籤上。
+* 假設您已設定 SMTP 伺服器並為收件者提供了電子郵件地址，則會傳送電子郵件通知。
+* 假設您已設定StorageGRID SNMP 代理，則會傳送簡單網路管理協定 (SNMP) 通知。
+
+
+您可以建立自訂警報、編輯或停用警報以及管理警報通知。
+
+了解更多：
+
+* 回顧影片： https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2eea81c5-8323-417f-b0a0-b1ff008506c1["影片：警報概述"^]
++
+[link=https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2eea81c5-8323-417f-b0a0-b1ff008506c1]
+image::../media/video-screenshot-alert-overview-118.png[影片：警報概述]
+
+* 回顧影片： https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=54af90c4-9a38-4136-9621-b1ff008604a3["影片：自訂警報"^]
++
+[link=https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=54af90c4-9a38-4136-9621-b1ff008604a3]
+image::../media/video-screenshot-alert-create-custom-118.png[影片：自訂警報]
+
+* 查看link:alerts-reference.html["警報參考"]。
+

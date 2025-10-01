@@ -1,0 +1,134 @@
+---
+permalink: audit/mgau-management-audit-message.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, MGAU, Management audit message 
+summary: 管理類別將使用者請求記錄到管理 API。對 API 的每個非 GET 或 HEAD 請求都會記錄一個包含使用者名稱、IP 和對 API 的請求類型的回應。 
+---
+= MGAU：管理審計訊息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+管理類別將使用者請求記錄到管理 API。對有效 API URI 的每個非 GET 或 HEAD 請求的 HTTP 請求都會記錄一個回應，其中包含使用者名稱、IP 和對 API 的請求類型。無效的 API URI（例如 /api/v3-authorize）和對有效 API URI 的無效請求不會被記錄。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+MDIP
+ a| 
+目標 IP 位址
+ a| 
+伺服器（目標）IP 位址。
+
+
+
+ a| 
+核DNA
+ a| 
+網域
+ a| 
+主機域名。
+
+
+
+ a| 
+甲基丙烯酸甲酯
+ a| 
+請求路徑
+ a| 
+請求路徑。
+
+
+
+ a| 
+微機品質控制
+ a| 
+請求查詢參數
+ a| 
+請求的查詢參數。
+
+
+
+ a| 
+磁振造影
+ a| 
+請求正文
+ a| 
+請求主體的內容。雖然預設會記錄回應主體，但當回應主體為空時，在某些情況下會記錄請求主體。由於以下資訊在回應主體中不可用，因此從以下 POST 方法的請求主體中取得：
+
+* *POST 授權* 中的使用者名稱和帳戶 ID
+* *POST /grid/grid-networks/update* 中的新子網路配置
+* *POST /grid/ntp-servers/update* 中新的 NTP 伺服器
+* *POST /grid/servers/decommission* 中的已退役伺服器 ID
+
+
+*注意：*敏感資訊要麼被刪除（例如，S3 存取金鑰），要麼用星號屏蔽（例如，密碼）。
+
+
+
+ a| 
+MRMD
+ a| 
+請求方法
+ a| 
+HTTP 請求方法：
+
+* 郵政
+* 放
+* 刪除
+* 修補
+
+
+
+
+ a| 
+MRSC
+ a| 
+回應代碼
+ a| 
+響應代碼。
+
+
+
+ a| 
+MRSP
+ a| 
+回應正文
+ a| 
+預設情況下記錄回應的內容（回應主體）。
+
+*注意：*敏感資訊要麼被刪除（例如，S3 存取金鑰），要麼用星號屏蔽（例如，密碼）。
+
+
+
+ a| 
+多系統資訊平台
+ a| 
+來源 IP 位址
+ a| 
+客戶端（來源）IP 位址。
+
+
+
+ a| 
+繆恩
+ a| 
+用戶 URN
+ a| 
+發送請求的使用者的 URN（統一資源名稱）。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果
+ a| 
+返回成功（SUCS）或後端報告的錯誤。
+
+|===

@@ -1,0 +1,50 @@
+---
+permalink: s3/put-bucket-last-access-time-request.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, put bucket last access time request 
+summary: GET Bucket 最後存取時間請求可讓您確定是否為各個儲存桶啟用或停用最後存取時間更新。 
+---
+= PUT Bucket 上次訪問時間
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+PUT Bucket 最後存取時間請求可讓您啟用或停用單一儲存桶的最後存取時間更新。停用上次存取時間更新可提高效能，並且是使用 10.3.0 或更高版本建立的所有儲存桶的預設值。
+
+您必須擁有儲存桶的 s3:PutBucketLastAccessTime 權限，或成為帳戶 root，才能完成此操作。
+
+
+NOTE: 從StorageGRID版本 10.3 開始，所有新儲存桶的上次存取時間更新預設為停用狀態。如果您有使用早期版本的StorageGRID建立的儲存桶，並且您想要符合新的預設行為，則必須明確停用每個早期儲存桶的上次存取時間更新。您可以使用 PUT Bucket 上次存取時間請求或從租用戶管理員中儲存桶的詳細資訊頁面啟用或停用上次存取時間的更新。看link:../tenant/enabling-or-disabling-last-access-time-updates.html["啟用或停用上次訪問時間更新"] 。
+
+如果停用了儲存桶的上次存取時間更新，則下列行為將套用於儲存桶上的操作：
+
+* GetObject、GetObjectAcl、GetObjectTagging 和 HeadObject 要求不會更新上次存取時間。該物件未新增至資訊生命週期管理 (ILM) 評估佇列。
+* 僅更新元資料的 CopyObject 和 PutObjectTagging 請求也會更新上次存取時間。該物件被加入到隊列以供 ILM 評估。
+* 如果停用來源儲存桶的上次存取時間更新，則 CopyObject 請求不會更新來源儲存體的上次存取時間。被複製的物件不會加入到來源儲存桶的 ILM 評估佇列中。但是，對於目標，CopyObject 請求總是更新上次存取時間。物件的副本被加入到隊列中以供 ILM 評估。
+* CompleteMultipartUpload 請求更新上次訪問時間。完成的物件被加入到隊列中以供 ILM 評估。
+
+
+
+
+== 請求範例
+
+此範例啟用儲存桶的最後存取時間。
+
+[listing, subs="specialcharacters,quotes"]
+----
+PUT /bucket?x-ntap-sg-lastaccesstime=enabled HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----
+此範例禁用儲存桶的上次存取時間。
+
+[listing, subs="specialcharacters,quotes"]
+----
+PUT /bucket?x-ntap-sg-lastaccesstime=disabled HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----

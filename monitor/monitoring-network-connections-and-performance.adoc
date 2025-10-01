@@ -1,0 +1,97 @@
+---
+permalink: monitor/monitoring-network-connections-and-performance.html 
+sidebar: sidebar 
+keywords: monitoring, monitoring network connections, network, network performance 
+summary: 節點和站點之間的網路完整性和頻寬以及各個網格節點的資源使用對於高效運作至關重要。 
+---
+= 監控網路和系統資源
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+節點和站點之間的網路完整性和頻寬以及各個網格節點的資源使用對於高效運作至關重要。
+
+
+
+== 監控網路連線和效能
+
+如果您的資訊生命週期管理 (ILM) 策略在網站之間複製複製對像或使用提供站點遺失保護的方案儲存擦除編碼對象，則網路連線和頻寬尤為重要。如果站點之間的網路無法使用、網路延遲過高或網路頻寬不足，某些 ILM 規則可能無法將物件放置在預期的位置。這可能會導致攝取失敗（當為 ILM 規則選擇嚴格攝取選項時），或導致攝取性能不佳和 ILM 積壓。
+
+使用網格管理器監控連接性和網路效能，以便您可以及時解決任何問題。
+
+此外，考慮link:../admin/managing-traffic-classification-policies.html["建立網路流量分類策略"]以便您可以監控與特定租用戶、儲存桶、子網路或負載平衡器端點相關的流量。您可以根據需要設定限流策略。
+
+.步驟
+. 選擇*NODES*。
++
+出現“節點”頁面。網格中的每個節點都以表格形式列出。
+
++
+image::../media/nodes_menu.png[節點選單]
+
+. 選擇網格名稱、特定資料中心站點或網格節點，然後選擇「網路」標籤。
++
+網路流量圖提供了整個電網、資料中心站點或節點的整體網路流量摘要。
+
++
+image::../media/nodes_page_network_traffic_graph.png[節點頁面網路流量圖]
+
++
+.. 如果您選擇了網格節點，請向下捲動以查看頁面的「*網路介面*」部分。
++
+image::../media/nodes_page_network_interfaces.png[節點頁面網路介面]
+
+.. 對於網格節點，向下捲動以查看頁面的「網路通訊」部分。
++
+接收和傳輸表顯示每個網路接收和發送了多少位元組和資料包以及其他接收和傳輸指標。
+
++
+image::../media/nodes_page_network_communication.png[節點頁面網路通訊]
+
+
+
+. 使用與流量分類策略相關的指標來監控網路流量。
++
+.. 選擇*配置* > *網路* > *流量分類*。
++
+出現「流量分類策略」頁面，現有策略列在表格中。
+
++
+image::../media/traffic_classification_policies_main_screen_w_examples.png[圖表流量策略範例]
+
+.. 若要查看顯示與策略相關的網路指標的圖表，請選擇策略左側的單選按鈕，然後按一下「*指標*」。
+.. 查看圖表以了解與策略相關的網路流量。
++
+如果流量分類策略旨在限製網路流量，請分析限制流量的頻率並確定策略是否繼續滿足您的需求。時，link:../admin/managing-traffic-classification-policies.html["根據需要調整每個流量分類策略"] 。
+
+
+
+
+
+.相關資訊
+* link:viewing-network-tab.html["查看「網路」標籤"]
+* link:monitoring-system-health.html#monitor-node-connection-states["監控節點連線狀態"]
+
+
+
+
+== 監控節點級資源
+
+監控單一網格節點以檢查其資源使用水準。如果節點持續過載，則可能需要更多節點才能實現高效運作。
+
+.步驟
+. 從 *NODES* 頁面中選擇節點。
+. 選擇「*硬體*」標籤來顯示 CPU 使用率和記憶體使用量的圖表。
++
+image::../media/nodes_page_hardware_tab_graphs.png[節點頁面硬體選項卡]
+
+. 若要顯示不同的時間間隔，請選擇圖表或圖形上方的其中一個控制項。您可以顯示 1 小時、1 天、1 週或 1 個月間隔內可用的資訊。您也可以設定自訂間隔，以便指定日期和時間範圍。
+. 如果節點託管在儲存裝置或服務設備上，請向下捲動以查看元件表。所有組件的狀態都應為「正常」。調查具有任何其他狀態的組件。
+
+
+.相關資訊
+* link:viewing-hardware-tab.html#view-information-about-appliance-storage-nodes["查看有關設備儲存節點的信息"]
+* link:viewing-hardware-tab.html#view-information-about-appliance-admin-nodes-and-gateway-nodes["查看有關設備管理節點和網關節點的信息"]
+

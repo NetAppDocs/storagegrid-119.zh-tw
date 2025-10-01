@@ -1,0 +1,46 @@
+---
+permalink: admin/configuring-stored-object-compression.html 
+sidebar: sidebar 
+keywords: object compression, compress stored objects 
+summary: 您可以啟用物件壓縮來減少儲存在StorageGRID中的物件的大小，從而減少物件消耗的儲存空間。 
+---
+= 壓縮儲存的對象
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以啟用物件壓縮來減少儲存在StorageGRID中的物件的大小，從而減少物件消耗的儲存空間。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:admin-group-permissions.html["特定存取權限"]。
+
+
+.關於此任務
+預設情況下，物件壓縮是禁用的。如果啟用壓縮， StorageGRID會在儲存每個物件時嘗試使用無損壓縮來壓縮每個物件。
+
+
+NOTE: 如果您更改此設置，則大約需要一分鐘才能應用新設置。配置的值被緩存，以提高效能和擴展性。
+
+在啟用物件壓縮之前，請注意以下事項：
+
+* 除非您知道儲存的資料是可壓縮的，否則不應選擇*壓縮儲存的物件*。
+* 將物件儲存到StorageGRID 的應用程式可能會在儲存物件之前對其進行壓縮。如果用戶端應用程式在將物件儲存到StorageGRID之前已經壓縮了該對象，則選擇此選項將不會進一步減少對象的大小。
+* 如果您將NetApp FabricPool與StorageGRID一起使用，請不要選擇「壓縮儲存物件」。
+* 如果選擇了*壓縮儲存的物件*，S3 用戶端應用程式應避免執行指定傳回位元組範圍的 GetObject 操作。這些「範圍讀取」操作效率低下，因為StorageGRID必須有效地解壓縮物件才能存取請求的位元組。從非常大的物件中請求一小段位元組的 GetObject 操作效率特別低；例如，從 50 GB 的壓縮物件中讀取 10 MB 範圍的位元組效率很低。
++
+如果從壓縮物件讀取範圍，客戶端請求可能會逾時。
+
++
+
+NOTE: 如果您需要壓縮物件並且客戶端應用程式必須使用範圍讀取，請增加應用程式的讀取逾時。
+
+
+
+.步驟
+. 選擇 *配置* > *系統* > *儲存設定* > *物件壓縮*。
+. 選取“*壓縮儲存的物件*”複選框。
+. 選擇*儲存*。
+

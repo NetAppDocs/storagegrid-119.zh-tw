@@ -1,0 +1,55 @@
+---
+permalink: troubleshoot/troubleshooting-certificate-errors.html 
+sidebar: sidebar 
+keywords: how to troubleshoot certificate errors 
+summary: 如果您在嘗試使用 Web 瀏覽器、S3 用戶端或外部監控工具連線至StorageGRID時發現安全性或憑證問題，則應檢查憑證。 
+---
+= 解決證書錯誤
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您在嘗試使用 Web 瀏覽器、S3 用戶端或外部監控工具連線至StorageGRID時發現安全性或憑證問題，則應檢查憑證。
+
+.關於此任務
+當您嘗試使用網格管理器、網格管理 API、租用戶管理器或租用戶管理 API 連線到StorageGRID時，憑證錯誤可能會導致問題。當您嘗試連線 S3 用戶端或外部監控工具時，也可能會出現憑證錯誤。
+
+如果您使用網域名稱而不是 IP 位址存取網格管理員或租用戶管理器，則在發生下列任一情況時，瀏覽器將顯示憑證錯誤，且沒有繞過選項：
+
+* 您的自訂管理介面憑證已過期。
+* 您將從自訂管理介面憑證還原為預設伺服器憑證。
+
+
+以下範例顯示自訂管理介面憑證過期時出現的憑證錯誤：
+
+image::../media/certificate_error.png[證書錯誤範例]
+
+為了確保操作不會因伺服器憑證失敗而中斷，當伺服器憑證即將過期時，會觸發*管理介面伺服器憑證過期*警報。
+
+當您使用用戶端憑證進行外部 Prometheus 整合時，憑證錯誤可能是由StorageGRID管理介面憑證或用戶端憑證所造成的。當用戶端憑證即將過期時，會觸發「憑證頁面上設定的用戶端憑證過期」警報。
+
+.步驟
+如果您收到有關證書過期的警報通知，請訪問證書詳細資訊：。選擇 *設定* > *安全* > *憑證*，然後link:../admin/using-storagegrid-security-certificates.html#access-security-certificates["選擇適當的憑證標籤"]。
+
+. 檢查證書的有效期限。  + 某些 Web 瀏覽器和 S3 用戶端不接受有效期超過 398 天的憑證。
+. 如果憑證已過期或即將過期，請上傳或產生新憑證。
++
+** 對於伺服器證書，請參閱link:../admin/configuring-custom-server-certificate-for-grid-manager-tenant-manager.html#add-a-custom-management-interface-certificate["為網格管理器和租用戶管理器配置自訂伺服器證書"]。
+** 有關用戶端證書，請參閱link:../admin/configuring-administrator-client-certificates.html["設定客戶端證書"]。
+
+
+. 對於伺服器憑證錯誤，請嘗試以下一個或兩個選項：
++
+** 確保憑證的主題備用名稱 (SAN) 已填充，並且 SAN 與您要連接的節點的 IP 位址或主機名稱相符。
+** 如果您嘗試使用網域連接至StorageGRID ：
++
+... 輸入管理節點的 IP 位址而不是網域名稱以繞過連接錯誤並存取網格管理器。
+... 從網格管理器中，選擇 *配置* > *安全性* > *證書*，然後link:../admin/using-storagegrid-security-certificates.html#access-security-certificates["選擇適當的憑證標籤"]安裝新的自訂憑證或繼續使用預設憑證。
+... 在管理StorageGRID的說明中，請參閱link:../admin/configuring-custom-server-certificate-for-grid-manager-tenant-manager.html#add-a-custom-management-interface-certificate["為網格管理器和租用戶管理器配置自訂伺服器證書"]。
+
+
+
+
+

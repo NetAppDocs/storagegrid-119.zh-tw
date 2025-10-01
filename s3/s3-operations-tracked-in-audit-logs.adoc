@@ -1,0 +1,53 @@
+---
+permalink: s3/s3-operations-tracked-in-audit-logs.html 
+sidebar: sidebar 
+keywords: audit log, auditing bucket and object operations, S3 audit messages 
+summary: 審計訊息由StorageGRID服務產生並儲存在文字日誌檔案中。您可以查看審計日誌中特定於 S3 的審計訊息，以取得有關儲存桶和物件操作的詳細資訊。 
+---
+= 審計日誌中追蹤的 S3 操作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+審計訊息由StorageGRID服務產生並儲存在文字日誌檔案中。您可以查看審計日誌中特定於 S3 的審計訊息，以取得有關儲存桶和物件操作的詳細資訊。
+
+
+
+== 審計日誌中追蹤的儲存桶操作
+
+* 創建桶
+* 刪除桶
+* 刪除桶標記
+* 刪除對象
+* 取得桶標記
+* 頭桶
+* 清單對象
+* 列出物件版本
+* PUT Bucket 合規性
+* PutBucketTagging
+* PutBucket版本控制
+
+
+
+
+== 審計日誌中追蹤的物件操作
+
+* 完成多部分上傳
+* 複製對象
+* 刪除對象
+* 取得對象
+* 頭部對象
+* 放置對象
+* 復原對象
+* 選擇對象
+* UploadPart（當 ILM 規則使用 Balanced 或 Strict 攝取）
+* UploadPartCopy（當 ILM 規則使用平衡或嚴格提取時）
+
+
+.相關資訊
+* link:../audit/accessing-audit-log-file.html["訪問審計日誌文件"]
+* link:../audit/client-write-audit-messages.html["客戶端寫入審計訊息"]
+* link:../audit/client-read-audit-messages.html["客戶端讀取審計訊息"]
+

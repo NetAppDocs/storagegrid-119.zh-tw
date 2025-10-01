@@ -1,0 +1,98 @@
+---
+permalink: s3/custom-operations-on-buckets.html 
+sidebar: sidebar 
+keywords: operations, buckets, custom, storagegrid bucket operations 
+summary: StorageGRID系統支援新增至 S3 REST API 的自訂操作。 
+---
+= StorageGRID自訂操作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID系統支援新增至 S3 REST API 的自訂操作。
+
+下表列出了StorageGRID支援的自訂操作。
+
+[cols="1a,2a"]
+|===
+| 手術 | 描述 
+
+
+ a| 
+link:get-bucket-consistency-request.html["取得桶一致性"]
+ a| 
+傳回應用於特定儲存桶的一致性。
+
+
+
+ a| 
+link:put-bucket-consistency-request.html["PUT桶一致性"]
+ a| 
+設定應用於特定儲存桶的一致性。
+
+
+
+ a| 
+link:get-bucket-last-access-time-request.html["取得 Bucket 上次造訪時間"]
+ a| 
+傳回是否為特定儲存桶啟用或停用上次存取時間更新。
+
+
+
+ a| 
+link:put-bucket-last-access-time-request.html["PUT Bucket 上次訪問時間"]
+ a| 
+允許您啟用或停用特定儲存桶的上次存取時間更新。
+
+
+
+ a| 
+link:delete-bucket-metadata-notification-configuration-request.html["刪除儲存桶元資料通知配置"]
+ a| 
+刪除與特定儲存桶關聯的元資料通知配置 XML。
+
+
+
+ a| 
+link:get-bucket-metadata-notification-configuration-request.html["取得 Bucket 元資料通知配置"]
+ a| 
+傳回與特定儲存桶關聯的元資料通知配置 XML。
+
+
+
+ a| 
+link:put-bucket-metadata-notification-configuration-request.html["PUT Bucket 元資料通知配置"]
+ a| 
+為儲存桶配置元資料通知服務。
+
+
+
+ a| 
+link:get-storage-usage-request.html["取得儲存使用情況"]
+ a| 
+告訴您帳戶使用的儲存總量以及與該帳戶關聯的每個儲存桶的儲存總量。
+
+
+
+ a| 
+link:deprecated-put-bucket-request-modifications-for-compliance.html["已棄用：具有合規性設定的 CreateBucket"]
+ a| 
+已棄用且不受支援：您無法再建立啟用合規性的新儲存桶。
+
+
+
+ a| 
+link:deprecated-get-bucket-compliance-request.html["已棄用：GET Bucket 合規性"]
+ a| 
+已棄用但受支援：傳回目前對現有舊版合規儲存桶有效的合規性設定。
+
+
+
+ a| 
+link:deprecated-put-bucket-compliance-request.html["棄用：PUT Bucket 合規性"]
+ a| 
+已棄用但受支援：允許您修改現有舊版合規儲存桶的合規性設定。
+
+|===

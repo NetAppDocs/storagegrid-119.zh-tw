@@ -1,0 +1,34 @@
+---
+permalink: ubuntu/validating-storagegrid-configuration.html 
+sidebar: sidebar 
+keywords: how to validate StorageGRID configuration 
+summary: 在 /etc/storagegrid/nodes 中為每個StorageGRID節點建立設定檔後，必須驗證這些檔案的內容。 
+---
+= 驗證StorageGRID配置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在建立設定檔後 `/etc/storagegrid/nodes`對於每個StorageGRID節點，您必須驗證這些檔案的內容。
+
+若要驗證設定檔的內容，請在每個主機上執行以下命令：
+
+[listing]
+----
+sudo storagegrid node validate all
+----
+如果檔案正確，則輸出將顯示每個設定檔的 *PASSED*，如範例所示。
+
+
+NOTE: 當僅在元資料節點上使用一個 LUN 時，您可能會收到一條可以忽略的警告訊息。
+
+image::../media/rhel_node_configuration_file_output.gif[該圖像由周圍的文字解釋。]
+
+
+TIP: 對於自動安裝，您可以使用 `-q`或者 `--quiet`選項 `storagegrid`命令（例如， `storagegrid --quiet...` ）。如果您抑制輸出，則當偵測到任何設定警告或錯誤時，命令將具有非零退出值。
+
+如果設定檔不正確，問題將顯示為 *WARNING* 和 *ERROR*，如範例所示。如果發現任何配置錯誤，則必須先修正它們，然後才能繼續安裝。
+
+image::../media/rhel_node_configuration_file_output_with_errors.gif[該圖像由周圍的文字解釋。]

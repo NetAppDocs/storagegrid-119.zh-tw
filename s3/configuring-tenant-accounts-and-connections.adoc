@@ -1,0 +1,84 @@
+---
+permalink: s3/configuring-tenant-accounts-and-connections.html 
+sidebar: sidebar 
+keywords: aws cli, test s3 client connection 
+summary: '您可以使用 Amazon Web Services 命令列介面 (AWS CLI) 測試與系統的連線並驗證您是否可以讀取和寫入物件。' 
+---
+= 測試 S3 REST API 配置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 Amazon Web Services 命令列介面 (AWS CLI) 測試與系統的連線並驗證您是否可以讀取和寫入物件。
+
+.開始之前
+* 您已從 https://aws.amazon.com/cli["aws.amazon.com/cli"^]。
+* 或者，你有link:../admin/configuring-load-balancer-endpoints.html["建立負載平衡器端點"]。否則，您知道要連接的儲存節點的 IP 位址和要使用的連接埠號碼。看link:../admin/summary-ip-addresses-and-ports-for-client-connections.html["用戶端連接的 IP 位址和連接埠"] 。
+* 你有link:../admin/creating-tenant-account.html["建立了 S3 租用戶帳戶"]。
+* 您已登入租戶，並且link:../tenant/creating-your-own-s3-access-keys.html["建立了存取密鑰"]。
+
+
+有關這些步驟的詳細信息，請參閱link:../admin/configuring-client-connections.html["設定客戶端連接"]。
+
+.步驟
+. 設定 AWS CLI 設定以使用您在StorageGRID系統中建立的帳戶：
++
+.. 進入配置模式： `aws configure`
+.. 輸入您建立的帳戶的存取金鑰 ID。
+.. 輸入您建立的帳戶的秘密存取金鑰。
+.. 輸入要使用的預設區域。例如，  `us-east-1` 。
+.. 輸入要使用的預設輸出格式，或按 *Enter* 選擇 JSON。
+
+
+. 建立一個儲存桶。
++
+此範例假設您配置了負載平衡器端點以使用 IP 位址 10.96.101.17 和連接埠 10443。
+
++
+[listing]
+----
+aws s3api --endpoint-url https://10.96.101.17:10443
+--no-verify-ssl create-bucket --bucket testbucket
+----
++
+如果 bucket 建立成功，則傳回 bucket 的位置，如下例所示：
+
++
+[listing]
+----
+"Location": "/testbucket"
+----
+. 上傳對象。
++
+[listing]
+----
+aws s3api --endpoint-url https://10.96.101.17:10443 --no-verify-ssl
+put-object --bucket testbucket --key s3.pdf --body C:\s3-test\upload\s3.pdf
+----
++
+如果物件上傳成功，則會傳回一個 Etag，它是物件資料的雜湊值。
+
+. 列出儲存桶的內容以驗證物件是否已上傳。
++
+[listing]
+----
+aws s3api --endpoint-url https://10.96.101.17:10443 --no-verify-ssl
+list-objects --bucket testbucket
+----
+. 刪除對象。
++
+[listing]
+----
+aws s3api --endpoint-url https://10.96.101.17:10443 --no-verify-ssl
+delete-object --bucket testbucket --key s3.pdf
+----
+. 刪除儲存桶。
++
+[listing]
+----
+aws s3api --endpoint-url https://10.96.101.17:10443 --no-verify-ssl
+delete-bucket --bucket testbucket
+----
+

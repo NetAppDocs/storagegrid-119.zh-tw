@@ -1,0 +1,83 @@
+---
+permalink: monitor/information-you-should-monitor-regularly.html 
+sidebar: sidebar 
+keywords: when to monitor, what to monitor 
+summary: 即使StorageGRID系統在發生錯誤或網格部分不可用時可以繼續運行，您也應該在潛在問題影響網格的效率或可用性之前對其進行監控和解決。 
+---
+= 監控什麼以及何時監控
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+即使StorageGRID系統在發生錯誤或網格部分不可用時可以繼續運行，您也應該在潛在問題影響網格的效率或可用性之前對其進行監控和解決。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+
+
+.關於監控任務
+繁忙的系統會產生大量資訊。以下列表提供了有關需要持續監控的最重要資訊的指導。
+
+[cols="1a,1a"]
+|===
+| 監控什麼 | 頻率 
+
+
+ a| 
+link:monitoring-system-health.html["系統健康狀態"]
+ a| 
+日常的
+
+
+
+ a| 
+速率link:monitoring-storage-capacity.html["儲存節點物件和元資料容量"]正在被消耗
+ a| 
+每週
+
+
+
+ a| 
+link:monitoring-information-lifecycle-management.html["資訊生命週期管理操作"]
+ a| 
+每週
+
+
+
+ a| 
+link:monitoring-network-connections-and-performance.html["網路和系統資源"]
+ a| 
+每週
+
+
+
+ a| 
+link:monitoring-tenant-activity.html["租戶活動"]
+ a| 
+每週
+
+
+
+ a| 
+link:monitoring-object-ingest-and-retrieval-rates.html["S3 客戶端操作"]
+ a| 
+每週
+
+
+
+ a| 
+link:monitoring-load-balancing-operations.html["負載平衡操作"]
+ a| 
+初始配置後以及任何配置更改後
+
+
+
+ a| 
+link:grid-federation-monitor-connections.html["電網聯合連接"]
+ a| 
+每週
+
+|===

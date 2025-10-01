@@ -1,0 +1,85 @@
+---
+permalink: monitor/running-diagnostics.html 
+sidebar: sidebar 
+keywords: how to run diagnostics 
+summary: 在解決問題時，您可以與技術支援合作，在StorageGRID系統上執行診斷程序並查看結果。 
+---
+= 運行診斷
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在解決問題時，您可以與技術支援合作，在StorageGRID系統上執行診斷程序並查看結果。
+
+* link:reviewing-support-metrics.html["審查支持指標"]
+* link:commonly-used-prometheus-metrics.html["常用的 Prometheus 指標"]
+
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+
+
+.關於此任務
+診斷頁面對電網的目前狀態執行一組診斷檢查。每個診斷檢查可以有以下三種狀態之一：
+
+* image:../media/icon_alert_green_checkmark.png["圖示警報綠色複選標記"]*正常*：所有數值均在正常範圍內。
+* image:../media/icon_alert_yellow_minor.png["圖示警報黃色輕微"]*注意*：一個或多個值超出正常範圍。
+* image:../media/icon_alert_red_critical.png["圖示警報紅色嚴重"]*警告*：一個或多個值明顯超出正常範圍。
+
+
+診斷狀態與當前警報無關，並且可能不會指示電網的運作問題。例如，即使沒有觸發警報，診斷檢查也可能顯示警告狀態。
+
+.步驟
+. 選擇*支援* > *工具* > *診斷*。
++
+出現「診斷」頁面並列出每個診斷檢查的結果。結果按嚴重程度排序（警告、注意、正常）。在每個嚴重性等級中，結果按字母順序排序。
+
++
+在此範例中，所有診斷均處於正常狀態。
+
++
+image::../media/support_diagnostics_page.png[支援診斷頁面]
+
+. 要了解有關特定診斷的更多信息，請單擊該行中的任意位置。
++
+將顯示有關診斷及其當前結果的詳細資訊。列出了以下詳細資訊：
+
++
+** *狀態*：此診斷的當前狀態：正常、注意或警告。
+** *Prometheus 查詢*：如果用於診斷，則使用 Prometheus 表達式來產生狀態值。  （Prometheus 表達式並不用於所有診斷。）
+** *閾值*：如果可用於診斷，則係統為每個異常診斷狀態定義的閾值。  （閾值並不用於所有診斷。）
++
+
+NOTE: 您無法變更這些閾值。
+
+** *狀態值*：顯示整個StorageGRID系統的診斷狀態和值的表格。在此範例中，顯示了StorageGRID系統中每個節點的目前 CPU 使用率。所有節點值均低於注意和警告閾值，因此診斷的整體狀態為正常。
+
+
++
+image::../media/support_diagnostics_cpu_utilization.png[支援診斷 ​​CPU 使用率]
+
+. *可選*：要查看與此診斷相關的 Grafana 圖表，請點擊 *Grafana 儀表板* 連結。
++
+並非所有診斷都會顯示此連結。
+
++
+出現相關的 Grafana 儀表板。在此範例中，節點儀表板顯示該節點隨時間變化的 CPU 使用率以及該節點的其他 Grafana 圖表。
+
++
+
+NOTE: 您也可以從 *SUPPORT* > *Tools* > *Metrics* 頁面的 Grafana 部分存取預先建立的 Grafana 儀表板。
+
++
+image::../media/grafana_dashboard_nodes.png[Grafana 儀表板節點]
+
+. *可選*：若要查看 Prometheus 隨時間變化的表達圖表，請按一下*在 Prometheus 中查看*。
++
+出現診斷中使用的表達式的 Prometheus 圖表。
+
++
+image::../media/support_diagnostics_prometheus_png.png[支援診斷 ​​Prometheus 頁面]
+
+

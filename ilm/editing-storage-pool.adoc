@@ -1,0 +1,46 @@
+---
+permalink: ilm/editing-storage-pool.html 
+sidebar: sidebar 
+keywords: edit storage pool 
+summary: 您可以編輯儲存池以變更其名稱或更新網站和儲存等級。 
+---
+= 編輯儲存池
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以編輯儲存池以變更其名稱或更新網站和儲存等級。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:../admin/admin-group-permissions.html["特定存取權限"]。
+* 您已審閱link:guidelines-for-creating-storage-pools.html["建立儲存池的指南"]。
+* 如果您計劃編輯活動 ILM 策略中的規則所使用的儲存池，則您已經考慮過您的變更將如何影響物件資料的放置。
+
+
+.關於此任務
+如果您要為活動 ILM 策略中使用的儲存池新增網站或儲存等級，請注意新網站或儲存等級中的儲存節點將不會自動使用。若要強制StorageGRID使用新網站或儲存等級，您必須在儲存編輯的儲存池後啟動新的 ILM 策略。
+
+.步驟
+. 選擇 *ILM* > *儲存池*。
+. 選取要編輯的儲存池的核取方塊。
++
+您無法編輯所有儲存節點StorageGRID 11.6 及更早版本）。
+
+. 選擇*編輯*。
+. 根據需要變更儲存池名稱。
+. 根據需要選擇其他站點和儲存等級。
++
+如果儲存池在擦除編碼設定檔中使用，則您將無法變更網站或儲存等級，且變更會導致擦除編碼方案無效。例如，如果擦除編碼設定檔中使用的儲存池目前僅包含一個網站的儲存等級，則您將無法使用兩個網站的儲存等級，因為變更會使擦除編碼方案無效。
+
++
+
+CAUTION: 在現有儲存池中新增或刪除網站不會移動任何現有的擦除編碼資料。如果要從網站移動現有數據，則必須建立一個新的儲存池和 EC 配置檔案來重新編碼資料。
+
+. 選擇*儲存*。
+
+
+.完成後
+如果您在活動 ILM 政策中使用的儲存池中新增了新的網站或儲存等級，請啟動新的 ILM 策略以強制StorageGRID使用新的網站或儲存等級。例如，克隆現有的 ILM 策略，然後啟動該克隆。看link:working-with-ilm-rules-and-ilm-policies.html["使用 ILM 規則和 ILM 策略"] 。

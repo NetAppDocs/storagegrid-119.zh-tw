@@ -1,0 +1,42 @@
+---
+permalink: rhel/specifying-network-time-protocol-server-information.html 
+sidebar: sidebar 
+keywords: how to specify network time protocol ntp 
+summary: '您必須為StorageGRID系統指定網路時間協定 (NTP) 配置訊息，以便在不同伺服器上執行的操作保持同步。' 
+---
+= 指定網路時間協定伺服器訊息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須為StorageGRID系統指定網路時間協定 (NTP) 配置訊息，以便在不同伺服器上執行的操作可以保持同步。
+
+.關於此任務
+您必須為 NTP 伺服器指定 IPv4 位址。
+
+您必須指定外部 NTP 伺服器。指定的NTP伺服器必須使用NTP協定。
+
+您必須指定四個 Stratum 3 或更高階的 NTP 伺服器參考，以防止時間漂移問題。
+
+[NOTE]
+====
+為生產級StorageGRID安裝指定外部 NTP 來源時，請勿在早於 Windows Server 2016 的 Windows 版本上使用 Windows 時間 (W32Time) 服務。早期版本的 Windows 上的時間服務不夠準確，且 Microsoft 不支援在高精確度環境（例如StorageGRID）中使用。
+
+https://support.microsoft.com/en-us/help/939322/support-boundary-to-configure-the-windows-time-service-for-high-accura["支援邊界以配置 Windows 時間服務以實現高精度環境"^]
+
+====
+外部 NTP 伺服器由您先前指派了主 NTP 角色的節點使用。
+
+
+NOTE: 確保每個站點至少有兩個節點可以存取至少四個外部 NTP 來源。如果網站中只有一個節點可以存取 NTP 來源，則當節點發生故障時就會出現計時問題。此外，如果站點與電網的其餘部分隔離，則為每個站點指定兩個節點為主要 NTP 來源可確保準確的計時。
+
+.步驟
+. 在 *伺服器 1* 到 *伺服器 4* 文字方塊中指定至少四個 NTP 伺服器的 IPv4 位址。
+. 如果需要，請選擇最後一個條目旁邊的加號來新增其他伺服器條目。
++
+image::../media/8_gmi_installer_ntp_page.gif[該圖像由周圍的文字解釋。]
+
+. 選擇“下一步”。
+

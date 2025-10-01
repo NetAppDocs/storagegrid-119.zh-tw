@@ -1,0 +1,122 @@
+---
+permalink: rhel/downloading-and-extracting-storagegrid-installation-files.html 
+sidebar: sidebar 
+keywords: red hat linux installation files, how to download installation files 
+summary: 您必須下載StorageGRID安裝檔案並提取所需的檔案。或者，您可以手動驗證安裝包中的檔案。 
+---
+= 下載並解壓縮StorageGRID安裝文件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須下載StorageGRID安裝檔案並提取所需的檔案。或者，您可以手動驗證安裝包中的檔案。
+
+.步驟
+. 前往 https://mysupport.netapp.com/site/products/all/details/storagegrid/downloads-tab["NetApp StorageGRID下載頁面"^]。
+. 選擇下載最新版本的按鈕，或從下拉式選單中選擇另一個版本並選擇*Go*。
+. 使用您的NetApp帳號的使用者名稱和密碼Sign in。
+. 如果出現「警告/必讀」聲明，請閱讀並選取核取方塊。
++
+
+CAUTION: 安裝StorageGRID版本後，您必須套用任何所需的修補程式。有關更多信息，請參閱link:../maintain/storagegrid-hotfix-procedure.html["恢復和維護說明中的修補程序"] 。
+
+. 閱讀最終用戶許可協議，選中復選框，然後選擇*接受並繼續*。
+. 在 *安裝StorageGRID* 欄位中，選擇 Red Hat Enterprise Linux 的 .tgz 或 .zip 安裝檔案。
++
+
+NOTE: 選擇 `.zip`如果您在服務筆記型電腦上執行 Windows，則該檔案。
+
+. 保存安裝檔案。
+. [[rhel-download-verification-package]]如果您需要驗證安裝檔案：
++
+.. 下載StorageGRID代碼簽章驗證包。此套件的檔案名稱使用以下格式 `StorageGRID_<version-number>_Code_Signature_Verification_Package.tar.gz`， 在哪裡 `<version-number>`是StorageGRID軟體版本。
+.. 依照步驟link:../rhel/download-files-verify.html["手動驗證安裝文件"]。
+
+
+. 從安裝檔案中提取文件。
+. 選擇您需要的文件。
++
+您所需的文件取決於您計劃的網格拓撲以及您將如何部署StorageGRID系統。
+
++
+
+NOTE: 表中列出的路徑是相對於解壓縮的安裝檔案所安裝的頂級目錄
+
+
+
+[cols="1a,1a"]
+|===
+| 路徑和檔名 | 描述 
+
+
+| ./rpms/自述文件  a| 
+描述StorageGRID下載檔案中所包含的所有檔案的文字檔案。
+
+
+
+| ./rpms/NLF000000.txt  a| 
+免費授權不提供任何產品支援權利。
+
+
+
+| StorageGRID  a| 
+用於在 RHEL 主機上安裝StorageGRID節點映像的 RPM 套件。
+
+
+
+| StorageGRID  a| 
+用於在 RHEL 主機上安裝StorageGRID主機服務的 RPM 套件。
+
+
+
+| 部署腳本工具 | 描述 
+
+
+| ./rpms/configure-storagegrid.py  a| 
+用於自動設定StorageGRID系統的 Python 腳本。
+
+
+
+| ./rpms/configure-sga.py  a| 
+用於自動設定StorageGRID設備的 Python 腳本。
+
+
+
+| ./rpms/configure-storagegrid.sample.json  a| 
+與以下文件一起使用的範例設定文件 `configure-storagegrid.py`腳本。
+
+
+
+| ./rpms/storagegrid-ssoauth.py  a| 
+啟用單一登入後，您可以使用範例 Python 腳本登入網格管理 API。您也可以使用此腳本進行 Ping Federate 整合。
+
+
+
+| ./rpms/configure-storagegrid.blank.json  a| 
+用於 `configure-storagegrid.py`腳本。
+
+
+
+| ./rpms/extras/ansible  a| 
+用於為StorageGRID容器部署設定 RHEL 主機的範例 Ansible 角色和劇本。您可以根據需要自訂角色或劇本。
+
+
+
+| ./rpms/storagegrid-ssoauth-azure.py  a| 
+當使用 Active Directory 或 Ping Federate 啟用單一登入 (SSO) 時，您可以使用該範例 Python 腳本登入網格管理 API。
+
+
+
+| ./rpms/storagegrid-ssoauth-azure.js  a| 
+同伴呼叫的輔助腳本 `storagegrid-ssoauth-azure.py`用於與 Azure 執行 SSO 互動的 Python 腳本。
+
+
+
+| ./rpms/extras/api-schemas  a| 
+StorageGRID的 API 模式。
+
+*注意*：在執行升級之前，如果您沒有非生產StorageGRID環境進行升級相容性測試，則可以使用這些模式來確認您編寫的任何使用StorageGRID管理 API 的程式碼是否與新的StorageGRID版本相容。
+
+|===

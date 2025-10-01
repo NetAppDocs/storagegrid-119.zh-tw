@@ -1,0 +1,66 @@
+---
+permalink: admin/using-grid-management-api.html 
+sidebar: sidebar 
+keywords: use the Grid Management API, private API 
+summary: 您可以使用網格管理 REST API 而不是網格管理器使用者介面執行系統管理任務。例如，您可能希望使用 API 來自動化操作或更快地建立多個實體（例如使用者）。 
+---
+= 使用網格管理 API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用網格管理 REST API 而不是網格管理器使用者介面執行系統管理任務。例如，您可能希望使用 API 來自動化操作或更快地建立多個實體（例如使用者）。
+
+
+
+== 頂級資源
+
+網格管理 API 提供以下頂級資源：
+
+* `/grid`：存取僅限於 Grid Manager 用戶，並且基於配置的群組權限。
+* `/org`：存取權限僅限於屬於租用戶帳戶的本機或聯合 LDAP 群組的使用者。有關詳細信息，請參閱link:../tenant/index.html["使用租用戶帳戶"] 。
+* `/private`：存取僅限於 Grid Manager 用戶，並且基於配置的群組權限。私有 API 如有更改，恕不另行通知。  StorageGRID私有端點也會忽略請求的 API 版本。
+
+
+
+
+== 發出 API 請求
+
+網格管理API使用Swagger開源API平台。  Swagger 提供了直覺的使用者介面，允許開發人員和非開發人員使用 API 在StorageGRID中執行即時操作。
+
+Swagger 使用者介面為每個 API 操作提供了完整的詳細資訊和文件。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:admin-group-permissions.html["特定存取權限"]。
+
+
+
+CAUTION: 您使用 API 文件網頁執行的任何 API 操作都是即時操作。請注意不要錯誤地建立、更新或刪除配置資料或其他資料。
+
+.步驟
+. 從網格管理器標題中，選擇幫助圖示並選擇*API 文件*。
++
+image::../media/help_menu.png[幫助菜單]
+
+. 若要使用私有 API 執行操作，請在StorageGRID管理 API 頁面上選擇 *前往私有 API 文件*。
++
+私有 API 如有更改，恕不另行通知。  StorageGRID私有端點也會忽略請求的 API 版本。
+
+. 選擇所需的操作。
++
+展開 API 操作時，您可以看到可用的 HTTP 操作，例如 GET、PUT、UPDATE 和 DELETE。
+
+. 選擇一個 HTTP 操作來查看請求詳細信息，包括端點 URL、任何必需或可選參數的列表、請求正文的範例（需要時）以及可能的回應。
++
+image::../media/swagger_example.png[Swagger UI 範例]
+
+. 確定請求是否需要其他參數，例如群組或使用者 ID。然後，取得這些值。您可能需要先發出不同的 API 請求來取得所需的資訊。
+. 確定是否需要修改範例請求正文。如果是，您可以選擇*模型*來了解每個領域的要求。
+. 選擇*試用*。
+. 提供任何所需的參數，或根據需要修改請求正文。
+. 選擇*執行*。
+. 查看回應代碼以確定請求是否成功。
+

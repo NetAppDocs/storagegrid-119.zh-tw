@@ -1,0 +1,94 @@
+---
+permalink: admin/kms-overview-of-kms-and-appliance-configuration.html 
+sidebar: sidebar 
+keywords: kms, appliance configuration, node encryption 
+summary: '在使用金鑰管理伺服器 (KMS) 保護裝置節點上的StorageGRID資料之前，您必須完成兩個設定任務：設定一個或多個 KMS 伺服器並為裝置節點啟用節點加密。當這兩個設定任務完成後，金鑰管理過程將會自動發生。' 
+---
+= KMS 和設備配置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在使用金鑰管理伺服器 (KMS) 保護裝置節點上的StorageGRID資料之前，您必須完成兩個設定任務：設定一個或多個 KMS 伺服器並為裝置節點啟用節點加密。當這兩個設定任務完成後，金鑰管理過程將會自動發生。
+
+此流程圖顯示了使用 KMS 保護設備節點上的StorageGRID資料的進階步驟。
+
+image::../media/kms_configuration_overview.png[KMS 配置工作流程，下文將進行描述]
+
+流程圖顯示 KMS 設定和裝置設定並行進行；但是，您可以根據需要在為新裝置節點啟用節點加密之前或之後設定金鑰管理伺服器。
+
+
+
+== 設定金鑰管理伺服器（KMS）
+
+設定密鑰管理伺服器包括以下進階步驟。
+
+[cols="1a,1a"]
+|===
+| 步 | 參考 
+
+
+ a| 
+存取 KMS 軟體並為每個 KMS 或 KMS 叢集新增StorageGRID的用戶端。
+ a| 
+link:kms-configuring-storagegrid-as-client.html["在 KMS 中將StorageGRID配置為客戶端"]
+
+
+
+ a| 
+取得 KMS 上StorageGRID客戶端所需的資訊。
+ a| 
+link:kms-configuring-storagegrid-as-client.html["在 KMS 中將StorageGRID配置為客戶端"]
+
+
+
+ a| 
+將 KMS 新增至網格管理器，將其指派給單一網站或預設網站群組，上傳所需的證書，然後儲存 KMS 配置。
+ a| 
+link:kms-adding.html["新增金鑰管理伺服器 (KMS)"]
+
+|===
+
+
+== 設定設備
+
+設定用於 KMS 的設備節點包括以下進階步驟。
+
+. 在設備安裝的硬體配置階段，使用StorageGRID設備安裝程式為設備啟用 *節點加密* 設定。
++
+
+NOTE: 將裝置新增至電網後，您無法啟用*節點加密*設置，且無法對未啟用節點加密的裝置使用外部金鑰管理。
+
+. 運行StorageGRID設備安裝程式。在安裝過程中，會為每個裝置磁碟區指派一個隨機資料加密金鑰 (DEK)，如下所示：
++
+** DEK 用於加密每個磁碟區上的資料。這些金鑰是使用裝置作業系統中的 Linux 統一金鑰設定 (LUKS) 磁碟加密產生的，無法變更。
+** 每個單獨的 DEK 都由主金鑰加密金鑰 (KEK) 加密。初始 KEK 是一個臨時金鑰，用於加密 DEK，直到裝置可以連接到 KMS。
+
+
+. 將設備節點新增至StorageGRID。
+
+
+看 https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-enabling-node-encryption.html["啟用節點加密"^]了解詳情。
+
+
+
+== 密鑰管理加密過程（自動發生）
+
+金鑰管理加密包括以下自動執行的進階步驟。
+
+. 當您將啟用了節點加密的裝置安裝到網格中時， StorageGRID會決定包含新節點的網站是否存在 KMS 設定。
++
+** 如果已經為網站配置了 KMS，設備將接收 KMS 配置。
+** 如果尚未為網站配置 KMS，裝置上的資料將繼續由臨時 KEK 加密，直到您為網站配置 KMS 並且裝置收到 KMS 設定為止。
+
+
+. 該裝置使用 KMS 設定連接到 KMS 並請求加密金鑰。
+. KMS 向裝置發送加密金鑰。  KMS 的新金鑰取代了臨時 KEK，現在用於加密和解密裝置磁碟區的 DEK。
++
+
+CAUTION: 加密裝置節點連接到配置的 KMS 之前存在的任何資料都使用臨時金鑰加密。但是，在臨時金鑰被 KMS 加密金鑰取代之前，裝置磁碟區不應被視為受到保護，不能從資料中心移除。
+
+. 如果裝置開啟或重新啟動，它會重新連線到 KMS 來請求金鑰。此密鑰保存在揮發性記憶體中，斷電或重新啟動後將無法恢復。
+

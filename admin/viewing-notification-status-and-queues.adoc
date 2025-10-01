@@ -1,0 +1,20 @@
+---
+permalink: admin/viewing-notification-status-and-queues.html 
+sidebar: sidebar 
+keywords: NMS service, network management system, interface engine 
+summary: '管理節點上的網路管理系統 (NMS) 服務會向郵件伺服器發送通知。您可以在介面引擎頁面查看NMS服務的目前狀態及其通知佇列的大小。' 
+---
+= 查看通知狀態和佇列
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+管理節點上的網路管理系統 (NMS) 服務會向郵件伺服器發送通知。您可以在介面引擎頁面查看NMS服務的目前狀態及其通知佇列的大小。
+
+若要存取介面引擎頁面，請選擇*支援* > *工具* > *網格拓撲*。然後選擇 *_site_* > *_Admin Node_* > *NMS* > *Interface Engine*。
+
+image::../media/email_notification_status_and_queues.gif[介面引擎頁面]
+
+通知透過電子郵件通知佇列進行處理，並按照觸發的順序逐一發送到郵件伺服器。如果在嘗試傳送通知時出現問題（例如，網路連線錯誤）且郵件伺服器無法使用，則會盡力嘗試在 60 秒內重新傳送通知至郵件伺服器。如果 60 秒後通知仍未傳送到郵件伺服器，則該通知將從通知佇列中刪除，並嘗試傳送佇列中的下一個通知。

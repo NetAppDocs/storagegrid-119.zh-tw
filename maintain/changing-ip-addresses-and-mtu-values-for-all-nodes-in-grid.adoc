@@ -1,0 +1,144 @@
+---
+permalink: maintain/changing-ip-addresses-and-mtu-values-for-all-nodes-in-grid.html 
+sidebar: sidebar 
+keywords: storagegrid, node ip address, change node ip, change node ip address, changing node ip, changing node ip address 
+summary: 如果需要變更網格中所有節點的網格網路 IP 位址，則必須遵循此特殊程式。您不能使用變更單一節點的程式來變更整個網格的網格網路 IP。 
+---
+= 更改網格中所有節點的 IP 位址
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果需要變更網格中所有節點的網格網路 IP 位址，則必須遵循此特殊程式。您不能使用變更單一節點的程式來變更整個網格範圍的網格網路 IP。
+
+.開始之前
+* 你有 `Passwords.txt`文件。
+
+
+為了確保電網成功啟動，您必須同時進行所有變更。
+
+
+NOTE: 此過程僅適用於電網。您不能使用此程序變更管理或用戶端網路上的 IP 位址。
+
+如果只想更改一個站點上節點的 IP 位址和 MTU，請依照link:changing-nodes-network-configuration.html["更改節點網路配置"]指示。
+
+.步驟
+. 提前規劃需要在更改 IP 工具之外進行的更改，例如對 DNS 或 NTP 的更改，以及對單一登入 (SSO) 配置的更改（如果使用）。
++
+
+NOTE: 如果網格無法透過新 IP 位址存取現有的 NTP 伺服器，請在執行變更 IP 程序之前新增新的 NTP 伺服器。
+
++
+
+NOTE: 如果網格無法透過新 IP 位址存取現有的 DNS 伺服器，請在執行變更 IP 程序之前新增新的 DNS 伺服器。
+
++
+
+NOTE: 如果您的StorageGRID系統啟用了 SSO，並且使用管理節點 IP 位址（而不是建議的完全限定網域名稱）設定了任何依賴方信任，請準備在變更 IP 位址後立即在 Active Directory 聯合驗證服務 (AD FS) 中更新或重新設定這些依賴方信任。看link:../admin/configuring-sso.html["配置單一登入"] 。
+
++
+
+NOTE: 如果需要，為新的 IP 位址新增新的子網路。
+
+. 登入主管理節點：
++
+.. 輸入以下命令： `ssh admin@_primary_Admin_Node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
+
+
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+. 輸入以下命令啟動更改 IP 工具： `change-ip`
+. 在提示符號下輸入設定密碼。
++
+出現主選單。預設情況下， `Selected nodes`字段設定為 `all`。
+
++
+image::../media/change_ip_tool_main_menu.png[螢幕截圖顯示了更改 IP 工具的歡迎螢幕]
+
+. 在主選單上，選擇*2*編輯所有節點的IP/子網路遮罩、網關和MTU資訊。
++
+.. 選擇*1*對電網進行更改。
++
+做出選擇後，提示會顯示節點名稱、網格網路名稱、資料類型（IP/遮罩、閘道或 MTU）和目前值。
+
++
+編輯 DHCP 設定介面的 IP 位址、前綴長度、閘道或 MTU 將會把介面改為靜態。每個由 DHCP 設定的介面之前都會顯示一條警告。
+
++
+介面配置為 `fixed`無法編輯。
+
+.. 若要設定新值，請依照目前值顯示的格式輸入。
+.. 編輯完所有想要更改的節點後，輸入 *q* 返回主選單。
++
+您的變更將保留，直到被清除或套用為止。
+
+
+
+. 選擇以下選項之一來檢查您的變更：
++
+** *5*：在隔離的輸出中顯示編輯，僅顯示更改的項目。變更以綠色（新增）或紅色（刪除）突出顯示，如範例輸出所示：
++
+image::../media/change_ip_tool_edit_ip_mask_sample_output.png[螢幕截圖由周圍文字描述]
+
+** *6*：在顯示完整配置的輸出中顯示編輯。變更以綠色（新增）或紅色（刪除）突出顯示。
++
+
+NOTE: 某些命令列介面可能會使用刪除線格式顯示新增和刪除的內容。正確顯示取決於您的終端用戶端是否支援必要的 VT100 轉義序列。
+
+
+
+. 選擇選項 *7* 來驗證所有變更。
++
+此驗證可確保不違反網格網路的規則，例如不使用重疊子網路。
+
++
+在此範例中，驗證傳回錯誤。
+
++
+image::../media/change_ip_tool_validate_sample_error_messages.gif[螢幕截圖由周圍文字描述]
+
++
+在此範例中，驗證已通過。
+
++
+image::../media/change_ip_tool_validate_sample_passed_messages.gif[螢幕截圖由周圍文字描述]
+
+. 驗證通過後，選擇*10*套用新的網路設定。
+. 選擇*stage*以在下次重新啟動節點時套用變更。
++
+
+NOTE: 您必須選擇*階段*。不要執行滾動重啟，無論是手動還是選擇*apply*而不是*stage*；電網將無法成功啟動。
+
+. 更改完成後，選擇 *0* 退出更改 IP 工具。
+. 同時關閉所有節點。
++
+
+NOTE: 必須關閉整個電網，以便所有節點同時關閉。
+
+. 進行所需的實體或虛擬網路變更。
+. 驗證所有網格節點是否已關閉。
+. 打開所有節點的電源。
+. 電網啟動成功後：
++
+.. 如果您新增了新的 NTP 伺服器，請刪除舊的 NTP 伺服器值。
+.. 如果您新增了新的 DNS 伺服器，請刪除舊的 DNS 伺服器值。
+
+
+. 從網格管理器下載新的復原套件。
++
+.. 選擇*維護* > *系統* > *恢復包*。
+.. 輸入配置密碼。
+
+
+
+
+.相關資訊
+* link:adding-to-or-changing-subnet-lists-on-grid-network.html["在網格網路上新增或變更子網路列表"]
+* link:shutting-down-grid-node.html["關閉網格節點"]
+

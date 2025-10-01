@@ -1,0 +1,114 @@
+---
+section: s3
+title: 使用 S3 REST API
+entries:
+- title: 支援的版本和更新
+  pdf-filename: 將 S3 與StorageGRID結合使用
+  url: "/s3/index.html"
+- title: 快速參考
+  url: "/s3/quick-reference-support-for-aws-apis.html"
+- title: 測試 S3 REST API 連接
+  url: "/s3/configuring-tenant-accounts-and-connections.html"
+- title: StorageGRID如何實作 S3 REST API
+  entries:
+  - title: 客戶端請求衝突
+    url: "/s3/conflicting-client-requests.html"
+  - title: 一致性值
+    url: "/s3/consistency-controls.html"
+  - title: 物件版本控制
+    url: "/s3/object-versioning.html"
+  - title: 使用 S3 REST API 設定 S3 物件鎖
+    url: "/s3/use-s3-api-for-s3-object-lock.html"
+  - title: 建立 S3 生命週期配置
+    url: "/s3/create-s3-lifecycle-configuration.html"
+  - title: 實作 S3 REST API 的建議
+    url: "/s3/recommendations-for-implementing-s3-rest-api.html"
+- title: 支援 Amazon S3 REST API
+  entries:
+  - title: 實施細節
+    url: "/s3/s3-rest-api-supported-operations-and-limitations.html"
+  - title: 驗證請求
+    url: "/s3/authenticating-requests.html"
+  - title: 對服務的操作
+    url: "/s3/operations-on-the-service.html"
+  - title: 對 bucket 的操作
+    url: "/s3/operations-on-buckets.html"
+  - title: 對物件的操作
+    entries:
+    - title: S3 物件操作
+      url: "/s3/operations-on-objects.html"
+    - title: 使用 S3 Select
+      url: "/s3/use-s3-select.html"
+    - title: 使用伺服器端加密
+      url: "/s3/using-server-side-encryption.html"
+    - title: 複製對象
+      url: "/s3/put-object-copy.html"
+    - title: 取得對象
+      url: "/s3/get-object.html"
+    - title: 頭部對象
+      url: "/s3/head-object.html"
+    - title: 放置對象
+      url: "/s3/put-object.html"
+    - title: 復原對象
+      url: "/s3/post-object-restore.html"
+    - title: 選擇對象內容
+      url: "/s3/select-object-content.html"
+  - title: 分段上傳的操作
+    entries:
+    - title: 分段上傳
+      pdf-filename: 分段上傳的操作
+      url: "/s3/operations-for-multipart-uploads.html"
+    - title: 完成多部分上傳
+      url: "/s3/complete-multipart-upload.html"
+    - title: 建立多部分上傳
+      url: "/s3/initiate-multipart-upload.html"
+    - title: 列出多部分上傳
+      url: "/s3/list-multipart-uploads.html"
+    - title: 上傳部分
+      url: "/s3/upload-part.html"
+    - title: 上傳部分複製
+      url: "/s3/upload-part-copy.html"
+  - title: 錯誤回應
+    url: "/s3/error-responses.html"
+- title: StorageGRID自訂操作
+  entries:
+  - title: 自訂操作列表
+    pdf-filename: StorageGRID自訂操作
+    url: "/s3/custom-operations-on-buckets.html"
+  - title: 取得桶一致性
+    url: "/s3/get-bucket-consistency-request.html"
+  - title: PUT桶一致性
+    url: "/s3/put-bucket-consistency-request.html"
+  - title: 取得 Bucket 上次造訪時間
+    url: "/s3/get-bucket-last-access-time-request.html"
+  - title: PUT Bucket 上次訪問時間
+    url: "/s3/put-bucket-last-access-time-request.html"
+  - title: 刪除儲存桶元資料通知配置
+    url: "/s3/delete-bucket-metadata-notification-configuration-request.html"
+  - title: 取得 Bucket 元資料通知配置
+    url: "/s3/get-bucket-metadata-notification-configuration-request.html"
+  - title: PUT Bucket 元資料通知配置
+    url: "/s3/put-bucket-metadata-notification-configuration-request.html"
+  - title: 取得儲存使用情況
+    url: "/s3/get-storage-usage-request.html"
+  - title: 已棄用舊版合規性儲存桶請求
+    entries:
+    - title: 已棄用的功能和請求
+      pdf-filename: 已棄用舊版合規性儲存桶請求
+      url: "/s3/deprecated-bucket-requests-for-legacy-compliance.html"
+    - title: 已棄用 - CreateBucket 請求修改以實現合規性
+      url: "/s3/deprecated-put-bucket-request-modifications-for-compliance.html"
+    - title: 已棄用 - GET Bucket 合規性請求
+      url: "/s3/deprecated-get-bucket-compliance-request.html"
+    - title: 已棄用 - PUT Bucket 合規性請求
+      url: "/s3/deprecated-put-bucket-compliance-request.html"
+- title: 儲存桶和群組存取策略
+  entries:
+  - title: 使用儲存桶和群組存取策略
+    url: "/s3/bucket-and-group-access-policies.html"
+  - title: 儲存桶策略範例
+    url: "/s3/example-bucket-policies.html"
+  - title: 群組原則範例
+    url: "/s3/example-group-policies.html"
+- title: 審計日誌中追蹤的 S3 操作
+  url: "/s3/s3-operations-tracked-in-audit-logs.html"

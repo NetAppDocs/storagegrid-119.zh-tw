@@ -1,0 +1,24 @@
+---
+permalink: maintain/decommission-procedure.html 
+sidebar: sidebar 
+keywords: how to decommission 
+summary: 您可以執行退役程序以從StorageGRID系統永久刪除網格節點或整個網站。 
+---
+= 退役節點或站點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以執行退役程序以從StorageGRID系統永久刪除網格節點或整個網站。
+
+若要刪除網格節點或站點，請執行下列退役程序之一：
+
+* 執行link:grid-node-decommissioning.html["電網節點退役"]刪除一個或多個節點，這些節點可以位於一個或多個站點。您刪除的節點可以處於線上狀態並連接到StorageGRID系統，也可以處於離線狀態並中斷連線。
+* 執行link:considerations-for-removing-site.html["場地退役"]刪除站點。如果所有節點都連接到StorageGRID，則執行*連線站點退役*。如果所有節點都與StorageGRID斷開連接，則執行 *斷開站點退役*。如果網站包含已連線且已中斷連線的節點，則必須將所有離線節點重新連線。
++
+
+CAUTION: 在執行斷開連線的網站退役之前，請聯絡您的NetApp客戶代表。在啟用「退役網站」精靈中的所有步驟之前， NetApp將會審核您的要求。如果您認為有可能復原網站或從網站復原物件數據，則不應嘗試中斷網站的退役。
+
+

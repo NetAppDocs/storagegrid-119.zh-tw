@@ -1,0 +1,160 @@
+---
+permalink: maintain/adding-to-or-changing-subnet-lists-on-admin-network.html 
+sidebar: sidebar 
+keywords: storagegrid, subnet list, admin network 
+summary: 您可以新增、刪除或變更一個或多個節點的管理網路子網路清單中的子網路。 
+---
+= 新增或變更管理網路上的子網路列表
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以新增、刪除或變更一個或多個節點的管理網路子網路清單中的子網路。
+
+.開始之前
+* 你有 `Passwords.txt`文件。
+
+
+您可以為管理網路子網路清單上的所有節點新增、刪除或變更子網路。
+
+[NOTE]
+====
+請勿將包含下列 IPv4 位址的子網路用於任何節點的網格網路、管理網路或用戶端網路：
+
+* 192,168,130,101
+* 192,168,131,101
+* 192,168,130,102
+* 192,168,131,102
+* 198.51.100.2
+* 198.51.100.4
+
+
+例如，不要對任何節點的網格網路、管理網路或客戶端網路使用下列子網路範圍：
+
+* 192.168.130.0/24，因為此子網路範圍包含 IP 位址 192.168.130.101 和 192.168.130.102
+* 192.168.131.0/24，因為此子網路範圍包含 IP 位址 192.168.131.101 和 192.168.131.102
+* 198.51.100.0/24，因為此子網路範圍包含 IP 位址 198.51.100.2 和 198.51.100.4
+
+
+====
+.步驟
+. 登入主管理節點：
++
+.. 輸入以下命令： `ssh admin@_primary_Admin_Node_IP_`
+.. 輸入 `Passwords.txt`文件。
+.. 輸入以下命令切換到root： `su -`
+.. 輸入 `Passwords.txt`文件。
+
+
++
+當您以 root 身分登入時，提示字元將從 `$`到 `#`。
+
+. 輸入以下命令啟動更改 IP 工具： `change-ip`
+. 在提示符號下輸入設定密碼。
++
+出現主選單。
+
++
+image::../media/change_ip_tool_main_menu.png[螢幕截圖顯示了更改 IP 工具的歡迎螢幕]
+
+. 或者，限制執行操作的網路/節點。選擇下列選項之一：
++
+** 如果您想要過濾要執行操作的特定節點，請選擇 *1* 來選擇要編輯的節點。選擇下列選項之一：
++
+*** *1*：單一節點（依名稱選擇）
+*** *2*：單一節點（依網站選擇，然後按名稱選擇）
+*** *3*: 單節點（依目前IP選擇）
+*** *4*：站點上的所有節點
+*** *5*：網格中的所有節點
+*** *0*：返回
+
+
+** 允許“全部”保持選取狀態。選擇完成後，將出現主選單畫面。選定節點欄位反映了您的新選擇，現在所有選定的操作將僅對此項目執行。
+
+
+. 在主選單上，選擇編輯管理網路子網路的選項（選項*3*）。
+. 選擇下列選項之一：
++
+--
+** 輸入以下命令新增子網路： `add CIDR`
+** 輸入以下命令刪除子網路： `del CIDR`
+** 輸入以下命令設定子網路清單： `set CIDR`
+
+
+--
++
+--
+
+NOTE: 對於所有命令，您可以使用以下格式輸入多個位址： `add CIDR, CIDR`
+
+例子： `add 172.14.0.0/16, 172.15.0.0/16, 172.16.0.0/16`
+
+
+TIP: 您可以使用「向上箭頭」將先前輸入的值呼叫到目前輸入提示中，然後在必要時對其進行編輯，從而減少所需的輸入量。
+
+下面的範例輸入顯示將子網路新增至管理網路子網路清單：
+
+image::../media/change_ip_tool_aesl_sample_input.gif[更改 ip 工具 aesl 範例]
+
+--
+. 準備好後，輸入 *q* 返回主選單畫面。您的變更將保留，直到被清除或套用為止。
++
+
+NOTE: 如果您在步驟 2 中選擇了任何「全部」節點選擇模式，請按下 *Enter*（不含 *q*）以前往清單中的下一個節點。
+
+. 選擇下列選項之一：
++
+** 選擇選項 *5* 以在隔離的輸出中顯示編輯，僅顯示變更的項目。變更以綠色（新增）或紅色（刪除）突出顯示，如下面的範例輸出所示：
++
+image::../media/change_ip_tool_aesl_sample_output.png[螢幕截圖由周圍文字描述]
+
+** 選擇選項 *6* 以在顯示完整配置的輸出中顯示編輯。變更以綠色（新增）或紅色（刪除）突出顯示。  *注意：*某些終端模擬器可能會使用刪除線格式顯示新增和刪除。
++
+當您嘗試變更子網路清單時，會顯示下列訊息：
+
++
+[listing]
+----
+CAUTION: The Admin Network subnet list on the node might contain /32 subnets derived from automatically applied routes that aren't persistent. Host routes (/32 subnets) are applied automatically if the IP addresses provided for external services such as NTP or DNS aren't reachable using default StorageGRID routing, but are reachable using a different interface and gateway. Making and applying changes to the subnet list will make all automatically applied subnets persistent. If you don't want that to happen, delete the unwanted subnets before applying changes. If you know that all /32 subnets in the list were added intentionally, you can ignore this caution.
+----
++
+如果您沒有專門將 NTP 和 DNS 伺服器子網路指派給網絡， StorageGRID會自動為連接建立主機路由 (/32)。例如，如果您希望使用 /16 或 /24 路由​​來與 DNS 或 NTP 伺服器建立出站連接，則應刪除自動建立的 /32 路由並新增所需的路由。如果您不刪除自動建立的主機路由，則在對子網路清單套用任何變更後，它將保留下來。
+
+
+
++
+
+NOTE: 雖然您可以使用這些自動發現的主機路由，但通常您應該手動設定 DNS 和 NTP 路由以確保連線。
+
+. 選擇選項 *7* 來驗證所有階段性變更。
++
+此驗證可確保遵守網格、管理和客戶端網路的規則，例如使用重疊子網路。
+
+. 或者，選擇選項 *8* 儲存所有階段性變更並稍後返回繼續進行變更。
++
+此選項可讓您退出更改 IP 工具並稍後重新啟動，而不會遺失任何未套用的變更。
+
+. 執行下列操作之一：
++
+** 如果您想要清除所有變更而不儲存或套用新的網路配置，請選擇選項*9*。
+** 如果您準備好套用變更並提供新的網路配置，請選擇選項*10*。在配置期間，輸出顯示套用更新的狀態，如下列範例輸出所示：
++
+[listing]
+----
+Generating new grid networking description file...
+
+Running provisioning...
+
+Updating grid network configuration on Name
+----
+
+
+. 從網格管理器下載新的復原套件。
++
+.. 選擇*維護* > *系統* > *恢復包*。
+.. 輸入配置密碼。
+
+
+

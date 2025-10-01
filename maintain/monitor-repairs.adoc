@@ -1,0 +1,96 @@
+---
+permalink: maintain/monitor-repairs.html 
+sidebar: sidebar 
+keywords: restore replicated data, restore erasure-coded data, recover appliance storage node, recover storage volume 
+summary: '您可以使用以下方式監控修復作業的狀態 `repair-data`命令列中的腳本。' 
+---
+= 監控修復資料作業
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用以下方式監控修復作業的狀態 `repair-data`命令列中的腳本。
+
+這些包括您手動啟動的作業，或StorageGRID作為退役程序的一部分自動啟動的作業。
+
+
+NOTE: 如果您正在執行磁碟區復原作業，link:../maintain/restoring-volume.html["在網格管理器中監控進度並查看這些作業的歷史記錄"]反而。
+
+監控狀態 `repair-data`根據您是否使用*複製資料*、*擦除編碼 (EC) 資料*或兩者來指派作業。
+
+[role="tabbed-block"]
+====
+.複製數據
+--
+* 若要取得重複修復的估計完成百分比，請新增 `show-replicated-repair-status`修復資料命令的選項。
++
+`repair-data show-replicated-repair-status`
+
+* 要確定修復是否完成：
++
+.. 選擇 *NODES* > *_正在修復的儲存節點_* > *ILM*。
+.. 查看評估部分中的屬性。修復完成後，*Awaiting - All* 屬性指示 0 個物件。
+
+
+* 要更詳細監控修復情況：
++
+.. 選擇*支援* > *工具* > *網格拓撲*。
+.. 選擇 *_grid_* > *_Storage Node being repaired_* > *LDR* > *Data Store*。
+.. 盡可能結合使用以下屬性來確定複製修復是否完整。
++
+
+NOTE: Cassandra 可能存在不一致，並且無法追蹤失敗的修復。
+
++
+*** *嘗試修復 (XRPA)*：使用此屬性來追蹤重複修復的進度。每次儲存節點嘗試修復高風險物件時，此屬性都會增加。當此屬性在比當前掃描週期（由*掃描週期-估計*屬性提供）更長的時間內沒有增加時，表示 ILM 掃描未在任何節點上發現需要修復的高風險物件。
++
+
+NOTE: 高風險物體是指有完全失去風險的物體。這不包括不滿足其 ILM 配置的物件。
+
+*** *掃描週期－估計值（XSCM）*：使用此屬性估計何時將策略變更套用至先前攝取的物件。如果「*嘗試修復*」屬性在比目前掃描週期更長的時間內沒有增加，則很可能進行了重複修復。請注意，掃描週期可能會變更。 *掃描週期－估計值 (XSCM)* 屬性適用於整個網格，並且是所有節點掃描週期的最大值。您可以查詢網格的*掃描週期－估計*屬性歷史記錄來決定適當的時間範圍。
+
+
+
+
+
+
+--
+.清除編碼 (EC) 數據
+--
+要監控擦除編碼資料的修復並重試任何可能失敗的請求：
+
+. 確定擦除編碼資料修復的狀態：
++
+** 選擇 *SUPPORT* > *Tools* > *Metrics* 來查看目前作業的預計完成時間和完成百分比。然後，在 Grafana 部分中選擇 *EC Overview*。查看*Grid EC 作業預計完成時間*和*Grid EC 作業完成百分比*儀表板。
+** 使用此命令查看特定 `repair-data`手術：
++
+`repair-data show-ec-repair-status --repair-id repair ID`
+
+** 使用此命令列出所有修復：
++
+`repair-data show-ec-repair-status`
+
++
+輸出列出訊息，包括 `repair ID`，適用於所有之前和目前正在進行的維修。
+
+
+
+. 如果輸出顯示修復操作失敗，請使用 `--repair-id`選項來重試修復。
++
+此指令使用修復 ID 6949309319275667690 重試失敗的節點修復：
+
++
+`repair-data start-ec-node-repair --repair-id 6949309319275667690`
+
++
+此指令使用修復 ID 6949309319275667690 重試失敗的磁碟區修復：
+
++
+`repair-data start-ec-volume-repair --repair-id 6949309319275667690`
+
+
+
+--
+====

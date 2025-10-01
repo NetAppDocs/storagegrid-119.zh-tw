@@ -1,0 +1,102 @@
+---
+permalink: ilm/what-cloud-storage-pool-is.html 
+sidebar: sidebar 
+keywords: what is a cloud storage pool 
+summary: 雲端儲存池可讓您使用 ILM 將物件資料移出StorageGRID系統。例如，您可能想要將不經常存取的物件移至成本較低的雲端存儲，例如 Amazon S3 Glacier、S3 Glacier Deep Archive、Google Cloud 或 Microsoft Azure Blob 儲存中的存檔存取層。或者，您可能想要維護StorageGRID物件的雲端備份以增強災難復原。 
+---
+= 什麼是雲端儲存池？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+雲端儲存池可讓您使用 ILM 將物件資料移出StorageGRID系統。例如，您可能想要將不經常存取的物件移至成本較低的雲端存儲，例如 Amazon S3 Glacier、S3 Glacier Deep Archive、Google Cloud 或 Microsoft Azure Blob 儲存中的存檔存取層。或者，您可能想要維護StorageGRID物件的雲端備份以增強災難復原。
+
+從 ILM 角度來看，雲端儲存池類似於儲存池。若要將物件儲存在任一位置，請在建立 ILM 規則的放置說明時選擇池。但是，雖然儲存池由StorageGRID系統內的儲存節點組成，但雲端儲存池由外部儲存桶（S3）或容器（Azure Blob 儲存）組成。
+
+此表將儲存池與雲端儲存池進行了比較，並展示了高層次的相似之處和不同之處。
+
+[cols="1a,2a,5a"]
+|===
+|  | 儲存池 | 雲端儲存池 
+
+
+ a| 
+它是如何創建的？
+ a| 
+使用網格管理器中的 *ILM* > *儲存池* 選項。
+ a| 
+使用網格管理器中的 *ILM* > *儲存池* > *雲端儲存池* 選項。
+
+您必須先設定外部儲存桶或容器，然後才能建立雲端儲存池。
+
+
+
+ a| 
+您可以建立多少個池？
+ a| 
+無限。
+ a| 
+最多 10 個。
+
+
+
+ a| 
+物件儲存在哪裡？
+ a| 
+在StorageGRID內的一個或多個儲存節點上。
+ a| 
+在StorageGRID系統外部的 Amazon S3 儲存桶、Azure Blob 儲存容器或 Google Cloud 中。
+
+如果雲端儲存池是 Amazon S3 儲存桶：
+
+* 您可以選擇配置儲存桶生命週期，將物件轉換為低成本、長期存儲，例如 Amazon S3 Glacier 或 S3 Glacier Deep Archive。外部儲存系統必須支援 Glacier 儲存類別和 S3 RestoreObject API。
+* 您可以建立雲端儲存池以用於支援 AWS 機密區域的 AWS 商業雲端服務 (C2S)。
+
+
+如果雲端儲存池是 Azure Blob 儲存容器， StorageGRID會將物件轉換到存檔層。
+
+*注意：*一般來說，不要為用於雲端儲存池的容器配置 Azure Blob 儲存生命週期管理。雲端儲存池中物件的 RestoreObject 操作可能會受到配置的生命週期的影響。
+
+
+
+ a| 
+什麼控制物體的放置？
+ a| 
+活動 ILM 策略中的 ILM 規則。
+ a| 
+活動 ILM 策略中的 ILM 規則。
+
+
+
+ a| 
+使用哪種資料保護方法？
+ a| 
+複製或擦除編碼。
+ a| 
+複製。
+
+
+
+ a| 
+每個物件允許有多少個副本？
+ a| 
+多種的。
+ a| 
+雲端儲存池中有一個副本，並且（可選） StorageGRID中有一個或多個副本。
+
+*注意：*您不能在任何時候將一個物件儲存在多個雲端儲存池中。
+
+
+
+ a| 
+有什麼優勢？
+ a| 
+可以隨時快速存取對象。
+ a| 
+低成本儲存。
+
+*注意*： FabricPool資料不能分層到雲端儲存池。
+
+|===

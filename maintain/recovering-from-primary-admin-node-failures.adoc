@@ -1,0 +1,30 @@
+---
+permalink: maintain/recovering-from-primary-admin-node-failures.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, primary admin node failure 
+summary: '您必須完成一組特定的任務才能從主管理節點故障中復原。主管理節點承載網格的組態管理節點 (CMN) 服務。' 
+---
+= 從主管理節點故障中恢復
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須完成一組特定的任務才能從主管理節點故障中復原。主管理節點承載網格的組態管理節點 (CMN) 服務。
+
+
+CAUTION: 您必須及時修復或更換故障的主管理節點，否則網格可能會失去接收新物件的能力。確切的時間段取決於您的物件攝取率：如果您需要更準確地評估電網的時間範圍，請聯絡技術支援。
+
+主管理節點上的組態管理節點 (CMN) 服務負責為網格發佈物件識別碼區塊。這些標識符在物件被攝取時被指派給它們。除非有可用的標識符，否則無法攝取新物件。當 CMN 不可用時，物件攝取仍可繼續，因為網格中快取了大約一個月的標識符供應量。但是，快取的識別符用盡後，就無法新增新的物件。
+
+請依照以下進階步驟恢復主管理節點：
+
+. link:copying-audit-logs-from-failed-primary-admin-node.html["從發生故障的主管理節點複製審計日誌"]
+. link:replacing-primary-admin-node.html["更換主管理節點"]
+. link:configuring-replacement-primary-admin-node.html["配置替換主管理節點"]
+. link:assess-hotfix-requirement-during-primary-admin-node-recovery.html["確定已復原的主管理節點是否需要修補程序"]
+. link:restoring-audit-log-on-recovered-primary-admin-node.html["在已復原的主管理節點上復原稽核日誌"]
+. link:restoring-admin-node-database-primary-admin-node.html["還原主管理節點時還原管理節點資料庫"]
+. link:restoring-prometheus-metrics-primary-admin-node.html["恢復主管理節點時恢復 Prometheus 指標"]
+

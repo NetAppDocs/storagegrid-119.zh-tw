@@ -1,0 +1,26 @@
+---
+permalink: maintain/recovering-from-storage-volume-failure-where-system-drive-is-intact.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, storage volume failure, volume failure, system drive intact 
+summary: 您必須完成一系列任務來恢復基於軟體的儲存節點，其中儲存節點上的一個或多個儲存磁碟區發生故障，但係統磁碟機完好無損。若只有儲存磁碟區發生故障，儲存節點仍可供StorageGRID系統使用。 
+---
+= 從系統磁碟機完好的儲存磁碟區故障中恢復
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須完成一系列任務來恢復基於軟體的儲存節點，其中儲存節點上的一個或多個儲存磁碟區發生故障，但係統磁碟機完好無損。若只有儲存磁碟區發生故障，儲存節點仍可供StorageGRID系統使用。
+
+
+NOTE: 此恢復過程僅適用於基於軟體的儲存節點。如果裝置儲存節點上的儲存磁碟區發生故障，請改用裝置程式：link:recovering-storagegrid-appliance-storage-node.html["恢復設備儲存節點"] 。
+
+此恢復過程包括以下任務：
+
+* link:reviewing-warnings-about-storage-volume-recovery.html["查看儲存磁碟區復原的警告"]
+* link:identifying-and-unmounting-failed-storage-volumes.html["識別並解除安裝故障儲存卷"]
+* link:recovering-failed-storage-volumes-and-rebuilding-cassandra-database.html["恢復磁碟區並重建 Cassandra 資料庫"]
+* link:restoring-object-data-to-storage-volume-where-system-drive-is-intact.html["恢復對象數據"]
+* link:checking-storage-state-after-recovering-storage-volumes.html["檢查儲存狀態"]
+

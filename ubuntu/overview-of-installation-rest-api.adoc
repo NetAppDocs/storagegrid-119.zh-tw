@@ -1,0 +1,44 @@
+---
+permalink: ubuntu/overview-of-installation-rest-api.html 
+sidebar: sidebar 
+keywords: overview installation REST API 
+summary: StorageGRID提供用於執行安裝任務的StorageGRID安裝 API。 
+---
+= 安裝 REST API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID提供用於執行安裝任務的StorageGRID安裝 API。
+
+API採用Swagger開源API平台提供API文件。 Swagger 允許開發人員和非開發人員在使用者介面中與 API 進行交互，該介面說明了 API 如何回應參數和選項。本文檔假設您熟悉標準 Web 技術和 JSON 資料格式。
+
+
+CAUTION: 您使用 API 文件網頁執行的任何 API 操作都是即時操作。請注意不要錯誤地建立、更新或刪除配置資料或其他資料。
+
+每個 REST API 命令都包含 API 的 URL、HTTP 操作、任何必要或可選的 URL 參數以及預期的 API 回應。
+
+
+
+== StorageGRID安裝 API
+
+只有當您最初配置StorageGRID系統並且需要執行主管理節點復原時， StorageGRID安裝 API 才可用。可以透過 HTTPS 從網格管理器存取安裝 API。
+
+要存取 API 文檔，請前往主管理節點上的安裝網頁，然後從功能表列中選擇 *幫助* > *API 文件*。
+
+StorageGRID安裝 API 包括以下部分：
+
+* *config*－與產品發布和 API 版本相關的操作。您可以列出產品發布版本以及該版本支援的 API 的主要版本。
+* *grid*——網格級配置操作。您可以取得和更新網格設置，包括網格詳細資訊、網格網路子網路、網格密碼以及 NTP 和 DNS 伺服器 IP 位址。
+* *節點*——節點級配置操作。您可以檢索網格節點清單、刪除網格節點、配置網格節點、檢視網格節點、重設網格節點的配置。
+* *provision*——配置操作。您可以啟動配置操作並查看配置操作的狀態。
+* *恢復*——主管理節點復原作業。您可以重置資訊、上傳恢復包、開始恢復以及查看恢復操作的狀態。
+* *recovery-package*－下載復原套件的操作。
+* *sites*——站台級配置操作。您可以建立、檢視、刪除和修改網站。
+* *temporary-password*－在安裝期間對臨時密碼進行操作以保護 mgmt-api。
+
+
+.相關資訊
+link:automating-installation.html["自動化安裝"]

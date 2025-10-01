@@ -1,0 +1,29 @@
+---
+permalink: maintain/understanding-adc-service-quorum.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, adc, adc quorum 
+summary: '如果退役後剩餘的管理網域控制站 (ADC) 服務太少，您可能無法退役網站上的某些儲存節點。' 
+---
+= ADC 法定人數是多少？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果退役後剩餘的管理網域控制站 (ADC) 服務太少，您可能無法退役網站上的某些儲存節點。
+
+ADC 服務位於某些儲存節點上，用於維護網格拓撲資訊並為網格提供配置服務。  StorageGRID系統要求每個站點始終有一定數量的 ADC 服務可用。
+
+如果刪除節點會導致 ADC 仲裁不再滿足，則您無法停用儲存節點。為了滿足退役期間的 ADC 仲裁，每個站點至少有三個儲存節點必須具有 ADC 服務。如果站點擁有三個以上具有 ADC 服務的儲存節點，則在退役後，這些節點中的大多數必須保持可用： `((0.5 * _Storage Nodes with ADC_) + 1)`
+
+
+CAUTION: 在包含基於軟體的純元資料節點的網格中停用儲存節點時請務必小心。如果您停用所有配置為儲存物件和元資料的節點，則儲存物件的能力將從網格中刪除。看link:../primer/what-storage-node-is.html#types-of-storage-nodes["儲存節點的類型"]有關僅元資料儲存節點的詳細資訊。
+
+例如，假設某個站點目前包含六個具有 ADC 服務的儲存節點，而您想要停用三個儲存節點。由於 ADC 仲裁要求，您必須完成兩個退役程序，如下所示：
+
+* 在第一個退役過程中，您必須確保四個具有 ADC 服務的儲存節點保持可用： `((0.5 * 6) + 1)` 。這表示您最初只能停用兩個儲存節點。
+* 在第二個退役過程中，您可以刪除第三個儲存節點，因為 ADC 仲裁現在只需要三個 ADC 服務保持可用： `((0.5 * 4) + 1)` 。
+
+
+如果您需要停用儲存節點，但由於 ADC 仲裁要求而無法停用，請在link:../expand/index.html["擴張"]並指定它應該具有 ADC 服務。然後，停用現有的儲存節點。

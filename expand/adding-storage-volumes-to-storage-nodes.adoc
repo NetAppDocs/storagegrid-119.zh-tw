@@ -1,0 +1,50 @@
+---
+permalink: expand/adding-storage-volumes-to-storage-nodes.html 
+sidebar: sidebar 
+keywords: storage volumes, expand, expansion, add, storage nodes, adding storage capacity 
+summary: 您可以擴充低於最大支援磁碟區數的儲存節點的儲存容量。您可能需要將儲存磁碟區新增至多個儲存節點以滿足複製或擦除編碼副本的 ILM 要求。 
+---
+= 將儲存卷新增至儲存節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以擴充低於最大支援磁碟區數的儲存節點的儲存容量。您可能需要將儲存磁碟區新增至多個儲存節點以滿足複製或擦除編碼副本的 ILM 要求。
+
+.開始之前
+在新增儲存磁碟區之前，請查看link:guidelines-for-adding-object-capacity.html["新增對象容量的指南"]確保您知道在哪裡新增磁碟區以滿足 ILM 策略的要求。
+
+
+NOTE: 這些說明僅適用於基於軟體的儲存節點。看 https://docs.netapp.com/us-en/storagegrid-appliances/sg6000/adding-expansion-shelf-to-deployed-sg6060.html["為已部署的 SG6060 新增擴充架"^]或者 https://docs.netapp.com/us-en/storagegrid-appliances/sg6100/adding-expansion-shelf-to-deployed-sg6160.html["為已部署的 SG6160 新增擴充架"^]了解如何透過安裝擴充架為 SG6060 或 SG6160 新增儲存磁碟區。其他設備儲存節點無法擴充。
+
+.關於此任務
+儲存節點的底層儲存分為儲存卷。儲存磁碟區是基於區塊的儲存設備，由StorageGRID系統格式化並安裝以儲存物件。每個儲存節點最多可支援 48 個儲存卷，在網格管理器中稱為_物件儲存_。
+
+
+NOTE: 物件元資料始終儲存在物件儲存 0 中。
+
+每個物件儲存都安裝在與其 ID 對應的磁碟區上。例如，ID 為 0000 的物件儲存對應於 `/var/local/rangedb/0`掛載點。
+
+在新增新的儲存磁碟區之前，使用網格管理器查看每個儲存節點的目前物件儲存以及對應的掛載點。您可以在新增儲存磁碟區時使用此資訊。
+
+.步驟
+. 選擇 *NODES* > *_site_* > *_Storage Node_* > *Storage*。
+. 向下捲動以查看每個磁碟區和物件儲存的可用儲存量。
++
+對於裝置儲存節點，每個磁碟的全球名稱與您在SANtricity OS（連接到裝置儲存控制器的管理軟體）中查看標準磁碟區屬性時出現的磁碟區全球識別碼 (WWID) 相符。
+
++
+為了幫助您解釋與磁碟區掛載點相關的磁碟讀寫統計訊息，「磁碟裝置」表的「名稱」列中顯示的名稱的第一部分（即 _sdc_、_sdd_、_sde_ 等）與「卷」表的「裝置」列中顯示的值相符。
+
++
+image::../media/nodes_page_storage_tables_vol_expansion.png[節點頁面儲存表]
+
+. 按照平台的說明將新的儲存卷新增至儲存節點。
++
+** link:vmware-adding-storage-volumes-to-storage-node.html["VMware：將儲存磁碟區新增至儲存節點"]
+** link:linux-adding-direct-attached-or-san-volumes-to-storage-node.html["Linux：為儲存節點新增直接連接磁碟區或 SAN 卷"]
+
+
+

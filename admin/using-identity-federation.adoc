@@ -1,0 +1,238 @@
+---
+permalink: admin/using-identity-federation.html 
+sidebar: sidebar 
+keywords: how to use identity federation, how to use federated groups with Grid Manager 
+summary: 使用身份聯合可以更快地設定群組和用戶，並允許用戶使用熟悉的憑證登入StorageGRID 。 
+---
+= 使用身分聯合
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用身份聯合可以更快地設定群組和用戶，並允許用戶使用熟悉的憑證登入StorageGRID 。
+
+
+
+== 為網格管理器配置身份聯合
+
+如果您希望在另一個系統（例如 Active Directory、Azure Active Directory（Azure AD）、OpenLDAP 或 Oracle Directory Server）中管理管理員群組和用戶，則可以在網格管理器中設定身分合併。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:admin-group-permissions.html["特定存取權限"]。
+* 您正在使用 Active Directory、Azure AD、OpenLDAP 或 Oracle Directory Server 作為身分提供者。
++
+
+NOTE: 如果您想使用未列出的 LDAP v3 服務，請聯絡技術支援。
+
+* 如果您打算使用 OpenLDAP，則必須設定 OpenLDAP 伺服器。看<<配置 OpenLDAP 伺服器的指南>> 。
+* 如果您打算啟用單一登入 (SSO)，您已查看link:requirements-for-sso.html["單一登入的要求和注意事項"]。
+* 如果您打算使用傳輸層安全性 (TLS) 與 LDAP 伺服器進行通信，則身分提供者將使用 TLS 1.2 或 1.3。看link:supported-ciphers-for-outgoing-tls-connections.html["傳出 TLS 連線支援的密碼"] 。
+
+
+.關於此任務
+如果您想要從其他系統（例如 Active Directory、Azure AD、OpenLDAP 或 Oracle Directory Server）匯入群組，則可以為網格管理員設定身分來源。您可以匯入以下類型的群組：
+
+* 管理組。管理群組中的使用者可以登入網格管理器並根據指派給該群組的管理權限執行任務。
+* 不使用自己的身分來源的租用戶的租用戶使用者群組。租用戶群組中的使用者可以登入租用戶管理員並根據租用戶管理員中指派給該群組的權限執行任務。看link:creating-tenant-account.html["建立租用戶帳戶"]和link:../tenant/index.html["使用租用戶帳戶"]了解詳情。
+
+
+
+
+=== 輸入配置
+
+.步驟
+. 選擇*配置* > *存取控制* > *身份聯合*。
+. 選擇*啟用身份聯合*。
+. 在 LDAP 服務類型部分中，選擇要設定的 LDAP 服務類型。
++
+image::../media/ldap_service_type.png[顯示 LDAP 服務類型選項的身份聯合頁面]
+
++
+選擇「*其他*」來設定使用 Oracle Directory Server 的 LDAP 伺服器的值。
+
+. 如果您選擇了“*其他*”，請填寫 LDAP 屬性部分中的欄位。否則，轉到下一步。
++
+** *使用者唯一名稱*：包含 LDAP 使用者唯一識別碼的屬性名稱。此屬性相當於 `sAMAccountName`對於 Active Directory 和 `uid`對於 OpenLDAP。如果您正在設定 Oracle Directory Server，請輸入 `uid`。
+** *使用者 UUID*：包含 LDAP 使用者的永久唯一識別碼的屬性名稱。此屬性相當於 `objectGUID`對於 Active Directory 和 `entryUUID`對於 OpenLDAP。如果您正在設定 Oracle Directory Server，請輸入 `nsuniqueid`。每個使用者的指定屬性值必須是 16 位元組或字串格式的 32 位元十六進位數，其中連字元將被忽略。
+** *群組唯一名稱*：包含 LDAP 群組唯一識別碼的屬性的名稱。此屬性相當於 `sAMAccountName`對於 Active Directory 和 `cn`對於 OpenLDAP。如果您正在設定 Oracle Directory Server，請輸入 `cn`。
+** *群組 UUID*：包含 LDAP 群組的永久唯一識別碼的屬性的名稱。此屬性相當於 `objectGUID`對於 Active Directory 和 `entryUUID`對於 OpenLDAP。如果您正在設定 Oracle Directory Server，請輸入 `nsuniqueid`。每個群組的指定屬性的值必須是 16 位元組或字串格式的 32 位元十六進位數，其中連字元將被忽略。
+
+
+. 對於所有 LDAP 服務類型，請在設定 LDAP 伺服器部分輸入所需的 LDAP 伺服器和網路連線資訊。
++
+** *主機名稱*：LDAP 伺服器的完全限定網域名稱 (FQDN) 或 IP 位址。
+** *連接埠*：用於連接 LDAP 伺服器的連接埠。
++
+
+NOTE: STARTTLS 的預設連接埠是 389，LDAPS 的預設連接埠是 636。但是，只要您的防火牆配置正確，您就可以使用任何連接埠。
+
+** *使用者名稱*：將連接到 LDAP 伺服器的使用者的專有名稱 (DN) 的完整路徑。
++
+對於 Active Directory，您也可以指定下級登入名稱或使用者主體名稱。
+
++
+指定的使用者必須具有列出群組和使用者以及存取以下屬性的權限：
+
++
+*** `sAMAccountName`或者 `uid`
+*** `objectGUID`， `entryUUID` ， 或者 `nsuniqueid`
+*** `cn`
+*** `memberOf`或者 `isMemberOf`
+*** *活動目錄*： `objectSid` ， `primaryGroupID` ， `userAccountControl` ， 和 `userPrincipalName`
+*** *蔚藍*： `accountEnabled`和 `userPrincipalName`
+
+
+** *密碼*：與使用者名稱關聯的密碼。
++
+
+NOTE: 如果您將來更改密碼，則必須在此頁面上更新。
+
+** *群組基礎 DN*：您要搜尋群組的 LDAP 子樹的可分辨名稱 (DN) 的完整路徑。在 Active Directory 範例（如下）中，所有可分辨名稱相對於基本 DN（DC=storagegrid、DC=example、DC=com）的群組都可以用作聯合群組。
++
+
+NOTE: *群組唯一名稱*值在其所屬的*群組基本 DN*內必須是唯一的。
+
+** *使用者基礎 DN*：您要搜尋使用者的 LDAP 子樹的可分辨名稱 (DN) 的完整路徑。
++
+
+NOTE: *使用者唯一名稱*值在其所屬的*使用者基本 DN*內必須是唯一的。
+
+** *綁定使用者名稱格式*（選用）：如果無法自動確定模式， StorageGRID應使用預設使用者名稱模式。
++
+建議提供*綁定使用者名稱格式*，因為如果StorageGRID無法與服務帳戶綁定，它可以允許使用者登入。
+
++
+輸入以下模式之一：
+
++
+*** *UserPrincipalName 模式（Active Directory 和 Azure）*： `[USERNAME]@_example_.com`
+*** *下級登入名稱模式（Active Directory 和 Azure）*： `_example_\[USERNAME]`
+*** *可分辨名稱模式*： `CN=[USERNAME],CN=Users,DC=_example_,DC=com`
++
+完全按照書寫方式包含 *[USERNAME]*。
+
+
+
+
+
+. 在傳輸層安全性 (TLS) 部分中，選擇一個安全性設定。
++
+** *使用 STARTTLS*：使用 STARTTLS 確保與 LDAP 伺服器的通訊安全。這是 Active Directory、OpenLDAP 或其他的建議選項，但 Azure 不支援此選項。
+** *使用 LDAPS*：LDAPS（透過 SSL 的 LDAP）選項使用 TLS 建立與 LDAP 伺服器的連線。您必須為 Azure 選擇此選項。
+** *請勿使用 TLS*： StorageGRID系統和 LDAP 伺服器之間的網路流量將不安全。  Azure 不支援此選項。
++
+
+NOTE: 如果您的 Active Directory 伺服器強制執行 LDAP 簽名，則不支援使用 *不使用 TLS* 選項。您必須使用 STARTTLS 或 LDAPS。
+
+
+
+. 如果您選擇了 STARTTLS 或 LDAPS，請選擇用於保護連線的憑證。
++
+** *使用作業系統 CA 憑證*：使用作業系統上安裝的預設 Grid CA 憑證來保護連線。
+** *使用自訂 CA 憑證*：使用自訂安全性憑證。
++
+如果選擇此設置，請將自訂安全性憑證複製並貼上到 CA 憑證文字方塊中。
+
+
+
+
+
+
+
+=== 測試連接並儲存配置
+
+輸入所有值後，必須先測試連接，然後才能儲存配置。如果您提供了 LDAP 伺服器的連線設定和綁定使用者名稱格式， StorageGRID會驗證該設定。
+
+.步驟
+. 選擇*測試連線*。
+. 如果您沒有提供綁定使用者名稱格式：
++
+** 如果連線設定有效，則會出現「測試連線成功」訊息。選擇*儲存*以儲存配置。
+** 如果連線設定無效，則會出現「無法建立測試連線」訊息。選擇*關閉*。然後，解決所有問題並再次測試連線。
+
+
+. 如果您提供了綁定使用者名稱格式，請輸入有效聯合使用者的使用者名稱和密碼。
++
+例如，輸入您自己的使用者名稱和密碼。用戶名中不要包含任何特殊字符，例如 @ 或 /。
+
++
+image::../media/identity_federation_test_connection.png[身份聯合提示驗證綁定使用者名稱格式]
+
++
+** 如果連線設定有效，則會出現「測試連線成功」訊息。選擇*儲存*以儲存配置。
+** 如果連線設定、綁定使用者名稱格式或測試使用者名稱和密碼無效，則會出現錯誤訊息。解決任何問題並再次測試連接。
+
+
+
+
+
+
+== 強制與身分來源同步
+
+StorageGRID系統會定期從身分識別來源同步聯合群組和使用者。如果您想盡快啟用或限制使用者權限，您可以強制啟動同步。
+
+.步驟
+. 前往身份聯合頁面。
+. 選擇頁面頂部的*同步伺服器*。
++
+同步過程可能需要一些時間，具體取決於您的環境。
+
++
+
+NOTE: 如果從身分來源同步聯合群組和使用者時出現問題，則會觸發*身分聯合同步失敗*警報。
+
+
+
+
+
+== 禁用身份聯合
+
+您可以暫時或永久停用群組和使用者的身份聯合。當身分聯合被停用時， StorageGRID和身分來源之間就沒有通訊。但是，您配置的任何設定都會保留，以便您將來可以輕鬆地重新啟用身份聯合。
+
+.關於此任務
+在停用身分聯合之前，您應該注意以下事項：
+
+* 聯合用戶將無法登入。
+* 目前已登入的聯合用戶將保留對StorageGRID系統的存取權限，直到其會話過期，但會話過期後他們將無法登入。
+* StorageGRID系統和身分來源之間不會發生同步，並且不會針對未同步的帳戶發出警報。
+* 如果單一登入 (SSO) 設定為 *已啟用* 或 *沙盒模式*，則 *啟用身分聯合* 核取方塊將會停用。在停用身分聯合之前，單一登入頁面上的 SSO 狀態必須為 *已停用*。看link:../admin/disabling-single-sign-on.html["停用單一登入"] 。
+
+
+.步驟
+. 前往身份聯合頁面。
+. 取消選取「啟用身份聯合」複選框。
+
+
+
+
+== 配置 OpenLDAP 伺服器的指南
+
+如果您想要使用 OpenLDAP 伺服器進行身份聯合，則必須在 OpenLDAP 伺服器上設定特定設定。
+
+
+CAUTION: 對於非 ActiveDirectory 或 Azure 的識別來源， StorageGRID不會自動阻止外部停用的使用者存取 S3。若要封鎖 S3 訪問，請刪除使用者的所有 S3 金鑰或從所有群組中刪除該使用者。
+
+
+
+=== Memberof 和 refint 覆蓋
+
+應該啟用 memberof 和 refint 覆蓋。有關詳細信息，請參閱http://www.openldap.org/doc/admin24/index.html["OpenLDAP 文件：版本 2.4 管理員指南"^]。
+
+
+
+=== 索引
+
+您必須使用指定的索引關鍵字來設定下列 OpenLDAP 屬性：
+
+* `olcDbIndex: objectClass eq`
+* `olcDbIndex: uid eq,pres,sub`
+* `olcDbIndex: cn eq,pres,sub`
+* `olcDbIndex: entryUUID eq`
+
+
+此外，請確保幫助中提到的使用者名字段已索引，以獲得最佳效能。
+
+請參閱有關反向群組成員資格維護的信息http://www.openldap.org/doc/admin24/index.html["OpenLDAP 文件：版本 2.4 管理員指南"^]。

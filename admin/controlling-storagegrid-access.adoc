@@ -1,0 +1,47 @@
+---
+permalink: admin/controlling-storagegrid-access.html 
+sidebar: sidebar 
+keywords: administrator access, single sign on, sso, users, groups, client certificates, passwords, passphrase 
+summary: '您可以透過建立或匯入群組和使用者並為每個群組分配權限來控制誰可以存取StorageGRID以及使用者可以執行哪些任務。您也可以選擇啟用單一登入 (SSO)、建立用戶端憑證以及變更網格密碼。' 
+---
+= 控制StorageGRID訪問
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以透過建立或匯入群組和使用者並為每個群組分配權限來控制誰可以存取StorageGRID以及使用者可以執行哪些任務。您也可以選擇啟用單一登入 (SSO)、建立用戶端憑證以及變更網格密碼。
+
+
+
+== 控制對網格管理器的訪問
+
+您可以透過從身分聯合服務匯入群組和使用者或設定本機群組和本機使用者來確定誰可以存取網格管理器和網格管理 API。
+
+使用link:using-identity-federation.html["身分聯合"]使設定link:managing-admin-groups.html["群組"]和link:managing-users.html["使用者"]速度更快，並且允許使用者使用熟悉的憑證登入StorageGRID 。如果您使用 Active Directory、OpenLDAP 或 Oracle Directory Server，則可以設定身分聯合。
+
+
+NOTE: 如果您想使用其他 LDAP v3 服務，請聯絡技術支援。
+
+您可以透過指派不同的任務來確定每個使用者可以執行哪些任務link:admin-group-permissions.html["權限"]到每個組。例如，您可能希望一個群組中的使用者能夠管理 ILM 規則，而另一個群組中的使用者能夠執行維護任務。使用者必須至少屬於一個群組才能存取系統。
+
+或者，您可以將群組配置為唯讀。只讀群組中的使用者只能查看設定和功能。他們無法在網格管理器或網格管理 API 中進行任何更改或執行任何操作。
+
+
+
+== 啟用單一登入
+
+StorageGRID系統支援使用安全性斷言標記語言 2.0 (SAML 2.0) 標準的單一登入 (SSO)。您先請link:configuring-sso.html["設定並啟用 SSO"]，所有使用者必須經過外部身分提供者的驗證，然後才能存取網格管理器、租用戶管理器、網格管理 API 或租用戶管理 API。本機使用者無法登入StorageGRID。
+
+
+
+== 更改配置密碼
+
+許多安裝和維護過程以及下載StorageGRID恢復包都需要設定密碼。下載StorageGRID系統的網格拓樸資訊和加密金鑰的備份也需要密碼。你可以link:changing-provisioning-passphrase.html["更改密碼"]按要求。
+
+
+
+== 更改節點控制台密碼
+
+網格中的每個節點都有一個唯一的節點控制台密碼，您需要使用 SSH 以「管理員」身分登入節點，或以 VM/實體控制台連線上的 root 使用者身分登入。根據需要，您可以link:change-node-console-password.html["更改節點控制台密碼"]對於每個節點。

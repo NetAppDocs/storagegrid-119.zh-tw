@@ -1,0 +1,62 @@
+---
+permalink: troubleshoot/troubleshooting-metadata-issues.html 
+sidebar: sidebar 
+keywords: how to troubleshoot metadata issues 
+summary: 如果發生元資料問題，警報將通知您問題的根源以及建議採取的措施。特別是，如果觸發低元資料儲存警報，則必須添加新的儲存節點。 
+---
+= 解決元資料問題
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果發生元資料問題，警報將通知您問題的根源以及建議採取的措施。特別是，如果觸發低元資料儲存警報，則必須添加新的儲存節點。
+
+.開始之前
+您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+
+.關於此任務
+針對每個觸發的元資料相關警報，遵循建議的操作。如果觸發「元資料儲存不足」警報，則必須新增新的儲存節點。
+
+StorageGRID在每個儲存節點的磁碟區 0 上為物件元資料保留一定量的空間。此空間稱為_實際保留空間_，細分為允許物件元資料的空間（允許的元資料空間）和基本資料庫操作所需的空間，例如壓縮和修復。允許的元資料空間決定了整體物件容量。
+
+image::../media/metadata_allowed_space_volume_0.png[元資料允許空間卷 0]
+
+如果物件元資料佔用的空間超過元資料允許空間的 100%，則資料庫操作無法有效運行，並且會發生錯誤。
+
+你可以link:../monitor/monitoring-storage-capacity.html#monitor-object-metadata-capacity-for-each-storage-node["監控每個儲存節點的物件元資料容量"]幫助您預測錯誤並在錯誤發生之前糾正它們。
+
+StorageGRID使用以下 Prometheus 指標來衡量允許的元資料空間的滿度：
+
+[listing]
+----
+storagegrid_storage_utilization_metadata_bytes/storagegrid_storage_utilization_metadata_allowed_bytes
+----
+當此 Prometheus 表達式達到某些閾值時，將觸發*低元資料儲存*警報。
+
+* *輕微*：物件元資料使用了 70% 或更多的允許元資料空間。您應該盡快新增新的儲存節點。
+* *主要*：物件元資料使用了 90% 或更多的允許元資料空間。您必須立即新增新的儲存節點。
++
+
+CAUTION: 當物件元資料使用了 90% 或更多允許的元資料空間時，儀表板上會出現警告。如果出現此警告，您必須立即新增新的儲存節點。您絕不能允許物件元資料使用超過 100% 的允許空間。
+
+* *嚴重*：物件元資料正在使用 100% 或更多的允許元資料空間，並開始消耗基本資料庫操作所需的空間。您必須停止新物件的攝取，並且必須立即新增新的儲存節點。
+
+
+
+CAUTION: 如果磁碟區 0 的大小小於元資料保留空間儲存選項（例如，在非生產環境中），則*低元資料儲存*警報的計算可能不準確。
+
+.步驟
+. 選擇*警報* > *目前*。
+. 從警報表中，展開「*低元資料儲存*」警報群組（如果需要），然後選擇要查看的特定警報。
+. 查看警報對話框中的詳細資訊。
+. 如果觸發了主要或嚴重的*低元資料儲存*警報，請立即執行擴充功能以新增儲存節點。
++
+
+NOTE: 由於StorageGRID在每個站點保留所有物件元資料的完整副本，因此整個網格的元資料容量受到最小站點的元資料容量的限制。如果您需要在一個網站上新增元資料容量，您也應該link:../expand/adding-grid-nodes-to-existing-site-or-adding-new-site.html["擴展任何其他站點"]由相同數量的儲存節點。
+
++
+執行擴充後， StorageGRID會將現有物件元資料重新指派到新節點，從而增加網格的整體元資料容量。無需用戶操作。  *低元資料儲存*警報已清除。
+
+

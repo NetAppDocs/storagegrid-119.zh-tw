@@ -1,0 +1,152 @@
+---
+permalink: s3/use-s3-select.html 
+sidebar: sidebar 
+keywords: use S3 Select, S3 Select 
+summary: StorageGRID支援 SelectObjectContent 指令的下列 Amazon S3 Select 子句、資料類型、運算子和保留關鍵字。 
+---
+= 使用 S3 Select
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID支援以下 Amazon S3 Select 子句、資料類型和運算符link:select-object-content.html["SelectObjectContent 指令"]。
+
+
+NOTE: 任何未列出的項目均不受支援。
+
+有關語法，請參閱link:select-object-content.html["選擇對象內容"]。有關 S3 Select 的更多信息，請參閱 https://docs.aws.amazon.com/AmazonS3/latest/userguide/selecting-content-from-objects.html["S3 Select 的 AWS 文檔"^]。
+
+只有啟用了 S3 Select 的租用戶帳戶才能發出 SelectObjectContent 查詢。查看link:../admin/manage-s3-select-for-tenant-accounts.html["使用 S3 Select 的注意事項和要求"]。
+
+
+
+== 條款
+
+* 選擇清單
+* FROM 子句
+* WHERE 子句
+* LIMIT 子句
+
+
+
+
+== 資料類型
+
+* 布林值
+* 整數
+* 細繩
+* 漂浮
+* 十進制，數字
+* 時間戳
+
+
+
+
+== 運算符
+
+
+
+=== 邏輯運算符
+
+* 和
+* 不是
+* 或者
+
+
+
+
+=== 比較運算符
+
+* <
+* >
+* <=
+* >=
+* =
+* =
+* <>
+* !=
+* 之間
+* 在
+
+
+
+
+=== 模式匹配運算符
+
+* 喜歡
+* _
+* %
+
+
+
+
+=== 廬正算子
+
+* 為空
+* 不為空
+
+
+
+
+=== 數學運算符
+
+* +
+* -
+* *
+* /
+* %
+
+
+StorageGRID遵循 Amazon S3 Select 運算子優先權。
+
+
+
+== 聚合函數
+
+* 平均值()
+* 數數（*）
+* 最大限度（）
+* MIN()
+* 和（）
+
+
+
+
+== 條件函數
+
+* 案件
+* 合併
+* NULLIF
+
+
+
+
+== 轉換函數
+
+* CAST（針對支援的資料類型）
+
+
+
+
+== 日期函數
+
+* DATE_ADD
+* 日期差異
+* 提煉
+* 至字串
+* 到時間戳
+* UTCNOW
+
+
+
+
+== 字串函數
+
+* 字元長度，字元長度
+* 降低
+* 子字串
+* 修剪
+* 上
+

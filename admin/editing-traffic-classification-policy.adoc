@@ -1,0 +1,52 @@
+---
+permalink: admin/editing-traffic-classification-policy.html 
+sidebar: sidebar 
+keywords: edit traffic classification policy 
+summary: 您可以編輯流量分類策略以變更其名稱或描述，或建立、編輯或刪除該策略的任何規則或限制。 
+---
+= 編輯流量分類策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以編輯流量分類策略以變更其名稱或描述，或建立、編輯或刪除該策略的任何規則或限制。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 你有link:admin-group-permissions.html["Root存取權限"]。
+
+
+.步驟
+. 選擇*配置* > *網路* > *流量分類*。
++
+出現「流量分類策略」頁面，現有策略列在表格中。
+
+. 使用「操作」功能表或詳細資料頁面編輯策略。看link:../admin/creating-traffic-classification-policies.html["建立流量分類策略"]輸入什麼內容。
++
+[role="tabbed-block"]
+====
+.操作選單
+--
+.. 選取該策略的複選框。
+.. 選擇*操作* > *編輯*。
+
+
+--
+.詳細資訊頁面
+--
+.. 選擇策略名稱。
+.. 選擇策略名稱旁的“*編輯*”按鈕。
+
+
+--
+====
+. 對於輸入策略名稱步驟，可選擇編輯策略名稱或描述，然後選擇*繼續*。
+. 對於新增符合規則步驟，可選擇新增規則或編輯現有規則的*類型*和*符合值*，然後選擇*繼續*。
+. 對於設定限制步驟，可選擇新增、編輯或刪除限制，然後選擇*繼續*。
+. 查看更新後的政策，然後選擇*儲存並繼續*。
++
+您對策略所做的變更已儲存，現在將根據流量分類策略處理網路流量。您可以查看流量​​圖表並驗證策略是否正在執行您期望的流量限制。
+
+

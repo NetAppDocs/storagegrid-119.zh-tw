@@ -1,0 +1,99 @@
+---
+permalink: admin/grid-federation-overview.html 
+sidebar: sidebar 
+keywords: grid federation, cross-grid replication, account clone, cgr, disaster recovery 
+summary: 您可以使用網格聯合來複製租用戶並在兩個StorageGRID系統之間複製其物件以實現災難復原。 
+---
+= 什麼是電網聯合？
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用網格聯合來複製租用戶並在兩個StorageGRID系統之間複製其物件以實現災難復原。
+
+
+
+== 什麼是電網聯合連接？
+
+網格聯合連接是兩個StorageGRID系統中的管理節點和網關節點之間的雙向、可信任和安全的連接。
+
+
+
+== 網格聯合的工作流程
+
+工作流程圖總結了在兩個網格之間配置網格聯合連接的步驟。
+
+image::../media/grid-federation-workflow.png[電網聯合連接工作流程]
+
+
+
+== 電網聯合連接的注意事項與要求
+
+* 用於網格聯合的網格必須運行相同的StorageGRID版本，或者它們之間主要版本差異不超過一個。
++
+有關版本要求的詳細信息，請參閱link:../release-notes/index.html["發行說明"]。
+
+* 一個網格可以與其他網格有一個或多個網格聯合連接。每個電網聯合連接都獨立於任何其他連接。例如，如果網格 1 與網格 2 有一個連接，與網格 3 有第二個連接，則網格 2 和網格 3 之間沒有隱含的連接。
+* 電網聯合連接是雙向的。建立連線後，您可以從任一網格監控和管理連線。
+* 必須至少存在一個網格聯合連接才能使用link:grid-federation-what-is-account-clone.html["帳戶克隆"]或者link:grid-federation-what-is-cross-grid-replication.html["跨網格複製"]。
+
+
+
+
+=== 網路和 IP 位址要求
+
+* 網格聯合連接可以發生在網格網路、管理網路或客戶端網路上。
+* 電網聯合連接將一個電網連接到另一個電網。每個網格的配置指定另一個網格上的網格聯合端點，該端點由管理節點、網關節點或兩者組成。
+* 最佳做法是連接link:managing-high-availability-groups.html["高可用性 (HA) 組"]每個網格上的網關和管理節點。使用 HA 群組有助於確保節點不可用時網格聯合連接仍保持在線。如果任一 HA 組中的活動介面發生故障，則連接可以使用備用介面。
+* 不建議建立使用單一管理節點或網關節點的 IP 位址的網格聯合連接。如果節點不可用，則電網聯合連接也將不可用。
+* link:grid-federation-what-is-cross-grid-replication.html["跨網格複製"]物件要求每個網格上的儲存節點能夠存取另一個網格上配置的管理節點和網關節點。對於每個網格，確認所有儲存節點都具有高頻寬路由作為用於連接的管理節點或網關節點。
+
+
+
+
+=== 使用 FQDN 對連線進行負載平衡
+
+對於生產環境，使用完全限定網域名稱 (FQDN) 來標識連線中的每個網格。然後，建立適當的 DNS 項目，如下所示：
+
+* 網格 1 的 FQDN 會對應到網格 1 中 HA 群組的一個或多個虛擬 IP (VIP) 位址，或對應到網格 1 中一個或多個管理節點或網關節點的 IP 位址。
+* 網格 2 的 FQDN 會對應到網格 2 的一個或多個 VIP 位址，或對應到網格 2 中一個或多個管理節點或網關節點的 IP 位址。
+
+
+當您使用多個 DNS 項目時，使用連線的請求將進行負載平衡，如下所示：
+
+* 對應到多個 HA 群組的 VIP 位址的 DNS 條目在 HA 群組中的活動節點之間進行負載平衡。
+* 對應到多個管理節點或網關節點的 IP 位址的 DNS 項目在映射節點之間進行負載平衡。
+
+
+
+
+=== 端口要求
+
+建立電網聯合連接時，您可以指定 23000 到 23999 之間的任何未使用的連接埠號碼。此連接中的兩個電網將使用相同的連接埠。
+
+您必須確保任一網格中均沒有節點使用此連接埠進行其他連接。
+
+
+
+=== 證書要求
+
+設定網格聯合連線時， StorageGRID會自動產生四個 SSL 憑證：
+
+* 伺服器和客戶端憑證用於驗證和加密從網格 1 傳送到網格 2 的訊息
+* 伺服器和客戶端憑證用於驗證和加密從網格 2 傳送到網格 1 的訊息
+
+
+image::../media/grid-federation-certificates.png[電網聯合證書]
+
+預設情況下，證書有效期為 730 天（2 年）。當這些證書接近到期日時，*網格聯合證書到期*警報會提醒您輪換證書，您可以使用網格管理器來執行此操作。
+
+
+CAUTION: 如果連接兩端的憑證過期，連線將停止運作。資料複製將處於待處理狀態，直到憑證更新為止。
+
+.了解更多
+* link:grid-federation-create-connection.html["建立電網聯合連接"]
+* link:grid-federation-manage-connection.html["管理電網聯合連接"]
+* link:grid-federation-troubleshoot.html["解決網格聯合錯誤"]
+

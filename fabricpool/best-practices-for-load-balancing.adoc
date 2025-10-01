@@ -1,0 +1,61 @@
+---
+permalink: fabricpool/best-practices-for-load-balancing.html 
+sidebar: sidebar 
+keywords: fabricPool, load balancer endpoint, load balancing, Layer 7, best practices, certificate, CA, certificate authority, tls, ssl 
+summary: 在將StorageGRID附加為FabricPool雲層之前，請先查看將負載平衡器與FabricPool結合使用的最佳實務。 
+---
+= FabricPool負載平衡的最佳實踐
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在將StorageGRID附加為FabricPool雲層之前，請先查看將負載平衡器與FabricPool結合使用的最佳實務。
+
+要了解有關StorageGRID負載平衡器和負載平衡器憑證的一般信息，請參閱link:../admin/managing-load-balancing.html["負載平衡的注意事項"]。
+
+
+
+== 租戶存取用於FabricPool的負載平衡器端點的最佳實踐
+
+您可以控制哪些租用戶可以使用特定的負載平衡器端點來存取他們的儲存桶。您可以允許所有租戶、允許部分租戶或封鎖部分租戶。建立FabricPool使用的負載平衡端點時，選擇「允許所有租用戶」。  ONTAP會對放置在StorageGRID桶中的資料進行加密，因此這個額外的安全層幾乎無法提供額外的安全性。
+
+
+
+== 安全證書的最佳實踐
+
+當您建立用於FabricPool 的StorageGRID負載平衡器端點時，您需要提供允許ONTAP使用StorageGRID進行驗證的安全性憑證。
+
+大多數情況下， ONTAP和StorageGRID之間的連線應使用傳輸層安全性 (TLS) 加密。支援使用不含 TLS 加密的FabricPool ，但不建議使用。當您為StorageGRID負載平衡器端點選擇網路協定時，請選擇 *HTTPS*。然後提供允許ONTAP與StorageGRID進行驗證的安全性憑證。
+
+要了解有關負載平衡端點的伺服器憑證的更多資訊：
+
+* link:../admin/using-storagegrid-security-certificates.html["管理安全證書"]
+* link:../admin/managing-load-balancing.html["負載平衡的注意事項"]
+* link:../harden/hardening-guideline-for-server-certificates.html["伺服器證書強化指南"]
+
+
+
+
+=== 將證書新增至ONTAP
+
+將StorageGRID新增為FabricPool雲層時，必須在ONTAP叢集上安裝相同的證書，包括根證書和任何從屬證書頒發機構 (CA) 證書。
+
+
+
+=== 管理證書到期
+
+
+CAUTION: 如果用於保護ONTAP和StorageGRID之間連線的憑證過期， FabricPool將暫時停止運作，並且ONTAP將暫時失去對分層到StorageGRID 的資料的存取權。
+
+為避免憑證過期問題，請遵循以下最佳做法：
+
+* 仔細監控任何警告憑證即將到期的警報，例如*負載平衡器端點憑證到期*和*S3 API 的全域伺服器憑證到期*警報。
+* 始終保持憑證的StorageGRID和ONTAP版本同步。如果您替換或續訂用於負載平衡器端點的證書，則必須替換或續訂ONTAP用於雲層的等效證書。
+* 使用公開簽署的 CA 憑證。如果您使用 CA 簽署的證書，則可以使用網格管理 API 來自動執行憑證輪替。這使您可以無中斷地替換即將過期的憑證。
+* 如果您已產生自簽署StorageGRID憑證且該憑證即將過期，則必須在現有憑證過期之前手動取代StorageGRID和ONTAP中的憑證。如果自簽名憑證已過期，請關閉ONTAP中的憑證驗證以防止存取遺失。
++
+看 https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_configure_a_new_StorageGRID_self-signed_server_certificate_on_an_existing_ONTAP_FabricPool_deployment["NetApp知識庫：如何在現有ONTAP FabricPool部署上設定新的StorageGRID自簽名伺服器憑證"^]以取得說明。
+
+

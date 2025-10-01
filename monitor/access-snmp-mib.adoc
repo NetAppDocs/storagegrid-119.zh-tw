@@ -1,0 +1,149 @@
+---
+permalink: monitor/access-snmp-mib.html 
+sidebar: sidebar 
+keywords: mib, snmp, monitoring 
+summary: MIB 檔案包含有關網格中節點的託管資源和服務的屬性的定義和資訊。您可以存取定義StorageGRID 的物件和通知的 MIB 檔案。這些文件對於監控您的電網很有用。 
+---
+= 存取 MIB 文件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+MIB 檔案包含有關網格中節點的託管資源和服務的屬性的定義和資訊。您可以存取定義StorageGRID 的物件和通知的 MIB 檔案。這些文件對於監控您的電網很有用。
+
+看link:using-snmp-monitoring.html["使用 SNMP 監控"]有關 SNMP 和 MIB 檔案的詳細資訊。
+
+
+
+== 存取 MIB 文件
+
+請依照以下步驟存取 MIB 檔案。
+
+.步驟
+. 選擇 *設定* > *監控* > *SNMP 代理程式*。
+. 在SNMP代理頁面，選擇要下載的檔案：
++
+** *NETAPP-STORAGEGRID-MIB.txt*：定義所有管理節點上可存取的警報表和通知（陷阱）。
+** *ES-NETAPP-06-MIB.mib*：定義基於 E 系列的設備的物件和通知。
+** *MIB_1_10.zip*：定義具有BMC介面的設備的物件和通知。
++
+[]
+====
+
+TIP: 您也可以在任何StorageGRID節點上的下列位置存取 MIB 檔案： `/usr/share/snmp/mibs`
+
+====
+
+
+. 要從 MIB 檔案中提取StorageGRID OID：
++
+.. 取得StorageGRID MIB 根的 OID：
++
+`root@user-adm1:~ # snmptranslate -On -IR storagegrid`
+
++
+結果： `.1.3.6.1.4.1.789.28669` (`28669`始終是StorageGRID的 OID ）
+
+.. 在整個樹中尋找StorageGRID OID（使用 `paste`連接線）：
++
+`root@user-adm1:~ # snmptranslate -Tso | paste -d " " - - | grep 28669`
+
+
+
+
+
+
+TIP: 這 `snmptranslate`命令有許多選項可用於探索 MIB。此指令在任何StorageGRID節點上均可用。
+
+
+
+== MIB 檔案內容
+
+所有物件均位於StorageGRID OID 下。
+
+[cols="1a,1a,2a"]
+|===
+| 物件名稱 | 物件 ID (OID) | 描述 
+
+
+| .iso.org.dod.internet。  + 私人企業。  + netapp.storagegrid | .1.3.6.1.4.1.789.28669  a| 
+NetApp StorageGRID實體的 MIB 模組。
+
+|===
+
+
+== MIB對象
+
+[cols="1a,1a,2a"]
+|===
+| 物件名稱 | 物件 ID (OID) | 描述 
+
+
+| activeAlertCount | .1.3.6.1.4.1.+ 789.28669.1.3  a| 
+activeAlertTable 中的活動警報數。
+
+
+
+| 活動警報表 | .1.3.6.1.4.1.+ 789.28669.1.4  a| 
+StorageGRID中的活動警報表。
+
+
+
+| 活動警報ID | .1.3.6.1.4.1.+ 789.28669.1.4.1.1  a| 
+警報的 ID。僅在目前活動警報集中是唯一的。
+
+
+
+| activeAlertName | .1.3.6.1.4.1.+ 789.28669.1.4.1.2  a| 
+警報的名稱。
+
+
+
+| activeAlertInstance | .1.3.6.1.4.1.+ 789.28669.1.4.1.3  a| 
+產生警報的實體的名稱，通常是節點名稱。
+
+
+
+| activeAlertSeverity | .1.3.6.1.4.1.+ 789.28669.1.4.1.4  a| 
+警報的嚴重性。
+
+
+
+| 活動警報開始時間 | .1.3.6.1.4.1.+ 789.28669.1.4.1.5  a| 
+觸發警報的日期和時間。
+
+|===
+
+
+== 通知類型（陷阱）
+
+所有通知都包含以下變數作為 varbinds：
+
+* 活動警報ID
+* activeAlertName
+* activeAlertInstance
+* activeAlertSeverity
+* 活動警報開始時間
+
+
+[cols="1a,1a,2a"]
+|===
+| 通知類型 | 物件 ID (OID) | 描述 
+
+
+| 主動輕微警報 | .1.3.6.1.4.1.+ 789.28669.0.6  a| 
+嚴重程度較低的警報
+
+
+
+| 活躍重大警報 | .1.3.6.1.4.1.+ 789.28669.0.7  a| 
+嚴重程度較高的警報
+
+
+
+| activeCriticalAlert | .1.3.6.1.4.1.+ 789.28669.0.8  a| 
+嚴重程度警報
+
+|===

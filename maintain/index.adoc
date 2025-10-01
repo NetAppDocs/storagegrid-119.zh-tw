@@ -1,0 +1,33 @@
+---
+permalink: maintain/index.html 
+sidebar: sidebar 
+keywords: maintain overview, maintenance overview, about maintain, about maintenance 
+summary: 電網維護任務包括退役節點或站點、重新命名電網、節點或站點以及維護網路。您也可以執行主機和中間件程式以及網格節點程式。 
+---
+= 電網維護
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+電網維護任務包括退役節點或站點、重新命名電網、節點或站點以及維護網路。您也可以執行主機和中間件程式以及網格節點程式。
+
+
+NOTE: 在這些說明中，「Linux」指的是 Red Hat® Enterprise Linux®、Ubuntu® 或 Debian® 部署。有關受支援版本的列表，請參閱 https://imt.netapp.com/matrix/#welcome["NetApp互通性表工具"^]。
+
+
+
+== 開始之前
+
+* 您對StorageGRID系統有廣泛的了解。
+* 您已經查看了StorageGRID系統的拓撲並了解網格配置。
+* 您明白您必須嚴格遵守所有指示並留意所有警告。
+* 您了解未描述的維護程序不受支援或需要服務參與。
+
+
+
+
+== 家電維護程序
+
+有關硬體步驟，請參閱 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/index.html["StorageGRID設備的維護說明"^]。

@@ -1,0 +1,23 @@
+---
+permalink: network/grid-network-requirements.html 
+sidebar: sidebar 
+keywords: grid network requirements 
+summary: 請遵循電網的這些要求和指導方針。 
+---
+= 電網需求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+請遵循電網的這些要求和指導方針。
+
+* 在部署時，每個網格節點必須連接到網格網絡，並且必須能夠使用您在部署節點時指定的網路配置與主管理節點進行通訊。
+* 在正常的網格運作期間，每個網格節點必須能夠透過網格網路與所有其他網格節點進行通訊。
++
+
+NOTE: 網格網路必須能夠直接在各個節點之間路由。不支援節點之間的網路位址轉換（NAT）。
+
+* 如果網格網路由多個子網路組成，請將它們新增至網格網路子網路清單（GNSL）中。在 GNSL 中每個子網路的所有節點上建立靜態路由。
+

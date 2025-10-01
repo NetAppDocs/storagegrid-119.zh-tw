@@ -1,0 +1,49 @@
+---
+permalink: audit/audit-log-file-format.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, log file formats, log formats, log file format, log format 
+summary: 每個管理節點上都有審計日誌文件，其中包含一系列單獨的審計訊息。 
+---
+= 審計日誌檔案格式
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+每個管理節點上都有審計日誌文件，其中包含一系列單獨的審計訊息。
+
+每條審計訊息包含以下內容：
+
+* 觸發審計訊息 (ATIM) 的事件的協調世界時 (UTC)，採用 ISO 8601 格式，後面跟著一個空格：
++
+`_YYYY-MM-DDTHH:MM:SS.UUUUUU_`， 在哪裡 `_UUUUUU_`是微秒。
+
+* 審計訊息本身，括在方括號內，以 `AUDT`。
+
+
+以下範例顯示了審計日誌檔案中的三個審計訊息（為便於閱讀添加了換行符）。當租用戶建立 S3 儲存桶並在該儲存桶中新增兩個物件時，會產生這些訊息。
+
+[listing]
+----
+2019-08-07T18:43:30.247711
+[AUDT:[RSLT(FC32):SUCS][CNID(UI64):1565149504991681][TIME(UI64):73520][SAIP(IPAD):"10.224.2.255"][S3AI(CSTR):"17530064241597054718"]
+[SACC(CSTR):"s3tenant"][S3AK(CSTR):"SGKH9100SCkNB8M3MTWNt-PhoTDwB9JOk7PtyLkQmA=="][SUSR(CSTR):"urn:sgws:identity::17530064241597054718:root"]
+[SBAI(CSTR):"17530064241597054718"][SBAC(CSTR):"s3tenant"][S3BK(CSTR):"bucket1"][AVER(UI32):10][ATIM(UI64):1565203410247711]
+[ATYP(FC32):SPUT][ANID(UI32):12454421][AMID(FC32):S3RQ][ATID(UI64):7074142142472611085]]
+
+2019-08-07T18:43:30.783597
+[AUDT:[RSLT(FC32):SUCS][CNID(UI64):1565149504991696][TIME(UI64):120713][SAIP(IPAD):"10.224.2.255"][S3AI(CSTR):"17530064241597054718"]
+[SACC(CSTR):"s3tenant"][S3AK(CSTR):"SGKH9100SCkNB8M3MTWNt-PhoTDwB9JOk7PtyLkQmA=="][SUSR(CSTR):"urn:sgws:identity::17530064241597054718:root"]
+[SBAI(CSTR):"17530064241597054718"][SBAC(CSTR):"s3tenant"][S3BK(CSTR):"bucket1"][S3KY(CSTR):"fh-small-0"]
+[CBID(UI64):0x779557A069B2C037][UUID(CSTR):"94BA6949-38E1-4B0C-BC80-EB44FB4FCC7F"][CSIZ(UI64):1024][AVER(UI32):10]
+[ATIM(UI64):1565203410783597][ATYP(FC32):SPUT][ANID(UI32):12454421][AMID(FC32):S3RQ][ATID(UI64):8439606722108456022]]
+
+2019-08-07T18:43:30.784558
+[AUDT:[RSLT(FC32):SUCS][CNID(UI64):1565149504991693][TIME(UI64):121666][SAIP(IPAD):"10.224.2.255"][S3AI(CSTR):"17530064241597054718"]
+[SACC(CSTR):"s3tenant"][S3AK(CSTR):"SGKH9100SCkNB8M3MTWNt-PhoTDwB9JOk7PtyLkQmA=="][SUSR(CSTR):"urn:sgws:identity::17530064241597054718:root"]
+[SBAI(CSTR):"17530064241597054718"][SBAC(CSTR):"s3tenant"][S3BK(CSTR):"bucket1"][S3KY(CSTR):"fh-small-2000"]
+[CBID(UI64):0x180CBD8E678EED17][UUID(CSTR):"19CE06D0-D2CF-4B03-9C38-E578D66F7ADD"][CSIZ(UI64):1024][AVER(UI32):10]
+[ATIM(UI64):1565203410784558][ATYP(FC32):SPUT][ANID(UI32):12454421][AMID(FC32):S3RQ][ATID(UI64):13489590586043706682]]
+----
+在預設格式下，審計日誌檔案中的審計訊息不易閱讀或解釋。您可以使用link:using-audit-explain-tool.html["審計解釋工具"]取得審計日誌中審計訊息的簡化摘要。您可以使用link:using-audit-sum-tool.html["審計總和工具"]總結記錄了多少寫入、讀取和刪除操作以及這些操作花費了多長時間。

@@ -1,0 +1,20 @@
+---
+permalink: maintain/all-node-types-replacing-linux-node.html 
+sidebar: sidebar 
+keywords: replace linux node 
+summary: 如果故障需要您部署一個或多個新的實體或虛擬主機，或在現有主機上重新安裝 Linux，請先部署並配置替換主機，然後才能還原網格節點。此過程是所有類型的網格節點復原過程的一個步驟。 
+---
+= 替換 Linux 節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果故障需要您部署一個或多個新的實體或虛擬主機，或在現有主機上重新安裝 Linux，請先部署並配置替換主機，然後才能還原網格節點。此過程是所有類型的網格節點復原過程的一個步驟。
+
+「Linux」指的是 Red Hat® Enterprise Linux®、Ubuntu® 或 Debian® 部署。有關受支援版本的列表，請參閱 https://imt.netapp.com/matrix/#welcome["NetApp互通性矩陣工具 (IMT)"^]。
+
+此程序僅作為恢復基於軟體的儲存節點、主或非主管理節點或網關節點過程中的一個步驟執行。無論您正在恢復哪種類型的網格節點，步驟都是相同的。
+
+如果實體或虛擬 Linux 主機上託管多個網格節點，則可以以任意順序還原網格節點。但是，如果存在主管理節點，則首先恢復主管理節點可以防止其他網格節點在嘗試聯絡主管理節點註冊復原時發生復原停滯。

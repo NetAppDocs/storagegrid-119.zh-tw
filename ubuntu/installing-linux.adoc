@@ -1,0 +1,102 @@
+---
+permalink: ubuntu/installing-linux.html 
+sidebar: sidebar 
+keywords: how to install Linux 
+summary: 您必須在所有 Ubuntu 或 Debian 網格主機上安裝StorageGRID 。若要取得受支援版本的列表，請使用NetApp互通性表工具。 
+---
+= 安裝 Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須在所有 Ubuntu 或 Debian 網格主機上安裝StorageGRID 。若要取得受支援版本的列表，請使用NetApp互通性表工具。
+
+.開始之前
+確保您的作業系統符合 StorageGRID 的最低核心版本要求，如下所示。使用命令 `uname -r`取得您的作業系統的核心版本，或諮詢您的作業系統供應商。
+
+*注意：*對 Ubuntu 版本 18.04 和 20.04 的支援已被棄用，並將在未來的版本中刪除。
+
+[cols="1a,2a,3a"]
+|===
+| Ubuntu 版本 | 最低核心版本 | 核心包名稱 
+
+
+ a| 
+18.04.6（已棄用）
+ a| 
+5.4.0-150-通用
+ a| 
+linux-image-5.4.0-150-generic/bionic-updates，bionic-security，現為 5.4.0-150.167~18.04.1
+
+
+
+ a| 
+20.04.5（已棄用）
+ a| 
+5.4.0-131-通用
+ a| 
+linux-image-5.4.0-131-generic/focal-updates，現為 5.4.0-131.147
+
+
+
+ a| 
+22.04.1
+ a| 
+5.15.0-47-通用
+ a| 
+linux-image-5.15.0-47-generic/jammy-updates，jammy-security，現為 5.15.0-47.51
+
+
+
+ a| 
+24.04
+ a| 
+6.8.0-31-通用
+ a| 
+linux-image-6.8.0-31-generic/noble，現為 6.8.0-31.31
+
+|===
+*注意：*對 Debian 版本 11 的支援已被棄用，並將在未來的版本中刪除。
+
+[cols="1a,2a,2a"]
+|===
+| Debian 版本 | 最低核心版本 | 核心包名稱 
+
+
+ a| 
+11（已棄用）
+ a| 
+5.10.0-18-amd64
+ a| 
+linux-image-5.10.0-18-amd64/stable，現為 5.10.150-1
+
+
+
+ a| 
+12
+ a| 
+6.1.0-9-amd64
+ a| 
+linux-image-6.1.0-9-amd64/stable，現為 6.1.27-1
+
+|===
+.步驟
+. 根據經銷商的說明或您的標準程序在所有實體或虛擬網格主機上安裝 Linux。
++
+
+NOTE: 不要安裝任何圖形桌面環境。安裝 Ubuntu 時，您必須選擇*標準系統實用程式*。建議選擇 *OpenSSH 伺服器* 以啟用對 Ubuntu 主機的 ssh 存取。所有其他選項可以保持清除狀態。
+
+. 確保所有主機都可以存取 Ubuntu 或 Debian 軟體包儲存庫。
+. 如果啟用了交換：
++
+.. 運行以下命令： `$ sudo swapoff --all`
+.. 刪除所有交換條目 `/etc/fstab`保留設定。
++
+
+NOTE: 如果無法完全停用交換，可能會嚴重降低效能。
+
+
+
+

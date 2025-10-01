@@ -1,0 +1,33 @@
+---
+permalink: vmware/specifying-domain-name-system-server-information.html 
+sidebar: sidebar 
+keywords: how to specify domain name system server information 
+summary: 您必須為StorageGRID系統指定 DNS 訊息，以便可以使用主機名稱而不是 IP 位址存取外部伺服器。 
+---
+= 指定 DNS 伺服器資訊
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須為StorageGRID系統指定 DNS 訊息，以便可以使用主機名稱而不是 IP 位址存取外部伺服器。
+
+.關於此任務
+指定 https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/checking-dns-server-configuration.html["DNS 伺服器資訊"^]允許您使用完全限定網域名稱 (FQDN) 主機名稱而不是 IP 位址來傳送電子郵件通知和AutoSupport。
+
+為確保正常運行，請指定兩個或三個 DNS 伺服器。如果您指定三個以上，則可能只會使用三個，因為某些平台上有已知的作業系統限制。如果您的環境中存在路由限制，您可以link:../maintain/modifying-dns-configuration-for-single-grid-node.html["自訂DNS伺服器列表"]為各個節點（通常是網站上的所有節點）使用一組不同的最多三個 DNS 伺服器。
+
+如果可能，請使用每個網站都可以在本機存取的 DNS 伺服器，以確保孤立網站可以解析外部目標的 FQDN。
+
+.步驟
+. 在 *伺服器 1* 文字方塊中指定至少一個 DNS 伺服器的 IPv4 位址。
+. 如果需要，請選擇最後一個條目旁邊的加號來新增其他伺服器條目。
++
+image::../media/9_gmi_installer_dns_page.gif[該圖像由周圍的文字解釋。]
+
++
+最佳做法是指定至少兩個 DNS 伺服器。您最多可以指定六個 DNS 伺服器。
+
+. 選擇“下一步”。
+

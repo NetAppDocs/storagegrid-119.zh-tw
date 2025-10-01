@@ -1,0 +1,49 @@
+---
+indexpage:
+  title: 展開網格
+  summary: 您可以擴充StorageGRID系統的容量或功能，而無需中斷系統操作。
+  keywords: expand grid, add volume, add node, add site
+  lead: 您可以擴充StorageGRID系統的容量或功能，而無需中斷系統操作。
+  tiles:
+  - title: 開始
+    links:
+    - title: 擴充類型
+      url: "../expand/index.html"
+    - title: 指南：新增對象容量
+      url: "../expand/guidelines-for-adding-object-capacity.html"
+    - title: 指南：新增元資料容量
+      url: "../expand/adding-metadata-capacity.html"
+    - title: 指南：新增冗餘或新功能
+      url: "../expand/adding-grid-nodes-to-add-capabilities.html"
+    - title: 指南：新增站點
+      url: "../expand/adding-new-site.html"
+    - title: 收集所需材料
+      url: "../expand/gather-required-materials.html"
+  - title: 新增儲存卷
+    links:
+    - title: 將儲存卷新增至儲存節點
+      url: "../expand/adding-storage-volumes-to-storage-nodes.html"
+    - title: VMware：將儲存磁碟區新增至儲存節點
+      url: "../expand/vmware-adding-storage-volumes-to-storage-node.html"
+    - title: Linux：為儲存節點新增直接連接磁碟區或 SAN 卷
+      url: "../expand/linux-adding-direct-attached-or-san-volumes-to-storage-node.html"
+  - title: 新增網格節點或站點
+    links:
+    - title: 將網格節點新增至現有站點
+      url: "../expand/adding-grid-nodes-to-existing-site-or-adding-new-site.html"
+    - title: 新增站點
+      url: "../expand/adding-grid-nodes-to-existing-site-or-adding-new-site.html"
+    - title: 更新網格網路的子網
+      url: "../expand/updating-subnets-for-grid-network.html"
+    - title: 部署新的網格節點
+      url: "../expand/deploying-new-grid-nodes.html"
+    - title: 執行擴充
+      url: "../expand/performing-expansion.html"
+  - title: 配置和故障排除
+    links:
+    - title: 設定步驟
+      url: "../expand/configuring-expanded-storagegrid-system.html"
+    - title: 新增儲存節點後重新平衡擦除編碼數據
+      url: "../expand/rebalancing-erasure-coded-data-after-adding-storage-nodes.html"
+    - title: 故障排除：收集日誌文件
+      url: "../expand/contacting-technical-support.html"

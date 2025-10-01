@@ -1,0 +1,29 @@
+---
+permalink: network/appliance-nodes.html 
+sidebar: sidebar 
+keywords: networking for appliance, port bond mode 
+summary: 您可以設定StorageGRID設備上的網路端口，以使用滿足吞吐量、冗餘和故障轉移要求的連接埠綁定模式。 
+---
+= 設備節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以設定StorageGRID設備上的網路端口，以使用滿足吞吐量、冗餘和故障轉移要求的連接埠綁定模式。
+
+StorageGRID設備上的 10/25-GbE 連接埠可以配置為固定或聚合綁定模式，以連接到網格網路和用戶端網路。
+
+1-GbE 管理網路連接埠可以設定為獨立或主動備份模式，以連接管理網路。
+
+查看有關您的裝置的連接埠綁定模式的資訊：
+
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/gathering-installation-information-sg6100.html#port-bond-modes["連接埠綁定模式（SG6160）"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/gathering-installation-information-sg6100.html#port-bond-modes["連接埠綁定模式（SGF6112）"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/gathering-installation-information-sg6000.html#port-bond-modes["連接埠綁定模式（SG6000-CN 控制器）"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/gathering-installation-information-sg5800.html#port-bond-modes["連接埠綁定模式（SG5800 控制器）"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/gathering-installation-information-sg5700.html#port-bond-modes["連接埠綁定模式（E5700SG 控制器）"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/gathering-installation-information-sg110-and-sg1100.html#port-bond-modes["連接埠綁定模式（SG110 和 SG1100）"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/gathering-installation-information-sg100-and-sg1000.html#port-bond-modes["連接埠綁定模式（SG100 和 SG1000）"^]
+

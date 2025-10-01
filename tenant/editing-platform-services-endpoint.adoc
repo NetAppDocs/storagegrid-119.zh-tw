@@ -1,0 +1,58 @@
+---
+permalink: tenant/editing-platform-services-endpoint.html 
+sidebar: sidebar 
+keywords: how to edit platform services endpoint 
+summary: 您可以編輯平台服務端點的配置以變更其名稱、URI 或其他詳細資訊。例如，您可能需要更新過期的憑證或變更 URI 以指向備份 Elasticsearch 索引以進行故障轉移。您無法變更平台服務端點的 URN。 
+---
+= 編輯平台服務端點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以編輯平台服務端點的配置以變更其名稱、URI 或其他詳細資訊。例如，您可能需要更新過期的憑證或變更 URI 以指向備份 Elasticsearch 索引以進行故障轉移。您無法變更平台服務端點的 URN。
+
+.開始之前
+* 您已使用link:../admin/web-browser-requirements.html["支援的網頁瀏覽器"]。
+* 您屬於具有link:tenant-management-permissions.html["管理端點或 Root 存取權限"]。
+
+
+.步驟
+. 選擇*儲存（S3）* > *平台服務端點*。
++
+出現「平台服務端點」頁面並顯示已設定的平台服務端點清單。
+
+. 選擇要編輯的端點。
++
+出現端點詳細資料頁面。
+
+. 選擇*配置*。
+. 根據需要，更改端點的配置。
++
+
+NOTE: 端點建立後，您無法變更端點的 URN。
+
++
+.. 若要變更端點的顯示名稱，請選擇編輯圖標image:../media/icon_edit_tm.png["編輯圖示"]。
+.. 根據需要更改 URI。
+.. 根據需要變更身份驗證類型。
++
+*** 對於存取金鑰身份驗證，請根據需要透過選擇*編輯 S3 金鑰*並貼上新的存取金鑰 ID 和秘密存取金鑰來變更金鑰。如果您需要取消更改，請選擇*恢復 S3 鍵編輯*。
+*** 對於 CAP（C2S 存取入口網站）驗證，變更臨時憑證 URL 或可選用戶端私鑰密碼，並根據需要上傳新的憑證和金鑰檔案。
++
+
+NOTE: 客戶端私鑰必須是OpenSSL加密格式或未加密私鑰格式。
+
+
+
+.. 根據需要，更改驗證伺服器的方法。
+
+
+. 選擇*測試並儲存變更*。
++
+** 如果可以使用指定的憑證到達端點，則會顯示成功訊息。從每個站點的一個節點驗證與端點的連線。
+** 如果端點驗證失敗，則會出現錯誤訊息。修改端點以修正錯誤，然後選擇*測試並儲存變更*。
+
+
+

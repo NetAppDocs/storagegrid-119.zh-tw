@@ -1,0 +1,101 @@
+---
+permalink: tenant/configuring-cloudmirror-replication.html 
+sidebar: sidebar 
+keywords: how to configure CloudMirror replication, replication xml 
+summary: 您可以透過建立儲存桶複製配置 XML 並使用租用戶管理器將 XML 應用到儲存桶來為儲存桶啟用 CloudMirror 複製。 
+---
+= 配置 CloudMirror 複製
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+若要為儲存桶啟用 CloudMirror 複製，您需要建立並套用有效的儲存桶複製配置 XML。
+
+.開始之前
+* StorageGRID管理員已為您的租用戶帳戶啟用平台服務。
+* 您已經建立了一個儲存桶作為複製來源。
+* 您打算用作 CloudMirror 複製目標的端點已經存在，並且您有其 URN。
+* 您屬於具有link:tenant-management-permissions.html["管理所有 bucket 或 Root 存取權限"]。使用租用戶管理器配置儲存桶時，這些權限會覆寫群組或儲存桶原則中的權限設定。
+
+
+.關於此任務
+CloudMirror 複製將物件從來源儲存桶複製到端點中指定的目標儲存桶。
+
+有關存儲桶複製及其配置方法的一般信息，請參閱 https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html["Amazon Simple Storage Service (S3) 文件：複製對象"^]。有關StorageGRID如何實現 GetBucketReplication、DeleteBucketReplication 和 PutBucketReplication 的信息，請參閱link:../s3/operations-on-buckets.html["對 bucket 的操作"]。
+
+
+NOTE: CloudMirror 複製與跨網格複製功能有重要的相似之處和差異。要了解更多信息，請參閱link:../admin/grid-federation-compare-cgr-to-cloudmirror.html["比較跨網格複製和 CloudMirror 複製"]。
+
+配置CloudMirror複製時請注意以下要求和特點：
+
+* 當您建立並套用有效的儲存桶複製配置 XML 時，它必須使用每個目標的 S3 儲存桶端點的 URN。
+* 啟用 S3 物件鎖定的來源儲存桶或目標儲存桶不支援複製。
+* 如果在包含對象的儲存桶上啟用 CloudMirror 複製，則會複製新增至儲存桶的新對象，但不會複製儲存桶中的現有物件。您必須更新現有物件才能觸發複製。
+* 如果您在複製配置 XML 中指定儲存類， StorageGRID會在針對目標 S3 端點執行操作時使用該類別。目標端點也必須支援指定的儲存類別。請務必遵循目標系統供應商提供的所有建議。
+
+
+.步驟
+. 為來源儲存桶啟用複製：
++
+** 使用文字編輯器建立啟用複製所需的複製配置 XML，如 S3 複製 API 中所指定。
+** 配置 XML 時：
++
+*** 請注意， StorageGRID僅支援複製配置的 V1。這意味著StorageGRID不支援使用 `Filter`元素作為規則，並遵循 V1 約定來刪除物件版本。有關詳細信息，請參閱有關複製配置的 Amazon 文件。
+*** 使用 S3 儲存桶端點的 URN 作為目標。
+*** 可選地添加 `<StorageClass>`元素，並指定下列之一：
++
+****  `STANDARD`：預設儲存類別。如果您在上傳物件時未指定儲存類別，則 `STANDARD`使用儲存類別。
+**** `STANDARD_IA`：（標準 - 不頻繁訪問。）將此儲存類別用於存取頻率較低但仍需要快速存取的資料。
+**** `REDUCED_REDUNDANCY`：此儲存類別用於儲存非關鍵、可重現的數據，其儲存冗餘度比 `STANDARD`儲存類別。
+
+
+*** 如果您指定 `Role`在配置 XML 中它將被忽略。  StorageGRID不使用此值。
++
+[listing]
+----
+<ReplicationConfiguration>
+    <Role></Role>
+    <Rule>
+        <Status>Enabled</Status>
+        <Prefix>2020</Prefix>
+        <Destination>
+           <Bucket>urn:sgws:s3:::2017-records</Bucket>
+           <StorageClass>STANDARD</StorageClass>
+         </Destination>
+     </Rule>
+</ReplicationConfiguration>
+----
+
+
+
+
+. 從儀表板中選擇 *查看儲存桶*，或選擇 *儲存（S3）* > *儲存桶*。
+. 選擇來源儲存桶的名稱。
++
+出現儲存桶詳細資訊頁面。
+
+. 選擇“平台服務”>“複製”。
+. 選取“啟用複製”複選框。
+. 將複製配置 XML 貼上到文字方塊中，然後選擇*儲存變更*。
++
+
+NOTE: StorageGRID管理員必須使用 Grid Manager 或 Grid Management API 為每個租用戶帳戶啟用平台服務。如果儲存配置 XML 時發生錯誤，請聯絡您的StorageGRID管理員。
+
+. 驗證複製配置是否正確：
++
+.. 將符合複製配置中指定的複製要求的物件新增至來源儲存桶。
++
+在前面顯示的範例中，與前綴「2020」相符的物件被複製。
+
+.. 確認物件已複製到目標儲存桶。
++
+對於小物體，複製會很快發生。
+
+
+
+
+
+.相關資訊
+link:creating-platform-services-endpoint.html["創建平台服務端點"]

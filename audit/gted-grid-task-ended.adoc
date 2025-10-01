@@ -1,0 +1,49 @@
+---
+permalink: audit/gted-grid-task-ended.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, GTED, Grid Task Ended 
+summary: 此審計訊息表示 CMN 服務已完成處理指定的網格任務，並已將該任務移至歷史表。如果結果是SUCS、ABRT或ROLF，則會有對應的Grid Task Started稽核訊息。其他結果顯示該網格任務的處理從未開始。 
+---
+= GTED：網格任務結束
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+此審計訊息表示 CMN 服務已完成處理指定的網格任務，並已將該任務移至歷史表。如果結果是SUCS、ABRT或ROLF，則會有對應的Grid Task Started稽核訊息。其他結果顯示該網格任務的處理從未開始。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+服務標識符
+ a| 
+任務 ID
+ a| 
+此欄位唯一地標識生成的網格任務，並允許在網格任務的生命週期內對其進行管理。
+
+*注意：*任務 ID 是在產生網格任務時分配的，而不是在提交時分配的。給定的網格任務可能被提交多次，在這種情況下，任務 ID 欄位不足以唯一地連結已提交、已開始和已結束的審計訊息。
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果
+ a| 
+網格任務最終狀態結果：
+
+* SUCS：網格任務成功完成。
+* ABRT：網格任務終止，沒有回滾錯誤。
+* ROLF：網格任務已終止，無法完成回溯程序。
+* CANC：網格任務在啟動前被使用者取消。
+* EXPR：網格任務在啟動前已過期。
+* IVLD：網格任務無效。
+* AUTH：網格任務未經授權。
+* DUPL：網格任務因重複而被拒絕。
+
+
+|===

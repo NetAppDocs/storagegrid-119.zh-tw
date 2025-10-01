@@ -1,0 +1,25 @@
+---
+permalink: admin/supported-ciphers-for-outgoing-tls-connections.html 
+sidebar: sidebar 
+keywords: tls cipher suites, transport layer security connections 
+summary: 'StorageGRID系統支援一組有限的密碼套件，用於與用於身分聯合和雲端儲存池的外部系統建立傳輸層安全性 (TLS) 連線。' 
+---
+= 傳出 TLS 連線支援的密碼
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID系統支援一組有限的密碼套件，用於與用於身分聯合和雲端儲存池的外部系統建立傳輸層安全性 (TLS) 連線。
+
+
+
+== 支援的 TLS 版本
+
+StorageGRID支援 TLS 1.2 和 TLS 1.3，用於連接用於身分識別聯合和雲端儲存池的外部系統。
+
+已選擇支援與外部系統一起使用的 TLS 密碼，以確保與一系列外部系統相容。此清單大於支援與 S3 用戶端應用程式一起使用的密碼清單。若要設定密碼，請前往 *設定* > *安全* > *安全設定* 並選擇 *TLS 和 SSH 原則*。
+
+
+NOTE: TLS 設定選項（例如協定版本、密碼、金鑰交換演算法和 MAC 演算法）在StorageGRID中無法設定。如果您對這些設定有具體要求，請聯絡您的NetApp客戶代表。

@@ -1,0 +1,99 @@
+---
+permalink: audit/llst-location-lost.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, LLST, Location Lost 
+summary: 每當無法找到物件副本（複製或擦除編碼）的位置時，就會產生此訊息。 
+---
+= LLST：位置遺失
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+每當無法找到物件副本（複製或擦除編碼）的位置時，就會產生此訊息。
+
+[cols="1a,1a,4a"]
+|===
+| 程式碼 | 場地 | 描述 
+
+
+ a| 
+CBIL
+ a| 
+中央商務區
+ a| 
+受影響的 CBID。
+
+
+
+ a| 
+體外循環心肺復甦
+ a| 
+擦除編碼配置文件
+ a| 
+用於擦除編碼物件資料。使用的擦除編碼設定檔的 ID。
+
+
+
+ a| 
+長期典型
+ a| 
+位置類型
+ a| 
+CLDI（線上）：用於複製的物件數據
+
+CLEC（線上）：用於擦除編碼對象數據
+
+CLNL（近線）：用於存檔的複製物件數據
+
+
+
+ a| 
+諾伊德
+ a| 
+來源節點 ID
+ a| 
+遺失位置的節點 ID。
+
+
+
+ a| 
+聚氯乙烯
+ a| 
+複製物件的路徑
+ a| 
+遺失物件資料的磁碟位置的完整路徑。僅當 LTYP 的值為 CLDI 時傳回（即，對於複製的物件）。
+
+採取以下形式 `/var/local/rangedb/2/p/13/13/00oJs6X%{h{U)SeUFxE@`
+
+
+
+ a| 
+放射學研究實驗室
+ a| 
+結果
+ a| 
+始終為無。 RSLT 是必填訊息字段，但與此訊息無關。使用 NONE 而不是 SUCS，以便不過濾該訊息。
+
+
+
+ a| 
+台橡
+ a| 
+觸發來源
+ a| 
+USER：使用者觸發
+
+SYST：系統觸發
+
+
+
+ a| 
+唯一識別符
+ a| 
+通用唯一標識
+ a| 
+StorageGRID系統中受影響物件的識別碼。
+
+|===

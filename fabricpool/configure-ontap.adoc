@@ -1,0 +1,122 @@
+---
+permalink: fabricpool/configure-ontap.html 
+sidebar: sidebar 
+keywords: fabricPool, system manager, ONTAP CLI, add cloud tier 
+summary: 取得所需的StorageGRID資訊後，您可以前往ONTAP將StorageGRID新增為雲層。 
+---
+= 配置ONTAP系統管理器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+取得所需的StorageGRID資訊後，您可以前往ONTAP將StorageGRID新增為雲層。
+
+.開始之前
+* 如果您完成了FabricPool設定嚮導，您將擁有 `ONTAP_FabricPool_settings___bucketname__.txt`您下載的檔案。
+* 如果您手動設定了StorageGRID ，則您擁有用於StorageGRID 的完全限定網域名稱 (FQDN) 或StorageGRID HA 群組的虛擬 IP (VIP) 位址、負載平衡器端點的連接埠號碼、負載平衡器憑證、租用戶帳戶的根使用者的金鑰 ID 和租用戶集，以及ONTAP將在該連接埠中使用的資料庫存取權限。
+
+
+
+
+== 存取ONTAP系統管理器
+
+這些說明介紹如何使用ONTAP系統管理員將StorageGRID新增為雲層。您可以使用ONTAP CLI 完成相同的設定。有關說明，請訪問 https://docs.netapp.com/us-en/ontap/fabricpool/index.html["FabricPool的ONTAP文檔"^]。
+
+.步驟
+. 存取要分層到StorageGRID 的ONTAP叢集的系統管理員。
+. 以群集管理員Sign in。
+. 導覽至 *儲存* > *層級* > *新增雲層*。
+. 從物件儲存提供者清單中選擇* StorageGRID*。
+
+
+
+
+== 輸入StorageGRID值
+
+看 https://docs.netapp.com/us-en/ontap/fabricpool/index.html["FabricPool的ONTAP文檔"^]了解更多。
+
+.步驟
+. 使用以下方式填寫新增雲層表單 `ONTAP_FabricPool_settings___bucketname__.txt`文件或您手動取得的值。
++
+[cols="1a,3a"]
+|===
+| 場地 | 描述 
+
+
+ a| 
+Name
+ a| 
+輸入此雲層的唯一名稱。您可以接受預設值。
+
+
+
+ a| 
+URL 樣式
+ a| 
+如果你link:../admin/configuring-s3-api-endpoint-domain-names.html["配置的 S3 端點域名"]，選擇*虛擬託管式 URL*。
+
+*路徑樣式 URL* 是ONTAP的預設設置，但建議對StorageGRID使用虛擬託管樣式請求。如果您為 *伺服器名稱 (FQDN)* 欄位提供 IP 位址而不是域名，則必須使用 *路徑樣式 URL*。
+
+
+
+ a| 
+伺服器名稱 (FQDN)
+ a| 
+輸入您用於StorageGRID 的完全限定網域名稱 (FQDN) 或StorageGRID HA 群組的虛擬 IP (VIP) 位址。例如，  `s3.storagegrid.__company__.com` 。
+
+請注意以下事項：
+
+** 您在此處指定的 IP 位址或網域名稱必須與您為StorageGRID負載平衡器端點上傳或產生的憑證相符。
+** 如果您提供域名，則 DNS 記錄必須對應到您將用於連接到StorageGRID 的每個 IP 位址。看link:configure-dns-server.html["配置 DNS 伺服器"] 。
+
+
+
+
+ a| 
+SSL
+ a| 
+已啟用（預設）。
+
+
+
+ a| 
+物件儲存證書
+ a| 
+貼上用於StorageGRID負載平衡器端點的憑證 PEM，包括：
+`-----BEGIN CERTIFICATE-----`和 `-----END CERTIFICATE-----`。
+
+*注意：*如果中間 CA 頒發了StorageGRID證書，則必須提供中間 CA 證書。如果StorageGRID憑證是由根 CA 直接頒發的，則必須提供根 CA 憑證。
+
+
+
+ a| 
+港口
+ a| 
+輸入StorageGRID負載平衡器端點所使用的連接埠。 ONTAP在連接到StorageGRID時將使用此連接埠。例如，10433。
+
+
+
+ a| 
+存取密鑰和密鑰
+ a| 
+輸入StorageGRID租用戶帳戶的根用戶的存取金鑰 ID 和秘密存取金鑰。
+
+*提示*：如果您將來在StorageGRID中產生新的存取金鑰和秘密存取金鑰，請先將新金鑰輸入ONTAP，然後再從StorageGRID中刪除舊值。否則， ONTAP可能會暫時失去對StorageGRID的存取權。
+
+
+
+ a| 
+容器名稱
+ a| 
+輸入您建立的用於此ONTAP層的StorageGRID桶的名稱。
+
+|===
+. 在ONTAP中完成最終的FabricPool配置。
++
+.. 將一個或多個聚合附加到雲層。
+.. 或者，建立磁碟區分層策略。
+
+
+

@@ -1,0 +1,45 @@
+---
+permalink: vmware/software-requirements.html 
+sidebar: sidebar 
+keywords: software requirements 
+summary: 您可以使用虛擬機器來託管任何類型的StorageGRID節點。每個網格節點都需要一個虛擬機器。 
+---
+= VMware 的軟體需求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用虛擬機器來託管任何類型的StorageGRID節點。每個網格節點都需要一個虛擬機器。
+
+
+
+== VMware vSphere 虛擬機器管理程序
+
+您必須在準備好的實體伺服器上安裝 VMware vSphere Hypervisor。在安裝 VMware 軟體之前，必須正確配置硬體（包括韌體版本和 BIOS 設定）。
+
+* 根據需要在虛擬機器管理程式中設定網絡，以支援您正在安裝的StorageGRID系統的網路。
++
+link:../network/index.html["網路指南"]
+
+* 確保資料儲存足夠大，可以容納託管網格節點所需的虛擬機器和虛擬磁碟。
+* 如果建立多個資料存儲，請為每個資料存儲命名，以便在建立虛擬機器時可以輕鬆識別每個網格節點要使用的資料儲存。
+
+
+
+
+== ESX 主機設定需求
+
+
+CAUTION: 您必須在每個 ESX 主機上正確設定網路時間協定 (NTP)。如果主機時間不正確，可能會產生負面影響，包括資料遺失。
+
+
+
+== VMware 配置要求
+
+在部署StorageGRID節點之前，必須安裝並設定 VMware vSphere 和 vCenter。
+
+如需支援的 VMware vSphere Hypervisor 和 VMware vCenter Server 軟體版本，請參閱 https://imt.netapp.com/matrix/#welcome["NetApp互通性表工具"^]。
+
+有關安裝這些 VMware 產品所需的步驟，請參閱 VMware 文件。

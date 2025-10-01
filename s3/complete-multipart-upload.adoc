@@ -1,0 +1,87 @@
+---
+permalink: s3/complete-multipart-upload.html 
+sidebar: sidebar 
+keywords: multipart upload, object, object size 
+summary: CompleteMultipartUpload 作業透過組裝先前上傳的部分來完成物件的分段上傳。 
+---
+= 完成多部分上傳
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+CompleteMultipartUpload 作業透過組裝先前上傳的部分來完成物件的分段上傳。
+
+
+NOTE: StorageGRID支援按升序排列非連續值 `partNumber`請求參數與CompleteMultipartUpload一致。此參數可以以任意值開頭。
+
+
+
+== 解決衝突
+
+衝突的客戶端請求（例如兩個客戶端寫入同一個金鑰）將根據「最新勝利」的原則解決。  「最新勝利」評估的時間取決於StorageGRID系統完成給定請求的時間，而不是 S3 用戶端開始操作的時間。
+
+
+
+== 支援的請求標頭
+
+支援以下請求標頭：
+
+* `x-amz-checksum-sha256`
+* `x-amz-storage-class`
++
+這 `x-amz-storage-class`StorageGRID符合的 ILM 規則指定了link:../ilm/data-protection-options-for-ingest.html["雙重提交或平衡攝取選項"]。
+
+* `STANDARD`
++
+（預設）當 ILM 規則使用雙重提交選項時，或當平衡選項回退到建立臨時副本時，指定雙重提交接收操作。
+
+* `REDUCED_REDUNDANCY`
++
+當 ILM 規則使用雙重提交選項時，或當平衡選項回退到建立臨時副本時，指定單一提交攝取操作。
+
++
+
+NOTE: 如果您將物件提取到啟用了 S3 物件鎖定的儲存桶中，則 `REDUCED_REDUNDANCY`選項被忽略。如果您將物件提取到舊版相容儲存桶中， `REDUCED_REDUNDANCY`選項傳回錯誤。  StorageGRID將始終執行雙重提交攝取以確保滿足合規性要求。
+
+
+
+
+CAUTION: 如果分段上傳未在 15 天內完成，則該操作將標記為非活動狀態，並且所有相關資料將從系統中刪除。
+
+
+NOTE: 這 `ETag`傳回的值不是資料的 MD5 和，而是遵循 Amazon S3 API 實現的 `ETag`多部分物件的值。
+
+
+
+== 不支援的請求標頭
+
+不支援以下請求標頭：
+
+* `x-amz-sdk-checksum-algorithm`
+* `x-amz-trailer`
+
+
+
+
+== 版本控制
+
+此操作完成分段上傳。如果儲存桶啟用了版本控制，則在分段上傳完成後會建立物件版本。
+
+如果為儲存桶啟用了版本控制，則唯一的 `versionId`針對所儲存物件的版本會自動產生。這 `versionId`也會在回應中返回 `x-amz-version-id`響應頭。
+
+如果版本控制暫停，則物件版本將以空值儲存 `versionId`如果空版本已經存在，它將被覆蓋。
+
+
+NOTE: 當為儲存桶啟用版本控制時，完成分段上傳總是會建立一個新版本，即使在同一個物件鍵上完成了並發分段上傳。當儲存桶未啟用版本控制時，可以啟動分段上傳，然後讓另一個分段上傳先在同一個物件鍵上啟動並完成。在非版本化儲存桶上，最後完成的分段上傳具有優先權。
+
+
+
+== 複製、通知或元資料通知失敗
+
+如果發生分段上傳的儲存桶配置了平台服務，即使相關的複製或通知操作失敗，分段上傳也會成功。
+
+租用戶可以透過更新物件的元資料或標籤來觸發失敗的複製或通知。租戶可以重新提交現有值以避免做出不必要的更改。
+
+請參閱link:../admin/troubleshooting-platform-services.html["平台服務故障排除"] 。

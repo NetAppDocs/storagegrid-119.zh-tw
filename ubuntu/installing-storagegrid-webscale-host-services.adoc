@@ -1,0 +1,42 @@
+---
+permalink: ubuntu/installing-storagegrid-webscale-host-services.html 
+sidebar: sidebar 
+keywords: how to install StorageGRID host services 
+summary: 您使用StorageGRID DEB 套件來安裝StorageGRID主機服務。 
+---
+= 安裝StorageGRID主機服務
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您使用StorageGRID DEB 套件來安裝StorageGRID主機服務。
+
+.關於此任務
+這些說明描述如何從 DEB 套件安裝主機服務。或者，您可以使用安裝存檔中包含的 APT 儲存庫元資料來遠端安裝 DEB 套件。請參閱適用於您的 Linux 作業系統的 APT 儲存庫說明。
+
+.步驟
+. 將StorageGRID DEB 套件複製到每個主機，或使其在共用儲存上可用。
++
+例如，將它們放在 `/tmp`目錄，以便您可以在下一步中使用範例命令。
+
+. 以root身分或具有sudo權限的帳號登入各台主機，執行以下指令。
++
+您必須安裝 `images`先打包，然後 `service`包裹第二。如果您將軟體包放在 `/tmp`，修改命令以反映您使用的路徑。
+
++
+[listing]
+----
+sudo dpkg --install /tmp/storagegrid-webscale-images-version-SHA.deb
+----
++
+[listing]
+----
+sudo dpkg --install /tmp/storagegrid-webscale-service-version-SHA.deb
+----
++
+
+NOTE: 在安裝StorageGRID套件之前，必須先安裝 Python 2.7。這 `sudo dpkg --install /tmp/storagegrid-webscale-images-version-SHA.deb`直到您完成此操作後，命令才會失敗。
+
+

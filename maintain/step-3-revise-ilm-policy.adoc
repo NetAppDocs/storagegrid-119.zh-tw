@@ -1,0 +1,100 @@
+---
+permalink: maintain/step-3-revise-ilm-policy.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, revise ilm policies 
+summary: 從退役網站精靈的步驟 3（修改 ILM 策略）中，您可以確定網站是否被任何 ILM 策略引用。 
+---
+= 步驟 3：修改 ILM 政策
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+從退役網站精靈的步驟 3（修改 ILM 策略）中，您可以確定網站是否被任何 ILM 策略引用。
+
+.開始之前
+你對如何link:../ilm/index.html["使用 ILM 管理對象"]。您熟悉如何建立儲存池和 ILM 規則以及如何模擬和啟動 ILM 策略。
+
+.關於此任務
+如果任何策略（活動或非活動）中的任何 ILM 規則引用該站點，則StorageGRID無法停用該站點。
+
+如果任何 ILM 策略引用了您想要停用的站點，則必須刪除這些策略或編輯它們，以使它們符合以下要求：
+
+* 全面保護所有對象資料。
+* 不要提及您正在關閉的網站。
+* 不要使用引用網站的儲存池或使用「所有網站」選項。
+* 不要使用引用該網站的擦除編碼設定檔。
+* 請勿使用StorageGRID 11.6 或更早版本安裝中的 Make 2 Copies 規則。
+
+
+
+CAUTION: 切勿建立單一副本 ILM 規則以適應網站的刪除。任何時間段內僅建立一個複製副本的 ILM 規則會使資料面臨永久遺失的風險。如果某個物件的副本只有一個，則當儲存節點發生故障或發生重大錯誤時，該物件將會遺失。在升級等維護過程中，您也會暫時失去對該物件的存取權限。
+
+
+TIP: 如果您正在執行_連線網站退役_，則必須考慮StorageGRID應如何管理目前要刪除的網站上的物件資料。根據您的資料保護要求，新規則可以將現有物件資料移至不同的站點，或者可以刪除不再需要的任何額外物件副本。
+
+如果您需要協助設計新政策，請聯絡技術支援。
+
+.步驟
+. 從步驟 3（修改 ILM 政策）開始，確定是否有任何 ILM 政策涉及您選擇退役的站點。
+. 如果沒有列出任何政策，請選擇「下一步」到link:step-4-remove-ilm-references.html["步驟 4：刪除 ILM 引用"]。
+. 如果列出了一個或多個_active_ ILM 策略，請複製每個現有策略或建立不引用正在退役的網站的新策略：
++
+.. 在策略名稱列中選擇該策略的連結。
++
+此策略的 ILM 策略詳細資訊頁面出現在新瀏覽器標籤中。退役網站頁面將在另一個標籤上保持開啟狀態。
+
+.. 根據需要遵循以下指南和說明：
++
+*** 使用 ILM 規則：
++
+**** link:../ilm/creating-storage-pool.html["建立一個或多個儲存池"]不涉及該網站。
+**** link:../ilm/working-with-ilm-rules-and-ilm-policies.html["編輯或替換規則"]引用該網站。
++
+
+NOTE: 不要選擇 *Make 2 Copies* 規則，因為該規則使用 *All Storage Nodes* 儲存池，這是不允許的。
+
+
+
+*** 使用 ILM 策略：
++
+**** link:../ilm/working-with-ilm-rules-and-ilm-policies.html#clone-ilm-policy["複製現有的 ILM 策略"]或者link:../ilm/creating-ilm-policy.html["建立新的 ILM 策略"]。
+**** 確保預設規則和其他規則不引用該網站。
++
+
+CAUTION: 您必須確認 ILM 規則的順序正確。當策略被啟動時，新的和現有的物件將按照列出的順序從頂部開始由規則進行評估。
+
+
+
+
+
+.. 攝取測試對象並模擬策略以確保應用正確的規則。
++
+
+CAUTION: ILM 策略中的錯誤可能會導致無法復原的資料遺失。在啟動策略之前，請仔細檢查並模擬該策略，以確認其能夠如預期般發揮作用。
+
++
+
+CAUTION: 當您啟動新的 ILM 策略時， StorageGRID會使用它來管理所有對象，包括現有對象和新攝取的對象。在啟動新的 ILM 策略之前，請檢查對現有複製和擦除編碼物件的位置的任何變更。在評估和實施新位置時，更改現有物件的位置可能會導致臨時資源問題。
+
+.. 啟動新策略並確保舊策略現在處於非活動狀態。
++
+如果您想啟動多個策略，link:../ilm/creating-ilm-policy.html#activate-ilm-policy["依照步驟建立 ILM 策略標籤"] 。
+
++
+如果您正在執行已連線網站的退役， StorageGRID會在您啟動新的 ILM 政策後立即開始從選定網站中刪除物件資料。移動或刪除所有物件副本可能需要數週時間。儘管您可以在物件資料仍然存在於網站時安全地啟動網站退役，但是如果您允許在開始實際退役程序之前將資料從網站移出（透過在精靈的第 5 步中選擇 *開始退役*），則退役程序將更快完成，中斷和效能影響更少。
+
+
+
+. 對於每個_非活動_策略，透過先選擇每個策略的連結來編輯或刪除它，如前面的步驟所述。
++
+** link:../ilm/working-with-ilm-rules-and-ilm-policies.html#edit-ilm-policy["編輯策略"]所以它不是指要退役的場地。
+** link:../ilm/working-with-ilm-rules-and-ilm-policies.html#remove-ilm-policy["刪除策略"] 。
+
+
+. 當您完成對 ILM 規則和策略的變更時，步驟 3（修改 ILM 策略）中應該不再列出任何策略。選擇“下一步”。
++
+出現步驟 4（刪除 ILM 引用）。
+
+

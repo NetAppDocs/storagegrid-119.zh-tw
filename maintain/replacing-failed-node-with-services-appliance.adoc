@@ -1,0 +1,35 @@
+---
+permalink: maintain/replacing-failed-node-with-services-appliance.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, replace failed node, services appliance 
+summary: 您可以使用服務設備來恢復故障的網關節點、故障的非主管理節點或託管在 VMware、Linux 主機或服務設備上的故障的主管理節點。此過程是網格節點復原過程的一個步驟。 
+---
+= 用服務設備替換故障節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用服務設備來恢復故障的網關節點、故障的非主管理節點或託管在 VMware、Linux 主機或服務設備上的故障的主管理節點。此過程是網格節點復原過程的一個步驟。
+
+.開始之前
+* 您已確定以下情況之一成立：
++
+** 託管該節點的虛擬機器無法恢復。
+** 網格節點的實體或虛擬 Linux 主機發生故障，必須更換。
+** 必須更換承載網格節點的服務設備。
+
+
+* 您已確認服務設備上的StorageGRID Appliance Installer 版本與您的StorageGRID系統的軟體版本相符。看 https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/verifying-and-upgrading-storagegrid-appliance-installer-version.html["驗證並升級StorageGRID Appliance Installer 版本"^]。
+
+
+
+NOTE: 請勿在同一站點同時部署 SG110 和 SG1100 服務設備或 SG100 和 SG1000 服務設備。可能會導致不可預測的性能。
+
+.關於此任務
+在下列情況下，您可以使用服務設備復原發生故障的網格節點：
+
+* 故障節點託管在 VMware 或 Linux 上（link:installing-services-appliance-platform-change-only.html["平台變更"] ）
+* 發生故障的節點託管在服務設備上（link:preparing-appliance-for-reinstallation-platform-replacement-only.html["平台更換"] ）
+
