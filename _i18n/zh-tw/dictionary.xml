@@ -6489,8 +6489,6 @@
   <block id="95f6df568e18de42b0f0ca3ecef26398" category="paragraph">活動目錄/LDAP</block>
   <block id="b14ae13aff870b44f247f85fbb36072b" category="paragraph">用於連接到 Active Directory 或 LDAP 伺服器以進行身份聯合。</block>
   <block id="0e8433f9a404f1f3ba601c14b026d321" category="paragraph">HTTPS</block>
-  <block id="b50a9d29fec392329ac0ae4cb0110503" category="paragraph">由 Web 瀏覽器和管理 API 用戶端用於存取網格管理器和租用戶管理器。</block>
-  <block id="a9bb22a4c26c5b03750cc1b430fd4f2a" category="paragraph">*注意*：如果您關閉網格管理器連接埠 443 或 8443，則目前連接到被封鎖連接埠的任何使用者（包括您）都將失去對網格管理員的存取權限，除非他們的 IP 位址已新增至特權位址清單中。看<block ref="c0029b37ee8e2f7f29845f5ff3b725da" category="inline-link-macro-rx"></block>配置特權IP位址。</block>
   <block id="5a5371ddb36ba9e3443150cc1f0e644c" category="paragraph">如果啟用了單一登入 (SSO)，則由連接到 Active Directory 的管理節點使用。</block>
   <block id="0064bf2a1c1e8cfbe1976bf6a6fc3f4d" category="paragraph">用於傳送至 AWS 或其他使用 HTTPS 的外部服務的平台服務訊息。租用戶可以在建立端點時覆蓋預設的 HTTP 連接埠設定 443。</block>
   <block id="25a1f82c0c27af93304e2afb69b6b393" category="paragraph">傳送到使用 HTTPS 的 AWS 目標的雲端儲存池請求。網格管理員在配置雲端儲存池時可以覆蓋預設的 HTTPS 連接埠設定 443。</block>
@@ -6511,7 +6509,6 @@
   <block id="195e8230b873d675a1b57413d9251c7d" category="paragraph">金鑰管理互通性協定 (KMIP) 從配置為節點加密的裝置到金鑰管理伺服器 (KMS) 的外部流量，除非在StorageGRID裝置安裝程式的 KMS 設定頁面上指定了不同的連接埠。</block>
   <block id="60c97bef031ec312b512c08565c1868e" category="paragraph">8022</block>
   <block id="0fbf50e9d57ce852b2d1566a445aafde" category="paragraph">連接埠 8022 上的 SSH 授予對設備和虛擬節點平台上的基本作業系統的存取權限，以提供支援和故障排除。此連接埠不用於基於 Linux（裸機）的節點，並且不需要在網格節點之間或正常操作期間存取。</block>
-  <block id="94d87e4f3c9ed5ffe553da8dafa1009d" category="paragraph">選修的。由 Web 瀏覽器和管理 API 用戶端用於存取網格管理器。可用於分離網格管理器和租戶管理器通訊。</block>
   <block id="e6ff107459d435e38b54ad4c06202c33" category="paragraph">9022</block>
   <block id="6739e5a65b4fd9164fd9c2c0f1491a36" category="paragraph">授予對預先配置模式下的StorageGRID設備的存取權限，以獲得支援和故障排除。網格節點之間或正常操作期間不需要存取此連接埠。</block>
   <block id="0a7d7a81e8e3a20e4c34748e98ef45f6" category="paragraph">9091</block>
@@ -6522,7 +6519,6 @@
   <block id="51be25b0145a0beca811de24a62b5cb4" category="paragraph">卡夫卡</block>
   <block id="0c39be51b14798b64fb5bbcbb1b7a710" category="paragraph">Kafka 集群</block>
   <block id="8f00f2220d56f902b956882222c22566" category="paragraph">用於向 Kafka 叢集發送平台服務訊息。租用戶可以在建立端點時覆蓋預設的 Kafka 連接埠設定 9092。</block>
-  <block id="15b57c7f75b03ed333937acd0e4d1f3a" category="paragraph">選修的。由 Web 瀏覽器和管理 API 用戶端用於存取租用戶管理器。可用於分離網格管理器和租戶管理器通訊。</block>
   <block id="ad5db5924e3e97ed8a387a499efa9fa0" category="paragraph">18082</block>
   <block id="03b9eaf2e04587c1e364872ef61ddbb9" category="paragraph">S3 用戶端</block>
   <block id="11f3cbd93b8d2b94defeeb997681e1bb" category="paragraph">S3 用戶端流量直接到儲存節點（HTTPS）。</block>
@@ -6650,12 +6646,9 @@
   <block id="a561e7ebcac8441387d4fe143fdef87f" category="paragraph">18017</block>
   <block id="d6e1524c4c10e483d44f0a06f4108de2" category="paragraph">雲端儲存池的 Data Mover 服務內部流量。</block>
   <block id="2be1f64cae97e3767efd3c0bef7b0779" category="paragraph">18019</block>
-  <block id="82500251962f79307270a5dd450d8b52" category="paragraph">用於擦除編碼的區塊服務內部流量。</block>
   <block id="e4f94bcb81892395a5a06c9cb8f820e4" category="paragraph">與 S3 相關的內部流量。</block>
   <block id="ba573e66923fcb7cdd3a07254634141d" category="paragraph">與 Swift 相關的內部流量。</block>
   <block id="4d8d751988a68fec6e98d0a65284f530" category="paragraph">18086</block>
-  <block id="af32210d68f61fcd4a5e6fa042e16e15" category="paragraph">所有網格節點</block>
-  <block id="c65ef3e3b2ae9b258850acf6622e9d69" category="paragraph">所有儲存節點</block>
   <block id="c85ac1163071cfa93c7c99b899c15eb2" category="paragraph">與 LDR 服務相關的內部流量。</block>
   <block id="33ec1f50197cc4f74b3e8dc359ec3280" category="paragraph">18200</block>
   <block id="b46a066bb412c1f6ec91676ef56e766b" category="paragraph">有關客戶端請求的附加統計資料。</block>
@@ -7366,8 +7359,6 @@
   <block id="99ad82cc99848e42086faa6240227683" category="paragraph">S3 用戶端可以連接到網關節點或管理節點，以使用儲存節點的負載平衡介面。或者，S3 用戶端可以使用 HTTPS 直接連接到儲存節點。</block>
   <block id="dd20f109ad00b817943c33b31094ba7d" category="paragraph">物件可以儲存在StorageGRID中的基於軟體或硬體的儲存節點上，也可以儲存在由外部 S3 儲存體桶或 Azure Blob 儲存容器組成的雲端儲存池中。</block>
   <block id="7c0ca6c6457dbf4accb8843b947a93a9" category="summary">您可以使用資訊生命週期管理 (ILM) 來控制StorageGRID系統中所有物件的放置、持續時間和攝取行為。ILM 規則決定了StorageGRID如何隨時間儲存物件。您可以設定一個或多個 ILM 規則，然後將它們新增至 ILM 策略。</block>
-  <block id="6e00444b87f3acf759eb78dfbb1a7f8e" category="paragraph">您可以使用資訊生命週期管理 (ILM) 來控制StorageGRID系統中所有物件的放置、持續時間和攝取行為。ILM 規則決定了StorageGRID如何隨時間儲存物件。您可以設定一個或多個 ILM 規則，然後將它們新增至 ILM 策略。</block>
-  <block id="7a8f09aa6d531dc841b678c4fb8f5ae7" category="paragraph">一個網格每次只能有一個活動策略。一個策略可以包含多個規則。</block>
   <block id="a919635d077daa2a324311314027e27f" category="paragraph">ILM 規則定義：</block>
   <block id="76e4be2ead7dd3606407492c5717d1af" category="list-text">應該儲存哪些物件。規則可以套用到所有對象，或者您可以指定篩選器來確定規則適用於哪些對象。例如，規則只能套用於與某些租用戶帳戶、特定 S3 儲存桶或 Swift 容器或特定元資料值相關聯的物件。</block>
   <block id="dbeb82c0871eecc06aa0118b5a5c56d0" category="list-text">儲存類型和位置。物件可以儲存在儲存節點或雲端儲存池中。</block>
@@ -22089,4 +22080,13 @@
   <block id="9c4530f91dac5a70605fa05838af7d37" category="sidebar">規劃並準備在 VMware 上安裝</block>
   <block id="9341019b55764d5f593cd0200c56103f" category="sidebar">部署虛擬機器網格節點（VMware）</block>
   <block id="0f6d5554b15490c07bc95913e7162eb3" category="sidebar">配置網格並完成安裝（VMware）</block>
+  <block id="e06c7d4966617ff8b915f5a326f7b29e" category="paragraph">由 Web 瀏覽器和管理 API 用戶端用來存取網格管理員和租用戶管理員。</block>
+  <block id="7726f6ec30e13fbba0a7138261ac661b" category="paragraph">*注意*：如果您關閉網格管理器連接埠 443 或 8443，則目前連接到被封鎖連接埠的任何使用者（包括您）都將失去對網格管理員的存取權限，除非他們的 IP 位址已新增至特權位址清單中。參考<block ref="c0029b37ee8e2f7f29845f5ff3b725da" category="inline-link-macro-rx"></block>配置特權IP位址。</block>
+  <block id="89902d28d094c37e31e03d7c3b157735" category="paragraph">選修的。由 Web 瀏覽器和管理 API 用戶端用來存取網格管理員。可用於分離網格管理器和租戶管理器通訊。</block>
+  <block id="831940f57a19370001b598a225d4b622" category="paragraph">由 Web 瀏覽器和管理 API 用戶端用於存取StorageGRID Appliance Installer。</block>
+  <block id="ec726f78a0cebb7cd36287e985d1c513" category="paragraph">*注意*：連接埠 443 重定向到StorageGRID設備安裝程式的連接埠 8443。</block>
+  <block id="58222e55d661c08e5d39e0e9bb5fa081" category="paragraph">選修的。由 Web 瀏覽器和管理 API 用戶端用來存取租用戶管理員。可用於分離網格管理器和租戶管理器通訊。</block>
+  <block id="331bfda1737c41b85f4f85967a23b2a1" category="paragraph">提供用於全網格 IP 變更以及安裝、擴充和復原期間的主要管理節點發現的多重播送 DNS (mDNS) 服務。</block>
+  <block id="f0d737da786ad628dee18668fc3fb5c2" category="paragraph">用於擦除編碼和複製的區塊服務內部流量</block>
+  <block id="babdd810c12ad518c1b6af7d6e433fc4" category="paragraph">您可以使用資訊生命週期管理 (ILM) 來控制StorageGRID系統中所有物件的放置、持續時間和攝取行為。ILM 規則決定了StorageGRID如何隨時間儲存物件。您可以設定一個或多個 ILM 規則，然後將它們新增至 ILM 策略。一個網格可以同時具有多個活動策略。</block>
 </blocks>
