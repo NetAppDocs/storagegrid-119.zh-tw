@@ -77,8 +77,8 @@ indexpage:
       url: https://www.youtube.com/playlist?list=PLdXI3bZJEw7nh2wGRA65iulXhtXwLiqrY
     - title: NetApp學習服務
       url: https://www.netapp.com/support-and-training/netapp-university/
-    - title: 使用BlueXP進行StorageGRID管理
-      url: https://docs.netapp.com/us-en/bluexp-storagegrid/index.html
+    - title: 使用NetApp Console 進行StorageGRID管理
+      url: https://docs.netapp.com/us-en/console-storagegrid/index.html
   - title: 更多資源
     links:
     - title: StorageGRID支援頁面

@@ -380,8 +380,8 @@ sidebar:
       url: "/maintain/how-site-recovery-is-performed-by-technical-support.html"
   - title: 啟用StorageGRID
     url: "/storagegrid-enable.html"
-  - title: StorageGRID和BlueXP
-    url: "/storagegrid-bluexp.html"
+  - title: StorageGRID和NetApp控制台
+    url: "/storagegrid-console.html"
   - title: 法律聲明
     url: "/legal-notices.html"
 product-family:
