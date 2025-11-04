@@ -6500,7 +6500,6 @@
   <block id="6977a85ea238c09708743013d3e3ed13" category="paragraph">由基於 NFS 的審計導出 (nfs) 使用。</block>
   <block id="aa0d2a804a3510442f2fd40f2100b054" category="paragraph">5353</block>
   <block id="16df77dc0953079d97a7dafadb149f70" category="paragraph">行動DNS</block>
-  <block id="b36c6f6008dbbafda5ded575a61f4bf0" category="paragraph">提供多播 DNS (mDNS) 服務，用於全網格 IP 變更以及安裝、擴充和復原期間的主要管理節點發現。</block>
   <block id="b8cfbf77a3d250a4523ba67a65a7d031" category="paragraph">5696</block>
   <block id="5a2c55bb167f4f0fcfe52384fe7a4f0b" category="paragraph">知識管理計劃</block>
   <block id="e1ccceb981912f891d16090816e66855" category="paragraph">器皿</block>
@@ -22096,4 +22095,5 @@
   <block id="2532828f944a69834b500cafd1abc57b" category="sidebar">StorageGRID和NetApp控制台</block>
   <block id="84356a318e373152abb8356cb6571110" category="paragraph">前往<block ref="7a14d844a19b1e8c58704b344e72aa26" category="inline-link-rx"></block>了解如何使用 Grid Manager 從NetApp Console 管理您的StorageGRID系統，以及如何使用NetApp Console 的資料服務進行備份、資料分層等。</block>
   <block id="2195baefa590a61e53973f0a7802c6a6" category="paragraph">您可以在管理節點和網關節點上建立虛擬 LAN (VLAN) 接口，並在 HA 群組和負載平衡器端點中使用它們來隔離和分區流量，從而實現安全性、靈活性和效能。HA 群組中選定的節點可以使用 VLAN 介面共用最多 10 個虛擬 IP 位址，這樣，如果一個節點發生故障，另一個節點將接管往返虛擬 IP 位址的流量。</block>
+  <block id="98e1d466d5f37e58e2ae4e3c58299a51" category="paragraph">*注意*：配置此連接埠是可選的。</block>
 </blocks>
