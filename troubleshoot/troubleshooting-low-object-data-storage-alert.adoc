@@ -2,7 +2,7 @@
 permalink: troubleshoot/troubleshooting-low-object-data-storage-alert.html 
 sidebar: sidebar 
 keywords: how to troubleshoot the Low object data storage alert 
-summary: *低物件資料儲存*警報監控每個儲存節點上可用於儲存物件資料的空間量。 
+summary: 低物件資料儲存警報監控每個儲存節點上可用於儲存物件資料的空間大小。 
 ---
 = 排查對象資料儲存不足警報問題
 :allow-uri-read: 

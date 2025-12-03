@@ -22096,4 +22096,6 @@
   <block id="84356a318e373152abb8356cb6571110" category="paragraph">前往<block ref="7a14d844a19b1e8c58704b344e72aa26" category="inline-link-rx"></block>了解如何使用 Grid Manager 從NetApp Console 管理您的StorageGRID系統，以及如何使用NetApp Console 的資料服務進行備份、資料分層等。</block>
   <block id="2195baefa590a61e53973f0a7802c6a6" category="paragraph">您可以在管理節點和網關節點上建立虛擬 LAN (VLAN) 接口，並在 HA 群組和負載平衡器端點中使用它們來隔離和分區流量，從而實現安全性、靈活性和效能。HA 群組中選定的節點可以使用 VLAN 介面共用最多 10 個虛擬 IP 位址，這樣，如果一個節點發生故障，另一個節點將接管往返虛擬 IP 位址的流量。</block>
   <block id="98e1d466d5f37e58e2ae4e3c58299a51" category="paragraph">*注意*：配置此連接埠是可選的。</block>
+  <block id="399e9e69e1b1799310140b5328eed180" category="summary">當觸發「物品遺失」警報時，必須立即展開調查。收集受影響對象的資訊並聯絡技術支援。</block>
+  <block id="f2c4673c5ae939756c3d43f049c774fc" category="summary">低物件資料儲存警報監控每個儲存節點上可用於儲存物件資料的空間大小。</block>
 </blocks>

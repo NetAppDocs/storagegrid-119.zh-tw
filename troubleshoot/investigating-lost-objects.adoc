@@ -2,7 +2,7 @@
 permalink: troubleshoot/investigating-lost-objects.html 
 sidebar: sidebar 
 keywords: lost objects, investigating, objects 
-summary: 當觸發「物體遺失」警報時，您必須立即進行調查。收集受影響對象的資訊並聯絡技術支援。 
+summary: 當觸發「物品遺失」警報時，必須立即展開調查。收集受影響對象的資訊並聯絡技術支援。 
 ---
 = 調查遺失的物品
 :allow-uri-read: 
