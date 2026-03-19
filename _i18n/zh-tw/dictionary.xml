@@ -22098,4 +22098,8 @@
   <block id="98e1d466d5f37e58e2ae4e3c58299a51" category="paragraph">*注意*：配置此連接埠是可選的。</block>
   <block id="399e9e69e1b1799310140b5328eed180" category="summary">當觸發「物品遺失」警報時，必須立即展開調查。收集受影響對象的資訊並聯絡技術支援。</block>
   <block id="f2c4673c5ae939756c3d43f049c774fc" category="summary">低物件資料儲存警報監控每個儲存節點上可用於儲存物件資料的空間大小。</block>
+  <block id="bff2bbc312f37e03f5b46a937a332ac5" category="paragraph"><block ref="4b0687a2e975e23f3780e4795fb926d7" prefix=" " category="inline-code"></block>已被接受，但無法正常使用。</block>
+  <block id="e254488ba3d309d41798939c9911f8c2" category="paragraph"><block ref="f8aee9049e87bcd785ed83b147f235e4" prefix=" " category="inline-code"></block>已被接受，但無法正常使用。</block>
+  <block id="e3e16bb73c0250a6a229fb457b4f957e" category="list-text">限制</block>
+  <block id="cbbcf2982eaa107551967ef41b946c6f" category="list-text">The<block ref="b4eaa868c5a9d3d78f9ca606a3cb09eb" prefix=" " category="inline-code"></block> 和<block ref="bf6d5c936f034a1c80c1d489d85a9cfb" prefix=" " category="inline-code"></block> 標頭已被接受，但無法正常工作。</block>
 </blocks>

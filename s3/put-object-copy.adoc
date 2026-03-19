@@ -101,6 +101,14 @@ StorageGRID不會解析或解釋使用者定義元資料的鍵名或值中包含
 * `Content-Encoding`
 * `Content-Language`
 * `Expires`
+* `If-Match`
++
+ `If-Match header`已被接受，但無法正常使用。
+
+* `If-None-Match`
++
+ `If-None-Match header`已被接受，但無法正常使用。
+
 * `x-amz-checksum-algorithm`
 +
 當您複製物件時，如果來源物件具有校驗和， StorageGRID不會將該校驗和值複製到新物件。無論您是否嘗試使用 `x-amz-checksum-algorithm`在物件請求中。

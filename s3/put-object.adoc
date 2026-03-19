@@ -141,6 +141,14 @@ NOTE: ILM 規則不能同時使用 *使用者定義的創建時間* 作為參考
 
 不支援以下請求標頭：
 
+* `If-Match`
++
+ `If-Match header`已被接受，但無法正常使用。
+
+* `If-None-Match`
++
+ `If-None-Match header`已被接受，但無法正常使用。
+
 * `x-amz-acl`
 * `x-amz-sdk-checksum-algorithm`
 * `x-amz-trailer`
